@@ -17,6 +17,11 @@ public class PlayerController : MonoBehaviour
 
     public float smoothness = 10f;
 
+    private bool isLeftPunch = false;
+    private float lastClickTime = 0f;
+    public float attackCooldown = 1f; // 1초 간격으로 변경 가능
+
+    int num = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +54,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         InputMovement();
+        BasicAttack();
     }
 
 
@@ -72,27 +78,61 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.Lerp(rb.velocity, moveDirection.normalized * finalSpeed, Time.deltaTime * smoothness);        
 
         float percent = ((run) ? 1 : 0.5f) * moveDirection.magnitude;
-    //    anim.SetFloat("Blend", percent, 0.1f, Time.deltaTime);
+        anim.SetFloat("Blend", percent, 0.1f, Time.deltaTime);
 
-        //if (Input.GetAxisRaw("Vertical") < 0)
-        //{
-        //    anim.SetFloat("PosZ", -1);
-        //}
-        //else if (Input.GetAxisRaw("Vertical") > 0)
-        //{
-        //    anim.SetFloat("PosZ", 1);
-        //}
+        if (Input.GetAxisRaw("Vertical") < 0)
+        {
+            anim.SetFloat("PosZ", -1);
+        }
+        else if (Input.GetAxisRaw("Vertical") > 0)
+        {
+            anim.SetFloat("PosZ", 1);
+        }
 
-        //if (Input.GetAxisRaw("Horizontal") < 0)
-        //{
-        //    anim.SetFloat("PosX", -1);
-        //}
-        //else if (Input.GetAxisRaw("Horizontal") > 0)
-        //{
-        //    anim.SetFloat("PosX", 1);
-        //}
+        if (Input.GetAxisRaw("Horizontal") < 0)
+        {
+            anim.SetFloat("PosX", -1);
+        }
+        else if (Input.GetAxisRaw("Horizontal") > 0)
+        {
+            anim.SetFloat("PosX", 1);
+        }
 
-        
+    }
+    
+
+    void BasicAttack()
+    {
+        // 왼쪽 마우스 클릭 확인
+        if (Input.GetMouseButtonDown(0)) // 너무 빨리 눌림, 화면 바꿀떄 때리는 위치
+        {
+            Debug.Log("왼쪽 누름" + num);
+            isLeftPunch = true;
+            if (isLeftPunch)
+            {
+                LeftAttack();
+                lastClickTime += Time.deltaTime;
+                if (lastClickTime <= attackCooldown) // 1초 이내에 두 번째 클릭이면 오른쪽 공격
+                {
+                    Debug.Log("실행" + num);
+                    RightAttack();
+                }
+            }
+            lastClickTime = 0;
+            isLeftPunch = false;
+            num++;
+        }
+    }
+
+    void LeftAttack()
+    {
+        anim.SetTrigger("isLeftPunch");
+
+    }
+    void RightAttack()
+    {
+        anim.SetTrigger("isRightPunch");
+
     }
 }
 
