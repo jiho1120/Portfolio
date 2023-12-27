@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     public Transform objectToFollow; // ����ٴ� Ÿ��
-    public float followSpeed = 10f;
+    public float followSpeed = 100f;
     public float sensitivity = 100f;
     public float clampAngle = 70f;// ���ѵ� ����
 
@@ -48,6 +48,7 @@ public class CameraMovement : MonoBehaviour
     private void LateUpdate()
     {
         transform.position = Vector3.MoveTowards(transform.position, objectToFollow.position, followSpeed * Time.deltaTime);
+        Debug.Log(transform.position+ "카메라 위치");
 
         finalDir = transform.TransformPoint(dirNormalized * maxDistance);
 

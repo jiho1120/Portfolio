@@ -69,28 +69,28 @@ public class PlayerController : MonoBehaviour
         Vector3 forward = transform.TransformDirection(Vector3.forward); // 캐릭터가 보는 전방의 벡터를 가져옴
         Vector3 right = transform.TransformDirection(Vector3.right);
         Vector3 moveDirection = forward * Input.GetAxisRaw("Vertical") + right * Input.GetAxisRaw("Horizontal");
-        rb.velocity = Vector3.Lerp(rb.velocity, moveDirection.normalized * finalSpeed, Time.deltaTime * smoothness);
+        rb.velocity = Vector3.Lerp(rb.velocity, moveDirection.normalized * finalSpeed, Time.deltaTime * smoothness);        
 
         float percent = ((run) ? 1 : 0.5f) * moveDirection.magnitude;
-        anim.SetFloat("Blend", percent, 0.1f, Time.deltaTime);
+    //    anim.SetFloat("Blend", percent, 0.1f, Time.deltaTime);
 
-        if (Input.GetAxisRaw("Vertical") < 0)
-        {
-            anim.SetFloat("PosZ", -1);
-        }
-        else if (Input.GetAxisRaw("Vertical") > 0)
-        {
-            anim.SetFloat("PosZ", 1);
-        }
+        //if (Input.GetAxisRaw("Vertical") < 0)
+        //{
+        //    anim.SetFloat("PosZ", -1);
+        //}
+        //else if (Input.GetAxisRaw("Vertical") > 0)
+        //{
+        //    anim.SetFloat("PosZ", 1);
+        //}
 
-        if (Input.GetAxisRaw("Horizontal") < 0)
-        {
-            anim.SetFloat("PosX", -1);
-        }
-        else if (Input.GetAxisRaw("Horizontal") > 0)
-        {
-            anim.SetFloat("PosX", 1);
-        }
+        //if (Input.GetAxisRaw("Horizontal") < 0)
+        //{
+        //    anim.SetFloat("PosX", -1);
+        //}
+        //else if (Input.GetAxisRaw("Horizontal") > 0)
+        //{
+        //    anim.SetFloat("PosX", 1);
+        //}
 
         
     }
