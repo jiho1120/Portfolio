@@ -4,16 +4,14 @@ using UnityEngine;
 
 // 문제점
 // 또 같은 팔로 공격
-// 맞았을때 체력 안바뀜
 
 //공격방식
 // 콜라이더 주먹에 넣어놓고 공격시 켜서 닿으면 딜넣기
 // 사거리 설정, 정면에 레이를 쏴서 레이에 맞은애가 적이고 사거리 안이면 딜 넣기
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IAttack
 {
-    Player player;
     PlayerStat playerStat;
     PlayerAnimator playerAnimator;
 
@@ -29,15 +27,16 @@ public class PlayerController : MonoBehaviour
 
     private float attackSpeed = 1;
     private float lastClickTime = 0f;
-    public float attackCooldown = 1.5f;
+    private float attackCooldown = 1.5f;
     bool isLeft = false;
 
-    
+    bool isDead = false;
+
+
     void Start()
     {
         playerStat = new PlayerStat();
         playerAnimator =GetComponent<PlayerAnimator>();
-        player = GetComponent<Player>();
         rb = GetComponent<Rigidbody>();
         playerAnimator.SetAttackSpeed(attackSpeed);
 
@@ -70,14 +69,11 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q)) // 체력 안바뀜
         {
-            player.TakeDamage(playerStat.criticalChance, playerStat.attack, playerStat.health, playerStat.defense);
+            TakeDamage(playerStat.criticalChance, playerStat.attack);
             Debug.Log(playerStat.health);
         }
 
-        if (playerStat.health <= 0)
-        {
-            player.Dead();
-        }
+        
     }
 
 
@@ -102,30 +98,31 @@ public class PlayerController : MonoBehaviour
     {
         //클릭할때마다 이전시간과 비교해서 연속공격상태면 다음 주먹으로 변경하고
         //연속공격내의 시간이 아니면 첫주먹으로.
+
+        float timeSinceLastClick = Time.time - lastClickTime;
+
         // 1초동안함 근데 스피드가 증가함
-        float animTime = 0f;
-        animTime = 1f / attackSpeed; // 바뀐 애니메이션 시간 = 애니메이션 시간(1초) / 애니메이션 스피드
+        // 애니메이션 스피드가 올라가서 애니메이션도 빨리 끝남
+        float animTime = 1f / attackSpeed; // 바뀐 애니메이션 시간 = 애니메이션 시간(1초) / 애니메이션 스피드
 
         //동작하는 동안의 시간이면 되돌려보내고
-        if (Time.time - lastClickTime <= animTime) // 애니메이션 스피드가 올라가서 애니메이션도 빨리 끝남
+        if (timeSinceLastClick <= animTime)
         {
             return;
         }
         else //그게 아니라면
         {
-            if (Time.time - lastClickTime <= attackCooldown) //연속공격
-                                                             //상태 뒤집어서 공격하기
+            if (timeSinceLastClick <= attackCooldown) //연속공격
             {
                 if (isLeft)
                 {
                     playerAnimator.LeftAttack();
-                    isLeft = false;
                 }
                 else
                 {
                     playerAnimator.RightAttack();
-                    isLeft = true;
                 }
+                isLeft = !isLeft;
             }
             else
             {
@@ -134,5 +131,59 @@ public class PlayerController : MonoBehaviour
             }
             lastClickTime = Time.time;
         }
+    }
+
+    public bool CheckCritical(float critical)
+    {
+        bool isCritical = Random.Range(0f, 100f) < critical;
+        return isCritical;
+
+    }
+    public float CriticalDamage(float critical, float attack)
+    {
+        float criticalDamage = 0;
+        if (CheckCritical(critical))
+        {
+            criticalDamage = attack * 2;
+            Debug.Log("크리 뜸");
+        }
+        else
+        {
+            criticalDamage = attack;
+            Debug.Log("크리 안 뜸");
+
+        }
+
+        return criticalDamage;
+    }
+    public virtual void Hit(float critical, float attack)
+    {
+        TakeDamage(playerStat.criticalChance, playerStat.attack);
+    }
+    public virtual void TakeDamage(float critical, float attack)
+    {
+        if (!isDead)
+        {
+            float damage = Mathf.Max(CriticalDamage(critical, attack) - (playerStat.defense * 0.5f), 0f); // 최소 데미지 0
+            float hp = playerStat.health - damage;
+            playerStat.SetHealth(hp);
+            if (playerStat.health < 0)
+            {
+                playerStat.SetHealth(0);
+                Dead();
+            }
+        }
+        else
+        {
+            Debug.Log("이미 죽었어");
+        }
+        
+    }
+
+    public virtual void Dead()
+    {
+        isDead = true;
+        //Destroy(this.gameObject.transform.GetChild(0).gameObject); 고쳐야함
+        Debug.Log("죽음");
     }
 }

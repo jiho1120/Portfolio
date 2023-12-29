@@ -12,7 +12,7 @@ public class Stat
     public float defense { get; private set; }
     public float criticalChance { get; private set; }
     public float movementSpeed { get; private set; }
-    
+
     public Stat()
     {
 
@@ -40,6 +40,10 @@ public class Stat
         this.movementSpeed = movementSpeed;
     }
 
+    public void SetHealth(float helath)
+    {
+        this.health = helath;
+    }
     
     
 

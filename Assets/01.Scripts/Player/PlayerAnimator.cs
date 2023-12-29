@@ -13,12 +13,6 @@ public class PlayerAnimator : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void MoveAnim(float z, float x)
     {
         anim.SetFloat("PosZ", z);
