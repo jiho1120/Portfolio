@@ -17,12 +17,12 @@ public class PlayerController : MonoBehaviour, IAttack
     public Transform characterBody;
     public Transform cameraArm;
     public Transform fist;
+    public GameObject passiveSkill;
 
 
-    public bool run;
-    public float speed = 5;
-    public float runSpeed = 8f;
-    public float finalSpeed;
+
+    private bool run;
+    private float speed;
 
     private float attackSpeed = 1;
     private float lastClickTime = 0f;
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour, IAttack
 
     bool isDead = false;
 
-
+    Coroutine passiveCor;
 
     void Start()
     {
@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour, IAttack
         fist = transform.GetChild(0).GetChild(3);
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
+        passiveCor = StartCoroutine(PassiveSkill());
 
 
     }
@@ -69,18 +70,33 @@ public class PlayerController : MonoBehaviour, IAttack
             attackSpeed += 0.1f;
             playerAnimator.SetAttackSpeed(attackSpeed);
         }
-        if (Input.GetKeyDown(KeyCode.Q)) // 체력 안바뀜
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            TakeDamage(playerStat.criticalChance, playerStat.attack);
-            Debug.Log(playerStat.health);
+            if (passiveCor != null)
+            {
+                StopCoroutine(passiveCor);
+                Debug.Log("멈춤");
+                passiveCor = null;
+                passiveSkill.SetActive(false);
+            }
+                
         }
-
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (passiveCor == null)
+            {
+                passiveCor = StartCoroutine(PassiveSkill());
+                Debug.Log("시작");
+                passiveSkill.SetActive(true);
+            }
+            
+        }
     }
 
 
     private void Move()
     {
-        finalSpeed = (run) ? runSpeed : speed;
+        speed = (run) ? (playerStat.movementSpeed * 1.5f) : playerStat.movementSpeed;
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         float percent = ((run) ? 1 : 0.5f) * moveInput.magnitude;
         playerAnimator.WalkOrRun(percent);
@@ -91,7 +107,7 @@ public class PlayerController : MonoBehaviour, IAttack
         playerAnimator.MoveAnim(moveInput.y, moveInput.x);
 
         characterBody.forward = lookForward;
-        transform.position += moveDir * Time.deltaTime * 5f;
+        transform.position += moveDir * speed * Time.deltaTime;
 
     }
 
@@ -137,11 +153,18 @@ public class PlayerController : MonoBehaviour, IAttack
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(fist.position, 1f);
+
     }
 
-    public void AttackRange()
+    public void AttackRange() // 애니메이션에 넣음
     {
-        Collider[] colliders = Physics.OverlapSphere(fist.position, 1f);
+        AttackRangeBase(fist, 1f);
+        Debug.Log("평타");
+    }
+
+    public void AttackRangeBase(Transform Tr, float Range)
+    {
+        Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].CompareTag("Monster"))
@@ -150,7 +173,30 @@ public class PlayerController : MonoBehaviour, IAttack
             }
         }
     }
-    
+
+    public IEnumerator PassiveSkill()
+    {
+        while (true)
+        {
+            AttackRangeBase(passiveSkill.transform, 2.8f);
+            Debug.Log("패시브");
+            yield return new WaitForSeconds(1f);
+        }
+        
+    }
+    //public void skillRange()
+    //{
+    //    Collider[] colliders = Physics.OverlapSphere(passiveSkill.transform.position, 2.8f);
+    //    for (int i = 0; i < colliders.Length; i++)
+    //    {
+    //        if (colliders[i].CompareTag("Monster"))
+    //        {
+    //            colliders[i].GetComponent<Monster>().TakeDamage(playerStat.criticalChance, playerStat.attack);
+    //        }
+    //    }
+    //}
+
+
     public bool CheckCritical(float critical)
     {
         bool isCritical = Random.Range(0f, 100f) < critical;

@@ -8,7 +8,7 @@ public class PlayerStat : BossStat
 
     public PlayerStat() : base()
     {
-        SetValues(1,100,100,10,5,5,10,100,100,1,0,100,0,100);
+        SetValues(1,100,100,10,5,5,5,100,100,1,0,100,0,100);
     }
 
     public PlayerStat(int level, int health, int maxHealth, int attack, int defense, float criticalChance, float movementSpeed, int mana, int maxMana, int luck, int experience, int maxExperience, int ultimateGauge, int maxUltimateGauge)

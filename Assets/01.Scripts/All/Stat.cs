@@ -44,7 +44,10 @@ public class Stat
     {
         this.health = helath;
     }
-    
-    
+
+    public void SetSpeed(float speed)
+    {
+        this.movementSpeed = speed;
+    }
 
 }
