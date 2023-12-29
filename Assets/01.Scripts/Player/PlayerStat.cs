@@ -1,18 +1,20 @@
+using UnityEngine;
+
 public class PlayerStat : BossStat
 {
-    public int luck { get; private set; }
-    public int experience { get; private set; }
-    public int maxExperience { get; private set; }
-    public int ultimateGauge { get; private set; }
-    public int maxUltimateGauge { get; private set; }
+    public float luck { get; private set; }
+    public float experience { get; private set; }
+    public float maxExperience { get; private set; }
+    public float ultimateGauge { get; private set; }
+    public float maxUltimateGauge { get; private set; }
 
     public PlayerStat() : base()
     {
-        SetValues(1,100,100,10,5,5,5,100,100,1,0,100,0,100);
+
     }
 
-    public PlayerStat(int level, int health, int maxHealth, int attack, int defense, float criticalChance, float movementSpeed, int mana, int maxMana, int luck, int experience, int maxExperience, int ultimateGauge, int maxUltimateGauge)
-        : base(level, health, maxHealth, attack, defense, criticalChance, movementSpeed, mana, maxMana)
+    public PlayerStat(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float mana, float maxMana, float luck, float experience, float maxExperience, float ultimateGauge, float maxUltimateGauge)
+        : base(objectType, level, health, maxHealth, attack, defense, criticalChance, movementSpeed, mana, maxMana)
     {
         this.luck = luck;
         this.experience = experience;
@@ -21,9 +23,9 @@ public class PlayerStat : BossStat
         this.maxUltimateGauge = maxUltimateGauge;
     }
 
-    public void SetValues(int level, int health, int maxHealth, int attack, int defense, float criticalChance, float movementSpeed, int mana, int maxMana, int luck, int experience, int maxExperience, int ultimateGauge, int maxUltimateGauge)
+    public void SetValues(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float mana, float maxMana, float luck, float experience, float maxExperience, float ultimateGauge, float maxUltimateGauge)
     {
-        base.SetValues(level, health, maxHealth, attack, defense, criticalChance, movementSpeed, mana, maxMana);
+        base.SetValues(objectType, level, health, maxHealth, attack, defense, criticalChance, movementSpeed, mana, maxMana);
         this.luck = luck;
         this.experience = experience;
         this.maxExperience = maxExperience;
@@ -31,5 +33,40 @@ public class PlayerStat : BossStat
         this.maxUltimateGauge = maxUltimateGauge;
     }
 
+    public void SetValues()
+    {
+        this.luck = luck;
+        this.experience = experience;
+        this.maxExperience = maxExperience;
+        this.ultimateGauge = ultimateGauge;
+        this.maxUltimateGauge = maxUltimateGauge;
+    }
+    public void SetValues(SOPlayer soPlayer)
+    {
+        base.SetValues(soPlayer.objectType, soPlayer.level, soPlayer.health, soPlayer.maxHealth, soPlayer.attack, soPlayer.defense, soPlayer.criticalChance, soPlayer.movementSpeed, soPlayer.mana, soPlayer.maxMana);
+        this.luck = soPlayer.luck;
+        this.experience = soPlayer.experience;
+        this.maxExperience = soPlayer.maxExperience;
+        this.ultimateGauge = soPlayer.ultimateGauge;
+        this.maxUltimateGauge = soPlayer.maxUltimateGauge;
+    }
+    public void ShowInfo()
+    {
+        Debug.Log(this.objectType);
+        Debug.Log(this.level);
+        Debug.Log(this.health);
+        Debug.Log(this.maxHealth);
+        Debug.Log(this.attack);
+        Debug.Log(this.defense);
+        Debug.Log(this.criticalChance);
+        Debug.Log(this.movementSpeed);
+        Debug.Log(this.mana);
+        Debug.Log(this.maxMana);
+        Debug.Log(this.luck);
+        Debug.Log(this.experience);
+        Debug.Log(this.maxExperience);
+        Debug.Log(this.ultimateGauge);
+        Debug.Log(this.maxUltimateGauge);
 
+    }
 }

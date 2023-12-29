@@ -10,9 +10,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IAttack
 {
+    public SOPlayer soPlayer;
     PlayerStat playerStat;
     PlayerAnimator playerAnimator;
     Rigidbody rb;
+    public PassiveSkill skill;
 
     public Transform characterBody;
     public Transform cameraArm;
@@ -43,7 +45,8 @@ public class PlayerController : MonoBehaviour, IAttack
         playerAnimator.SetAttackSpeed(attackSpeed);
         passiveCor = StartCoroutine(PassiveSkill());
 
-
+        playerStat.SetValues(soPlayer);
+        playerStat.ShowInfo();
     }
 
     // Update is called once per frame
@@ -150,11 +153,11 @@ public class PlayerController : MonoBehaviour, IAttack
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(fist.position, 1f);
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireSphere(fist.position, 1f);
 
-    }
+    //}
 
     public void AttackRange() // 애니메이션에 넣음
     {
@@ -182,19 +185,8 @@ public class PlayerController : MonoBehaviour, IAttack
             Debug.Log("패시브");
             yield return new WaitForSeconds(1f);
         }
-        
     }
-    //public void skillRange()
-    //{
-    //    Collider[] colliders = Physics.OverlapSphere(passiveSkill.transform.position, 2.8f);
-    //    for (int i = 0; i < colliders.Length; i++)
-    //    {
-    //        if (colliders[i].CompareTag("Monster"))
-    //        {
-    //            colliders[i].GetComponent<Monster>().TakeDamage(playerStat.criticalChance, playerStat.attack);
-    //        }
-    //    }
-    //}
+   
 
 
     public bool CheckCritical(float critical)
