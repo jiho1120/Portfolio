@@ -45,6 +45,7 @@ public class Monster : MonoBehaviour, IAttack
         //{
         //    health = 0;
         //}
+        Debug.Log("몬스터 맞음");
 
     }
 

@@ -20,6 +20,7 @@ public class PlayerStat : BossStat
         this.ultimateGauge = ultimateGauge;
         this.maxUltimateGauge = maxUltimateGauge;
     }
+
     public void SetValues(int level, int health, int maxHealth, int attack, int defense, float criticalChance, float movementSpeed, int mana, int maxMana, int luck, int experience, int maxExperience, int ultimateGauge, int maxUltimateGauge)
     {
         base.SetValues(level, health, maxHealth, attack, defense, criticalChance, movementSpeed, mana, maxMana);

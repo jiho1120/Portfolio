@@ -7,7 +7,7 @@ public class PlayerAnimator : MonoBehaviour
     Animator anim;
 
     // Start is called before the first frame update
-    void Start()
+    public void Starts()
     {
         anim = GetComponent<Animator>();
 

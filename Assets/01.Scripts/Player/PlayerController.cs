@@ -5,19 +5,18 @@ using UnityEngine;
 // 문제점
 // 또 같은 팔로 공격
 
-//공격방식
-// 콜라이더 주먹에 넣어놓고 공격시 켜서 닿으면 딜넣기
-// 사거리 설정, 정면에 레이를 쏴서 레이에 맞은애가 적이고 사거리 안이면 딜 넣기
+// 범위, 오버랩
 
 
 public class PlayerController : MonoBehaviour, IAttack
 {
     PlayerStat playerStat;
     PlayerAnimator playerAnimator;
+    Rigidbody rb;
 
     public Transform characterBody;
     public Transform cameraArm;
-    Rigidbody rb;
+    public Transform fist;
 
 
     public bool run;
@@ -33,11 +32,14 @@ public class PlayerController : MonoBehaviour, IAttack
     bool isDead = false;
 
 
+
     void Start()
     {
         playerStat = new PlayerStat();
-        playerAnimator =GetComponent<PlayerAnimator>();
+        playerAnimator = GetComponent<PlayerAnimator>();
         rb = GetComponent<Rigidbody>();
+        fist = transform.GetChild(0).GetChild(3);
+        playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
 
 
@@ -62,7 +64,7 @@ public class PlayerController : MonoBehaviour, IAttack
         {
             BasicAttack();
         }
-        if (Input.GetKeyDown(KeyCode.Space)) 
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             attackSpeed += 0.1f;
             playerAnimator.SetAttackSpeed(attackSpeed);
@@ -73,7 +75,6 @@ public class PlayerController : MonoBehaviour, IAttack
             Debug.Log(playerStat.health);
         }
 
-        
     }
 
 
@@ -91,9 +92,9 @@ public class PlayerController : MonoBehaviour, IAttack
 
         characterBody.forward = lookForward;
         transform.position += moveDir * Time.deltaTime * 5f;
-        
+
     }
-    
+
     void BasicAttack()
     {
         //클릭할때마다 이전시간과 비교해서 연속공격상태면 다음 주먹으로 변경하고
@@ -133,6 +134,23 @@ public class PlayerController : MonoBehaviour, IAttack
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(fist.position, 1f);
+    }
+
+    public void AttackRange()
+    {
+        Collider[] colliders = Physics.OverlapSphere(fist.position, 1f);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].CompareTag("Monster"))
+            {
+                colliders[i].GetComponent<Monster>().TakeDamage(playerStat.criticalChance, playerStat.attack);
+            }
+        }
+    }
+    
     public bool CheckCritical(float critical)
     {
         bool isCritical = Random.Range(0f, 100f) < critical;
@@ -177,7 +195,7 @@ public class PlayerController : MonoBehaviour, IAttack
         {
             Debug.Log("이미 죽었어");
         }
-        
+
     }
 
     public virtual void Dead()
