@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour, IAttack
 {
+    public SOMonster soOriginMonster;
+    MonsterStat monsterStat;
+
+    private void Start()
+    {
+        monsterStat = new MonsterStat();
+
+        monsterStat.SetValues(soOriginMonster); // 가져올때만 쓰고  렙업시 스탯 올려주는  함수 만들어서 스탯 올려주기 json 파일로 저장하기  
+        Debug.Log("몬스터");
+        monsterStat.ShowInfo();
+    }
+
     public bool CheckCritical(float critical)
     {
         bool isCritical = Random.Range(0f, 100f) < critical;

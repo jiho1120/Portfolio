@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerStat : BossStat
+public class PlayerStat : UseManaStat
 {
     public float luck { get; private set; }
     public float experience { get; private set; }
@@ -33,14 +33,6 @@ public class PlayerStat : BossStat
         this.maxUltimateGauge = maxUltimateGauge;
     }
 
-    public void SetValues()
-    {
-        this.luck = luck;
-        this.experience = experience;
-        this.maxExperience = maxExperience;
-        this.ultimateGauge = ultimateGauge;
-        this.maxUltimateGauge = maxUltimateGauge;
-    }
     public void SetValues(SOPlayer soPlayer)
     {
         base.SetValues(soPlayer.objectType, soPlayer.level, soPlayer.health, soPlayer.maxHealth, soPlayer.attack, soPlayer.defense, soPlayer.criticalChance, soPlayer.movementSpeed, soPlayer.mana, soPlayer.maxMana);
@@ -50,23 +42,13 @@ public class PlayerStat : BossStat
         this.ultimateGauge = soPlayer.ultimateGauge;
         this.maxUltimateGauge = soPlayer.maxUltimateGauge;
     }
-    public void ShowInfo()
+    public override void ShowInfo()
     {
-        Debug.Log(this.objectType);
-        Debug.Log(this.level);
-        Debug.Log(this.health);
-        Debug.Log(this.maxHealth);
-        Debug.Log(this.attack);
-        Debug.Log(this.defense);
-        Debug.Log(this.criticalChance);
-        Debug.Log(this.movementSpeed);
-        Debug.Log(this.mana);
-        Debug.Log(this.maxMana);
+        base.ShowInfo();
         Debug.Log(this.luck);
         Debug.Log(this.experience);
         Debug.Log(this.maxExperience);
         Debug.Log(this.ultimateGauge);
         Debug.Log(this.maxUltimateGauge);
-
     }
 }

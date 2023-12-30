@@ -10,11 +10,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IAttack
 {
-    public SOPlayer soPlayer;
+    public SOPlayer soOriginPlayer;
     PlayerStat playerStat;
     PlayerAnimator playerAnimator;
     Rigidbody rb;
-    public PassiveSkill skill;
 
     public Transform characterBody;
     public Transform cameraArm;
@@ -45,8 +44,8 @@ public class PlayerController : MonoBehaviour, IAttack
         playerAnimator.SetAttackSpeed(attackSpeed);
         passiveCor = StartCoroutine(PassiveSkill());
 
-        playerStat.SetValues(soPlayer);
-        playerStat.ShowInfo();
+        playerStat.SetValues(soOriginPlayer);
+        //playerStat.ShowInfo();
     }
 
     // Update is called once per frame
