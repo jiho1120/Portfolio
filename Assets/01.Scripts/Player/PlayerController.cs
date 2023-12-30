@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour, IAttack
         passiveCor = StartCoroutine(PassiveSkill());
 
         playerStat.SetValues(soOriginPlayer);
-        //playerStat.ShowInfo();
+        playerStat.ShowInfo();
     }
 
     // Update is called once per frame

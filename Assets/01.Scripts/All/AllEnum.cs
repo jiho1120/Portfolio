@@ -19,4 +19,14 @@ public class AllEnum
         End
     }
 
+    public enum States
+    {
+        Idle,
+        Walk,
+        Attack,
+        Hit,
+        Die,
+
+        End
+    }
 }
