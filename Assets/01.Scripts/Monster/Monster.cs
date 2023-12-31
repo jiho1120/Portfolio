@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,20 +10,35 @@ public class Monster : MonoBehaviour, IAttack
     MonsterAnimation anim; //얘는 진짜 단순히 애니메이션 출력...
     NavMeshAgent agent;
     MONStateMachine monStateMachine;
-
     public SOMonster soOriginMonster;
     MonsterStat monsterStat;
+    public Transform TargetTr; //상대방의 transform
+    public Vector3 dir;
+
+
+    public bool isAttack;  // 공격 쿨타임을 줘서 시간이 되면 트루로 바꾸게
+    public bool isHit;
+    public bool isDead;
+    public float coolAttackTime = 0;
+
 
     private void Start()
     {
         anim = GetComponent<MonsterAnimation>();
         anim.SetInit();
         agent = GetComponent<NavMeshAgent>();
-        monsterStat = new MonsterStat();
         monStateMachine = GetComponent<MONStateMachine>();
         monStateMachine.SetInit();
+        monsterStat = new MonsterStat();
         monsterStat.SetValues(soOriginMonster); // 가져올때만 쓰고  렙업시 스탯 올려주는  함수 만들어서 스탯 올려주기 json 파일로 저장하기  
-        monsterStat.ShowInfo();
+        //monsterStat.ShowInfo();
+        isAttack = true;
+
+    }
+    public Vector3 CheckDir()
+    {
+        dir = TargetTr.position - this.transform.position;
+        return dir;
     }
 
     public bool CheckCritical(float critical)
@@ -73,30 +89,65 @@ public class Monster : MonoBehaviour, IAttack
 
     public void Idle()
     {
-        anim.Idle();
+        SetIdelAnim();
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
     }
 
-    public void Move(Vector3 vec, bool anim = false)
+    public void Move(Vector3 vec)
     {
-        if (anim)
-        {
-            SetMoveAnim();
-        }
         agent.isStopped = false;
         agent.SetDestination(vec);
-        //조건에 따라서
-        //Walk의 애니메이션이 움직임이 좀 시원치 않을 수도 있음..
-        //때문에 SetMoveAnim으로 따로 분리함.        
+        SetMoveAnim();
     }
-    public void SetMoveAnim()
+    public void Attack()
     {
-        anim.Walk(true);
+        agent.isStopped = true;
+        SetAttackAnim();
+
+
+    }
+    public void SetAttackState()
+    {
+        coolAttackTime += Time.deltaTime;
+        if (coolAttackTime >= 5f)
+        {
+            coolAttackTime = 0;
+            isAttack = true;
+        }
+    }
+
+    public void Hit()
+    {
+        SetHitAnim();
+        agent.isStopped = true;
     }
 
     public virtual void Dead()
     {
+        SetDeadAnim();
         Debug.Log("죽음");
     }
+    public void SetIdelAnim()
+    {
+        anim.Idle();
+    }
+    public void SetMoveAnim()
+    {
+        anim.Walk();
+    }
+    public void SetAttackAnim()
+    {
+        anim.Attack();
+    }
+    public void SetHitAnim()
+    {
+        anim.Hit();
+    }
+    public void SetDeadAnim()
+    {
+        anim.Die();
+    }
+
+
 }

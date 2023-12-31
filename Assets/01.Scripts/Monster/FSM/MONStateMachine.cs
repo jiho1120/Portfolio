@@ -7,20 +7,15 @@ using UnityEngine.AI;
 public class MONStateMachine : MonoBehaviour 
 {
     public Monster owner;
-    public Transform TargetTr; //상대방의 transform
     Dictionary<AllEnum.States, State> StateDic = new Dictionary<AllEnum.States, State>();
     AllEnum.States ExState = AllEnum.States.End; //이전상태 체크위함
-    AllEnum.States NowState = AllEnum.States.Idle; //현재상태 체크위함
     private void Start()
     {
         
     }
     private void Update()
     {
-        if (ExState == owner.NowState
-            && owner.NowState != AllEnum.States.End 
-            //2번, nowState가 End상태면 일을 안하도록 한다.
-            )
+        if (ExState == owner.NowState && owner.NowState != AllEnum.States.End)
         {
             StateDic[owner.NowState].OnStateStay();
         }
@@ -34,19 +29,19 @@ public class MONStateMachine : MonoBehaviour
         StateDic.Add(AllEnum.States.Hit, new State_Hit(owner, SetState));
         StateDic.Add(AllEnum.States.Die, new State_Die(owner, SetState));
 
-        SetState(AllEnum.States.Walk);
+        SetState(AllEnum.States.Idle);
     }
 
     public void SetState(AllEnum.States _enum)
     {
-        NowState = _enum;
-        if (ExState != NowState)
+        owner.NowState = _enum;
+        if (ExState != owner.NowState)
         {
             if (ExState != AllEnum.States.End)
                 StateDic[ExState].OnStateExit();
 
-            StateDic[NowState].OnStateEnter();
-            ExState = NowState;
+            StateDic[owner.NowState].OnStateEnter();
+            ExState = owner.NowState;
         }
     }
     

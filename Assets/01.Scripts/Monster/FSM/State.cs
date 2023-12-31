@@ -8,6 +8,7 @@ public abstract class State
     protected Monster monster; //행동 주인.
     public delegate void SetStateDel(AllEnum.States _enum);
     protected SetStateDel StateDel;
+
     public State(Monster monster, SetStateDel StateDel)
     {
         this.monster = monster;

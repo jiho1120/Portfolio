@@ -4,11 +4,12 @@ using UnityEngine;
 
 // 문제점
 // 또 같은 팔로 공격
+// 지멋대로 카메라 회전
+// 몬스터 맞는 애니메이션 2번 나옴
 
-// 범위, 오버랩
 
 
-public class PlayerController : MonoBehaviour, IAttack
+public class Player : MonoBehaviour, IAttack
 {
     public SOPlayer soOriginPlayer;
     PlayerStat playerStat;
@@ -45,7 +46,7 @@ public class PlayerController : MonoBehaviour, IAttack
         passiveCor = StartCoroutine(PassiveSkill());
 
         playerStat.SetValues(soOriginPlayer);
-        playerStat.ShowInfo();
+        //playerStat.ShowInfo();
     }
 
     // Update is called once per frame
@@ -149,6 +150,7 @@ public class PlayerController : MonoBehaviour, IAttack
                 playerAnimator.RightAttack();
             }
             lastClickTime = Time.time;
+            
         }
     }
 
@@ -161,7 +163,7 @@ public class PlayerController : MonoBehaviour, IAttack
     public void AttackRange() // 애니메이션에 넣음
     {
         AttackRangeBase(fist, 1f);
-        Debug.Log("평타");
+        //Debug.Log("평타");
     }
 
     public void AttackRangeBase(Transform Tr, float Range)
@@ -172,6 +174,7 @@ public class PlayerController : MonoBehaviour, IAttack
             if (colliders[i].CompareTag("Monster"))
             {
                 colliders[i].GetComponent<Monster>().TakeDamage(playerStat.criticalChance, playerStat.attack);
+                colliders[i].GetComponent<Monster>().isHit = true;
             }
         }
     }
@@ -181,12 +184,10 @@ public class PlayerController : MonoBehaviour, IAttack
         while (true)
         {
             AttackRangeBase(passiveSkill.transform, 2.8f);
-            Debug.Log("패시브");
+            //Debug.Log("패시브");
             yield return new WaitForSeconds(1f);
         }
     }
-   
-
 
     public bool CheckCritical(float critical)
     {
@@ -200,22 +201,22 @@ public class PlayerController : MonoBehaviour, IAttack
         if (CheckCritical(critical))
         {
             criticalDamage = attack * 2;
-            Debug.Log("크리 뜸");
+            //Debug.Log("크리 뜸");
         }
         else
         {
             criticalDamage = attack;
-            Debug.Log("크리 안 뜸");
+            //Debug.Log("크리 안 뜸");
 
         }
 
         return criticalDamage;
     }
-    public virtual void Hit(float critical, float attack)
+    public virtual void Hit(float critical, float attack) // 플레이어가 맞았다는 표시
     {
         TakeDamage(playerStat.criticalChance, playerStat.attack);
     }
-    public virtual void TakeDamage(float critical, float attack)
+    public virtual void TakeDamage(float critical, float attack) // 플레이어피가 다는거
     {
         if (!isDead)
         {
@@ -238,7 +239,6 @@ public class PlayerController : MonoBehaviour, IAttack
     public virtual void Dead()
     {
         isDead = true;
-        //Destroy(this.gameObject.transform.GetChild(0).gameObject); 고쳐야함
         Debug.Log("죽음");
     }
 }

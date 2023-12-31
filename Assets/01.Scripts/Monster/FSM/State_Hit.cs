@@ -10,13 +10,33 @@ public class State_Hit : State
 
     public override void OnStateEnter()
     {
+        monster.Hit();
     }
 
     public override void OnStateExit()
     {
+        monster.isHit = false;
     }
 
     public override void OnStateStay()
     {
+        monster.SetAttackState();
+        if (monster.CheckDir().sqrMagnitude <= 4f)
+        {
+            StateDel(AllEnum.States.Idle);
+            return;
+        }
+
+        if (monster.CheckDir().sqrMagnitude > 4f)
+        {
+            StateDel(AllEnum.States.Walk);
+            return;
+        }
+
+        if (monster.isDead)
+        {
+            StateDel(AllEnum.States.Die);
+            return;
+        }
     }
 }
