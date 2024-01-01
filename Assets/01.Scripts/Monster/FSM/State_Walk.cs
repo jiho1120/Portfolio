@@ -21,22 +21,31 @@ public class State_Walk : State
 
     public override void OnStateStay()
     {
-        monster.SetAttackState();
-        if (monster.CheckDir().sqrMagnitude <= 4f)
-        {
-            StateDel(AllEnum.States.Idle);
-            return;
-        }
-        if (monster.isHit)
-        {
-            StateDel(AllEnum.States.Hit);
-            return;
-        }
+
         if (monster.isDead)
         {
             StateDel(AllEnum.States.Die);
             return;
         }
-        monster.Move(monster.TargetTr.position);
+        else
+        {
+            monster.SetAttackState();
+            if (monster.CheckDir().sqrMagnitude <= 4f)
+            {
+                StateDel(AllEnum.States.Idle);
+                return;
+            }
+            if (monster.isHit)
+            {
+                StateDel(AllEnum.States.Hit);
+                return;
+            }
+            if (monster.isDead)
+            {
+                StateDel(AllEnum.States.Die);
+                return;
+            }
+            monster.Move(monster.TargetTr.position);
+        }
     }
 }

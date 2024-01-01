@@ -8,6 +8,13 @@ public class AllEnum
 
         End
     }
+    public enum MonsterType
+    {
+        Normal,
+        Explosion,
+
+        End
+    }
 
     public enum SkillType
     {

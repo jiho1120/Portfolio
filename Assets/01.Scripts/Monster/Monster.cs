@@ -16,9 +16,9 @@ public class Monster : MonoBehaviour, IAttack
     public Vector3 dir;
 
 
-    public bool isAttack;  // 공격 쿨타임을 줘서 시간이 되면 트루로 바꾸게
-    public bool isHit;
-    public bool isDead;
+    public bool isAttack = false;  // 공격 쿨타임을 줘서 시간이 되면 트루로 바꾸게
+    public bool isHit = false;
+    public bool isDead = false;
     public float coolAttackTime = 0;
 
 
@@ -76,16 +76,16 @@ public class Monster : MonoBehaviour, IAttack
 
     public virtual void TakeDamage(float critical, float attack)
     {
-        //float damage = CriticalDamage(critical, attack) - (defense * 0.5f); // 몬스터 스탯 추가
-        //health -= damage;
-        //if (health < 0)
-        //{
-        //    health = 0;
-        //}
-        Debug.Log("몬스터 맞음");
-
+        float damage = CriticalDamage(critical, attack) - (this.monsterStat.defense * 0.5f); // 몬스터 스탯 추가
+        float hp = this.monsterStat.health - damage;
+        monsterStat.SetHealth(hp);
+        if (this.monsterStat.health < 0)
+        {
+            monsterStat.SetHealth(0);
+            isDead = true;
+        }
+        Debug.Log($"{monsterStat.health}");
     }
-
 
     public void Idle()
     {
@@ -104,8 +104,6 @@ public class Monster : MonoBehaviour, IAttack
     {
         agent.isStopped = true;
         SetAttackAnim();
-
-
     }
     public void SetAttackState()
     {
@@ -116,17 +114,21 @@ public class Monster : MonoBehaviour, IAttack
             isAttack = true;
         }
     }
-
+    
     public void Hit()
     {
         SetHitAnim();
         agent.isStopped = true;
     }
-
     public virtual void Dead()
     {
         SetDeadAnim();
         Debug.Log("죽음");
+        Invoke("DeletObject",3f);
+    }
+    public void DeletObject()
+    {
+        this.gameObject.SetActive(false);
     }
     public void SetIdelAnim()
     {

@@ -207,7 +207,6 @@ public class Player : MonoBehaviour, IAttack
         {
             criticalDamage = attack;
             //Debug.Log("Å©¸® ¾È ¶ä");
-
         }
 
         return criticalDamage;
@@ -233,7 +232,6 @@ public class Player : MonoBehaviour, IAttack
         {
             Debug.Log("ÀÌ¹Ì Á×¾ú¾î");
         }
-
     }
 
     public virtual void Dead()

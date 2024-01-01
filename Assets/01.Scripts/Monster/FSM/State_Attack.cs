@@ -20,27 +20,28 @@ public class State_Attack : State
 
     public override void OnStateStay()
     {
-        if (monster.CheckDir().sqrMagnitude <= 4f)
-        {
-            StateDel(AllEnum.States.Idle);
-            return;
-        }
-
-        if (monster.CheckDir().sqrMagnitude > 4f)
-        {
-            StateDel(AllEnum.States.Walk);
-            return;
-        }
-        if (monster.isHit)
-        {
-            StateDel(AllEnum.States.Hit);
-            return;
-        }
         if (monster.isDead)
         {
             StateDel(AllEnum.States.Die);
             return;
         }
+        else
+        {
+            if (monster.CheckDir().sqrMagnitude <= 4f)
+            {
+                StateDel(AllEnum.States.Idle);
+                return;
+            }
+            if (monster.CheckDir().sqrMagnitude > 4f)
+            {
+                StateDel(AllEnum.States.Walk);
+                return;
+            }
+            if (monster.isHit)
+            {
+                StateDel(AllEnum.States.Hit);
+                return;
+            }
+        }
     }
-
 }

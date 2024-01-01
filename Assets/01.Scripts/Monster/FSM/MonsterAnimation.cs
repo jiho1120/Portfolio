@@ -29,7 +29,7 @@ public class MonsterAnimation : MonoBehaviour
     }
     public void Die()
     {
-        anim.SetBool("isDead",true);
+        anim.SetTrigger("isDead");
 
     }
 }
