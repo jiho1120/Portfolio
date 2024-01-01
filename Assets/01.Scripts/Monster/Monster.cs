@@ -12,9 +12,8 @@ public class Monster : MonoBehaviour, IAttack
     MONStateMachine monStateMachine;
     public SOMonster soOriginMonster;
     MonsterStat monsterStat;
-    public Transform TargetTr; //상대방의 transform
     public Vector3 dir;
-
+    public Transform TargetTr {  get; private set; }
 
     public bool isAttack = false;  // 공격 쿨타임을 줘서 시간이 되면 트루로 바꾸게
     public bool isHit = false;
@@ -34,6 +33,11 @@ public class Monster : MonoBehaviour, IAttack
         //monsterStat.ShowInfo();
         isAttack = true;
 
+    }
+
+    public void SetTarget(Transform tr)
+    {
+        this.TargetTr = tr;
     }
     public Vector3 CheckDir()
     {
@@ -128,7 +132,7 @@ public class Monster : MonoBehaviour, IAttack
     }
     public void DeletObject()
     {
-        this.gameObject.SetActive(false);
+        GameManager.Instance.monsterPool.ReturnObjectToPool(this);
     }
     public void SetIdelAnim()
     {
