@@ -57,15 +57,15 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
 
     public void DeleteActive()
     {
-        IAttack attack;
+        IDead dead;
         for (int i = 0; i < InfoList.Count; i++)
         {
-            attack = InfoList[i].GetComponent<IAttack>();
-            if (attack != null)
+            dead = InfoList[i].GetComponent<IDead>();
+            if (dead != null)
             {
-                if (attack.IsDead() == false)
+                if (dead.IsDead() == false)
                 {
-                    attack.Dead();
+                    dead.Dead();
                 }                
             }
         }

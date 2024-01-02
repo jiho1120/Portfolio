@@ -4,7 +4,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Monster : MonoBehaviour, IAttack
+public class Monster : MonoBehaviour, IAttack, IDead
 {
     public AllEnum.States NowState = AllEnum.States.End;//현재상태
     MonsterAnimation anim; //얘는 진짜 단순히 애니메이션 출력...

@@ -4,12 +4,17 @@ using UnityEngine;
 
 // 문제점
 // 또 같은 팔로 공격
-// 지멋대로 카메라 회전
-// 몬스터 맞는 애니메이션 2번 나옴
+
+// 개선 
+// active 스킬 중에 1,4 번 자국이 바닥에 있게 하기
+
+//오늘 할일
+// 플레이어가 몬스터 한테 맞기
+// 경험치나 돈 주고 받는 함수 만들기
+// 스킬 적용시키고 딜이나 넉백 적용시키기
 
 
-
-public class Player : MonoBehaviour, IAttack
+public class Player : MonoBehaviour, IAttack, IDead
 {
     public SOPlayer soOriginPlayer;
     PlayerStat playerStat;
@@ -20,8 +25,7 @@ public class Player : MonoBehaviour, IAttack
     public Transform cameraArm;
     public Transform fist;
     public GameObject passiveSkill;
-
-
+    public GameObject[] ActiveSkill;
 
     private bool run;
     private float speed;
@@ -56,6 +60,7 @@ public class Player : MonoBehaviour, IAttack
     }
     private void Update()
     {
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             run = true;
@@ -82,7 +87,7 @@ public class Player : MonoBehaviour, IAttack
                 passiveCor = null;
                 passiveSkill.SetActive(false);
             }
-                
+
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -92,10 +97,36 @@ public class Player : MonoBehaviour, IAttack
                 Debug.Log("시작");
                 passiveSkill.SetActive(true);
             }
-            
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            CreateSkill(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            CreateSkill(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            CreateSkill(2);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            for (int i = 0; i < ActiveSkill.Length; i++)
+            {
+                ActiveSkill[i].SetActive(false);
+            }
+
         }
     }
+    
+    public void CreateSkill(int number)
+    {
+        Instantiate(ActiveSkill[number], transform.GetChild(0).position, transform.GetChild(0).rotation);
 
+    }
 
     private void Move()
     {
@@ -150,7 +181,7 @@ public class Player : MonoBehaviour, IAttack
                 playerAnimator.RightAttack();
             }
             lastClickTime = Time.time;
-            
+
         }
     }
 
@@ -242,6 +273,7 @@ public class Player : MonoBehaviour, IAttack
 
     public bool IsDead()
     {
-        throw new System.NotImplementedException();
+        return isDead;
+
     }
 }
