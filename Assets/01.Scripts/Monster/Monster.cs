@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class Monster : MonoBehaviour, IAttack, IDead
 {
+    public AllEnum.MonsterType monType;
     public AllEnum.States NowState = AllEnum.States.End;//현재상태
     MonsterAnimation anim; //얘는 진짜 단순히 애니메이션 출력...
     NavMeshAgent agent;
@@ -14,7 +15,9 @@ public class Monster : MonoBehaviour, IAttack, IDead
     MonsterStat monsterStat;
     public Vector3 dir;
     public Transform targetTr;
+    public GameObject explosionEffect;
 
+    public Transform attackPos;
     public bool isAttack = false;  // 공격 쿨타임을 줘서 시간이 되면 트루로 바꾸게
     public bool isHit = false;
     public bool isDead = false;
@@ -85,15 +88,23 @@ public class Monster : MonoBehaviour, IAttack, IDead
 
         return criticalDamage;
     }
-    public virtual void Hit(float critical, float attack)
-    {
-        TakeDamage(critical, attack);
+    public virtual void Attack(Transform Tr, float Range)
+    { 
+        Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].CompareTag("Player"))
+            {
+                colliders[i].GetComponent<Player>().TakeDamage(monsterStat.criticalChance, monsterStat.attack);
+            }
+        }
     }
-    /// <summary>
-    ///  데미지 입음(기본공격만 생각함)
-    /// </summary>
-    /// <param name="critical">적의 크리티컬 확률</param>
-    /// <param name="attack">적의 공격력</param>
+    public void AttackRange() // 애니메이션에 넣음
+    {
+        Attack(attackPos, 0.5f);
+        //Debug.Log("평타");
+    }
+
 
     public virtual void TakeDamage(float critical, float attack)
     {
@@ -148,11 +159,22 @@ public class Monster : MonoBehaviour, IAttack, IDead
         agent.isStopped = true;
         SetDeadAnim();
         Debug.Log("죽음");
-        Invoke("DeletObject",1f);
+        
+        Invoke("DeletObject",3f);
     }
     public void DeletObject()
     {
+        if (this.monType == AllEnum.MonsterType.Explosion)
+        {
+            Explosion();
+        }
         GameManager.Instance.monsterPool.ReturnObjectToPool(this);
+    }
+    public void Explosion()
+    {
+        Attack(this.transform, 2f);
+        Instantiate(explosionEffect, this.transform.position + new Vector3(0,1,0), Quaternion.identity);
+        print("폭발");
     }
 
     // 아래는 애니메이션만 불러오는것
@@ -181,4 +203,6 @@ public class Monster : MonoBehaviour, IAttack, IDead
     {
         return isDead;
     }
+
+   
 }

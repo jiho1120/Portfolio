@@ -22,6 +22,7 @@ public class State_Idle : State
     public override void OnStateStay()
     {
         monster.dir = monster.CheckDir();
+        monster.SetAttackState();
 
         if (monster.isDead)
         {
@@ -30,7 +31,6 @@ public class State_Idle : State
         }
         else
         {
-            monster.SetAttackState();
             if (monster.isAttack) // 어차피 사정거리 안이라 거리체크 안해도됨
             {
                 StateDel(AllEnum.States.Attack);

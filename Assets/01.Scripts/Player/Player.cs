@@ -5,11 +5,7 @@ using UnityEngine;
 // 문제점
 // 또 같은 팔로 공격
 
-// 개선 
-// active 스킬 중에 1,4 번 자국이 바닥에 있게 하기
-
 //오늘 할일
-// 플레이어가 몬스터 한테 맞기
 // 경험치나 돈 주고 받는 함수 만들기
 // 스킬 적용시키고 딜이나 넉백 적용시키기
 
@@ -34,7 +30,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     private float lastClickTime = 0f;
     private float attackCooldown = 1.5f;
     bool isLeft = false;
-
     bool isDead = false;
 
     Coroutine passiveCor;
@@ -193,11 +188,11 @@ public class Player : MonoBehaviour, IAttack, IDead
 
     public void AttackRange() // 애니메이션에 넣음
     {
-        AttackRangeBase(fist, 1f);
+        Attack(fist, 1f);
         //Debug.Log("평타");
     }
 
-    public void AttackRangeBase(Transform Tr, float Range)
+    public virtual void Attack(Transform Tr, float Range)
     {
         Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);
         for (int i = 0; i < colliders.Length; i++)
@@ -214,7 +209,7 @@ public class Player : MonoBehaviour, IAttack, IDead
     {
         while (true)
         {
-            AttackRangeBase(passiveSkill.transform, 2.8f);
+            Attack(passiveSkill.transform, 2.8f);
             //Debug.Log("패시브");
             yield return new WaitForSeconds(1f);
         }
@@ -242,14 +237,12 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         return criticalDamage;
     }
-    public virtual void Hit(float critical, float attack) // 플레이어가 맞았다는 표시
-    {
-        TakeDamage(playerStat.criticalChance, playerStat.attack);
-    }
+    
     public virtual void TakeDamage(float critical, float attack) // 플레이어피가 다는거
     {
         if (!isDead)
         {
+            Hit();
             float damage = Mathf.Max(CriticalDamage(critical, attack) - (playerStat.defense * 0.5f), 0f); // 최소 데미지 0
             float hp = playerStat.health - damage;
             playerStat.SetHealth(hp);
@@ -263,8 +256,14 @@ public class Player : MonoBehaviour, IAttack, IDead
         {
             Debug.Log("이미 죽었어");
         }
+        print("플레이어 체력"+playerStat.health);
     }
 
+    public void Hit()
+    {
+        playerAnimator.SetHit();
+    }
+    
     public virtual void Dead()
     {
         isDead = true;

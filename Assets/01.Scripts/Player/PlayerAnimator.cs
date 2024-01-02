@@ -36,4 +36,9 @@ public class PlayerAnimator : MonoBehaviour
     {
         anim.SetFloat("AttackSpeed", _attackSpeed);
     }
+    public void SetHit()
+    {
+        anim.SetTrigger("isHit");
+
+    }
 }

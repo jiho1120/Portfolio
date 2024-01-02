@@ -21,6 +21,7 @@ public class State_Hit : State
     public override void OnStateStay()
     {
         monster.dir = monster.CheckDir();
+        monster.SetAttackState();
 
         if (monster.isDead)
         {
@@ -29,7 +30,6 @@ public class State_Hit : State
         }
         else
         {
-            monster.SetAttackState();
             if (monster.CheckDir().sqrMagnitude <= 4f)
             {
                 if (monster.isAttack)

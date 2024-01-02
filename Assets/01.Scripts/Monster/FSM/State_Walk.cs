@@ -22,6 +22,8 @@ public class State_Walk : State
     public override void OnStateStay()
     {
         monster.dir = monster.CheckDir();
+        monster.SetAttackState();
+
         if (monster.isDead)
         {
             StateDel(AllEnum.States.Die);
@@ -29,7 +31,6 @@ public class State_Walk : State
         }
         else
         {
-            monster.SetAttackState();
             if (monster.isHit)
             {
                 StateDel(AllEnum.States.Hit);
