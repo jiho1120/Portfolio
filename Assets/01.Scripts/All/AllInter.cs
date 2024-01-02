@@ -8,6 +8,8 @@ public interface IAttack
     public void TakeDamage(float critical, float attack);
 
     public void Dead();
+
+    public bool IsDead();
 }
 
 

@@ -20,6 +20,8 @@ public class State_Attack : State
 
     public override void OnStateStay()
     {
+        monster.dir = monster.CheckDir();
+
         if (monster.isDead)
         {
             StateDel(AllEnum.States.Die);
@@ -27,19 +29,20 @@ public class State_Attack : State
         }
         else
         {
-            if (monster.CheckDir().sqrMagnitude <= 4f)
-            {
-                StateDel(AllEnum.States.Idle);
-                return;
-            }
-            if (monster.CheckDir().sqrMagnitude > 4f)
-            {
-                StateDel(AllEnum.States.Walk);
-                return;
-            }
             if (monster.isHit)
             {
                 StateDel(AllEnum.States.Hit);
+                return;
+            }
+            else if (monster.dir.sqrMagnitude <= 4f)
+            {
+                StateDel(AllEnum.States.Idle);
+                return;
+                
+            }
+            else //맞지도 않고 공격거리 밖이면
+            {
+                StateDel(AllEnum.States.Walk);
                 return;
             }
         }

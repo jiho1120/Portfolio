@@ -13,35 +13,52 @@ public class Monster : MonoBehaviour, IAttack
     public SOMonster soOriginMonster;
     MonsterStat monsterStat;
     public Vector3 dir;
-    public Transform TargetTr {  get; private set; }
+    public Transform targetTr;
 
     public bool isAttack = false;  // 공격 쿨타임을 줘서 시간이 되면 트루로 바꾸게
     public bool isHit = false;
     public bool isDead = false;
     public float coolAttackTime = 0;
+    public float rotationSpeed = 5f;
 
-
-    private void Start()
+    public void Init()
     {
-        anim = GetComponent<MonsterAnimation>();
-        anim.SetInit();
-        agent = GetComponent<NavMeshAgent>();
-        monStateMachine = GetComponent<MONStateMachine>();
-        monStateMachine.SetInit();
-        monsterStat = new MonsterStat();
-        monsterStat.SetValues(soOriginMonster); // 가져올때만 쓰고  렙업시 스탯 올려주는  함수 만들어서 스탯 올려주기 json 파일로 저장하기  
+        
+        if (anim == null)
+        {
+            anim = GetComponent<MonsterAnimation>();
+            anim.SetInit();
+        }
+
+        if (agent == null)
+        {
+            agent = GetComponent<NavMeshAgent>();
+
+        }
+        if (monStateMachine == null)
+        {
+            monStateMachine = GetComponent<MONStateMachine>();
+            monStateMachine.SetInit();
+        }
+
+        if (monsterStat == null)
+        {
+            monsterStat = new MonsterStat();
+        }
         //monsterStat.ShowInfo();
-        isAttack = true;
-
+        isAttack = false;
+        isHit = false;
+        monsterStat.SetValues(soOriginMonster);
+        isDead = false;
+        monStateMachine.SetState(AllEnum.States.Idle);
     }
 
-    public void SetTarget(Transform tr)
-    {
-        this.TargetTr = tr;
-    }
     public Vector3 CheckDir()
     {
-        dir = TargetTr.position - this.transform.position;
+        targetTr = GameManager.Instance.player.transform;
+        dir = targetTr.position - this.transform.position;
+        dir.y = 0;
+
         return dir;
     }
 
@@ -93,9 +110,10 @@ public class Monster : MonoBehaviour, IAttack
 
     public void Idle()
     {
-        SetIdelAnim();
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
+        //this.transform.LookAt(GameManager.Instance.transform.position);
+        SetIdelAnim();
     }
 
     public void Move(Vector3 vec)
@@ -107,6 +125,7 @@ public class Monster : MonoBehaviour, IAttack
     public void Attack()
     {
         agent.isStopped = true;
+        //this.transform.LookAt(GameManager.Instance.transform.position);
         SetAttackAnim();
     }
     public void SetAttackState()
@@ -118,7 +137,6 @@ public class Monster : MonoBehaviour, IAttack
             isAttack = true;
         }
     }
-    
     public void Hit()
     {
         SetHitAnim();
@@ -126,14 +144,18 @@ public class Monster : MonoBehaviour, IAttack
     }
     public virtual void Dead()
     {
+        isDead = true;
+        agent.isStopped = true;
         SetDeadAnim();
         Debug.Log("죽음");
-        Invoke("DeletObject",3f);
+        Invoke("DeletObject",1f);
     }
     public void DeletObject()
     {
         GameManager.Instance.monsterPool.ReturnObjectToPool(this);
     }
+
+    // 아래는 애니메이션만 불러오는것
     public void SetIdelAnim()
     {
         anim.Idle();
@@ -155,5 +177,8 @@ public class Monster : MonoBehaviour, IAttack
         anim.Die();
     }
 
-
+    public bool IsDead()
+    {
+        return isDead;
+    }
 }

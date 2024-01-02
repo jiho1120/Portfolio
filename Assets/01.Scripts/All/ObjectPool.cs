@@ -4,12 +4,11 @@ using UnityEngine;
 public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : MonoBehaviour 를 안쓰면 MonoBehaviour의 기능을 못씀?
 {
     //T tInfo;
-    Queue<T> objectPool = new Queue<T>();
-    List<T> tInfoList = new List<T>();
+    public Queue<T> objectPool = new Queue<T>();
+    public List<T> InfoList = new List<T>();
+    
     Vector3 spawnPos = Vector3.zero;
-
-
-    public int ranNum { get; private set; }
+    int ranNum;
     int num;
     int mapSize = 10;
 
@@ -29,7 +28,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
         ranNum = Random.Range(0, num);
         T tInfo = Instantiate(prefabArray[ranNum]).GetComponent<T>();
         objectPool.Enqueue(tInfo);
-        tInfoList.Add(tInfo);
+        InfoList.Add(tInfo);
         tInfo.gameObject.SetActive(false);
     }
 
@@ -44,6 +43,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
         T obj = objectPool.Dequeue();
         obj.gameObject.SetActive(true);
         SetRandomPosition(obj);
+
         return obj;
     }
 
@@ -54,4 +54,21 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
         tInfo.gameObject.SetActive(false);
         objectPool.Enqueue(tInfo);
     }
+
+    public void DeleteActive()
+    {
+        IAttack attack;
+        for (int i = 0; i < InfoList.Count; i++)
+        {
+            attack = InfoList[i].GetComponent<IAttack>();
+            if (attack != null)
+            {
+                if (attack.IsDead() == false)
+                {
+                    attack.Dead();
+                }                
+            }
+        }
+    }
+
 }

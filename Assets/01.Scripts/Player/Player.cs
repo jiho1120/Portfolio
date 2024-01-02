@@ -239,4 +239,9 @@ public class Player : MonoBehaviour, IAttack
         isDead = true;
         Debug.Log("Á×À½");
     }
+
+    public bool IsDead()
+    {
+        throw new System.NotImplementedException();
+    }
 }
