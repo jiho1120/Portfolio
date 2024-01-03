@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09b8defadc5ee4b478f3e0837976ca7d, type: 3}
-  m_Name: P_Heal
+  m_Script: {fileID: 11500000, guid: 805c2936ed54156438d07ce4ff149a65, type: 3}
+  m_Name: AirCircle
   m_EditorClassIdentifier: 
-  skillName: P_Heal
-  skillType: 2
+  skillType: 0
+  ActiveSkillName: 2
   icon: {fileID: 0}
-  effect: 10
-  cool: 5
+  effect: 0
+  duration: 0
+  cool: 0
   mana: 0

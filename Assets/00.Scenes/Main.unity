@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -188,11 +188,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7669195297716114265, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
       propertyPath: skillPos
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
       propertyPath: ActiveSkill
@@ -238,8 +242,9 @@ GameObject:
   m_Component:
   - component: {fileID: 932798537}
   - component: {fileID: 932798536}
+  - component: {fileID: 932798538}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -257,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f153d2b0a1509974e8d2848739d32057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1470832490}
   monsterPrefabs:
   - {fileID: 5849235928326935698, guid: a8658fc881ffe83418ad6ae1716d3220, type: 3}
   - {fileID: 1131274713, guid: a974a10ce0307b34c9a8761105070305, type: 3}
@@ -276,6 +281,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &932798538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932798535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92cf5f37d54c53844a35cb9eaa601faa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill: {fileID: 6592193295317383132, guid: f1d1b3f58245e5546a0815ec901bec99, type: 3}
+  ActiveSkillDatas:
+  - {fileID: 11400000, guid: 5e82620480e519747b96fc1858c73e71, type: 2}
+  - {fileID: 11400000, guid: 04c999309900db644b784df102cde2c5, type: 2}
+  - {fileID: 11400000, guid: 63ab528ecef2d68478b735ecc8ef2288, type: 2}
+  - {fileID: 11400000, guid: f9cde0c2e35670241b6af96ee2c6b504, type: 2}
+  ActiveSkillPre:
+  - {fileID: 3124628965096199759, guid: b799d8443f0a3de4ebc8065951b6c997, type: 3}
+  - {fileID: 5933639800420268615, guid: 687e5a73bb557534086775dd29307e52, type: 3}
+  - {fileID: 2445945209082545909, guid: 2fcba5c250bc30642a23e79f9f0f93b1, type: 3}
+  - {fileID: 2107738131321562852, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
+  PassiveSkillDatas:
+  - {fileID: 11400000, guid: 82c58e57bc008be488a6578f0c705452, type: 2}
+  - {fileID: 11400000, guid: e027e85f5011a854d8137e99af8253bb, type: 2}
+  - {fileID: 11400000, guid: 854910282f16b8743949a7909d3f9cd4, type: 2}
+  - {fileID: 11400000, guid: d6ba0272310b02142a794ddfca207fcd, type: 2}
+  PassiveSkillPre:
+  - {fileID: 2513904192387950191, guid: e8aea9fa11ff09a42b3fe05e3f089d43, type: 3}
+  - {fileID: 1281886523613316747, guid: 8b01924113f4196418bb835f2a3df45e, type: 3}
+  - {fileID: 6935722533447007149, guid: 0493e6e727e93e64eaaaa6dd4613c3e3, type: 3}
+  - {fileID: 2851827673482123106, guid: cec36b3b0e2c5e84e8a2cf411714b4bb, type: 3}
 --- !u!1 &950453137
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,26 +417,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2309431332358196969, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
   m_PrefabInstance: {fileID: 693152829}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1470832497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470832490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1949be87272daaa4aa74efaddebbc38e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeSkillList:
-  - {fileID: 3124628965096199759, guid: b799d8443f0a3de4ebc8065951b6c997, type: 3}
-  - {fileID: 5933639800420268615, guid: 687e5a73bb557534086775dd29307e52, type: 3}
-  - {fileID: 2445945209082545909, guid: 2fcba5c250bc30642a23e79f9f0f93b1, type: 3}
-  - {fileID: 2107738131321562852, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-  soSkills:
-  - {fileID: 11400000, guid: c737896b4a926de47833746e51de0623, type: 2}
-  - {fileID: 11400000, guid: ffb58a56a1c39b844af5386b40d68d6b, type: 2}
 --- !u!1 &1587097338
 GameObject:
   m_ObjectHideFlags: 0

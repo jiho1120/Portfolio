@@ -15,8 +15,14 @@ public class AllEnum
 
         End
     }
-
     public enum SkillType
+    {
+        PassiveSkill,
+        ActiveSkill,
+
+        End
+    }
+    public enum PassiveSkillType
     {
         Damage,
         Heal,
@@ -26,6 +32,25 @@ public class AllEnum
         End
     }
 
+    public enum PassiveSkillName
+    {
+        Wind,
+        Love,
+        Fire,
+        Heal,
+
+        End
+    }
+    public enum ActiveSkillName
+    {
+        Ground,
+        AirSlash,
+        AirCircle,
+        Gravity,
+
+        End
+    }
+    
     public enum States
     {
         Idle,

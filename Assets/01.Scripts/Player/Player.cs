@@ -21,7 +21,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     public Transform cameraArm;
     public Transform fist;
     public GameObject passiveSkill;
-    ActiveSkill activeSkill;
 
     private bool run;
     private float speed;
@@ -46,7 +45,6 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         playerStat.SetValues(soOriginPlayer);
         //playerStat.ShowInfo();
-        activeSkill = GetComponent<ActiveSkill>();
     }
 
     // Update is called once per frame
@@ -86,24 +84,24 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            activeSkill.CreateSkill(false, 0, transform.position);
-            //activeSkill.skillInfo.PrintSkillData();
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    activeSkill.CreateSkill(false, 0, transform.position);
+        //    //activeSkill.skillInfo.PrintSkillData();
 
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            activeSkill.CreateSkill(true, 1, transform.position);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            activeSkill.CreateSkill(false, 2, transform.position);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            activeSkill.CreateSkill(false,3, transform.position + Vector3.forward * 10);
-        }
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    activeSkill.CreateSkill(true, 1, transform.position);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    activeSkill.CreateSkill(false, 2, transform.position);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha4))
+        //{
+        //    activeSkill.CreateSkill(false,3, transform.position + Vector3.forward * 10);
+        //}
        
     }
     

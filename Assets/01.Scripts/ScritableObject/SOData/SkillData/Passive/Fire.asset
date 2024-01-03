@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09b8defadc5ee4b478f3e0837976ca7d, type: 3}
-  m_Name: A_AirSlash
+  m_Name: Fire
   m_EditorClassIdentifier: 
-  skillName: 
   skillType: 0
+  PassiveSkillType: 2
+  PassiveSkillName: 2
   icon: {fileID: 0}
   effect: 0
+  duration: 0
   cool: 0
   mana: 0
