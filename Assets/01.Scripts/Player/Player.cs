@@ -8,7 +8,7 @@ using UnityEngine;
 //오늘 할일
 // 경험치나 돈 주고 받는 함수 만들기
 // 스킬 적용시키고 딜이나 넉백 적용시키기
-
+//1일때 0.5씩 늘어남  7, 14
 
 public class Player : MonoBehaviour, IAttack, IDead
 {
@@ -21,7 +21,7 @@ public class Player : MonoBehaviour, IAttack, IDead
     public Transform cameraArm;
     public Transform fist;
     public GameObject passiveSkill;
-    public GameObject[] ActiveSkill;
+    ActiveSkill activeSkill;
 
     private bool run;
     private float speed;
@@ -46,6 +46,7 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         playerStat.SetValues(soOriginPlayer);
         //playerStat.ShowInfo();
+        activeSkill = GetComponent<ActiveSkill>();
     }
 
     // Update is called once per frame
@@ -84,44 +85,28 @@ public class Player : MonoBehaviour, IAttack, IDead
             }
 
         }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (passiveCor == null)
-            {
-                passiveCor = StartCoroutine(PassiveSkill());
-                Debug.Log("시작");
-                passiveSkill.SetActive(true);
-            }
-
-        }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            CreateSkill(0);
+            activeSkill.CreateSkill(false, 0, transform.position);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            CreateSkill(1);
+            activeSkill.CreateSkill(true, 1, transform.position);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            CreateSkill(2);
+            activeSkill.CreateSkill(false, 2, transform.position);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            for (int i = 0; i < ActiveSkill.Length; i++)
-            {
-                ActiveSkill[i].SetActive(false);
-            }
-
+            activeSkill.CreateSkill(false,3, transform.position + Vector3.forward * 10);
         }
+       
     }
     
-    public void CreateSkill(int number)
-    {
-        Instantiate(ActiveSkill[number], transform.GetChild(0).position, transform.GetChild(0).rotation);
+    
 
-    }
 
     private void Move()
     {

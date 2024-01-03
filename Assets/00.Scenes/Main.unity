@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,67 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 151ca8d91ca4a954c95f2cceb7551d65, type: 2}
---- !u!1001 &22335536
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1527000168}
-    m_Modifications:
-    - target: {fileID: 2107738131321562852, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_Name
-      value: Star aura
-      objectReference: {fileID: 0}
-    - target: {fileID: 2107738131321562852, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624217097381161390, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624217097381161390, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624217097381161390, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624217097381161390, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624217097381161390, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624217097381161390, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624217097381161390, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624217097381161390, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624217097381161390, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624217097381161390, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624217097381161390, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
 --- !u!1001 &693152829
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -390,7 +329,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e1398a8090a09be49a7206c534c1f30d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -435,11 +374,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1527000168 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 531866921, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
+--- !u!1 &1470832490 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2309431332358196969, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
   m_PrefabInstance: {fileID: 693152829}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1470832497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470832490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1949be87272daaa4aa74efaddebbc38e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeSkillList:
+  - {fileID: 3124628965096199759, guid: b799d8443f0a3de4ebc8065951b6c997, type: 3}
+  - {fileID: 5933639800420268615, guid: 687e5a73bb557534086775dd29307e52, type: 3}
+  - {fileID: 2445945209082545909, guid: 2fcba5c250bc30642a23e79f9f0f93b1, type: 3}
+  - {fileID: 2107738131321562852, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
 --- !u!1 &1587097338
 GameObject:
   m_ObjectHideFlags: 0
