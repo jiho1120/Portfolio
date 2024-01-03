@@ -89,6 +89,8 @@ public class Player : MonoBehaviour, IAttack, IDead
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             activeSkill.CreateSkill(false, 0, transform.position);
+            //activeSkill.skillInfo.PrintSkillData();
+
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {

@@ -396,6 +396,9 @@ MonoBehaviour:
   - {fileID: 5933639800420268615, guid: 687e5a73bb557534086775dd29307e52, type: 3}
   - {fileID: 2445945209082545909, guid: 2fcba5c250bc30642a23e79f9f0f93b1, type: 3}
   - {fileID: 2107738131321562852, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
+  soSkills:
+  - {fileID: 11400000, guid: c737896b4a926de47833746e51de0623, type: 2}
+  - {fileID: 11400000, guid: ffb58a56a1c39b844af5386b40d68d6b, type: 2}
 --- !u!1 &1587097338
 GameObject:
   m_ObjectHideFlags: 0

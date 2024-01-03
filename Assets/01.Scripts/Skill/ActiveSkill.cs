@@ -5,34 +5,27 @@ using UnityEngine;
 public class ActiveSkill : MonoBehaviour
 {
     public GameObject[] activeSkillList;
+    public SkillInfo skillInfo;
+    public SOSkill[] soSkills;
 
+    private float colCenter = 7f;
+    private float colSize = 12f;
+    private float duration = 1f;
+    float skillSpeed = 3;
+    Coroutine boxCor = null; 
 
-
-    // 게임 오브젝트만 불러와  그리고 리턴시켜
-    public GameObject GetSkillObject(int number) 
+    public void SetSkillInfo(GameObject instantiatedSkill, int number)
     {
-        return activeSkillList[number] != null ? activeSkillList[number] : null;
-    }
-
-    // 리턴시킨거 받아서 정보를 세팅해
-    public GameObject SetSkillInfo(bool setParent, int number)
-    {
-        GameObject skill = GetSkillObject(number);
-        if (skill == null)
+        if (instantiatedSkill == null)
         {
             print("없어");
         }
         else
         {
-            if (number == 0)
+            if (number == 0 && boxCor == null)
             {
-                BoxCollider col = skill.transform.GetChild(0).GetComponentInChildren<BoxCollider>();
-                if (col != null)
-                {
-                    col.center = new Vector3(0, 0, 7);
-                    col.size = new Vector3(1, 1, 14);
-                }
-                print("크기 바뀜");
+                boxCor = StartCoroutine(GrowInBoxCollider(instantiatedSkill));
+                skillInfo.SetSkillData(soSkills[0]);
             }
             else if (number == 1)
             {
@@ -47,22 +40,40 @@ public class ActiveSkill : MonoBehaviour
 
             }
         }
-        return skill;
     }
-    // 정보 세팅한거 소환
+
+
     public void CreateSkill(bool setParent, int number, Vector3 pos) // 이변수들을 나중에 스킬이 가지고 있어야함
     {
-        GameObject skill = SetSkillInfo(setParent,number);
-        GameObject instantiatedSkill = Instantiate(skill, pos, GameManager.Instance.player.transform.GetChild(0).rotation); 
+        GameObject instantiatedSkill = Instantiate(activeSkillList[number], pos, GameManager.Instance.player.transform.GetChild(0).rotation);
 
         // 생성된 스킬을 플레이어의 자식으로 설정
         if (setParent)
         {
             instantiatedSkill.transform.SetParent(GameManager.Instance.player.transform.GetChild(0), true);
         }
-        
+        SetSkillInfo(instantiatedSkill, number);
         instantiatedSkill.SetActive(true);
-        
+    }
+
+    public IEnumerator GrowInBoxCollider(GameObject obj)
+    {
+        BoxCollider col = obj.transform.GetChild(0).GetComponentInChildren<BoxCollider>();
+        if (col != null)
+        {
+            float elapsedTime = 0;
+            float timecal = 0;
+            while (elapsedTime <= duration)
+            {
+                elapsedTime += Time.deltaTime * skillSpeed;
+                timecal = elapsedTime / duration;
+                col.center = new Vector3(0, 0, colCenter* timecal);
+                col.size = new Vector3(1, 1, colSize * timecal);
+                Debug.Log("Counter1: " + col.center + " | Counter2: " + col.size);
+                yield return null;
+            }
+        }
+        boxCor = null; // 알아서 끝남
     }
     
 
