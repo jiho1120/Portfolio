@@ -9,6 +9,8 @@ using UnityEngine;
 // 경험치나 돈 주고 받는 함수 만들기
 // 스킬 적용시키고 딜이나 넉백 적용시키기
 //1일때 0.5씩 늘어남  7, 14
+// 스킬 시간이 다 되면 꺼지기(false)
+// 스킬 능력 구현
 
 public class Player : MonoBehaviour, IAttack, IDead
 {
@@ -104,8 +106,6 @@ public class Player : MonoBehaviour, IAttack, IDead
             SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[3], transform.position);
             ObjectPoolManager.Instance.skillPool[3].gameObject.SetActive(true);
         }
-
-
     }
     
     
