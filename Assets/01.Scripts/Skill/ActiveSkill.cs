@@ -76,5 +76,17 @@ public class ActiveSkill : MonoBehaviour
         boxCor = null; // 알아서 끝남
     }
     
+    public IEnumerator TimesAttack(Monster Enemy)
+    {
+        skillInfo.SetSkillData(soSkills[1]);
+        skillInfo.duration = 3f;
+        float duration = 0;
+        while (skillInfo.duration < duration)
+        {
+            duration += Time.deltaTime;
+            Enemy.TakeDamage(10, 10);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
 
 }

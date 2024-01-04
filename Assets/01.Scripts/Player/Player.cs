@@ -95,6 +95,7 @@ public class Player : MonoBehaviour, IAttack, IDead
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             activeSkill.CreateSkill(true, 1, transform.position);
+            StartCoroutine(WindSlashSkill());
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
@@ -170,18 +171,18 @@ public class Player : MonoBehaviour, IAttack, IDead
     //private void OnDrawGizmos()
     //{
     //    Gizmos.DrawWireSphere(fist.position, 1f);
-
+    //    Gizmos.DrawWireSphere(transform.position + Vector3.forward * 10, 2.8f);
     //}
 
     public void AttackRange() // 애니메이션에 넣음
     {
-        Attack(fist, 1f);
+        Attack(fist.position, 1f);
         //Debug.Log("평타");
     }
 
-    public virtual void Attack(Transform Tr, float Range)
+    public virtual void Attack(Vector3 Tr, float Range)
     {
-        Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);
+        Collider[] colliders = Physics.OverlapSphere(Tr, Range);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].CompareTag("Monster"))
@@ -196,7 +197,19 @@ public class Player : MonoBehaviour, IAttack, IDead
     {
         while (true)
         {
-            Attack(passiveSkill.transform, 2.8f);
+            Attack(passiveSkill.transform.position, 2.8f);
+            //Debug.Log("패시브");
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    public IEnumerator WindSlashSkill()
+    {
+        float time = 0;
+        while (time < 3f)
+        {
+            time += Time.deltaTime;
+            Attack(transform.position, 2f);
+            Attack(transform.position , 2.8f);
             //Debug.Log("패시브");
             yield return new WaitForSeconds(1f);
         }
@@ -262,4 +275,5 @@ public class Player : MonoBehaviour, IAttack, IDead
         return isDead;
 
     }
+
 }
