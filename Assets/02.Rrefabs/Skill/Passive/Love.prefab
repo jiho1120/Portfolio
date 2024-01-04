@@ -4824,7 +4824,7 @@ GameObject:
   - component: {fileID: 1789550602582774127}
   - component: {fileID: 2849766020281903975}
   m_Layer: 0
-  m_Name: Love aura
+  m_Name: Love
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

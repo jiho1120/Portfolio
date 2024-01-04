@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ground
   m_EditorClassIdentifier: 
   skillType: 0
-  ActiveSkillName: 2
+  ActiveSkillName: 0
   icon: {fileID: 0}
   effect: 0
   duration: 0

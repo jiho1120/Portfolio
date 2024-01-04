@@ -2,9 +2,13 @@
 //using System.Collections.Generic;
 //using UnityEngine;
 
-//public class ActiveSkill : MonoBehaviour
+//public class ActiveSkill : Skill//MonoBehaviour
 //{
-    
+
+//public override void DoSkill()
+//{ 
+//    //액티브인 내가 해야할일
+//}
 
 //    public GameObject[] activeSkillList; // 나중에 리스트로 바꿔서 위치로 찾는 방식으로 바뀔수있게
 //    public SkillInfo skillInfo;
