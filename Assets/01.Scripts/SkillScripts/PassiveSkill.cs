@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PassiveSkill : MonoBehaviour
+public class PassiveSkill : Skill
 {
     //SOPassiveSkill soSkill;
 

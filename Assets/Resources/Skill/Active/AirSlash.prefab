@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 2
+  orgInfo: {fileID: 11400000, guid: 8a1f4e890b718cc43a2ba562e7547643, type: 2}
 --- !u!1 &5933909291384971575
 GameObject:
   m_ObjectHideFlags: 0

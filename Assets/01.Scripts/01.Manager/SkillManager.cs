@@ -13,10 +13,9 @@ public class SkillManager : Singleton<SkillManager>
     Dictionary<AllEnum.SkillName, SOSkill> nameDictInfo = new Dictionary<AllEnum.SkillName, SOSkill>();
     public Dictionary<AllEnum.SkillName, Skill> perfectSkillDict = new Dictionary<AllEnum.SkillName, Skill>(); // 스킬 만들때 이거 사용
 
-
     private void Start()
     {
-        
+
         //foreach (var item in perfectSkillDict)
         //{
         //    Debug.Log($"{item.Key}는 {item.Value}");
@@ -26,8 +25,8 @@ public class SkillManager : Singleton<SkillManager>
     {
         GameObject[] objectAll = ResourceManager.Instance.objectAll;
         SOSkill[] skillDataAll = ResourceManager.Instance.skillDataAll;
-        PrintResourceInfo(objectAll, "GameObject");
-        PrintResourceInfo(skillDataAll, "SOSkillData");
+        //PrintResourceInfo(objectAll, "GameObject");
+        //PrintResourceInfo(skillDataAll, "SOSkillData");
         Skill skilltmp;
         foreach (var item in objectAll)
         {
@@ -50,15 +49,15 @@ public class SkillManager : Singleton<SkillManager>
         }
         SetAllSkill();
     }
-    private void PrintResourceInfo<T>(T[] resources, string resourceName)
-    {
-        Debug.Log($"--- {resourceName} Resources Info ---");
+    //private void PrintResourceInfo<T>(T[] resources, string resourceName)
+    //{
+    //    Debug.Log($"--- {resourceName} Resources Info ---");
 
-        for (int i = 0; i < resources.Length; i++)
-        {
-            Debug.Log($"{resourceName} {i + 1}: {resources[i]}");
-        }
-    }
+    //    for (int i = 0; i < resources.Length; i++)
+    //    {
+    //        Debug.Log($"{resourceName} {i + 1}: {resources[i]}");
+    //    }
+    //}
     public int EnumToInt(AllEnum.SkillName val)
     {
         switch (val)
@@ -86,46 +85,17 @@ public class SkillManager : Singleton<SkillManager>
 
     public AllEnum.SkillName IntToEnum(int val)
     {
-        if (val == 1)
+        switch (val)
         {
-            return AllEnum.SkillName.AirCircle;
-
-        }
-        else if (val == 2)
-        {
-            return AllEnum.SkillName.AirSlash;
-        }
-        else if (val == 3)
-        {
-            return AllEnum.SkillName.Ground;
-        }
-        else if (val == 4)
-        {
-            return AllEnum.SkillName.Gravity;
-        }
-        else if (val == 4)
-        {
-            return AllEnum.SkillName.Gravity;
-        }
-        else if (val == 101)
-        {
-            return AllEnum.SkillName.Fire;
-        }
-        else if (val == 102)
-        {
-            return AllEnum.SkillName.Heal;
-        }
-        else if (val == 103)
-        {
-            return AllEnum.SkillName.Love;
-        }
-        else if (val == 104)
-        {
-            return AllEnum.SkillName.Wind;
-        }
-        else
-        {
-            return AllEnum.SkillName.End;
+            case 1: return AllEnum.SkillName.AirCircle;
+            case 2: return AllEnum.SkillName.AirSlash;
+            case 3: return AllEnum.SkillName.Ground;
+            case 4: return AllEnum.SkillName.Gravity;
+            case 101: return AllEnum.SkillName.Fire;
+            case 102: return AllEnum.SkillName.Heal;
+            case 103: return AllEnum.SkillName.Love;
+            case 104: return AllEnum.SkillName.Wind;
+            default: return AllEnum.SkillName.End;
         }
     }
 
@@ -158,4 +128,40 @@ public class SkillManager : Singleton<SkillManager>
             skill.transform.SetParent(GameManager.Instance.player.transform.GetChild(0), true);
         }
     }
+
+    public IEnumerator UseSkill(Skill skill)
+    {
+        if (!skill.gameObject.activeSelf) // 꺼져있으면 
+        {
+            if (skill.orgInfo.duration != 0)
+            {
+                skill.gameObject.SetActive(true);
+                yield return new WaitForSeconds(skill.orgInfo.duration);
+                skill.gameObject.SetActive(false);
+            }
+            else
+            {
+                skill.gameObject.SetActive(true);
+            }
+        }
+    }
+    //public IEnumerator UseSkill(Skill skill)
+    //{
+    //    if (skill.orgInfo.isOn) // 꺼져있으면 쿨타임으로 바꾸기
+    //    {
+    //        if (skill.orgInfo.duration != 0)
+    //        {
+    //            skill.gameObject.SetActive(true);
+    //            skill.orgInfo.isOn = false;
+    //            yield return new WaitForSeconds(skill.orgInfo.duration);
+    //            skill.gameObject.SetActive(false);
+    //            skill.orgInfo.isOn = true;
+    //        }
+    //        else
+    //        {
+    //            skill.orgInfo.isOn = true;
+    //            skill.gameObject.SetActive(true);
+    //        }
+    //    }
+    //}
 }

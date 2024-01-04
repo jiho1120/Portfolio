@@ -9961,6 +9961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 3
+  orgInfo: {fileID: 11400000, guid: 69c558d7f42f2f44ba7e639443d056ce, type: 2}
 --- !u!1 &3124639047739432849
 GameObject:
   m_ObjectHideFlags: 0

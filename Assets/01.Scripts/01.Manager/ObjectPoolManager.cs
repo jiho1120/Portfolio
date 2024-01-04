@@ -20,9 +20,6 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
         skillPool = new List<Skill>();
         MakeMonster();
         MakeSkill();
-
-
-
     }
     void MakeMonster()
     {
@@ -53,19 +50,9 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
         for (int i = 0; i < SkillManager.Instance.perfectSkillDict.Count; i++)
         {
             Skill skill = Instantiate(SkillManager.Instance.perfectSkillDict[(AllEnum.SkillName)i]);
-            
             skillPool.Add(skill);
             skill.gameObject.SetActive(false);
         }
     }
-    //void MakeSkill()
-    //{
-    //    for (int i = 0; i < SkillManager.Instance.perfectSkillDict.Count; i++)
-    //    {
-    //        Skill skill = Instantiate(SkillManager.Instance.perfectSkillDict[(AllEnum.SkillName)i]);
-    //        skillPool.objectPool.Enqueue(skill);
-    //        skillPool.InfoList.Add(skill);
-    //        skill.gameObject.SetActive(false);
-    //    }
-    //}
+   
 }

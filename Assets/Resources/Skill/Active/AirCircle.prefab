@@ -4948,7 +4948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 1
-  orgInfo: {fileID: 0}
+  orgInfo: {fileID: 11400000, guid: 9367442e0a9c0294ba6c0b8ae0a6785c, type: 2}
 --- !u!1 &2446102464417035575
 GameObject:
   m_ObjectHideFlags: 0

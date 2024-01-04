@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 // πÆ¡¶¡°
@@ -22,7 +23,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     public Transform characterBody;
     public Transform cameraArm;
     public Transform fist;
-    public GameObject passiveSkill;
 
     private bool run;
     private float speed;
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour, IAttack, IDead
     private float attackCooldown = 1.5f;
     bool isLeft = false;
     bool isDead = false;
-
+    ActiveSkill ac = new ActiveSkill();
     Coroutine passiveCor;
 
     void Start()
@@ -47,6 +47,7 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         playerStat.SetValues(soOriginPlayer);
         //playerStat.ShowInfo();
+        
     }
 
     // Update is called once per frame
@@ -82,29 +83,34 @@ public class Player : MonoBehaviour, IAttack, IDead
                 StopCoroutine(passiveCor);
                 Debug.Log("∏ÿ√„");
                 passiveCor = null;
-                passiveSkill.SetActive(false);
             }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[0],transform.position);
-            ObjectPoolManager.Instance.skillPool[0].gameObject.SetActive(true);
+            Skill skill = ObjectPoolManager.Instance.skillPool[0];
+            Debug.Log(skill);
+            SkillManager.Instance.SetSkillPos(skill,transform.position);
+            ac.SetSkillEffect(skill); 
+            StartCoroutine(SkillManager.Instance.UseSkill(skill));
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[1], transform.position);
-            ObjectPoolManager.Instance.skillPool[1].gameObject.SetActive(true);
+            StartCoroutine(SkillManager.Instance.UseSkill(ObjectPoolManager.Instance.skillPool[1]));
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[2], transform.position);
-            ObjectPoolManager.Instance.skillPool[2].gameObject.SetActive(true);
+            StartCoroutine(SkillManager.Instance.UseSkill(ObjectPoolManager.Instance.skillPool[2]));
+
+
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[3], transform.position);
-            ObjectPoolManager.Instance.skillPool[3].gameObject.SetActive(true);
+            SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[3], transform.position * 10);
+            StartCoroutine(SkillManager.Instance.UseSkill(ObjectPoolManager.Instance.skillPool[3]));
+
         }
     }
     
@@ -197,7 +203,7 @@ public class Player : MonoBehaviour, IAttack, IDead
     {
         while (true)
         {
-            Attack(passiveSkill.transform, 2.8f);
+            Attack(this.transform, 2.8f);
             //Debug.Log("∆–Ω√∫Í");
             yield return new WaitForSeconds(1f);
         }

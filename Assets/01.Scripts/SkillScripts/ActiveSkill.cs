@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActiveSkill : Skill//MonoBehaviour
+public class ActiveSkill : Skill
 {
     private float colCenter = 7f;
     private float colSize = 12f;
@@ -18,27 +18,36 @@ public class ActiveSkill : Skill//MonoBehaviour
     {
         //액티브인 내가 해야할일
     }
-    public void SetSkillInfo(GameObject instantiatedSkill, int number)
+    public void SetSkillEffect(Skill skill)
     {
-        if (instantiatedSkill == null)
+        Debug.Log("실행");
+        if (skill == null)
         {
-            print("없어");
+            Debug.LogError("없어");
         }
         else
         {
-            if (number == 0 && boxCor == null)
-            {
-                boxCor = StartCoroutine(GrowInBoxCollider(instantiatedSkill));
-            }
-            else if (number == 1)
+            if (skill.orgInfo.index == 1) // 원
             {
 
             }
-            else if (number == 2)
+            else if (skill.orgInfo.index == 2) // 슬래쉬
             {
 
             }
-            else if (number == 3)
+            else if (skill.orgInfo.index == 3) //땅
+            {
+                Debug.Log("번호 통과");
+
+                if (boxCor == null)
+                {
+                    Debug.Log("박스 통과");
+                    boxCor = StartCoroutine(GrowInBoxCollider(skill));
+                }
+                Debug.Log("코루틴문제");
+
+            }
+            else if (skill.orgInfo.index == 4) // 중력
             {
 
             }
@@ -47,9 +56,11 @@ public class ActiveSkill : Skill//MonoBehaviour
 
 
 
-    public IEnumerator GrowInBoxCollider(GameObject obj)
+    public IEnumerator GrowInBoxCollider(Skill skill)
     {
-        BoxCollider col = obj.transform.GetChild(0).GetComponentInChildren<BoxCollider>();
+        Debug.Log("함수들어옴");
+        BoxCollider col = skill.GetComponent<BoxCollider>();
+        Debug.Log(col);
         if (col != null)
         {
             float elapsedTime = 0;

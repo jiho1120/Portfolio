@@ -16,7 +16,5 @@ public class ResourceManager : Singleton<ResourceManager>
         monsterAll = Resources.LoadAll<Monster>("Object/Monster");
         objectAll = Resources.LoadAll<GameObject>("Skill");
         skillDataAll = Resources.LoadAll<SOSkill>("SOData/SkillData");
-        GameObject obj = Resources.Load<GameObject>("Skill/Active/Ground");
-        Instantiate(obj);
     }
 }

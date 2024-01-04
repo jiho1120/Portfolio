@@ -7,8 +7,6 @@ public class GameManager : Singleton<GameManager>
     public GameObject player;
     
 
-
-
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -16,15 +14,5 @@ public class GameManager : Singleton<GameManager>
         SkillManager.Instance.SetSkillData();
         ObjectPoolManager.Instance.Init();
         ObjectPoolManager.Instance.SpawnMonster();
-        
-
-
-
-
-
-
     }
-
-
-
 }

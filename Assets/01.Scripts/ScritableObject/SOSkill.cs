@@ -15,5 +15,6 @@ public class SOSkill : ScriptableObject
     public float cool; // 쿨타임
     public float mana; // 소모 마나
     public bool setParent; // 스킬이 플레이어를 따라다닐지
+    public bool isOn; //on일시 스킬나감 
 
 }
