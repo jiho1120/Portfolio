@@ -5,7 +5,7 @@ using UnityEngine;
 public class Skill : MonoBehaviour
 {
     public int Index;
-    SOSkill orgInfo;
+    public SOSkill orgInfo;
     public void SetInfo(SOSkill _Info)
     {
         orgInfo = _Info;

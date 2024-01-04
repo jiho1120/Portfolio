@@ -52,6 +52,7 @@ public class Player : MonoBehaviour, IAttack, IDead
     {
         Move();
     }
+        
     private void Update()
     {
 
@@ -81,28 +82,30 @@ public class Player : MonoBehaviour, IAttack, IDead
                 passiveCor = null;
                 passiveSkill.SetActive(false);
             }
-
         }
 
-        //if (Input.GetKeyDown(KeyCode.Alpha1))
-        //{
-        //    activeSkill.CreateSkill(false, 0, transform.position);
-        //    //activeSkill.skillInfo.PrintSkillData();
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[0],transform.position);
+            ObjectPoolManager.Instance.skillPool[0].gameObject.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[1], transform.position);
+            ObjectPoolManager.Instance.skillPool[1].gameObject.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[2], transform.position);
+            ObjectPoolManager.Instance.skillPool[2].gameObject.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[3], transform.position);
+            ObjectPoolManager.Instance.skillPool[3].gameObject.SetActive(true);
+        }
 
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha2))
-        //{
-        //    activeSkill.CreateSkill(true, 1, transform.position);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha3))
-        //{
-        //    activeSkill.CreateSkill(false, 2, transform.position);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha4))
-        //{
-        //    activeSkill.CreateSkill(false,3, transform.position + Vector3.forward * 10);
-        //}
-       
+
     }
     
     

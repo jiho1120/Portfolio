@@ -21,3 +21,4 @@ MonoBehaviour:
   duration: 0
   cool: 0
   mana: 0
+  setParent: 0

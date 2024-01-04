@@ -168,7 +168,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
         {
             Explosion();
         }
-        GameManager.Instance.monsterPool.ReturnObjectToPool(this);
+        ObjectPoolManager.Instance.monsterPool.ReturnObjectToPool(this);
     }
     public void Explosion()
     {

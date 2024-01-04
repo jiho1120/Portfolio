@@ -14,4 +14,6 @@ public class SOSkill : ScriptableObject
     public float duration; // 스킬 지속 시간
     public float cool; // 쿨타임
     public float mana; // 소모 마나
+    public bool setParent; // 스킬이 플레이어를 따라다닐지
+
 }

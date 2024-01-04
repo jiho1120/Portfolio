@@ -9,19 +9,25 @@ public class SkillManager : Singleton<SkillManager>
     //그냥 만들어줌. 
     //나중에 스킬 쏘는 사람 구분도 해야함
 
-
     Dictionary<AllEnum.SkillName, Skill> nameDictObj = new Dictionary<AllEnum.SkillName, Skill>(); // 네임을 키로 쓰는이유는 알아보기 직관적이여서
     Dictionary<AllEnum.SkillName, SOSkill> nameDictInfo = new Dictionary<AllEnum.SkillName, SOSkill>();
-    Dictionary<AllEnum.SkillName, Skill> perfectSkillDict = new Dictionary<AllEnum.SkillName, Skill>();
+    public Dictionary<AllEnum.SkillName, Skill> perfectSkillDict = new Dictionary<AllEnum.SkillName, Skill>(); // 스킬 만들때 이거 사용
 
 
     private void Start()
     {
-
-        GameObject[] objectAll = Resources.LoadAll<GameObject>("Skill");
-        SOSkill[] skillDataAll = Resources.LoadAll<SOSkill>("SOData/SkillData");
-        //PrintResourceInfo(objectAll, "GameObject");
-        //PrintResourceInfo(skillDataAll, "SOSkillData");
+        
+        //foreach (var item in perfectSkillDict)
+        //{
+        //    Debug.Log($"{item.Key}는 {item.Value}");
+        //}
+    }
+    public void SetSkillData()
+    {
+        GameObject[] objectAll = ResourceManager.Instance.objectAll;
+        SOSkill[] skillDataAll = ResourceManager.Instance.skillDataAll;
+        PrintResourceInfo(objectAll, "GameObject");
+        PrintResourceInfo(skillDataAll, "SOSkillData");
         Skill skilltmp;
         foreach (var item in objectAll)
         {
@@ -43,20 +49,16 @@ public class SkillManager : Singleton<SkillManager>
             }
         }
         SetAllSkill();
-        //foreach (var item in perfectSkillDict)
-        //{
-        //    Debug.Log($"{item.Key}는 {item.Value}");
-        //}
     }
-    //private void PrintResourceInfo<T>(T[] resources, string resourceName)
-    //{
-    //    Debug.Log($"--- {resourceName} Resources Info ---");
+    private void PrintResourceInfo<T>(T[] resources, string resourceName)
+    {
+        Debug.Log($"--- {resourceName} Resources Info ---");
 
-    //    for (int i = 0; i < resources.Length; i++)
-    //    {
-    //        Debug.Log($"{resourceName} {i + 1}: {resources[i]}");
-    //    }
-    //}
+        for (int i = 0; i < resources.Length; i++)
+        {
+            Debug.Log($"{resourceName} {i + 1}: {resources[i]}");
+        }
+    }
     public int EnumToInt(AllEnum.SkillName val)
     {
         switch (val)
@@ -147,4 +149,13 @@ public class SkillManager : Singleton<SkillManager>
         }
     }
 
+    public void SetSkillPos(Skill skill, Vector3 pos)
+    {
+        skill.transform.position = pos;
+        skill.transform.rotation = GameManager.Instance.player.transform.GetChild(0).rotation;
+        if (skill.orgInfo.setParent)
+        {
+            skill.transform.SetParent(GameManager.Instance.player.transform.GetChild(0), true);
+        }
+    }
 }
