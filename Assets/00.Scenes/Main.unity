@@ -293,26 +293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92cf5f37d54c53844a35cb9eaa601faa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeSkillDatas:
-  - {fileID: 11400000, guid: 5e82620480e519747b96fc1858c73e71, type: 2}
-  - {fileID: 11400000, guid: 04c999309900db644b784df102cde2c5, type: 2}
-  - {fileID: 11400000, guid: 63ab528ecef2d68478b735ecc8ef2288, type: 2}
-  - {fileID: 11400000, guid: f9cde0c2e35670241b6af96ee2c6b504, type: 2}
-  activeSkillPre:
-  - {fileID: 2445945209082545909, guid: 2fcba5c250bc30642a23e79f9f0f93b1, type: 3}
-  - {fileID: 5933639800420268615, guid: 687e5a73bb557534086775dd29307e52, type: 3}
-  - {fileID: 2107738131321562852, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-  - {fileID: 3124628965096199759, guid: b799d8443f0a3de4ebc8065951b6c997, type: 3}
-  passiveSkillDatas:
-  - {fileID: 11400000, guid: 82c58e57bc008be488a6578f0c705452, type: 2}
-  - {fileID: 11400000, guid: e027e85f5011a854d8137e99af8253bb, type: 2}
-  - {fileID: 11400000, guid: 854910282f16b8743949a7909d3f9cd4, type: 2}
-  - {fileID: 11400000, guid: d6ba0272310b02142a794ddfca207fcd, type: 2}
-  passiveSkillPre:
-  - {fileID: 2513904192387950191, guid: e8aea9fa11ff09a42b3fe05e3f089d43, type: 3}
-  - {fileID: 1281886523613316747, guid: 8b01924113f4196418bb835f2a3df45e, type: 3}
-  - {fileID: 6935722533447007149, guid: 0493e6e727e93e64eaaaa6dd4613c3e3, type: 3}
-  - {fileID: 2851827673482123106, guid: cec36b3b0e2c5e84e8a2cf411714b4bb, type: 3}
 --- !u!1 &950453137
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 805c2936ed54156438d07ce4ff149a65, type: 3}
-  m_Name: Ground
+  m_Script: {fileID: 11500000, guid: 09b8defadc5ee4b478f3e0837976ca7d, type: 3}
+  m_Name: AirSlash
   m_EditorClassIdentifier: 
-  skillType: 0
-  ActiveSkillName: 0
+  index: 2
+  skillType: 1
+  PassiveSkillType: 0
+  SkillName: 1
   icon: {fileID: 0}
   effect: 0
   duration: 0

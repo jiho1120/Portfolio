@@ -21,4 +21,10 @@ public class Skill : MonoBehaviour
     { 
     }
 
+    public void ShowData()
+    {
+        Debug.Log(orgInfo.name);
+        Debug.Log(orgInfo.index);
+
+    }
 }

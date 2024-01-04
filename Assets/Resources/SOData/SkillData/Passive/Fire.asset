@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b8defadc5ee4b478f3e0837976ca7d, type: 3}
   m_Name: Fire
   m_EditorClassIdentifier: 
+  index: 0
   skillType: 0
   PassiveSkillType: 2
-  PassiveSkillName: 2
+  SkillName: 6
   icon: {fileID: 0}
   effect: 0
   duration: 0
