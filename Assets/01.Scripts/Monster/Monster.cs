@@ -10,6 +10,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
     public AllEnum.States NowState = AllEnum.States.End;//현재상태
     MonsterAnimation anim; //얘는 진짜 단순히 애니메이션 출력...
     NavMeshAgent agent;
+    public NavMeshAgent Agent => agent;
     MONStateMachine monStateMachine;
     public SOMonster soOriginMonster;
     MonsterStat monsterStat;
@@ -24,6 +25,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
     public float coolAttackTime = 0;
     public float rotationSpeed = 5f;
 
+    
     public void Init()
     {
         
@@ -55,6 +57,8 @@ public class Monster : MonoBehaviour, IAttack, IDead
         isDead = false;
         monStateMachine.SetState(AllEnum.States.Idle);
     }
+    
+    
 
     public Vector3 CheckDir()
     {
@@ -77,12 +81,10 @@ public class Monster : MonoBehaviour, IAttack, IDead
         if (CheckCritical(critical))
         {
             criticalDamage = attack * 2;
-            //Debug.Log("크리 뜸");
         }
         else
         {
             criticalDamage = attack;
-            //Debug.Log("크리 안 뜸");
 
         }
 
@@ -102,7 +104,6 @@ public class Monster : MonoBehaviour, IAttack, IDead
     public void AttackRange() // 애니메이션에 넣음
     {
         Attack(attackPos, 0.5f);
-        //Debug.Log("평타");
     }
 
 
@@ -136,7 +137,6 @@ public class Monster : MonoBehaviour, IAttack, IDead
     public void Attack()
     {
         agent.isStopped = true;
-        //this.transform.LookAt(GameManager.Instance.transform.position);
         SetAttackAnim();
     }
     public void SetAttackState()
@@ -158,7 +158,6 @@ public class Monster : MonoBehaviour, IAttack, IDead
         isDead = true;
         agent.isStopped = true;
         SetDeadAnim();
-        //Debug.Log("죽음");
         
         Invoke("DeletObject",3f);
     }
@@ -174,7 +173,6 @@ public class Monster : MonoBehaviour, IAttack, IDead
     {
         Attack(this.transform, 2f);
         Instantiate(explosionEffect, this.transform.position + new Vector3(0,1,0), Quaternion.identity);
-        print("폭발");
     }
 
     // 아래는 애니메이션만 불러오는것

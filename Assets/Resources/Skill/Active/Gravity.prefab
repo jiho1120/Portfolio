@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1043549480727331828}
   - component: {fileID: 915459352542485646}
   - component: {fileID: 916143110557522358}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LongSparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4894,7 +4894,7 @@ GameObject:
   - component: {fileID: 4101527583876812501}
   - component: {fileID: 3737568647421596508}
   - component: {fileID: 8871144821321125440}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gravity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9786,7 +9786,7 @@ GameObject:
   - component: {fileID: 4837278290701179268}
   - component: {fileID: 4750957389001895704}
   - component: {fileID: 4749786455085677944}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ShockWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14686,7 +14686,7 @@ GameObject:
   - component: {fileID: 8467951817163658417}
   - component: {fileID: 512445076751401325}
   - component: {fileID: 3865174599906320313}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SoftTrails
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19556,7 +19556,7 @@ GameObject:
   - component: {fileID: 7683168669767924601}
   - component: {fileID: 8997901365320120986}
   - component: {fileID: 7933257666372591080}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SubSparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24368,7 +24368,7 @@ GameObject:
   - component: {fileID: 1091952085413457240}
   - component: {fileID: 9014418835373817812}
   - component: {fileID: 4633811418799556514}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29238,7 +29238,7 @@ GameObject:
   - component: {fileID: 3839783586691789107}
   - component: {fileID: 5726101944777408164}
   - component: {fileID: 8778978030916402192}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SharpTrails
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34104,7 +34104,7 @@ GameObject:
   - component: {fileID: 7319790806215067778}
   - component: {fileID: 1956830461756998421}
   - component: {fileID: 5542877832678689715}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}

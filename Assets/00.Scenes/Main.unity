@@ -130,17 +130,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2309431332358196968, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: m_Constraints
-      value: 116
-      objectReference: {fileID: 0}
     - target: {fileID: 2309431332358196969, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2309431332358196969, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2309431332358196974, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
       propertyPath: m_RootOrder
@@ -186,50 +178,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7669195297716114265, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: skillPos
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: ActiveSkill
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: ActiveSkillPos
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: ActiveSkill.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: ActiveSkill.Array.data[0]
-      value: 
-      objectReference: {fileID: 3124628965096199759, guid: b799d8443f0a3de4ebc8065951b6c997, type: 3}
-    - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: ActiveSkill.Array.data[1]
-      value: 
-      objectReference: {fileID: 5933639800420268615, guid: 687e5a73bb557534086775dd29307e52, type: 3}
-    - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: ActiveSkill.Array.data[2]
-      value: 
-      objectReference: {fileID: 2445945209082545909, guid: 2fcba5c250bc30642a23e79f9f0f93b1, type: 3}
-    - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: ActiveSkill.Array.data[3]
-      value: 
-      objectReference: {fileID: 2107738131321562852, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
-    - target: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-      propertyPath: ActiveSkill.Array.data[4]
-      value: 
-      objectReference: {fileID: 2107738131321562852, guid: 445a9d85b4b85ff4b91519a555b2b6a2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
 --- !u!1 &932798535
@@ -264,10 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f153d2b0a1509974e8d2848739d32057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1470832490}
-  monsterPrefabs:
-  - {fileID: 5849235928326935698, guid: a8658fc881ffe83418ad6ae1716d3220, type: 3}
-  - {fileID: 1131274713, guid: a974a10ce0307b34c9a8761105070305, type: 3}
+  player: {fileID: 2309431332358196969, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
 --- !u!4 &932798537
 Transform:
   m_ObjectHideFlags: 0
@@ -319,6 +264,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55195aa625d2ad449aa652bd39411959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterAll: []
+  objectAll: []
+  skillDataAll: []
 --- !u!1 &950453137
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +279,7 @@ GameObject:
   - component: {fileID: 950453140}
   - component: {fileID: 950453139}
   - component: {fileID: 950453138}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -417,11 +365,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1470832490 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2309431332358196969, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-  m_PrefabInstance: {fileID: 693152829}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1587097338
 GameObject:
   m_ObjectHideFlags: 0

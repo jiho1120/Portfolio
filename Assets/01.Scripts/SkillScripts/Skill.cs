@@ -12,15 +12,27 @@ public abstract class Skill : MonoBehaviour
         orgInfo = _Info;
     }
 
-    //private void OnCollisionEnter(Collision collision) // 1번,3번
-    //{
-    //    //스킬로써해야할일들();
-    //    DoSkill();
-    //}
-    //private void OnCollisionStay(Collision collision) // 4번 스킬 , 2번도 코루틴으로 시간텀줘서 딜넣기
-    //{
+    private void OnCollisionEnter(Collision collision) // 1번,3번
+    {
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            Player plyer = GameManager.Instance.player.GetComponent<Player>();
+            collision.gameObject.GetComponent<Monster>().TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.orgInfo.effect);
+            collision.gameObject.GetComponent<Monster>().isHit = true;
+        }
+    }
+   
 
-    //}
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Monster"))
+        {
+            Player plyer = GameManager.Instance.player.GetComponent<Player>();
+            other.GetComponent<Monster>().TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.orgInfo.effect);
+            other.GetComponent<Monster>().isHit = true;
+        }
+    }
+    
 
     public virtual void DoSkill() /* 스킬로써해야할일들*/
     {

@@ -25,8 +25,8 @@ public class SkillManager : Singleton<SkillManager>
     {     
         GameObject[] objectAll = ResourceManager.Instance.objectAll;
         SOSkill[] skillDataAll = ResourceManager.Instance.skillDataAll;
-        PrintResourceInfo(objectAll, "GameObject");
-        PrintResourceInfo(skillDataAll, "SOSkillData");
+        //PrintResourceInfo(objectAll, "GameObject");
+        //PrintResourceInfo(skillDataAll, "SOSkillData");
         Skill skilltmp;
         foreach (var item in objectAll)
         {
@@ -124,14 +124,12 @@ public class SkillManager : Singleton<SkillManager>
     public Skill SetSkillPos(AllEnum.SkillName skillName, Vector3 pos)
     {
         Skill skill = skillDict[skillName];
-        Debug.Log("스킬1번누름 " + skill.gameObject.GetHashCode());
         skill.transform.position = pos;
         skill.transform.rotation = GameManager.Instance.player.transform.GetChild(0).rotation;
 
         if (skill.orgInfo.setParent)
         {
             skill.transform.SetParent(GameManager.Instance.player.transform.GetChild(0), true);
-            Debug.Log("플레이어켜져있음?" + GameManager.Instance.player.transform.GetChild(0).gameObject.activeSelf);
         }
         return skill;
     }
@@ -154,7 +152,13 @@ public class SkillManager : Singleton<SkillManager>
     //}
 
     //끄기 (초기화를 담고있는)
+    public void SetOffSkill(Skill skill)
+    {
+        skill.DoReset();
+        skill.gameObject.SetActive(false);
+    }
 
-    
-    
+
+
+
 }

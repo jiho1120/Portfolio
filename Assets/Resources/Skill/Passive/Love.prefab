@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6680965184937897589}
   - component: {fileID: 4774302692989576538}
   - component: {fileID: 2157120570113013749}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hearts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4824,7 +4824,7 @@ GameObject:
   - component: {fileID: 1789550602582774127}
   - component: {fileID: 2849766020281903975}
   - component: {fileID: 7382080378646926779}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Love
   m_TagString: Untagged
   m_Icon: {fileID: 0}
