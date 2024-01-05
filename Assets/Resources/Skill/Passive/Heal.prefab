@@ -14577,7 +14577,7 @@ GameObject:
   - component: {fileID: 1279675886945420509}
   - component: {fileID: 1373171099412832019}
   - component: {fileID: 1373349645722518439}
-  - component: {fileID: -2379916328628658567}
+  - component: {fileID: 3011055152989751452}
   m_Layer: 0
   m_Name: Heal
   m_TagString: Untagged
@@ -19397,7 +19397,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &-2379916328628658567
+--- !u!114 &3011055152989751452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19406,10 +19406,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1281886523613316747}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 011ad9e16e9941246990f14568182ab1, type: 3}
+  m_Script: {fileID: 11500000, guid: dcb087fa0cfd08042a1471089e7afc41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 102
+  orgInfo: {fileID: 11400000, guid: e027e85f5011a854d8137e99af8253bb, type: 2}
 --- !u!1 &1281901039993478363
 GameObject:
   m_ObjectHideFlags: 0

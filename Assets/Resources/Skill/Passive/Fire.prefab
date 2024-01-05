@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4998097728192388348}
   - component: {fileID: 6518483978002468013}
   - component: {fileID: 7291305215309936293}
-  - component: {fileID: 6979987961813751922}
+  - component: {fileID: 4493179328408428973}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -4878,7 +4878,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &6979987961813751922
+--- !u!114 &4493179328408428973
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4887,10 +4887,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2513904192387950191}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 011ad9e16e9941246990f14568182ab1, type: 3}
+  m_Script: {fileID: 11500000, guid: dcb087fa0cfd08042a1471089e7afc41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 101
+  orgInfo: {fileID: 11400000, guid: 82c58e57bc008be488a6578f0c705452, type: 2}
 --- !u!1 &3363187293384361649
 GameObject:
   m_ObjectHideFlags: 0

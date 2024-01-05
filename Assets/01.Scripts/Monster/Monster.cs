@@ -77,12 +77,12 @@ public class Monster : MonoBehaviour, IAttack, IDead
         if (CheckCritical(critical))
         {
             criticalDamage = attack * 2;
-            Debug.Log("农府 朵");
+            //Debug.Log("农府 朵");
         }
         else
         {
             criticalDamage = attack;
-            Debug.Log("农府 救 朵");
+            //Debug.Log("农府 救 朵");
 
         }
 
@@ -116,7 +116,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
             monsterStat.SetHealth(0);
             isDead = true;
         }
-        Debug.Log($"{monsterStat.health}");
+        //Debug.Log($"{monsterStat.health}");
     }
 
     public void Idle()
@@ -158,7 +158,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
         isDead = true;
         agent.isStopped = true;
         SetDeadAnim();
-        Debug.Log("磷澜");
+        //Debug.Log("磷澜");
         
         Invoke("DeletObject",3f);
     }
@@ -168,7 +168,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
         {
             Explosion();
         }
-        ObjectPoolManager.Instance.monsterPool.ReturnObjectToPool(this);
+        MonsterManager.Instance.MonsterPool().ReturnObjectToPool(this);
     }
     public void Explosion()
     {

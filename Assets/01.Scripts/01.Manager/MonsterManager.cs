@@ -2,27 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPoolManager : Singleton<ObjectPoolManager>
+public class MonsterManager : Singleton<MonsterManager>
 {
-    public ObjectPool<Monster> monsterPool { get; private set; }
+    ObjectPool<Monster> monsterPool = new ObjectPool<Monster>();
     int monsterRange = 20;
 
-    //Dictionary<AllEnum.SkillName, Skill> skillDict = new Dictionary<AllEnum.SkillName, Skill>();
 
     void Start()
     {
-        // ObjectPool 인스턴스 생성
         
     }
     public void Init()
     {
-        monsterPool = new ObjectPool<Monster>();
         MakeMonster();
     }
-    //public Skill GetSkill(AllEnum.SkillName skill)
-    //{
-    //    return skillDict[skill];
-    //}
+    public ObjectPool<Monster> MonsterPool()
+    {
+        return monsterPool;
+    }
+
     void MakeMonster()
     {
         // 몬스터 풀 초기화
@@ -47,14 +45,5 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             yield return new WaitForSeconds(1f);
         }
     }
-    //void MakeSkill()
-    //{
-    //    for (int i = 0; i < SkillManager.Instance.perfectSkillDict.Count; i++)
-    //    {
-    //        Skill skill = Instantiate(SkillManager.Instance.perfectSkillDict[(AllEnum.SkillName)i]);
-    //        skillDict.Add((AllEnum.SkillName)i,skill);
-    //        skill.gameObject.SetActive(false);
-    //    }
-    //}
    
 }

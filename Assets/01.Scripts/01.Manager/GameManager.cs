@@ -10,10 +10,9 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        ResourceManager.Instance.LoadResources();
-        SkillManager.Instance.SetSkillData();
-        ObjectPoolManager.Instance.Init();
-        SkillManager.instance.Init();
-        ObjectPoolManager.Instance.SpawnMonster();
+        ResourceManager.Instance.LoadResources();        
+        SkillManager.Instance.Init();
+        MonsterManager.Instance.Init();
+        MonsterManager.Instance.SpawnMonster();
     }
 }

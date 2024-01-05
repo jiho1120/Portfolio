@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5217047493699987075}
   - component: {fileID: 934331114222412422}
   - component: {fileID: 1187284941289748512}
-  - component: {fileID: 2159143394885792872}
+  - component: {fileID: 4158784998290277511}
   m_Layer: 0
   m_Name: Red
   m_TagString: Untagged
@@ -4902,7 +4902,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2159143394885792872
+--- !u!114 &4158784998290277511
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4911,10 +4911,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2851827673482123106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 011ad9e16e9941246990f14568182ab1, type: 3}
+  m_Script: {fileID: 11500000, guid: dcb087fa0cfd08042a1471089e7afc41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 104
+  orgInfo: {fileID: 11400000, guid: d6ba0272310b02142a794ddfca207fcd, type: 2}
 --- !u!1 &9013361482747187372
 GameObject:
   m_ObjectHideFlags: 0

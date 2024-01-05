@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PassiveSkill : Skill
+public class PassiveSkill : Skill
 {
     //SOPassiveSkill soSkill;
 
@@ -29,10 +29,7 @@ public abstract class PassiveSkill : Skill
     //{
 
     //}
-
-
-
-
-
-
+    public override void DoReset()
+    {
+    }
 }

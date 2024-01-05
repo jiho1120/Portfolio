@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ActiveSkill : Skill
+public class ActiveSkill : Skill
 {
     private float colCenter = 7f;
     private float colSize = 12f;
@@ -17,7 +17,7 @@ public abstract class ActiveSkill : Skill
     
     public override void DoSkill()
     {
-        Debug.Log("실행");
+        Debug.Log("실행" + GetHashCode());        
         if (this == null)
         {
             Debug.LogError("없어");
@@ -38,10 +38,11 @@ public abstract class ActiveSkill : Skill
 
                 if (boxCor == null)
                 {
-                    Debug.Log("박스 통과");
+                    //Debug.Log("박스 통과");
+                    Debug.Log("스킬 발동중맞ㅇ????? " + gameObject.activeSelf);
                     boxCor = StartCoroutine(GrowInBoxCollider());
                 }
-                Debug.Log("코루틴문제");
+                //Debug.Log("코루틴문제");
 
             }
             else if (orgInfo.index == 4) // 중력
@@ -50,7 +51,7 @@ public abstract class ActiveSkill : Skill
             }
         }
 
-        StartCoroutine(DieTimer());    
+        //StartCoroutine(DieTimer());    
     }
 
     //꺼달라는 요청
@@ -82,5 +83,9 @@ public abstract class ActiveSkill : Skill
         boxCor = null; // 알아서 끝남
     }
 
+    public override void DoReset()
+    {
+    }
 
+    
 }

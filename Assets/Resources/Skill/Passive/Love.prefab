@@ -4823,7 +4823,7 @@ GameObject:
   - component: {fileID: 576252985441108286}
   - component: {fileID: 1789550602582774127}
   - component: {fileID: 2849766020281903975}
-  - component: {fileID: -876343443982563544}
+  - component: {fileID: 7382080378646926779}
   m_Layer: 0
   m_Name: Love
   m_TagString: Untagged
@@ -9627,7 +9627,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &-876343443982563544
+--- !u!114 &7382080378646926779
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9636,7 +9636,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6935722533447007149}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 011ad9e16e9941246990f14568182ab1, type: 3}
+  m_Script: {fileID: 11500000, guid: dcb087fa0cfd08042a1471089e7afc41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Index: 103
+  orgInfo: {fileID: 11400000, guid: 854910282f16b8743949a7909d3f9cd4, type: 2}

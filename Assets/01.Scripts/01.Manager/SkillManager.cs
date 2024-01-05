@@ -22,25 +22,22 @@ public class SkillManager : Singleton<SkillManager>
         //}
     }
     public void Init()
-    {
-        MakeSkill();
-
-    }
-    public void SetSkillData()
-    {
+    {     
         GameObject[] objectAll = ResourceManager.Instance.objectAll;
         SOSkill[] skillDataAll = ResourceManager.Instance.skillDataAll;
-        //PrintResourceInfo(objectAll, "GameObject");
-        //PrintResourceInfo(skillDataAll, "SOSkillData");
+        PrintResourceInfo(objectAll, "GameObject");
+        PrintResourceInfo(skillDataAll, "SOSkillData");
         Skill skilltmp;
         foreach (var item in objectAll)
         {
-            skilltmp = item.GetComponent<Skill>();
+            
+            skilltmp = Instantiate(item).GetComponent<Skill>();
             AllEnum.SkillName name = IntToEnum(skilltmp.Index);
 
             if (!nameDictObj.ContainsKey(name))
             {
                 nameDictObj.Add(name, skilltmp);
+                skilltmp.gameObject.SetActive(false);
             }
         }
         for (int i = 0; i < skillDataAll.Length; i++)
@@ -54,15 +51,15 @@ public class SkillManager : Singleton<SkillManager>
         }
         SetAllSkill();
     }
-    //private void PrintResourceInfo<T>(T[] resources, string resourceName)
-    //{
-    //    Debug.Log($"--- {resourceName} Resources Info ---");
+    private void PrintResourceInfo<T>(T[] resources, string resourceName)
+    {
+        Debug.Log($"--- {resourceName} Resources Info ---");
 
-    //    for (int i = 0; i < resources.Length; i++)
-    //    {
-    //        Debug.Log($"{resourceName} {i + 1}: {resources[i]}");
-    //    }
-    //}
+        for (int i = 0; i < resources.Length; i++)
+        {
+            Debug.Log($"{resourceName} {i + 1}: {resources[i]}");
+        }
+    }
     public int EnumToInt(AllEnum.SkillName val)
     {
         switch (val)
@@ -126,46 +123,38 @@ public class SkillManager : Singleton<SkillManager>
 
     public Skill SetSkillPos(AllEnum.SkillName skillName, Vector3 pos)
     {
-        Skill skill = GetSkill(skillName);
+        Skill skill = skillDict[skillName];
+        Debug.Log("스킬1번누름 " + skill.gameObject.GetHashCode());
         skill.transform.position = pos;
         skill.transform.rotation = GameManager.Instance.player.transform.GetChild(0).rotation;
+
         if (skill.orgInfo.setParent)
         {
             skill.transform.SetParent(GameManager.Instance.player.transform.GetChild(0), true);
+            Debug.Log("플레이어켜져있음?" + GameManager.Instance.player.transform.GetChild(0).gameObject.activeSelf);
         }
         return skill;
     }
 
-    public IEnumerator UseSkill(Skill skill)
-    {
-        if (!skill.gameObject.activeSelf) // 꺼져있으면 
-        {
-            if (skill.orgInfo.duration != 0)
-            {
-                skill.gameObject.SetActive(true);
-                yield return new WaitForSeconds(skill.orgInfo.duration);
-                skill.gameObject.SetActive(false);
-            }
-            else
-            {
-                skill.gameObject.SetActive(true);
-            }
-        }
-    }
+    //public IEnumerator UseSkill(Skill skill)
+    //{
+    //    if (!skill.gameObject.activeSelf) // 꺼져있으면 
+    //    {
+    //        if (skill.orgInfo.duration != 0)
+    //        {
+    //            skill.gameObject.SetActive(true);
+    //            yield return new WaitForSeconds(skill.orgInfo.duration);
+    //            skill.gameObject.SetActive(false);
+    //        }
+    //        else
+    //        {
+    //            skill.gameObject.SetActive(true);
+    //        }
+    //    }
+    //}
 
     //끄기 (초기화를 담고있는)
 
-
-    void MakeSkill()
-    {
-        for (int i = 0; i < skillDict.Count; i++)
-        {
-            Skill skill = Instantiate(skillDict[(AllEnum.SkillName)i]);
-            skill.gameObject.SetActive(false);
-        }
-    }
-    public Skill GetSkill(AllEnum.SkillName skill)
-    {
-        return skillDict[skill];
-    }
+    
+    
 }

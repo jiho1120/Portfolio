@@ -88,28 +88,15 @@ public class Player : MonoBehaviour, IAttack, IDead
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Skill skill = SkillManager.Instance.SetSkillPos(AllEnum.SkillName.Ground, transform.position);
+            Debug.Log("스킬 발동"+skill.gameObject.GetHashCode());                        
+            Debug.Log("스킬 " + skill.GetHashCode());
             skill.gameObject.SetActive(true);
+
+            Debug.Log("스킬 발동???? " + skill.gameObject.activeSelf);
             skill.DoSkill();
             //StartCoroutine(SkillManager.Instance.UseSkill(skill)); //자기가 꺼져야 할 시간에 매니저에게 나 끝났다고 부를것...
         }
-        //if (Input.GetKeyDown(KeyCode.Alpha2))
-        //{
-        //    SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[1], transform.position);
-        //    StartCoroutine(SkillManager.Instance.UseSkill(ObjectPoolManager.Instance.skillPool[1]));
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha3))
-        //{
-        //    SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[2], transform.position);
-        //    StartCoroutine(SkillManager.Instance.UseSkill(ObjectPoolManager.Instance.skillPool[2]));
-
-
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha4))
-        //{
-        //    SkillManager.Instance.SetSkillPos(ObjectPoolManager.Instance.skillPool[3], transform.position * 10);
-        //    StartCoroutine(SkillManager.Instance.UseSkill(ObjectPoolManager.Instance.skillPool[3]));
-
-        //}
+        
     }
 
 
