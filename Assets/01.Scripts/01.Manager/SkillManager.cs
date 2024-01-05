@@ -11,15 +11,20 @@ public class SkillManager : Singleton<SkillManager>
 
     Dictionary<AllEnum.SkillName, Skill> nameDictObj = new Dictionary<AllEnum.SkillName, Skill>(); // 네임을 키로 쓰는이유는 알아보기 직관적이여서
     Dictionary<AllEnum.SkillName, SOSkill> nameDictInfo = new Dictionary<AllEnum.SkillName, SOSkill>();
-    public Dictionary<AllEnum.SkillName, Skill> perfectSkillDict = new Dictionary<AllEnum.SkillName, Skill>(); // 스킬 만들때 이거 사용
+    Dictionary<AllEnum.SkillName, Skill> skillDict = new Dictionary<AllEnum.SkillName, Skill>(); // 스킬 만들때 이거 사용
 
     private void Start()
     {
 
-        //foreach (var item in perfectSkillDict)
+        //foreach (var item in skillDict)
         //{
         //    Debug.Log($"{item.Key}는 {item.Value}");
         //}
+    }
+    public void Init()
+    {
+        MakeSkill();
+
     }
     public void SetSkillData()
     {
@@ -110,7 +115,7 @@ public class SkillManager : Singleton<SkillManager>
                 {
                     skill.SetInfo(skillInfo);
                 }
-                perfectSkillDict.Add(skillName, skill);
+                skillDict.Add(skillName, skill);
             }
             else
             {
@@ -119,14 +124,16 @@ public class SkillManager : Singleton<SkillManager>
         }
     }
 
-    public void SetSkillPos(Skill skill, Vector3 pos)
+    public Skill SetSkillPos(AllEnum.SkillName skillName, Vector3 pos)
     {
+        Skill skill = GetSkill(skillName);
         skill.transform.position = pos;
         skill.transform.rotation = GameManager.Instance.player.transform.GetChild(0).rotation;
         if (skill.orgInfo.setParent)
         {
             skill.transform.SetParent(GameManager.Instance.player.transform.GetChild(0), true);
         }
+        return skill;
     }
 
     public IEnumerator UseSkill(Skill skill)
@@ -145,23 +152,20 @@ public class SkillManager : Singleton<SkillManager>
             }
         }
     }
-    //public IEnumerator UseSkill(Skill skill)
-    //{
-    //    if (skill.orgInfo.isOn) // 꺼져있으면 쿨타임으로 바꾸기
-    //    {
-    //        if (skill.orgInfo.duration != 0)
-    //        {
-    //            skill.gameObject.SetActive(true);
-    //            skill.orgInfo.isOn = false;
-    //            yield return new WaitForSeconds(skill.orgInfo.duration);
-    //            skill.gameObject.SetActive(false);
-    //            skill.orgInfo.isOn = true;
-    //        }
-    //        else
-    //        {
-    //            skill.orgInfo.isOn = true;
-    //            skill.gameObject.SetActive(true);
-    //        }
-    //    }
-    //}
+
+    //끄기 (초기화를 담고있는)
+
+
+    void MakeSkill()
+    {
+        for (int i = 0; i < skillDict.Count; i++)
+        {
+            Skill skill = Instantiate(skillDict[(AllEnum.SkillName)i]);
+            skill.gameObject.SetActive(false);
+        }
+    }
+    public Skill GetSkill(AllEnum.SkillName skill)
+    {
+        return skillDict[skill];
+    }
 }

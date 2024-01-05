@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActiveSkill : Skill
+public abstract class ActiveSkill : Skill
 {
     private float colCenter = 7f;
     private float colSize = 12f;
@@ -14,52 +14,56 @@ public class ActiveSkill : Skill
     {
 
     }
+    
     public override void DoSkill()
     {
-        //액티브인 내가 해야할일
-    }
-    public void SetSkillEffect(Skill skill)
-    {
         Debug.Log("실행");
-        if (skill == null)
+        if (this == null)
         {
             Debug.LogError("없어");
         }
         else
         {
-            if (skill.orgInfo.index == 1) // 원
+            if (orgInfo.index == 1) // 원
             {
 
             }
-            else if (skill.orgInfo.index == 2) // 슬래쉬
+            else if (orgInfo.index == 2) // 슬래쉬
             {
 
             }
-            else if (skill.orgInfo.index == 3) //땅
+            else if (orgInfo.index == 3) //땅
             {
                 Debug.Log("번호 통과");
 
                 if (boxCor == null)
                 {
                     Debug.Log("박스 통과");
-                    boxCor = StartCoroutine(GrowInBoxCollider(skill));
+                    boxCor = StartCoroutine(GrowInBoxCollider());
                 }
                 Debug.Log("코루틴문제");
 
             }
-            else if (skill.orgInfo.index == 4) // 중력
+            else if (orgInfo.index == 4) // 중력
             {
 
             }
         }
+
+        StartCoroutine(DieTimer());    
     }
 
+    //꺼달라는 요청
+    IEnumerator DieTimer()
+    {
+        yield return new WaitForSeconds(orgInfo.duration);        
+        //SkillManager.Instance.SetOffSkill();
+    }
 
-
-    public IEnumerator GrowInBoxCollider(Skill skill)
+    public IEnumerator GrowInBoxCollider()
     {
         Debug.Log("함수들어옴");
-        BoxCollider col = skill.GetComponent<BoxCollider>();
+        BoxCollider col = transform.GetComponentInChildren<BoxCollider>();
         Debug.Log(col);
         if (col != null)
         {

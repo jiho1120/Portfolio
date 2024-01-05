@@ -7,7 +7,7 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
     public ObjectPool<Monster> monsterPool { get; private set; }
     int monsterRange = 20;
 
-    public List<Skill> skillPool { get; private set; }
+    //Dictionary<AllEnum.SkillName, Skill> skillDict = new Dictionary<AllEnum.SkillName, Skill>();
 
     void Start()
     {
@@ -17,10 +17,12 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
     public void Init()
     {
         monsterPool = new ObjectPool<Monster>();
-        skillPool = new List<Skill>();
         MakeMonster();
-        MakeSkill();
     }
+    //public Skill GetSkill(AllEnum.SkillName skill)
+    //{
+    //    return skillDict[skill];
+    //}
     void MakeMonster()
     {
         // 몬스터 풀 초기화
@@ -45,14 +47,14 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             yield return new WaitForSeconds(1f);
         }
     }
-    void MakeSkill()
-    {
-        for (int i = 0; i < SkillManager.Instance.perfectSkillDict.Count; i++)
-        {
-            Skill skill = Instantiate(SkillManager.Instance.perfectSkillDict[(AllEnum.SkillName)i]);
-            skillPool.Add(skill);
-            skill.gameObject.SetActive(false);
-        }
-    }
+    //void MakeSkill()
+    //{
+    //    for (int i = 0; i < SkillManager.Instance.perfectSkillDict.Count; i++)
+    //    {
+    //        Skill skill = Instantiate(SkillManager.Instance.perfectSkillDict[(AllEnum.SkillName)i]);
+    //        skillDict.Add((AllEnum.SkillName)i,skill);
+    //        skill.gameObject.SetActive(false);
+    //    }
+    //}
    
 }

@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
         ResourceManager.Instance.LoadResources();
         SkillManager.Instance.SetSkillData();
         ObjectPoolManager.Instance.Init();
+        SkillManager.instance.Init();
         ObjectPoolManager.Instance.SpawnMonster();
     }
 }
