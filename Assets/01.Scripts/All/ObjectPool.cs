@@ -21,8 +21,18 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
         obj.transform.position = spawnPos;
         obj.transform.rotation = Quaternion.identity;
     }
-
+    
     public void InitializeObjectPool(T[] prefabArray)
+    {
+        for (int i = 0; i < prefabArray.Length; i++)
+        {
+            T tInfo = Instantiate(prefabArray[i]).GetComponent<T>();
+            objectPool.Enqueue(tInfo);
+            InfoList.Add(tInfo);
+            tInfo.gameObject.SetActive(false);
+        }
+    }
+    public void RandomInitializeObjectPool(T[] prefabArray)
     {
         num = prefabArray.Length;
         ranNum = Random.Range(0, num);
@@ -37,7 +47,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
     {
         if (objectPool.Count == 0)
         {
-            InitializeObjectPool(prefabArray);
+            RandomInitializeObjectPool(prefabArray);
         }
 
         T obj = objectPool.Dequeue();
