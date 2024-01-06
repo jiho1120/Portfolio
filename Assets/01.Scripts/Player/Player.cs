@@ -7,7 +7,6 @@ using UnityEngine;
 // 또 같은 팔로 공격
 
 //오늘 할일
-// 경험치나 돈 주고 받는 함수 만들기
 // 스킬 쿨타임동안 못쓰게 하기
 
 public class Player : MonoBehaviour, IAttack, IDead
@@ -97,12 +96,6 @@ public class Player : MonoBehaviour, IAttack, IDead
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity);
-            //Skill skill = SkillManager.Instance.SetSkillPos(AllEnum.SkillName.Gravity, transform.position);
-            //Quaternion newRotation = Quaternion.Euler(skill.transform.rotation.eulerAngles);
-            //skill.transform.position = transform.position + newRotation * new Vector3(0, 0.5f, 1) * 10f;
-            //skill.transform.rotation = newRotation;
-            //skill.gameObject.SetActive(true);
-            //skill.DoSkill();
         }
     }
     private void Move()

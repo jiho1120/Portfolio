@@ -56,8 +56,8 @@ public class ActiveSkill : Skill
     {
         yield return new WaitForSeconds(orgInfo.duration);
         SkillManager.Instance.SetOffSkill(this);
-        //yield return new WaitForSeconds(orgInfo.cool);
-        //orgInfo.inUse = false;
+        yield return new WaitForSeconds(orgInfo.cool);
+        orgInfo.inUse = false;
     }
 
     public void KnockBackAttack()

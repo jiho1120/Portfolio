@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class SkillManager : Singleton<SkillManager>
 {
@@ -108,14 +107,15 @@ public class SkillManager : Singleton<SkillManager>
         }
         else
         {
-            Vector3 vec = GameManager.Instance.player.transform.position;
+            Vector3 pos = GameManager.Instance.player.transform.position;
             Quaternion rot = GameManager.Instance.player.transform.GetChild(0).rotation;
             if (name == AllEnum.SkillName.Gravity)
             {
+                Vector3 spawnOffset = rot * new Vector3(0, 0.5f, 1) * 10f;
                 rot = Quaternion.Euler(skill.transform.rotation.eulerAngles);
-                vec = rot * new Vector3(0, 0.5f, 1) * 10f + vec;
+                pos = pos + spawnOffset;
             }
-            skill = SetSkillPos(skill, vec, rot);
+            skill = SetSkillPos(skill, pos, rot);
             skill.gameObject.SetActive(true);
             skill.DoSkill();
         }
