@@ -22,4 +22,4 @@ MonoBehaviour:
   cool: 5
   mana: 100
   setParent: 0
-  isOn: 0
+  inUse: 0

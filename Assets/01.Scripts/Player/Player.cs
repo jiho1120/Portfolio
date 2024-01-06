@@ -8,10 +8,6 @@ using UnityEngine;
 
 //오늘 할일
 // 경험치나 돈 주고 받는 함수 만들기
-// 스킬 적용시키고 딜이나 넉백 적용시키기
-//1일때 0.5씩 늘어남  7, 14
-// 스킬 시간이 다 되면 꺼지기(false)
-// 스킬 능력 구현
 // 스킬 쿨타임동안 못쓰게 하기
 
 public class Player : MonoBehaviour, IAttack, IDead
@@ -88,34 +84,25 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Skill skill = SkillManager.Instance.SetSkillPos(AllEnum.SkillName.Ground, transform.position);
-            skill.gameObject.SetActive(true);
-            skill.DoSkill();
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Skill skill = SkillManager.Instance.SetSkillPos(AllEnum.SkillName.AirSlash, transform.position);
-            skill.gameObject.SetActive(true);
-            skill.DoSkill();
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Skill skill = SkillManager.Instance.SetSkillPos(AllEnum.SkillName.AirCircle, transform.position);
-            skill.gameObject.SetActive(true);
-            skill.DoSkill();
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            // 플레이어의 회전 각도를 얻기
-
-            // 회전한 각도만큼 물체를 돌려서 같은 상대적인 위치에 배치
-
-            Skill skill = SkillManager.Instance.SetSkillPos(AllEnum.SkillName.Gravity, transform.position);
-            Quaternion newRotation = Quaternion.Euler(skill.transform.rotation.eulerAngles);
-            skill.transform.position = transform.position + newRotation *new Vector3(0,0.5f,1) * 10f;
-            skill.transform.rotation = newRotation;
-            skill.gameObject.SetActive(true);
-            skill.DoSkill();
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity);
+            //Skill skill = SkillManager.Instance.SetSkillPos(AllEnum.SkillName.Gravity, transform.position);
+            //Quaternion newRotation = Quaternion.Euler(skill.transform.rotation.eulerAngles);
+            //skill.transform.position = transform.position + newRotation * new Vector3(0, 0.5f, 1) * 10f;
+            //skill.transform.rotation = newRotation;
+            //skill.gameObject.SetActive(true);
+            //skill.DoSkill();
         }
     }
     private void Move()
@@ -182,7 +169,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     //}
     public virtual void Attack(Transform Tr, float Range)
     {
-        return;//##############
         Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);
         for (int i = 0; i < colliders.Length; i++)
         {
@@ -196,7 +182,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     public void AttackRange() // 애니메이션에 넣음
     {
         Attack(fist, 1f);
-        //Debug.Log("평타");
     }
 
     public IEnumerator TimeLapseAttack(float attackRange, float delayTime)
@@ -204,7 +189,6 @@ public class Player : MonoBehaviour, IAttack, IDead
         while (true)
         {
             Attack(this.transform, attackRange);
-            //Debug.Log("패시브");
             yield return new WaitForSeconds(delayTime);
         }
     }
@@ -221,12 +205,10 @@ public class Player : MonoBehaviour, IAttack, IDead
         if (CheckCritical(critical))
         {
             criticalDamage = attack * 2;
-            //Debug.Log("크리 뜸");
         }
         else
         {
             criticalDamage = attack;
-            //Debug.Log("크리 안 뜸");
         }
 
         return criticalDamage;
@@ -267,6 +249,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     public bool IsDead()
     {
         return isDead;
-
     }
+    
 }

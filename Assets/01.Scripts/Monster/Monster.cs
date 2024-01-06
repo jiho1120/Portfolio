@@ -15,7 +15,6 @@ public class Monster : MonoBehaviour, IAttack, IDead
     public SOMonster soOriginMonster;
     MonsterStat monsterStat;
     public Vector3 dir;
-    public Transform targetTr;
     public GameObject explosionEffect;
 
     public Transform attackPos;
@@ -28,7 +27,6 @@ public class Monster : MonoBehaviour, IAttack, IDead
     
     public void Init()
     {
-        
         if (anim == null)
         {
             anim = GetComponent<MonsterAnimation>();
@@ -50,11 +48,13 @@ public class Monster : MonoBehaviour, IAttack, IDead
         {
             monsterStat = new MonsterStat();
         }
+
         //monsterStat.ShowInfo();
         isAttack = false;
         isHit = false;
         monsterStat.SetValues(soOriginMonster);
         isDead = false;
+        agent.baseOffset = 0f; // 중력으로 죽은애가 코루틴 끝나기전에 태어날경우 위치 초기화가 안되서 시작할때 세팅
         monStateMachine.SetState(AllEnum.States.Idle);
     }
     
@@ -62,8 +62,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
 
     public Vector3 CheckDir()
     {
-        targetTr = GameManager.Instance.player.transform;
-        dir = targetTr.position - this.transform.position;
+        dir = GameManager.Instance.player.transform.position - this.transform.position;
         dir.y = 0;
 
         return dir;
@@ -90,6 +89,18 @@ public class Monster : MonoBehaviour, IAttack, IDead
 
         return criticalDamage;
     }
+    public virtual void TakeDamage(float critical, float attack)
+    {
+        isHit = true;
+        float damage = CriticalDamage(critical, attack) - (this.monsterStat.defense * 0.5f); // 몬스터 스탯 추가
+        float hp = this.monsterStat.health - damage;
+        monsterStat.SetHealth(hp);
+        if (this.monsterStat.health < 0)
+        {
+            monsterStat.SetHealth(0);
+            isDead = true;
+        }
+    }
     public virtual void Attack(Transform Tr, float Range)
     { 
         Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);
@@ -106,25 +117,16 @@ public class Monster : MonoBehaviour, IAttack, IDead
         Attack(attackPos, 0.5f);
     }
 
-
-    public virtual void TakeDamage(float critical, float attack)
+    public void Explosion()
     {
-        float damage = CriticalDamage(critical, attack) - (this.monsterStat.defense * 0.5f); // 몬스터 스탯 추가
-        float hp = this.monsterStat.health - damage;
-        monsterStat.SetHealth(hp);
-        if (this.monsterStat.health < 0)
-        {
-            monsterStat.SetHealth(0);
-            isDead = true;
-        }
-        //Debug.Log($"{monsterStat.health}");
+        Attack(this.transform, 2f);
+        Instantiate(explosionEffect, this.transform.position + new Vector3(0, 1, 0), Quaternion.identity);
     }
 
     public void Idle()
     {
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
-        //this.transform.LookAt(GameManager.Instance.transform.position);
         SetIdelAnim();
     }
 
@@ -158,7 +160,8 @@ public class Monster : MonoBehaviour, IAttack, IDead
         isDead = true;
         agent.isStopped = true;
         SetDeadAnim();
-        
+        GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money);
+        Debug.Log(GameManager.Instance.player.playerStat.experience);
         Invoke("DeletObject",3f);
     }
     public void DeletObject()
@@ -169,13 +172,9 @@ public class Monster : MonoBehaviour, IAttack, IDead
         }
         MonsterManager.Instance.MonsterPool().ReturnObjectToPool(this);
     }
-    public void Explosion()
-    {
-        Attack(this.transform, 2f);
-        Instantiate(explosionEffect, this.transform.position + new Vector3(0,1,0), Quaternion.identity);
-    }
 
-    // 아래는 애니메이션만 불러오는것
+
+    #region anim볼필요없음
     public void SetIdelAnim()
     {
         anim.Idle();
@@ -201,6 +200,6 @@ public class Monster : MonoBehaviour, IAttack, IDead
     {
         return isDead;
     }
+    #endregion
 
-   
 }

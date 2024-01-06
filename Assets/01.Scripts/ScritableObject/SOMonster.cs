@@ -13,4 +13,6 @@ public class SOMonster : ScriptableObject
     public float defense;
     public float criticalChance;
     public float movementSpeed;
+    public float experience;
+    public int money;
 }

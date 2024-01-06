@@ -18,8 +18,8 @@ MonoBehaviour:
   SkillName: 3
   icon: {fileID: 0}
   effect: 10
-  duration: 3
+  duration: 5
   cool: 0
   mana: 0
   setParent: 0
-  isOn: 0
+  isReady: 1

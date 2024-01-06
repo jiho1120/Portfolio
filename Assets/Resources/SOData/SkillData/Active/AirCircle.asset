@@ -22,4 +22,4 @@ MonoBehaviour:
   cool: 0
   mana: 0
   setParent: 1
-  isOn: 0
+  isReady: 1

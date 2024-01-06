@@ -17,8 +17,7 @@ public abstract class Skill : MonoBehaviour
         if (collision.gameObject.CompareTag("Monster"))
         {
             Player plyer = GameManager.Instance.player.GetComponent<Player>();
-            collision.gameObject.GetComponent<Monster>().TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.orgInfo.effect);
-            collision.gameObject.GetComponent<Monster>().isHit = true;
+            
         }
     }
    
@@ -28,8 +27,8 @@ public abstract class Skill : MonoBehaviour
         if (other.CompareTag("Monster"))
         {
             Player plyer = GameManager.Instance.player.GetComponent<Player>();
-            other.GetComponent<Monster>().TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.orgInfo.effect);
-            other.GetComponent<Monster>().isHit = true;
+            Monster monster = other.gameObject.GetComponent<Monster>();
+            monster.TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.orgInfo.effect);
         }
     }
     

@@ -24,7 +24,7 @@ public class MonsterManager : Singleton<MonsterManager>
     void MakeMonster()
     {
         // 몬스터 풀 초기화
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < monsterRange; i++)
         {
             monsterPool.RandomInitializeObjectPool(ResourceManager.Instance.monsterAll);
         }
