@@ -8,7 +8,9 @@ using UnityEngine;
 
 //오늘 할일
 // 스킬 쿨타임동안 못쓰게 하기
-
+// 중력 효과 고치기
+// 그라운드 쓰면 밀치기
+// 아이템 만들기 인벤 
 public class Player : MonoBehaviour, IAttack, IDead
 {
     public SOPlayer soOriginPlayer;

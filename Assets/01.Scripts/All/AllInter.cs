@@ -16,9 +16,13 @@ public interface IDead
     public bool IsDead();
 }
 
+public interface ILevelUp
+{
+    public bool PlusLevel();
+    public void StatUp();
+}
 
 
 
 
 
-    
