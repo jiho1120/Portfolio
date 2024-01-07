@@ -60,4 +60,25 @@ public class AllEnum
 
         End
     }
+
+    public enum ItemType
+    {
+        HpPosion,
+        MpPosion,
+        ExpPosion,
+
+
+
+
+
+        Head,
+        Top,
+        Gloves,
+        Waepon,
+        Belt,
+        Bottom,
+        Shoes,
+
+        End
+    }
 }
