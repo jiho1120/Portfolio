@@ -13,6 +13,10 @@ public class BasicStat
     public float defense { get; private set; }
     public float criticalChance { get; private set; }
     public float movementSpeed { get; private set; }
+    public float experience { get; private set; }
+    public int money { get; private set; }
+
+
 
     public BasicStat()
     {
@@ -20,7 +24,7 @@ public class BasicStat
     }
     
 
-    public BasicStat(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed)
+    public BasicStat(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float experience, int money)
     {
         this.objectType = objectType;
         this.level = level;
@@ -30,9 +34,11 @@ public class BasicStat
         this.defense = defense;
         this.criticalChance = criticalChance;
         this.movementSpeed = movementSpeed;
+        this.experience = experience;
+        this.money = money;
     }
 
-    public void SetValues(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed)
+    public void SetValues(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float experience, int money)
     {
         this.objectType = objectType;
         this.level = level;
@@ -42,8 +48,10 @@ public class BasicStat
         this.defense = defense;
         this.criticalChance = criticalChance;
         this.movementSpeed = movementSpeed;
+        this.experience = experience;
+        this.money = money;
     }
-    
+
 
     public void SetHealth(float helath)
     {
@@ -54,6 +62,12 @@ public class BasicStat
     {
         this.movementSpeed = speed;
     }
+    public void KillMonster(float experience, int money)
+    {
+        this.experience += experience;
+        this.money += money;
+    }
+
     public virtual void ShowInfo()
     {
         Debug.Log(this.objectType);

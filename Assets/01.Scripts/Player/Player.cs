@@ -7,16 +7,14 @@ using UnityEngine;
 // 또 같은 팔로 공격
 
 //오늘 할일
-// 경험치나 돈 주고 받는 함수 만들기
-// 스킬 적용시키고 딜이나 넉백 적용시키기
-//1일때 0.5씩 늘어남  7, 14
-// 스킬 시간이 다 되면 꺼지기(false)
-// 스킬 능력 구현
-
+// 스킬 쿨타임동안 못쓰게 하기
+// 중력 효과 고치기
+// 그라운드 쓰면 밀치기
+// 아이템 만들기 인벤 
 public class Player : MonoBehaviour, IAttack, IDead
 {
     public SOPlayer soOriginPlayer;
-    PlayerStat playerStat;
+    public PlayerStat playerStat { get; private set; }
     PlayerAnimator playerAnimator;
     Rigidbody rb;
 
@@ -42,7 +40,7 @@ public class Player : MonoBehaviour, IAttack, IDead
         fist = transform.GetChild(0).GetChild(3);
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
-        passiveCor = StartCoroutine(PassiveSkill());
+        passiveCor = StartCoroutine(TimeLapseAttack(2.8f, 1f));
 
         playerStat.SetValues(soOriginPlayer);
         //playerStat.ShowInfo();
@@ -87,21 +85,21 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Skill skill = SkillManager.Instance.SetSkillPos(AllEnum.SkillName.Ground, transform.position);
-            Debug.Log("스킬 발동"+skill.gameObject.GetHashCode());                        
-            Debug.Log("스킬 " + skill.GetHashCode());
-            skill.gameObject.SetActive(true);
-
-            Debug.Log("스킬 발동???? " + skill.gameObject.activeSelf);
-            skill.DoSkill();
-            //StartCoroutine(SkillManager.Instance.UseSkill(skill)); //자기가 꺼져야 할 시간에 매니저에게 나 끝났다고 부를것...
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground);
         }
-        
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity);
+        }
     }
-
-
-
-
     private void Move()
     {
         speed = (run) ? (playerStat.movementSpeed * 1.5f) : playerStat.movementSpeed;
@@ -164,13 +162,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     //    Gizmos.DrawWireSphere(fist.position, 1f);
 
     //}
-
-    public void AttackRange() // 애니메이션에 넣음
-    {
-        Attack(fist, 1f);
-        //Debug.Log("평타");
-    }
-
     public virtual void Attack(Transform Tr, float Range)
     {
         Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);
@@ -183,14 +174,17 @@ public class Player : MonoBehaviour, IAttack, IDead
             }
         }
     }
+    public void AttackRange() // 애니메이션에 넣음
+    {
+        Attack(fist, 1f);
+    }
 
-    public IEnumerator PassiveSkill()
+    public IEnumerator TimeLapseAttack(float attackRange, float delayTime)
     {
         while (true)
         {
-            Attack(this.transform, 2.8f);
-            //Debug.Log("패시브");
-            yield return new WaitForSeconds(1f);
+            Attack(this.transform, attackRange);
+            yield return new WaitForSeconds(delayTime);
         }
     }
 
@@ -206,12 +200,10 @@ public class Player : MonoBehaviour, IAttack, IDead
         if (CheckCritical(critical))
         {
             criticalDamage = attack * 2;
-            //Debug.Log("크리 뜸");
         }
         else
         {
             criticalDamage = attack;
-            //Debug.Log("크리 안 뜸");
         }
 
         return criticalDamage;
@@ -252,6 +244,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     public bool IsDead()
     {
         return isDead;
-
     }
+    
 }

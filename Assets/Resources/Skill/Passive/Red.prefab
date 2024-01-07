@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 934331114222412422}
   - component: {fileID: 1187284941289748512}
   - component: {fileID: 4158784998290277511}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4927,7 +4927,7 @@ GameObject:
   - component: {fileID: 9015822729690132550}
   - component: {fileID: 9200405044272862534}
   - component: {fileID: 9211284123550633458}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CoreWind
   m_TagString: Untagged
   m_Icon: {fileID: 0}

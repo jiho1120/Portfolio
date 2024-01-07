@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class State_Walk : State
 {
-
-
     public State_Walk(Monster monster, SetStateDel StateDel) : base(monster, StateDel)
     {
     }
@@ -23,6 +22,7 @@ public class State_Walk : State
     {
         monster.dir = monster.CheckDir();
         monster.SetAttackState();
+        monster.Move(GameManager.Instance.player.transform.position);
 
         if (monster.isDead)
         {
@@ -42,7 +42,5 @@ public class State_Walk : State
                 return;
             }
         }
-        monster.Move(GameManager.Instance.player.transform.position);
-
     }
 }

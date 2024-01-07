@@ -10,13 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 3986316142037499029}
   - component: {fileID: 187881253406821123}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3986316142037499029
 Transform:
   m_ObjectHideFlags: 0
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 3122546386885431715}
   - component: {fileID: 3019029963139408809}
   - component: {fileID: 2997618550828262697}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4944,7 +4944,7 @@ GameObject:
   - component: {fileID: 3119680343410484481}
   - component: {fileID: 2998049060254993937}
   - component: {fileID: 2997662179713139501}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9831,7 +9831,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3119551043502939533}
   - component: {fileID: 3088052718591181553}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9925,7 +9925,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3119343875111025335}
   - component: {fileID: 7466803607988723139}
-  m_Layer: 0
+  - component: {fileID: 2854930103256903921}
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9962,6 +9963,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Index: 3
   orgInfo: {fileID: 11400000, guid: 69c558d7f42f2f44ba7e639443d056ce, type: 2}
+--- !u!65 &2854930103256903921
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3124628965096199759}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 12}
+  m_Center: {x: 0, y: 0, z: 7}
 --- !u!1 &3124639047739432849
 GameObject:
   m_ObjectHideFlags: 0
@@ -9973,7 +9987,7 @@ GameObject:
   - component: {fileID: 3119738529477888931}
   - component: {fileID: 2997402504417153305}
   - component: {fileID: 2999372989857953981}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14861,7 +14875,7 @@ GameObject:
   - component: {fileID: 3122365102191090061}
   - component: {fileID: 3019062663356190649}
   - component: {fileID: 2999115919322657573}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wave1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19886,7 +19900,7 @@ GameObject:
   - component: {fileID: 3122306554345504051}
   - component: {fileID: 2998123668522815915}
   - component: {fileID: 2997539353255687681}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24746,7 +24760,7 @@ GameObject:
   - component: {fileID: 3122434711907597503}
   - component: {fileID: 2997300821085319675}
   - component: {fileID: 2999289931107581973}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29606,7 +29620,7 @@ GameObject:
   - component: {fileID: 3119550996503317385}
   - component: {fileID: 2998217076984286975}
   - component: {fileID: 2999191336468877299}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

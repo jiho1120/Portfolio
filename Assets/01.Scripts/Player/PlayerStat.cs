@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerStat : UseManaStat
 {
     public float luck { get; private set; }
-    public float experience { get; private set; }
     public float maxExperience { get; private set; }
     public float ultimateGauge { get; private set; }
     public float maxUltimateGauge { get; private set; }
@@ -13,21 +12,19 @@ public class PlayerStat : UseManaStat
 
     }
 
-    public PlayerStat(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float mana, float maxMana, float luck, float experience, float maxExperience, float ultimateGauge, float maxUltimateGauge)
-        : base(objectType, level, health, maxHealth, attack, defense, criticalChance, movementSpeed, mana, maxMana)
+    public PlayerStat(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float experience, int money, float mana, float maxMana, float luck, float maxExperience, float ultimateGauge, float maxUltimateGauge)
+        : base(objectType, level, health, maxHealth, attack, defense, criticalChance, movementSpeed, experience, money, mana, maxMana)
     {
         this.luck = luck;
-        this.experience = experience;
         this.maxExperience = maxExperience;
         this.ultimateGauge = ultimateGauge;
         this.maxUltimateGauge = maxUltimateGauge;
     }
 
-    public void SetValues(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float mana, float maxMana, float luck, float experience, float maxExperience, float ultimateGauge, float maxUltimateGauge)
+    public void SetValues(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float experience,int money, float mana, float maxMana, float luck, float maxExperience, float ultimateGauge, float maxUltimateGauge)
     {
-        base.SetValues(objectType, level, health, maxHealth, attack, defense, criticalChance, movementSpeed, mana, maxMana);
+        base.SetValues(objectType, level, health, maxHealth, attack, defense, criticalChance, movementSpeed, experience, money, mana, maxMana);
         this.luck = luck;
-        this.experience = experience;
         this.maxExperience = maxExperience;
         this.ultimateGauge = ultimateGauge;
         this.maxUltimateGauge = maxUltimateGauge;
@@ -35,13 +32,13 @@ public class PlayerStat : UseManaStat
 
     public void SetValues(SOPlayer soPlayer)
     {
-        base.SetValues(soPlayer.objectType, soPlayer.level, soPlayer.health, soPlayer.maxHealth, soPlayer.attack, soPlayer.defense, soPlayer.criticalChance, soPlayer.movementSpeed, soPlayer.mana, soPlayer.maxMana);
+        base.SetValues(soPlayer.objectType, soPlayer.level, soPlayer.health, soPlayer.maxHealth, soPlayer.attack, soPlayer.defense, soPlayer.criticalChance, soPlayer.movementSpeed, soPlayer.experience, soPlayer.money ,soPlayer.mana, soPlayer.maxMana);
         this.luck = soPlayer.luck;
-        this.experience = soPlayer.experience;
         this.maxExperience = soPlayer.maxExperience;
         this.ultimateGauge = soPlayer.ultimateGauge;
         this.maxUltimateGauge = soPlayer.maxUltimateGauge;
     }
+    
     public override void ShowInfo()
     {
         base.ShowInfo();

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class SkillManager : Singleton<SkillManager>
 {
-    //밖에서 ㅁㅁ스킬 만들어줘(어느위치에 어느 타이밍에 어떤 각도 ~~ 만들어줘~)
-
-    //그냥 만들어줌. 
     //나중에 스킬 쏘는 사람 구분도 해야함
 
     Dictionary<AllEnum.SkillName, Skill> nameDictObj = new Dictionary<AllEnum.SkillName, Skill>(); // 네임을 키로 쓰는이유는 알아보기 직관적이여서
@@ -22,15 +19,15 @@ public class SkillManager : Singleton<SkillManager>
         //}
     }
     public void Init()
-    {     
+    {
         GameObject[] objectAll = ResourceManager.Instance.objectAll;
         SOSkill[] skillDataAll = ResourceManager.Instance.skillDataAll;
-        PrintResourceInfo(objectAll, "GameObject");
-        PrintResourceInfo(skillDataAll, "SOSkillData");
+        //PrintResourceInfo(objectAll, "GameObject");
+        //PrintResourceInfo(skillDataAll, "SOSkillData");
         Skill skilltmp;
         foreach (var item in objectAll)
         {
-            
+
             skilltmp = Instantiate(item).GetComponent<Skill>();
             AllEnum.SkillName name = IntToEnum(skilltmp.Index);
 
@@ -51,15 +48,15 @@ public class SkillManager : Singleton<SkillManager>
         }
         SetAllSkill();
     }
-    private void PrintResourceInfo<T>(T[] resources, string resourceName)
-    {
-        Debug.Log($"--- {resourceName} Resources Info ---");
+    //private void PrintResourceInfo<T>(T[] resources, string resourceName)
+    //{
+    //    Debug.Log($"--- {resourceName} Resources Info ---");
 
-        for (int i = 0; i < resources.Length; i++)
-        {
-            Debug.Log($"{resourceName} {i + 1}: {resources[i]}");
-        }
-    }
+    //    for (int i = 0; i < resources.Length; i++)
+    //    {
+    //        Debug.Log($"{resourceName} {i + 1}: {resources[i]}");
+    //    }
+    //}
     public int EnumToInt(AllEnum.SkillName val)
     {
         switch (val)
@@ -100,7 +97,29 @@ public class SkillManager : Singleton<SkillManager>
             default: return AllEnum.SkillName.End;
         }
     }
-
+    public void UseSKill(AllEnum.SkillName name)
+    {
+        Skill skill = GetSKillFromDict(name);
+        if (skill.orgInfo.inUse)
+        {
+            Debug.Log("사용중");
+            return;
+        }
+        else
+        {
+            Vector3 pos = GameManager.Instance.player.transform.position;
+            Quaternion rot = GameManager.Instance.player.transform.GetChild(0).rotation;
+            if (name == AllEnum.SkillName.Gravity)
+            {
+                Vector3 spawnOffset = rot * new Vector3(0, 0.5f, 1) * 10f;
+                rot = Quaternion.Euler(skill.transform.rotation.eulerAngles);
+                pos = pos + spawnOffset;
+            }
+            skill = SetSkillPos(skill, pos, rot);
+            skill.gameObject.SetActive(true);
+            skill.DoSkill();
+        }
+    }
     public void SetAllSkill()
     {
         for (int i = 0; i < (int)AllEnum.SkillName.End; i++)
@@ -110,6 +129,7 @@ public class SkillManager : Singleton<SkillManager>
             {
                 if (nameDictInfo.TryGetValue(skillName, out SOSkill skillInfo))
                 {
+                    skill.orgInfo.inUse = false;
                     skill.SetInfo(skillInfo);
                 }
                 skillDict.Add(skillName, skill);
@@ -120,41 +140,32 @@ public class SkillManager : Singleton<SkillManager>
             }
         }
     }
-
-    public Skill SetSkillPos(AllEnum.SkillName skillName, Vector3 pos)
+    public Skill GetSKillFromDict(AllEnum.SkillName skillName)
     {
         Skill skill = skillDict[skillName];
-        Debug.Log("스킬1번누름 " + skill.gameObject.GetHashCode());
+        return skill;
+    }
+
+    public Skill SetSkillPos(Skill skill, Vector3 pos, Quaternion rot)
+    {
         skill.transform.position = pos;
-        skill.transform.rotation = GameManager.Instance.player.transform.GetChild(0).rotation;
+        skill.transform.rotation = rot;
 
         if (skill.orgInfo.setParent)
         {
             skill.transform.SetParent(GameManager.Instance.player.transform.GetChild(0), true);
-            Debug.Log("플레이어켜져있음?" + GameManager.Instance.player.transform.GetChild(0).gameObject.activeSelf);
         }
         return skill;
     }
 
-    //public IEnumerator UseSkill(Skill skill)
-    //{
-    //    if (!skill.gameObject.activeSelf) // 꺼져있으면 
-    //    {
-    //        if (skill.orgInfo.duration != 0)
-    //        {
-    //            skill.gameObject.SetActive(true);
-    //            yield return new WaitForSeconds(skill.orgInfo.duration);
-    //            skill.gameObject.SetActive(false);
-    //        }
-    //        else
-    //        {
-    //            skill.gameObject.SetActive(true);
-    //        }
-    //    }
-    //}
-
     //끄기 (초기화를 담고있는)
+    public void SetOffSkill(Skill skill)
+    {
+        skill.DoReset();
+        skill.gameObject.SetActive(false);
+    }
 
-    
-    
+
+
+
 }
