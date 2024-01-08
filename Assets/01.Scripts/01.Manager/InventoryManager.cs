@@ -11,7 +11,7 @@ public class InventoryManager : Singleton<InventoryManager>
     public Transform ItemContent;
     public GameObject InventoryItem;
     public Toggle EnableRemove;
-    public InventoryItemController[] inventoryItems;
+    public Slot[] inventoryItems;
 
     void Start()
 
@@ -42,19 +42,17 @@ public class InventoryManager : Singleton<InventoryManager>
         foreach (var item in itemList)
         {
             GameObject obj = Instantiate(InventoryItem, ItemContent);
-            var itemName = obj.transform.Find("ItemName").GetComponent<Text>();
+            var ItemCount = obj.transform.Find("ItemCount").GetComponent<Text>();
             var itemIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
             var removeButton = obj.transform.Find("RemoveButton").GetComponent<Button>();
 
-            itemName.text = item.level.ToString();
+            ItemCount.text = item.count.ToString();
             itemIcon.sprite = item.icon;
             if (EnableRemove.isOn)
             {
                 removeButton.gameObject.SetActive(true);
             }
-
         }
-
         SetInventoryItems();
     }
     public void EnableItemsRemove()
@@ -77,7 +75,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void SetInventoryItems()
     {
-        inventoryItems = ItemContent.GetComponentsInChildren<InventoryItemController>();
+        inventoryItems = ItemContent.GetComponentsInChildren<Slot>();
         for (int i = 0; i < itemList.Count; i++)
         {
             inventoryItems[i].AddItem(itemList[i]);

@@ -163,9 +163,8 @@ public class Monster : MonoBehaviour, IAttack, IDead
         agent.isStopped = true;
         SetDeadAnim();
         GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money);
-        DropRandomItem();
-        Debug.Log(itemIndex);
         Invoke("DeletObject",3f);
+        DropRandomItem();
     }
     public void DeletObject()
     {
@@ -195,7 +194,6 @@ public class Monster : MonoBehaviour, IAttack, IDead
 
             }
             ItemManager.Instance.DropItem(itemIndex, this.transform.position + itempos);
-
         }
     }
 

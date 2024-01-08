@@ -19,10 +19,11 @@ public class Item : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             InventoryManager.Instance.itemList.Add(itemData);
             this.gameObject.SetActive(false);
         }
     }
+
 }

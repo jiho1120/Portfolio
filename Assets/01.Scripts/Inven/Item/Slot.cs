@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryItemController : MonoBehaviour
+public class Slot : MonoBehaviour
 {
     SOItem item;
 
