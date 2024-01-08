@@ -24,6 +24,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
     public float coolAttackTime = 0;
     public float rotationSpeed = 5f;
     protected int itemIndex;
+    Vector3 itempos = new Vector3(0, 1, 0);
 
 
     public void Init()
@@ -190,10 +191,10 @@ public class Monster : MonoBehaviour, IAttack, IDead
             }
             else if (itemIndex == 2) // ¹°¾à
             {
-                itemIndex = Random.Range(0, 4);
+                itemIndex = Random.Range(101, 104);
 
             }
-            ItemManager.Instance.DropItem(itemIndex, this.transform.position);
+            ItemManager.Instance.DropItem(itemIndex, this.transform.position + itempos);
 
         }
     }
