@@ -7,20 +7,27 @@ public class Equip : MonoBehaviour
 {
     public AllEnum.ItemType itemType;
     public int exp;
-    public int maxExp;
-
+    public int maxExp =10;
+    int lv = 1;
     public Text level;
 
     private void Start()
     {
         level = transform.Find("ItemLevel").GetComponent<Text>();
-        level.text = "Lv : " + 1;
-
+        level.text = "Lv : " + lv;
     }
-    public void SetData()
+    public void GetExp(int val)
     {
-
+        exp += val;
     }
+    public void LevelUp()
+    {
+        lv += 1;
+        level.text = "Lv : " + lv;
+        exp = exp - maxExp;
+        maxExp += 10;
+    }
+
 
 
 }

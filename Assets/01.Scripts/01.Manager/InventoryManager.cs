@@ -7,11 +7,13 @@ using UnityEngine.UI;
 public class InventoryManager : Singleton<InventoryManager>
 {
     public List<SOItem> itemList = new List<SOItem>();
+    public Equip[] equipList;
 
     public Transform ItemContent;
     public GameObject InventoryItem;
     public Toggle EnableRemove;
     public Slot[] inventoryItems;
+
 
     void Start()
 

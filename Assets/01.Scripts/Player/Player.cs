@@ -99,6 +99,24 @@ public class Player : MonoBehaviour, IAttack, IDead
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity);
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            AllEnum.ItemType name = AllEnum.ItemType.Head;
+            for (int i = 0; i < InventoryManager.Instance.equipList.Length; i++)
+            {
+                Equip eq = InventoryManager.Instance.equipList[i];
+                if (eq.itemType == name)
+                {
+                    eq.exp += 5;
+                    Debug.Log("wna");
+                }
+                if (eq.exp >= eq.maxExp)
+                {
+                    eq.LevelUp();
+                }
+            }
+        }
+        
     }
     private void Move()
     {
