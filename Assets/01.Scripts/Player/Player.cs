@@ -108,7 +108,6 @@ public class Player : MonoBehaviour, IAttack, IDead
                 if (eq.itemType == name)
                 {
                     eq.exp += 5;
-                    Debug.Log("wna");
                 }
                 if (eq.exp >= eq.maxExp)
                 {
@@ -116,7 +115,20 @@ public class Player : MonoBehaviour, IAttack, IDead
                 }
             }
         }
-        
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            InventoryManager.Instance.invenOn = !InventoryManager.Instance.invenOn;
+            InventoryManager.Instance.InvenOnOff();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Time.timeScale = 0f;
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Time.timeScale = 1f;
+        }
     }
     private void Move()
     {

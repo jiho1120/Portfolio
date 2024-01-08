@@ -12,9 +12,10 @@ public class InventoryManager : Singleton<InventoryManager>
     public Transform ItemContent;
     public GameObject InventoryItem;
     public Toggle EnableRemove;
-    public Slot[] inventoryItems;
+    public ItemSlot[] inventoryItems;
 
-
+    public GameObject inven;
+    public bool invenOn = false;
     void Start()
 
     {
@@ -25,6 +26,22 @@ public class InventoryManager : Singleton<InventoryManager>
     void Update()
     {
         
+    }
+    public void InvenOnOff()
+    {
+        if (invenOn)
+        {
+            inven.SetActive(true);
+            ListItems();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            inven.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
     public void Add(SOItem item)
     {
@@ -77,7 +94,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void SetInventoryItems()
     {
-        inventoryItems = ItemContent.GetComponentsInChildren<Slot>();
+        inventoryItems = ItemContent.GetComponentsInChildren<ItemSlot>();
         for (int i = 0; i < itemList.Count; i++)
         {
             inventoryItems[i].AddItem(itemList[i]);
