@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Monster
   - Enemy
+  - FxTemporaire
+  - Item
   layers:
   - Default
   - TransparentFX

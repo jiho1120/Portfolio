@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a0061deb0ffe649ad4c079e6185c4f, type: 3}
   m_Name: ExpPosion
   m_EditorClassIdentifier: 
-  index: 0
+  index: 103
   level: 1
   itemType: 2
-  iCon: {fileID: 21300000, guid: 84c49027aee60dc42b7a94f588fe12c5, type: 3}
+  icon: {fileID: 21300000, guid: 84c49027aee60dc42b7a94f588fe12c5, type: 3}
   health: 0
   mana: 0
   ultimateGauge: 10

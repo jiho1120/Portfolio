@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Item : MonoBehaviour
+{
+    public SOItem itemData { get; private set; }
+    public SpriteRenderer spriteRenderer;
+
+    private void Start()
+    {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
+    public void SetItemData(SOItem data)
+    {
+        itemData = data;
+        spriteRenderer.sprite = itemData.icon;
+
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            InventoryManager.Instance.itemList.Add(itemData);
+            this.gameObject.SetActive(false);
+        }
+    }
+}

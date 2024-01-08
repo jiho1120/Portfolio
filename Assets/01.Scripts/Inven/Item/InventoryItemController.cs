@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class InventoryItemController : MonoBehaviour
 {
     SOItem item;
+
     public Button RemoveButton;
+
     public void RemoveItem()
     {
         InventoryManager.Instance.Remove(item);
