@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 6
   level: 1
+  count: 1
   itemType: 9
   icon: {fileID: 21300000, guid: 49440cba7d094ad42ba19be3e4f0428c, type: 3}
   health: 0

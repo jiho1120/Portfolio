@@ -50,15 +50,11 @@ public class Player : MonoBehaviour, IAttack, IDead
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log("fixed update");
         Move();
     }
 
     private void Update() 
     {
-        //Move();
-        //Debug.Log("∞°∑Œ√‡ : "+Input.GetKey(KeyCode.W));
-            
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -121,7 +117,6 @@ public class Player : MonoBehaviour, IAttack, IDead
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            InventoryManager.Instance.invenOn = !InventoryManager.Instance.invenOn;
             InventoryManager.Instance.InvenOnOff();
         }
 
@@ -142,7 +137,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     {
         speed = (run) ? (playerStat.movementSpeed * 1.5f) : playerStat.movementSpeed;
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));        
-        Debug.Log("dddd" +moveInput);
         float percent = ((run) ? 1 : 0.5f) * moveInput.magnitude;
         playerAnimator.WalkOrRun(percent);
 
@@ -152,8 +146,7 @@ public class Player : MonoBehaviour, IAttack, IDead
         playerAnimator.MoveAnim(moveInput.y, moveInput.x);
 
         characterBody.forward = lookForward;
-        transform.position += moveDir * speed * 2f;
-        //transform.position += moveDir * speed * Time.deltaTime;
+        transform.position += moveDir * speed * Time.deltaTime;
 
 
     }
