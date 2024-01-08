@@ -50,11 +50,15 @@ public class Player : MonoBehaviour, IAttack, IDead
     // Update is called once per frame
     void FixedUpdate()
     {
+        Debug.Log("fixed update");
         Move();
     }
 
-    private void Update()
+    private void Update() 
     {
+        //Move();
+        //Debug.Log("가로축 : "+Input.GetKey(KeyCode.W));
+            
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -123,9 +127,13 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Time.timeScale = 0f;
+            Time.timeScale = 0f; // 시간의 흐름이 멈춤 , //픽스드, 코루틴 안되고, 업데이트되고 , 드래그도 가능
         }
         if (Input.GetKeyDown(KeyCode.V))
+        {
+            Time.timeScale = 0.5f;
+        }
+        if (Input.GetKeyDown(KeyCode.B))
         {
             Time.timeScale = 1f;
         }
@@ -133,7 +141,8 @@ public class Player : MonoBehaviour, IAttack, IDead
     private void Move()
     {
         speed = (run) ? (playerStat.movementSpeed * 1.5f) : playerStat.movementSpeed;
-        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));        
+        Debug.Log("dddd" +moveInput);
         float percent = ((run) ? 1 : 0.5f) * moveInput.magnitude;
         playerAnimator.WalkOrRun(percent);
 
@@ -143,7 +152,9 @@ public class Player : MonoBehaviour, IAttack, IDead
         playerAnimator.MoveAnim(moveInput.y, moveInput.x);
 
         characterBody.forward = lookForward;
-        transform.position += moveDir * speed * Time.deltaTime;
+        transform.position += moveDir * speed * 2f;
+        //transform.position += moveDir * speed * Time.deltaTime;
+
 
     }
 

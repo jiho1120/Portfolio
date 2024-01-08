@@ -31,6 +31,7 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         if (invenOn)
         {
+            Time.timeScale = 0f; // 시간의 흐름이 멈춤  //코루틴 안되고, 업데이트 안 되고 , 픽스드 가능, 드래그도 가능
             inven.SetActive(true);
             ListItems();
             Cursor.lockState = CursorLockMode.None;
@@ -38,6 +39,7 @@ public class InventoryManager : Singleton<InventoryManager>
         }
         else
         {
+            Time.timeScale = 1f;
             inven.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
