@@ -162,9 +162,9 @@ public class Player : MonoBehaviour, IAttack, IDead
     //    Gizmos.DrawWireSphere(fist.position, 1f);
 
     //}
-    public virtual void Attack(Transform Tr, float Range)
+    public void Attack(Vector3 Tr, float Range)
     {
-        Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);
+        Collider[] colliders = Physics.OverlapSphere(Tr, Range);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].CompareTag("Monster"))
@@ -174,16 +174,17 @@ public class Player : MonoBehaviour, IAttack, IDead
             }
         }
     }
+    
     public void AttackRange() // 애니메이션에 넣음
     {
-        Attack(fist, 1f);
+        Attack(fist.position, 1f);
     }
 
     public IEnumerator TimeLapseAttack(float attackRange, float delayTime)
     {
         while (true)
         {
-            Attack(this.transform, attackRange);
+            Attack(this.transform.position, attackRange);
             yield return new WaitForSeconds(delayTime);
         }
     }
@@ -245,5 +246,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     {
         return isDead;
     }
-    
+
+   
 }

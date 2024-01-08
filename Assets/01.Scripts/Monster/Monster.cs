@@ -101,9 +101,9 @@ public class Monster : MonoBehaviour, IAttack, IDead
             isDead = true;
         }
     }
-    public virtual void Attack(Transform Tr, float Range)
+    public virtual void Attack(Vector3 Tr, float Range)
     { 
-        Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);
+        Collider[] colliders = Physics.OverlapSphere(Tr, Range);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].CompareTag("Player"))
@@ -114,12 +114,12 @@ public class Monster : MonoBehaviour, IAttack, IDead
     }
     public void AttackRange() // 애니메이션에 넣음
     {
-        Attack(attackPos, 0.5f);
+        Attack(attackPos.position, 0.5f);
     }
 
     public void Explosion()
     {
-        Attack(this.transform, 2f);
+        Attack(this.transform.position, 2f);
         Instantiate(explosionEffect, this.transform.position + new Vector3(0, 1, 0), Quaternion.identity);
     }
 
