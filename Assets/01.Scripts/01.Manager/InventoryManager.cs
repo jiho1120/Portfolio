@@ -7,9 +7,10 @@ using UnityEngine.UI;
 public class InventoryManager : Singleton<InventoryManager>
 {
     public List<ItemSlot> itemList = new List<ItemSlot>();
-    int maxItemListLenght = 10;
-    int maxItemLenght = 2;
+    int maxItemListLenght = 50;
+    int maxItemLenght = 99;
     public Equip[] equipList;
+    public SOItem emptyData;
 
     public Transform ItemContent;
     public GameObject InventoryItem;
@@ -18,7 +19,6 @@ public class InventoryManager : Singleton<InventoryManager>
     public GameObject inven;
     public bool invenOn = false;
     void Start()
-
     {
         SetItemListCount();
     }
@@ -38,6 +38,7 @@ public class InventoryManager : Singleton<InventoryManager>
     }
     public void InvenOnOff()
     {
+        invenOn = !invenOn;
         if (invenOn)
         {
             Time.timeScale = 0f; // 시간의 흐름이 멈춤  //코루틴 안되고, 업데이트 안 되고 , 픽스드 가능, 드래그도 가능
@@ -126,29 +127,24 @@ public class InventoryManager : Singleton<InventoryManager>
         }
         
     }
-    public void Remove(SOItem item)
+    public void Remove(ItemSlot item)
     {
-        //itemList.Remove(item);
+        item.item = emptyData;
+        item.count = 0;
+        item.countTxt.text = item.count.ToString();
+        item.icon.sprite = null;
+        Debug.Log("삭제");
     }
+    
     public void ListItems()
     {
-        foreach (Transform item in ItemContent) // 이게 없으면 복제가됨
+        for (int i = 0; i < itemList.Count; i++)
         {
-            Destroy(item.gameObject);
-        }
-
-        foreach (var item in itemList)
-        {
-            GameObject obj = Instantiate(InventoryItem, ItemContent);
-            var ItemCount = obj.transform.Find("ItemCount").GetComponent<Text>();
-            var itemIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
-            var removeButton = obj.transform.Find("RemoveButton").GetComponent<Button>();
-
-            ItemCount.text = item.count.ToString();
-            itemIcon.sprite = item.item.icon;
+            itemList[i].icon.sprite = itemList[i].item.icon;
+            itemList[i].countTxt.text = itemList[i].count.ToString();
             if (EnableRemove.isOn)
             {
-                removeButton.gameObject.SetActive(true);
+                itemList[i].removeButton.gameObject.SetActive(true);
             }
         }
     }

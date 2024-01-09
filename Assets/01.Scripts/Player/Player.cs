@@ -118,7 +118,6 @@ public class Player : MonoBehaviour, IAttack, IDead
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            InventoryManager.Instance.invenOn = !InventoryManager.Instance.invenOn;
             InventoryManager.Instance.InvenOnOff();
         }
 

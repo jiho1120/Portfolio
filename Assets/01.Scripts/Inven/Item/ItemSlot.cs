@@ -8,12 +8,14 @@ public class ItemSlot : MonoBehaviour
     public int count;
     public SOItem item;
     
-    public Button RemoveButton;
+    public Button removeButton;
+    public Image icon;
+    public Text countTxt;
 
     public void RemoveItem()
     {
-        InventoryManager.Instance.Remove(item);
-        Destroy(gameObject);
+        InventoryManager.Instance.Remove(this);
+
     }
     public void SetData(SOItem newItem)
     {

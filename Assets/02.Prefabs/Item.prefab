@@ -348,7 +348,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   count: 0
   item: {fileID: 11400000, guid: 86c2037816dc1d7418f270f78d3d6a37, type: 2}
-  RemoveButton: {fileID: 250874662471306554}
+  removeButton: {fileID: 250874662471306554}
+  icon: {fileID: 250874661876183107}
+  countTxt: {fileID: 250874663886879856}
 --- !u!1 &250874663886879858
 GameObject:
   m_ObjectHideFlags: 0
