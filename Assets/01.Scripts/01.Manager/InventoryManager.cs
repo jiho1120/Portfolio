@@ -6,26 +6,35 @@ using UnityEngine.UI;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
-    public List<SOItem> itemList = new List<SOItem>();
+    public List<ItemSlot> itemList = new List<ItemSlot>();
+    int maxItemListLenght = 10;
+    int maxItemLenght = 2;
     public Equip[] equipList;
 
     public Transform ItemContent;
     public GameObject InventoryItem;
     public Toggle EnableRemove;
-    public ItemSlot[] inventoryItems;
 
     public GameObject inven;
     public bool invenOn = false;
     void Start()
 
     {
-        
+        SetItemListCount();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+    public void SetItemListCount()
+    {
+        for (int i = 0; i < maxItemListLenght; i++)
+        {
+            ItemSlot obj = Instantiate(InventoryItem, ItemContent).GetComponent<ItemSlot>();
+            itemList.Add(obj);
+        }
     }
     public void InvenOnOff()
     {
@@ -45,13 +54,81 @@ public class InventoryManager : Singleton<InventoryManager>
             Cursor.visible = false;
         }
     }
-    public void Add(SOItem item)
+    public bool checkAdd(SOItem item)
     {
-        itemList.Add(item);
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            if(itemList[i].item.index == -1)
+            {
+                return true;
+            }
+            else if (item.index > 100)
+            {
+                if (itemList[i].item.index == item.index)
+                {
+                    int remainingQuantity = maxItemLenght - itemList[i].count;
+                    if (remainingQuantity > 0)
+                    {
+                        if (item.count <= remainingQuantity)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            itemList[i].count += remainingQuantity;
+                            item.count -= remainingQuantity;
+                        }
+                    }
+                }
+            }
+        }
+        if (item.count > 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
+    }
+    public void DataAdd(SOItem item)
+    {
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            if (itemList[i].item.index == -1)
+            {
+                itemList[i].count = item.count;
+                itemList[i].SetData(item);
+                return;
+            }
+            else if (item.index > 100)
+            {
+                if (itemList[i].item.index == item.index)
+                {
+                    int remainingQuantity = maxItemLenght - itemList[i].count;
+                    if (remainingQuantity > 0)
+                    {
+                        if (item.count <= remainingQuantity)
+                        {
+                            itemList[i].count += item.count;
+                            itemList[i].SetData(item);
+                            return;
+                        }
+                        else
+                        {
+                            itemList[i].count += remainingQuantity;
+                            item.count -= remainingQuantity;
+                        }
+                    }
+                }
+            }
+        }
+        
     }
     public void Remove(SOItem item)
     {
-        itemList.Remove(item);
+        //itemList.Remove(item);
     }
     public void ListItems()
     {
@@ -68,19 +145,18 @@ public class InventoryManager : Singleton<InventoryManager>
             var removeButton = obj.transform.Find("RemoveButton").GetComponent<Button>();
 
             ItemCount.text = item.count.ToString();
-            itemIcon.sprite = item.icon;
+            itemIcon.sprite = item.item.icon;
             if (EnableRemove.isOn)
             {
                 removeButton.gameObject.SetActive(true);
             }
         }
-        SetInventoryItems();
     }
     public void EnableItemsRemove()
     {
         if (EnableRemove.isOn)
         {
-            foreach(Transform item in ItemContent)
+            foreach (Transform item in ItemContent)
             {
                 item.Find("RemoveButton").gameObject.SetActive(true);
             }
@@ -93,14 +169,4 @@ public class InventoryManager : Singleton<InventoryManager>
             }
         }
     }
-
-    public void SetInventoryItems()
-    {
-        inventoryItems = ItemContent.GetComponentsInChildren<ItemSlot>();
-        for (int i = 0; i < itemList.Count; i++)
-        {
-            inventoryItems[i].AddItem(itemList[i]);
-        }
-    }
-
 }

@@ -16,7 +16,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     public SOPlayer soOriginPlayer;
     public PlayerStat playerStat { get; private set; }
     PlayerAnimator playerAnimator;
-    Rigidbody rb;
 
     public Transform characterBody;
     public Transform cameraArm;
@@ -36,7 +35,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     {
         playerStat = new PlayerStat();
         playerAnimator = GetComponent<PlayerAnimator>();
-        rb = GetComponent<Rigidbody>();
         fist = transform.GetChild(0).GetChild(3);
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
@@ -50,7 +48,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log("fixed update");
         Move();
     }
 
@@ -142,7 +139,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     {
         speed = (run) ? (playerStat.movementSpeed * 1.5f) : playerStat.movementSpeed;
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));        
-        Debug.Log("dddd" +moveInput);
         float percent = ((run) ? 1 : 0.5f) * moveInput.magnitude;
         playerAnimator.WalkOrRun(percent);
 
@@ -152,8 +148,7 @@ public class Player : MonoBehaviour, IAttack, IDead
         playerAnimator.MoveAnim(moveInput.y, moveInput.x);
 
         characterBody.forward = lookForward;
-        transform.position += moveDir * speed * 2f;
-        //transform.position += moveDir * speed * Time.deltaTime;
+        transform.position += moveDir * speed * Time.deltaTime;
 
 
     }

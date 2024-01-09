@@ -21,8 +21,16 @@ public class Item : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            InventoryManager.Instance.itemList.Add(itemData);
-            this.gameObject.SetActive(false);
+            bool isAdd = InventoryManager.Instance.checkAdd(itemData);
+            if (isAdd)
+            {
+                InventoryManager.Instance.DataAdd(itemData);
+                this.gameObject.SetActive(false);
+            }
+            else
+            {
+                Debug.Log("Ä­ºÎÁ·");
+            }
         }
     }
 

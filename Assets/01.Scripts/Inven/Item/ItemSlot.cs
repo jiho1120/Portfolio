@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour
 {
-    SOItem item;
-
+    public int count;
+    public SOItem item;
+    
     public Button RemoveButton;
 
     public void RemoveItem()
@@ -14,8 +15,9 @@ public class ItemSlot : MonoBehaviour
         InventoryManager.Instance.Remove(item);
         Destroy(gameObject);
     }
-    public void AddItem(SOItem newItem)
+    public void SetData(SOItem newItem)
     {
         item = newItem;
     }
+    
 }

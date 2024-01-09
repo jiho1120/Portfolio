@@ -1593,7 +1593,6 @@ MonoBehaviour:
   ItemContent: {fileID: 381281582}
   InventoryItem: {fileID: 250874662538618690, guid: 66fd5eac23113fd4a959fbc94e38eda3, type: 3}
   EnableRemove: {fileID: 1117175514}
-  inventoryItems: []
   inven: {fileID: 785012396}
   invenOn: 0
 --- !u!114 &932798542
