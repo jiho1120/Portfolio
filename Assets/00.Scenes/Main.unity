@@ -743,10 +743,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 785012396}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 932798541}
+        m_TargetAssemblyTypeName: InventoryManager, Assembly-CSharp
+        m_MethodName: InvenOnOff
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1456,10 +1456,10 @@ MonoBehaviour:
   - {fileID: 835936280}
   - {fileID: 1824032754}
   - {fileID: 1368423558}
+  emptyData: {fileID: 11400000, guid: 86c2037816dc1d7418f270f78d3d6a37, type: 2}
   ItemContent: {fileID: 381281582}
   InventoryItem: {fileID: 250874662538618690, guid: 66fd5eac23113fd4a959fbc94e38eda3, type: 3}
   EnableRemove: {fileID: 1117175514}
-  inventoryItems: []
   inven: {fileID: 785012396}
   invenOn: 0
 --- !u!114 &932798542

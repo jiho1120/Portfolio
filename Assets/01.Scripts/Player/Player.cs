@@ -16,7 +16,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     public SOPlayer soOriginPlayer;
     public PlayerStat playerStat { get; private set; }
     PlayerAnimator playerAnimator;
-    Rigidbody rb;
 
     public Transform characterBody;
     public Transform cameraArm;
@@ -36,7 +35,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     {
         playerStat = new PlayerStat();
         playerAnimator = GetComponent<PlayerAnimator>();
-        rb = GetComponent<Rigidbody>();
         fist = transform.GetChild(0).GetChild(3);
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);

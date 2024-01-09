@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    public int haveCount { get; private set; }
     public SOItem itemData { get; private set; }
     public SpriteRenderer spriteRenderer;
 
@@ -16,25 +15,23 @@ public class Item : MonoBehaviour
     {
         itemData = data;
         spriteRenderer.sprite = itemData.icon;
-    }
-    public void AddCount(int val)
-    {
-        haveCount += val;
-    }
-    public void SetCount(int val)
-    {
-        haveCount = val;
+
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Ãæµ¹");
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("ÇÔ¼öµé¾î¿È");
-            InventoryManager.Instance.AddItem(this);
-
-            this.gameObject.SetActive(false);
-        } 
+            bool isAdd = InventoryManager.Instance.checkAdd(itemData);
+            if (isAdd)
+            {
+                InventoryManager.Instance.DataAdd(itemData);
+                this.gameObject.SetActive(false);
+            }
+            else
+            {
+                Debug.Log("Ä­ºÎÁ·");
+            }
+        }
     }
 
 }
