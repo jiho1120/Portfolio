@@ -57,16 +57,28 @@ public class BasicStat
     {
         this.health = helath;
     }
-
+    public void AddHp(float helath)
+    {
+        this.health += helath;
+        if (this.health > maxHealth)
+        {
+            this.health = maxHealth;
+        }
+    }
     public void SetSpeed(float speed)
     {
         this.movementSpeed = speed;
     }
-    public void KillMonster(float experience, int money)
+    public void AddExp(float exp)
     {
-        this.experience += experience;
+        this.experience += exp;
+    }
+    public void AddMoney(int money)
+    {
         this.money += money;
     }
+    
+
 
     public virtual void ShowInfo()
     {
@@ -79,5 +91,6 @@ public class BasicStat
         Debug.Log(this.criticalChance);
         Debug.Log(this.movementSpeed);
     }
+    
 
 }

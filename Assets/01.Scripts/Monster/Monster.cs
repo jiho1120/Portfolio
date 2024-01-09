@@ -162,7 +162,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
         isDead = true;
         agent.isStopped = true;
         SetDeadAnim();
-        GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money);
+        GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money,10); // 몬스터 잡을때마다 10
         Invoke("DeletObject",3f);
         DropRandomItem();
     }

@@ -6,21 +6,23 @@ using UnityEngine.UI;
 
 public class PlayerConditionUI : MonoBehaviour
 {
-    public float hp;
-    public float mp;
-    public float exp;
-    public float super;
-    public float skill;
-    public float item;
+    public Slider hp;
+    public Slider mp;
+    public Slider exp;
+    public Image super;
+    //public Image skill;
+    //public Image item;
 
-    [Range(0, 1)] public float HP = 0;
-    private Slider slider;
-    private void Start()
+
+    public void SetUI()
     {
-        slider = gameObject.GetComponent<Slider>();
+        hp.maxValue = GameManager.Instance.player.playerStat.maxHealth;
+        hp.value = GameManager.Instance.player.playerStat.health;
+        mp.maxValue = GameManager.Instance.player.playerStat.maxMana;
+        mp.value = GameManager.Instance.player.playerStat.mana;
+        exp.maxValue = GameManager.Instance.player.playerStat.maxExperience;
+        exp.value = GameManager.Instance.player.playerStat.experience;
+        super.fillAmount = GameManager.Instance.player.playerStat.ultimateGauge / GameManager.Instance.player.playerStat.maxUltimateGauge;
     }
-    public void SetHp()
-    {
-        slider.value = HP;
-    }
+    
 }

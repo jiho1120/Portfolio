@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour, IAttack, IDead
     bool isLeft = false;
     bool isDead = false;
     Coroutine passiveCor;
+    Coroutine HealHpMpCor;
 
     void Start()
     {
@@ -42,6 +44,7 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         playerStat.SetValues(soOriginPlayer);
         //playerStat.ShowInfo();
+        HealHpMpCor = StartCoroutine(HealHpMp());
 
     }
 
@@ -81,6 +84,15 @@ public class Player : MonoBehaviour, IAttack, IDead
                 StopCoroutine(passiveCor);
                 Debug.Log("∏ÿ√„");
                 passiveCor = null;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (HealHpMpCor != null)
+            {
+                StopCoroutine(HealHpMpCor);
+                Debug.Log("»∏∫π ∏ÿ√„");
+                HealHpMpCor = null;
             }
         }
 
@@ -133,6 +145,18 @@ public class Player : MonoBehaviour, IAttack, IDead
         {
             Time.timeScale = 1f;
         }
+        
+    }
+    public IEnumerator HealHpMp()
+    {
+        while (true)
+        {
+            playerStat.AddHp(10);
+            playerStat.AddMp(10);
+            Debug.Log("»∏∫π«‘");
+            yield return new WaitForSeconds(2);
+        }
+        
     }
     private void Move()
     {
@@ -148,8 +172,6 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         characterBody.forward = lookForward;
         transform.position += moveDir * speed * Time.deltaTime;
-
-
     }
 
     void BasicAttack()
@@ -265,6 +287,11 @@ public class Player : MonoBehaviour, IAttack, IDead
         print("«√∑π¿ÃæÓ √º∑¬" + playerStat.health);
     }
 
+
+    public void UseMana(float mana)
+    {
+        playerStat.SetMana(mana);
+    }
     public void Hit()
     {
         playerAnimator.SetHit();
