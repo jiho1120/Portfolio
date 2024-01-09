@@ -107,7 +107,7 @@ public class SkillManager : Singleton<SkillManager>
         }
         else
         {
-            if (GameManager.Instance.player.playerStat.mana > skill.orgInfo.mana)
+            if (GameManager.Instance.player.playerStat.mana >= skill.orgInfo.mana)
             {
                 Vector3 pos = GameManager.Instance.player.transform.position;
                 Quaternion rot = GameManager.Instance.player.transform.GetChild(0).rotation;
