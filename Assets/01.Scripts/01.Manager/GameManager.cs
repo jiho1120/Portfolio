@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+// 아이템 오브젝트 풀로 관리
+// 아이템인벤 드래그앤 드랍
+
+
 public class GameManager : Singleton<GameManager>
 {
     public Player player;
