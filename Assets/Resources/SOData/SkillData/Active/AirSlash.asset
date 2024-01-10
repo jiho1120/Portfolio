@@ -20,6 +20,6 @@ MonoBehaviour:
   effect: 10
   duration: 2
   cool: 0
-  mana: 0
+  mana: 30
   setParent: 1
-  isReady: 1
+  inUse: 0

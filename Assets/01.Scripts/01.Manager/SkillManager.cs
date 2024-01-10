@@ -107,17 +107,21 @@ public class SkillManager : Singleton<SkillManager>
         }
         else
         {
-            Vector3 pos = GameManager.Instance.player.transform.position;
-            Quaternion rot = GameManager.Instance.player.transform.GetChild(0).rotation;
-            if (name == AllEnum.SkillName.Gravity)
+            if (GameManager.Instance.player.playerStat.mana >= skill.orgInfo.mana)
             {
-                Vector3 spawnOffset = rot * new Vector3(0, 0.5f, 1) * 10f;
-                rot = Quaternion.Euler(skill.transform.rotation.eulerAngles);
-                pos = pos + spawnOffset;
+                Vector3 pos = GameManager.Instance.player.transform.position;
+                Quaternion rot = GameManager.Instance.player.transform.GetChild(0).rotation;
+                if (name == AllEnum.SkillName.Gravity)
+                {
+                    Vector3 spawnOffset = rot * new Vector3(0, 0.5f, 1) * 10f;
+                    rot = Quaternion.Euler(skill.transform.rotation.eulerAngles);
+                    pos = pos + spawnOffset;
+                }
+                skill = SetSkillPos(skill, pos, rot);
+                skill.gameObject.SetActive(true);
+                skill.DoSkill();
+                GameManager.Instance.player.playerStat.SetMana(skill.orgInfo.mana);
             }
-            skill = SetSkillPos(skill, pos, rot);
-            skill.gameObject.SetActive(true);
-            skill.DoSkill();
         }
     }
     public void SetAllSkill()

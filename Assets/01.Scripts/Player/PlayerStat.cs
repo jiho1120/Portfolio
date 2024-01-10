@@ -38,7 +38,13 @@ public class PlayerStat : UseManaStat
         this.ultimateGauge = soPlayer.ultimateGauge;
         this.maxUltimateGauge = soPlayer.maxUltimateGauge;
     }
-    
+    public void KillMonster(float experience, int money, float ultimateGauge)
+    {
+        AddExp(experience);
+        AddMoney(money);
+        this.ultimateGauge += ultimateGauge;
+
+    }
     public override void ShowInfo()
     {
         base.ShowInfo();

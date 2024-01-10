@@ -17,9 +17,9 @@ MonoBehaviour:
   PassiveSkillType: 0
   SkillName: 0
   icon: {fileID: 0}
-  effect: 10
+  effect: 100
   duration: 3
   cool: 5
-  mana: 100
+  mana: 20
   setParent: 0
   inUse: 0

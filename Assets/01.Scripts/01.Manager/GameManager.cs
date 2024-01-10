@@ -16,4 +16,8 @@ public class GameManager : Singleton<GameManager>
         MonsterManager.Instance.Init();
         MonsterManager.Instance.SpawnMonster();
     }
+    private void Update()
+    {
+        UiManager.Instance.SetUI();
+    }
 }

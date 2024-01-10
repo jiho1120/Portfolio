@@ -22,4 +22,5 @@ public class MonsterStat : BasicStat
     {
         base.ShowInfo();
     }
+    
 }
