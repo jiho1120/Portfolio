@@ -36,14 +36,6 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         item = newItem;
     }
-    //public void ChangeUI(ItemSlot itemSlot)
-    //{
-    //    this.count = itemSlot.count;
-    //    this.item = itemSlot.item;
-    //    this.removeButton = itemSlot.removeButton;
-    //    this.icon = itemSlot.icon;
-    //    this.countTxt = itemSlot.countTxt;
-    //}
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -77,9 +69,7 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
         if (nextSlot != null)
         {
-            
             InventoryManager.Instance.SwapItems(slotIndex, nextSlot.slotIndex);
-           
         }
         else 
         {

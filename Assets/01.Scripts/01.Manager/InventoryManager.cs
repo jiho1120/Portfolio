@@ -168,21 +168,10 @@ public class InventoryManager : Singleton<InventoryManager>
     }
     public void SwapItems(int slotA, int slotB)
     {
-        Debug.Log($"slota = {slotA} / slotb = {slotB}");
-
-        Debug.Log($"SwapItems A ({slotA})의 경우 :  {itemList[slotA].item}  / {itemList[slotA].slotIndex}  ");
-        Debug.Log($"SwapItems B ({slotB})의 경우 :  {itemList[slotB].item}  / {itemList[slotB].slotIndex}");
-
-        Debug.Log("=====================바뀜=======================");
         int count = itemList[slotB].count;
         SOItem item = itemList[slotB].item;
         itemList[slotB].SetSlotData(itemList[slotA].count, itemList[slotA].item);
         itemList[slotA].SetSlotData(count, item);
-        
-        //ItemSlot i = itemList[slotB];
-        //itemList[slotB] = itemList[slotA];        
-        //itemList[slotA] = i;
-        Debug.Log($"SwapItems A ({slotA})의 경우 :  {itemList[slotA].item}  / {itemList[slotA].slotIndex}  " );
-        Debug.Log($"SwapItems B ({slotB})의 경우 :  {itemList[slotB].item}  / {itemList[slotB].slotIndex}");
+ 
     }
 }
