@@ -29,4 +29,16 @@ public class UseManaStat : BasicStat
     {
         base.ShowInfo();
     }
+    public void SetMana(float mana)
+    {
+        this.mana -= mana;
+    }
+    public void AddMp(float mana)
+    {
+        this.mana += mana;
+        if (this.mana > maxMana)
+        {
+            this.mana = maxMana;
+        }
+    }
 }

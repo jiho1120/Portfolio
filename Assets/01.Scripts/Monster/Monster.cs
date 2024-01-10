@@ -23,8 +23,10 @@ public class Monster : MonoBehaviour, IAttack, IDead
     public bool isDead = false;
     public float coolAttackTime = 0;
     public float rotationSpeed = 5f;
+    protected int itemIndex;
+    Vector3 itempos = new Vector3(0, 1, 0);
 
-    
+
     public void Init()
     {
         if (anim == null)
@@ -160,9 +162,9 @@ public class Monster : MonoBehaviour, IAttack, IDead
         isDead = true;
         agent.isStopped = true;
         SetDeadAnim();
-        GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money);
-        Debug.Log(GameManager.Instance.player.playerStat.experience);
+        GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money,10); // 몬스터 잡을때마다 10
         Invoke("DeletObject",3f);
+        DropRandomItem();
     }
     public void DeletObject()
     {
@@ -172,7 +174,28 @@ public class Monster : MonoBehaviour, IAttack, IDead
         }
         MonsterManager.Instance.MonsterPool().ReturnObjectToPool(this);
     }
+    
+    void DropRandomItem()
+    {
+        itemIndex = Random.Range(0,3);
+        if (itemIndex == 0)
+        {
+            GameManager.Instance.player.soOriginPlayer.money += soOriginMonster.money;
+        }
+        else
+        {
+            if (itemIndex == 1) // 장비
+            {
+                itemIndex = Random.Range(0, 7);
+            }
+            else if (itemIndex == 2) // 물약
+            {
+                itemIndex = Random.Range(101, 104);
 
+            }
+            ItemManager.Instance.DropItem(itemIndex, this.transform.position + itempos);
+        }
+    }
 
     #region anim볼필요없음
     public void SetIdelAnim()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -16,7 +17,6 @@ public class Player : MonoBehaviour, IAttack, IDead
     public SOPlayer soOriginPlayer;
     public PlayerStat playerStat { get; private set; }
     PlayerAnimator playerAnimator;
-    Rigidbody rb;
 
     public Transform characterBody;
     public Transform cameraArm;
@@ -31,12 +31,12 @@ public class Player : MonoBehaviour, IAttack, IDead
     bool isLeft = false;
     bool isDead = false;
     Coroutine passiveCor;
+    Coroutine HealHpMpCor;
 
     void Start()
     {
         playerStat = new PlayerStat();
         playerAnimator = GetComponent<PlayerAnimator>();
-        rb = GetComponent<Rigidbody>();
         fist = transform.GetChild(0).GetChild(3);
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
@@ -44,6 +44,7 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         playerStat.SetValues(soOriginPlayer);
         //playerStat.ShowInfo();
+        HealHpMpCor = StartCoroutine(HealHpMp());
 
     }
 
@@ -53,7 +54,7 @@ public class Player : MonoBehaviour, IAttack, IDead
         Move();
     }
 
-    private void Update()
+    private void Update() 
     {
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -82,6 +83,15 @@ public class Player : MonoBehaviour, IAttack, IDead
                 passiveCor = null;
             }
         }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (HealHpMpCor != null)
+            {
+                StopCoroutine(HealHpMpCor);
+                Debug.Log("회복 멈춤");
+                HealHpMpCor = null;
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -99,11 +109,56 @@ public class Player : MonoBehaviour, IAttack, IDead
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity);
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            AllEnum.ItemType name = AllEnum.ItemType.Head;
+            for (int i = 0; i < InventoryManager.Instance.equipList.Length; i++)
+            {
+                Equip eq = InventoryManager.Instance.equipList[i];
+                if (eq.itemType == name)
+                {
+                    eq.exp += 5;
+                }
+                if (eq.exp >= eq.maxExp)
+                {
+                    eq.LevelUp();
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            InventoryManager.Instance.InvenOnOff();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Time.timeScale = 0f; // 시간의 흐름이 멈춤 , //픽스드, 코루틴 안되고, 업데이트되고 , 드래그도 가능
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Time.timeScale = 0.5f;
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Time.timeScale = 1f;
+        }
+        
+    }
+    public IEnumerator HealHpMp()
+    {
+        while (true)
+        {
+            playerStat.AddHp(10);
+            playerStat.AddMp(10);
+            Debug.Log("회복함");
+            yield return new WaitForSeconds(2);
+        }
+        
     }
     private void Move()
     {
         speed = (run) ? (playerStat.movementSpeed * 1.5f) : playerStat.movementSpeed;
-        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));        
         float percent = ((run) ? 1 : 0.5f) * moveInput.magnitude;
         playerAnimator.WalkOrRun(percent);
 
@@ -114,7 +169,6 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         characterBody.forward = lookForward;
         transform.position += moveDir * speed * Time.deltaTime;
-
     }
 
     void BasicAttack()
@@ -231,6 +285,11 @@ public class Player : MonoBehaviour, IAttack, IDead
         print("플레이어 체력" + playerStat.health);
     }
 
+
+    public void UseMana(float mana)
+    {
+        playerStat.SetMana(mana);
+    }
     public void Hit()
     {
         playerAnimator.SetHit();

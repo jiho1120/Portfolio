@@ -32,22 +32,23 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
             tInfo.gameObject.SetActive(false);
         }
     }
-    public void RandomInitializeObjectPool(T[] prefabArray)
+    public void RandomInitializeObjectPool(T[] prefabArray, Transform pos)
     {
         num = prefabArray.Length;
         ranNum = Random.Range(0, num);
         T tInfo = Instantiate(prefabArray[ranNum]).GetComponent<T>();
+        tInfo.transform.parent = pos;
         objectPool.Enqueue(tInfo);
         InfoList.Add(tInfo);
         tInfo.gameObject.SetActive(false);
     }
 
     // 오브젝트를 풀에서 가져오는 함수
-    public T GetObjectFromPool(T[] prefabArray)
+    public T GetObjectFromPool(T[] prefabArray, Transform pos)
     {
         if (objectPool.Count == 0)
         {
-            RandomInitializeObjectPool(prefabArray);
+            RandomInitializeObjectPool(prefabArray, pos);
         }
 
         T obj = objectPool.Dequeue();
