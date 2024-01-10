@@ -18,6 +18,9 @@ public class GameManager : Singleton<GameManager>
         SkillManager.Instance.Init();
         MonsterManager.Instance.Init();
         MonsterManager.Instance.SpawnMonster();
+        ItemManager.Instance.Init();
+        UiManager.Instance.Init();
+
     }
     private void Update()
     {

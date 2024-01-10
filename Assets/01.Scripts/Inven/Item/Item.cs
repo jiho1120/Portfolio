@@ -25,7 +25,7 @@ public class Item : MonoBehaviour
             if (isAdd)
             {
                 InventoryManager.Instance.DataAdd(itemData);
-                this.gameObject.SetActive(false);
+                ItemManager.Instance.ReturnObjectToPool(this);
             }
             else
             {

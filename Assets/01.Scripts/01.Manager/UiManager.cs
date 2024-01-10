@@ -12,6 +12,7 @@ public class UiManager : Singleton<UiManager>
 
     public void Init()
     {
+        playerConditionUI.Init();
     }
     public void SetUI()
     {

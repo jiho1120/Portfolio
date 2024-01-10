@@ -23,7 +23,7 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         count = _count;
         item = _item;
 
-       icon.sprite = item.icon;
+        icon.sprite = item.icon;
         countTxt.text = count.ToString();
     }
 
@@ -71,11 +71,9 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         {
             InventoryManager.Instance.SwapItems(slotIndex, nextSlot.slotIndex);
         }
-        else 
+        else
         {
-            Debug.Log("����~");
+            Debug.Log("없음");
         }
     }
-    
-    
 }

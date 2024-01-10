@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class InventoryManager : Singleton<InventoryManager>
 {
     public List<ItemSlot> itemList = new List<ItemSlot>();
+    public List<ItemSlot> playerItemList = new List<ItemSlot>();
+
+
     int maxItemListLenght = 50;
     int maxItemLenght = 99;
     public Equip[] equipList;
@@ -172,6 +175,9 @@ public class InventoryManager : Singleton<InventoryManager>
         SOItem item = itemList[slotB].item;
         itemList[slotB].SetSlotData(itemList[slotA].count, itemList[slotA].item);
         itemList[slotA].SetSlotData(count, item);
- 
+    }
+    public void SwapListItems(List<ItemSlot> itemList, List<ItemSlot> PlyerItemList)
+    {
+        
     }
 }
