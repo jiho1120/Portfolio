@@ -8,7 +8,10 @@ using UnityEngine;
 //오늘 할일
 // 중력 효과 고치기
 // 그라운드 쓰면 밀치기
-// 아이템 ui에 등록
+// 레벨업시 화면 꾸미기
+// 경험치 0으로 하고 맥스 늘리기
+// 능력치 아이템 스킬 강화 선택 // 이 방법 외에는 어떤 경우에도 강화 불가
+// 골드 보이는 화면 만들기 강화시때만 보임
 
 public class GameManager : Singleton<GameManager>
 {
