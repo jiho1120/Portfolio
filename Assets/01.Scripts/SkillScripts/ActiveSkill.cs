@@ -22,22 +22,19 @@ public class ActiveSkill : Skill
         else
         {
             orgInfo.inUse = true;
-            if (orgInfo.index == 1) // 원
+            if (orgInfo.index == 1) // 슬래쉬
+            {
+            }
+            else if (orgInfo.index == 2) // 원
             {
                 KnockBackAttack();
             }
-            else if (orgInfo.index == 2) // 슬래쉬
-            {
-
-            }
             else if (orgInfo.index == 3) //땅
             {
-
                 if (boxCor == null)
                 {
                     boxCor = StartCoroutine(GrowInBoxCollider());
                 }
-
             }
             else if (orgInfo.index == 4) // 중력
             {
@@ -140,11 +137,7 @@ public class ActiveSkill : Skill
                 {
                     Monster monster = colliders[i].GetComponent<Monster>();
                     monster.TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.orgInfo.effect);
-                    if (monsterList.Contains(monster))
-                    {
-                        Debug.Log("이미 있는애");
-                    }
-                    else
+                    if (!monsterList.Contains(monster))
                     {
                         monsterList.Add(monster);
                     }

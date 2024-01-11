@@ -1,18 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-// 문제점
-// 또 같은 팔로 공격
 
-//오늘 할일
-// 스킬 쿨타임동안 못쓰게 하기
-// 중력 효과 고치기
-// 그라운드 쓰면 밀치기
-// 아이템 만들기 인벤 
-public class Player : MonoBehaviour, IAttack, IDead
+//Time.timeScale = 0f; 시간의 흐름이 멈춤 , //픽스드, 코루틴 안되고, 업데이트되고 , 드래그도 가능
+public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
 {
     public SOPlayer soOriginPlayer;
     public PlayerStat playerStat { get; private set; }
@@ -56,7 +48,6 @@ public class Player : MonoBehaviour, IAttack, IDead
 
     private void Update() 
     {
-
         if (Input.GetKey(KeyCode.LeftShift))
         {
             run = true;
@@ -92,22 +83,31 @@ public class Player : MonoBehaviour, IAttack, IDead
                 HealHpMpCor = null;
             }
         }
-
+        
         if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground);
+        }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity);
+            if (playerStat.ultimateGauge >= playerStat.maxUltimateGauge)
+            {
+                Debug.Log("스킬 사용 가능");
+
+                SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity);
+            }
+            else
+            {
+                Debug.Log("스킬 못씀");
+            }
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -125,22 +125,13 @@ public class Player : MonoBehaviour, IAttack, IDead
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.anyKeyDown)
         {
-            InventoryManager.Instance.InvenOnOff();
-        }
+            // 만약 아무 키도 입력되지 않았을 경우에는 '\0'가 반환 null역활
+            char keyPressed = Input.inputString.Length > 0 ? Input.inputString[0] : '\0';
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            Time.timeScale = 0f; // 시간의 흐름이 멈춤 , //픽스드, 코루틴 안되고, 업데이트되고 , 드래그도 가능
-        }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Time.timeScale = 0.5f;
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Time.timeScale = 1f;
+            // ScreenOnOff 함수에 누른 키를 매개변수로 전달하여 호출
+            UiManager.Instance.ScreenOnOff(keyPressed);
         }
         
     }
@@ -153,7 +144,6 @@ public class Player : MonoBehaviour, IAttack, IDead
             Debug.Log("회복함");
             yield return new WaitForSeconds(2);
         }
-        
     }
     private void Move()
     {
@@ -170,7 +160,39 @@ public class Player : MonoBehaviour, IAttack, IDead
         characterBody.forward = lookForward;
         transform.position += moveDir * speed * Time.deltaTime;
     }
+    public void UseMana(float mana)
+    {
+        playerStat.MinusMana(mana);
+    }
+    #region 레벨업
+    public void LevelUp()
+    {
+        if (playerStat != null)
+        {
+            if (playerStat.experience >= playerStat.maxExperience)
+            {
+                playerStat.SetExp(playerStat.maxExperience - playerStat.experience);
+                playerStat.LevelUp(); // 레벨 1만 올리는 함수
+                StatUp();
+                // 데이터 세팅
+                UiManager.Instance.powerUpUI.gameObject.SetActive(true);
+                //고르거나 나가기 버튼 누르면 나가기
+                // 골라으면 데이터 적용, 아니면 말기
+                // 2번 레벨업 할수도 있으니 다시 레벨업 체크
 
+            }
+        }
+    }
+
+    public void StatUp()
+    {
+        playerStat.AddMaxHealth(100f);
+        playerStat.AddMaxMana(100f);
+        playerStat.AddMaxExperience(100f);
+    }
+    #endregion
+
+    #region 공격
     void BasicAttack()
     {
         //클릭할때마다 이전시간과 비교해서 연속공격상태면 다음 주먹으로 변경하고
@@ -211,14 +233,9 @@ public class Player : MonoBehaviour, IAttack, IDead
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawWireSphere(fist.position, 1f);
-
-    //}
-    public void Attack(Vector3 Tr, float Range)
+    public virtual void Attack(Transform Tr, float Range)
     {
-        Collider[] colliders = Physics.OverlapSphere(Tr, Range);
+        Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].CompareTag("Monster"))
@@ -228,17 +245,16 @@ public class Player : MonoBehaviour, IAttack, IDead
             }
         }
     }
-    
     public void AttackRange() // 애니메이션에 넣음
     {
-        Attack(fist.position, 1f);
+        Attack(fist, 1f);
     }
 
     public IEnumerator TimeLapseAttack(float attackRange, float delayTime)
     {
         while (true)
         {
-            Attack(this.transform.position, attackRange);
+            Attack(this.transform, attackRange);
             yield return new WaitForSeconds(delayTime);
         }
     }
@@ -263,7 +279,9 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         return criticalDamage;
     }
+    #endregion
 
+    #region 맞고 죽고
     public virtual void TakeDamage(float critical, float attack) // 플레이어피가 다는거
     {
         if (!isDead)
@@ -285,11 +303,6 @@ public class Player : MonoBehaviour, IAttack, IDead
         print("플레이어 체력" + playerStat.health);
     }
 
-
-    public void UseMana(float mana)
-    {
-        playerStat.SetMana(mana);
-    }
     public void Hit()
     {
         playerAnimator.SetHit();
@@ -306,5 +319,6 @@ public class Player : MonoBehaviour, IAttack, IDead
         return isDead;
     }
 
-   
+    #endregion
+    
 }

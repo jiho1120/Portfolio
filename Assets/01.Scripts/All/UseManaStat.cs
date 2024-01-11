@@ -29,7 +29,7 @@ public class UseManaStat : BasicStat
     {
         base.ShowInfo();
     }
-    public void SetMana(float mana)
+    public void MinusMana(float mana)
     {
         this.mana -= mana;
     }
@@ -40,5 +40,17 @@ public class UseManaStat : BasicStat
         {
             this.mana = maxMana;
         }
+    }
+    public void SetMana(float mana)
+    {
+        this.mana = mana;
+    }
+    public void SetMaxMana(float maxMana)
+    {
+        this.maxMana = maxMana;
+    }
+    public void AddMaxMana(float maxMana)
+    {
+        this.maxMana += maxMana;
     }
 }
