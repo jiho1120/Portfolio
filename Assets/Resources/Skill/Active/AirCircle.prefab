@@ -4947,7 +4947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1949be87272daaa4aa74efaddebbc38e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Index: 1
+  Index: 2
   orgInfo: {fileID: 11400000, guid: 9367442e0a9c0294ba6c0b8ae0a6785c, type: 2}
 --- !u!136 &-5896882337979662348
 CapsuleCollider:

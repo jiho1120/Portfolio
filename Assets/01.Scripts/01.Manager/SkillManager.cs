@@ -61,9 +61,9 @@ public class SkillManager : Singleton<SkillManager>
     {
         switch (val)
         {
-            case AllEnum.SkillName.AirCircle:
-                return 1;
             case AllEnum.SkillName.AirSlash:
+                return 1;
+            case AllEnum.SkillName.AirCircle:
                 return 2;
             case AllEnum.SkillName.Ground:
                 return 3;
@@ -86,8 +86,8 @@ public class SkillManager : Singleton<SkillManager>
     {
         switch (val)
         {
-            case 1: return AllEnum.SkillName.AirCircle;
-            case 2: return AllEnum.SkillName.AirSlash;
+            case 1: return AllEnum.SkillName.AirSlash;
+            case 2: return AllEnum.SkillName.AirCircle;
             case 3: return AllEnum.SkillName.Ground;
             case 4: return AllEnum.SkillName.Gravity;
             case 101: return AllEnum.SkillName.Fire;
@@ -102,6 +102,7 @@ public class SkillManager : Singleton<SkillManager>
         Skill skill = GetSKillFromDict(name);
         if (skill.orgInfo.inUse)
         {
+            
             Debug.Log("사용중");
             return;
         }
@@ -121,6 +122,7 @@ public class SkillManager : Singleton<SkillManager>
                 skill.gameObject.SetActive(true);
                 skill.DoSkill();
                 GameManager.Instance.player.playerStat.SetMana(skill.orgInfo.mana);
+                UiManager.Instance.SetUseSKillCoolImg(skill.orgInfo.index); // 검은색창으로 만듬 1,2,3,4
             }
         }
     }

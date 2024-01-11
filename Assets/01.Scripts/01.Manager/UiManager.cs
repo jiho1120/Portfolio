@@ -18,4 +18,8 @@ public class UiManager : Singleton<UiManager>
     {
         playerConditionUI.SetUI();
     }
+    public void SetUseSKillCoolImg(int num)
+    {
+        playerConditionUI.skill[num].SetUseSKillTime();
+    }
 }

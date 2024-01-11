@@ -95,18 +95,18 @@ public class Player : MonoBehaviour, IAttack, IDead
                 HealHpMpCor = null;
             }
         }
-
+        
         if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {

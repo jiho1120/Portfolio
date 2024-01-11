@@ -11,7 +11,7 @@ public abstract class Skill : MonoBehaviour
     {
         orgInfo = _Info;
     }
-
+    
     private void OnCollisionEnter(Collision collision) // 1번,3번
     {
         if (collision.gameObject.CompareTag("Monster"))
@@ -35,7 +35,6 @@ public abstract class Skill : MonoBehaviour
 
     public virtual void DoSkill() /* 스킬로써해야할일들*/
     {
-
     }
 
     public abstract void DoReset();

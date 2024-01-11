@@ -7,8 +7,6 @@ using UnityEngine.EventSystems;
 public class DragSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     int itemIndex = 0;
-    int itemIndex2 = 0;
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         GameObject obj = EventSystem.current.currentSelectedGameObject;
