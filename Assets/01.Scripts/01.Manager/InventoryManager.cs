@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class InventoryManager : Singleton<InventoryManager>
 {
     public List<ItemSlot> itemList = new List<ItemSlot>();
+    public List<ItemSlot> playerItemList = new List<ItemSlot>();
+
+
     int maxItemListLenght = 50;
     int maxItemLenght = 99;
     public Equip[] equipList;
@@ -33,6 +36,7 @@ public class InventoryManager : Singleton<InventoryManager>
         for (int i = 0; i < maxItemListLenght; i++)
         {
             ItemSlot obj = Instantiate(InventoryItem, ItemContent).GetComponent<ItemSlot>();
+            obj.slotIndex = i;
             itemList.Add(obj);
         }
     }
@@ -164,5 +168,16 @@ public class InventoryManager : Singleton<InventoryManager>
                 item.Find("RemoveButton").gameObject.SetActive(false);
             }
         }
+    }
+    public void SwapItems(int slotA, int slotB)
+    {
+        int count = itemList[slotB].count;
+        SOItem item = itemList[slotB].item;
+        itemList[slotB].SetSlotData(itemList[slotA].count, itemList[slotA].item);
+        itemList[slotA].SetSlotData(count, item);
+    }
+    public void SwapListItems(List<ItemSlot> itemList, List<ItemSlot> PlyerItemList)
+    {
+        
     }
 }

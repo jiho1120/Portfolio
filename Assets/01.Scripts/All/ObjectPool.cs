@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : MonoBehaviour 를 안쓰면 MonoBehaviour의 기능을 못씀?
+public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : MonoBehaviour 를 안쓰면 MonoBehaviour의 기능을 못씀
 {
     //T tInfo;
     public Queue<T> objectPool = new Queue<T>();

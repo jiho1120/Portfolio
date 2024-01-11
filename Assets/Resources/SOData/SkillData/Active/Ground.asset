@@ -16,7 +16,7 @@ MonoBehaviour:
   skillType: 1
   PassiveSkillType: 0
   SkillName: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: a19cebe0599724c469f757f6e0b2d9a4, type: 3}
   effect: 100
   duration: 3
   cool: 5
