@@ -10,7 +10,6 @@ public class PlayerAnimator : MonoBehaviour
     public void Starts()
     {
         anim = GetComponent<Animator>();
-
     }
 
     public void MoveAnim(float z, float x)

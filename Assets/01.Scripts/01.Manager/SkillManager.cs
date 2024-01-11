@@ -121,7 +121,7 @@ public class SkillManager : Singleton<SkillManager>
                 skill = SetSkillPos(skill, pos, rot);
                 skill.gameObject.SetActive(true);
                 skill.DoSkill();
-                GameManager.Instance.player.playerStat.SetMana(skill.orgInfo.mana);
+                GameManager.Instance.player.playerStat.MinusMana(skill.orgInfo.mana);
                 UiManager.Instance.SetUseSKillCoolImg(skill.orgInfo.index); // 검은색창으로 만듬 1,2,3,4
             }
         }

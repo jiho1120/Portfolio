@@ -18,7 +18,7 @@ public interface IDead
 
 public interface ILevelUp
 {
-    public bool PlusLevel();
+    public void LevelUp();
     public void StatUp();
 }
 

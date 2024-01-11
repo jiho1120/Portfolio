@@ -57,6 +57,14 @@ public class BasicStat
     {
         this.health = helath;
     }
+    public void SetMaxHealth(float maxHealth)
+    {
+        this.maxHealth = maxHealth;
+    }
+    public void AddMaxHealth(float maxHealth)
+    {
+        this.maxHealth += maxHealth;
+    }
     public void AddHp(float helath)
     {
         this.health += helath;
@@ -73,11 +81,22 @@ public class BasicStat
     {
         this.experience += exp;
     }
+    public void SetExp(float exp)
+    {
+        experience = exp;
+    }
     public void AddMoney(int money)
     {
         this.money += money;
     }
-    
+    public void LevelUp()
+    {
+        this.level++;
+    }
+    public void SetExperience(float Experience)
+    {
+        this.experience = Experience;
+    }
 
 
     public virtual void ShowInfo()
