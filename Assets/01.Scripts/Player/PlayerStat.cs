@@ -43,7 +43,15 @@ public class PlayerStat : UseManaStat
         AddExp(experience);
         AddMoney(money);
         this.ultimateGauge += ultimateGauge;
+        if (ultimateGauge > maxUltimateGauge)
+        {
+            this.ultimateGauge = maxUltimateGauge;
+        }
 
+    }
+    public void SetUltimateGauge(float num)
+    {
+        ultimateGauge = num;
     }
     public override void ShowInfo()
     {

@@ -32,15 +32,15 @@ public class PlayerConditionUI : MonoBehaviour
         exp.maxValue = GameManager.Instance.player.playerStat.maxExperience;
         exp.value = GameManager.Instance.player.playerStat.experience;
 
-        ShowSkillCoolImg();
+        SuperCoolImg();
     }
 
-    public void ShowSkillCoolImg()
+    public void SuperCoolImg()
     {
-        skill[0].gauge.fillAmount = GameManager.Instance.player.playerStat.ultimateGauge / GameManager.Instance.player.playerStat.maxUltimateGauge;
+        skill[3].gauge.fillAmount = GameManager.Instance.player.playerStat.ultimateGauge / GameManager.Instance.player.playerStat.maxUltimateGauge;
 
-        Color color = skill[0].gauge.color;
-        if (skill[0].gauge.fillAmount == 1)
+        Color color = skill[3].gauge.color;
+        if (skill[3].gauge.fillAmount == 1)
         {
             color.a = 1;
         }
@@ -48,7 +48,6 @@ public class PlayerConditionUI : MonoBehaviour
         {
             color.a = 0.15f;
         }
-        skill[0].gauge.color = color;
+        skill[3].gauge.color = color;
     }
-
 }

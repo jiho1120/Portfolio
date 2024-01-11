@@ -48,4 +48,9 @@ public class SkillSlot : MonoBehaviour // 얘는 교체 없음
             gauge.fillAmount = 1 - useTime / ownSkill.orgInfo.cool;
         }
     }
+    public void SetBeggginSuper()
+    {
+        gauge.fillAmount = 0;
+        GameManager.Instance.player.playerStat.SetUltimateGauge(0);
+    }
 }

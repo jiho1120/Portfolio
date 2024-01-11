@@ -18,8 +18,16 @@ public class UiManager : Singleton<UiManager>
     {
         playerConditionUI.SetUI();
     }
-    public void SetUseSKillCoolImg(int num)
+    public void SetUseSKillCoolImg(int _num)
     {
-        playerConditionUI.skill[num].SetUseSKillTime();
+        int num = _num - 1;
+        if (num == 3)
+        {
+            playerConditionUI.skill[num].SetBeggginSuper();
+        }
+        else
+        {
+            playerConditionUI.skill[num].SetUseSKillTime();
+        }
     }
 }

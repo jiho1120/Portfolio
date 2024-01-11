@@ -1565,10 +1565,10 @@ MonoBehaviour:
   exp: {fileID: 1995904821}
   item: {fileID: 97962041}
   skill:
-  - {fileID: 1195239293}
   - {fileID: 8668066265244207481}
   - {fileID: 1669371662}
   - {fileID: 778766682}
+  - {fileID: 1195239293}
 --- !u!1001 &769730695
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4702,6 +4702,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 13887139}
     m_Modifications:
+    - target: {fileID: 70349340, guid: 1ed61c6635d075648921414126ae4f42, type: 3}
+      propertyPath: m_FillAmount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1885507569505853219, guid: 1ed61c6635d075648921414126ae4f42, type: 3}
       propertyPath: m_Sprite
       value: 

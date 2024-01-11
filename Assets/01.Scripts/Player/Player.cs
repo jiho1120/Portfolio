@@ -4,14 +4,8 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-// 문제점
-// 또 같은 팔로 공격
 
-//오늘 할일
-// 스킬 쿨타임동안 못쓰게 하기
-// 중력 효과 고치기
-// 그라운드 쓰면 밀치기
-// 아이템 만들기 인벤 
+
 public class Player : MonoBehaviour, IAttack, IDead
 {
     public SOPlayer soOriginPlayer;
@@ -110,7 +104,16 @@ public class Player : MonoBehaviour, IAttack, IDead
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity);
+            if (playerStat.ultimateGauge >= playerStat.maxUltimateGauge)
+            {
+                Debug.Log("스킬 사용 가능");
+
+                SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity);
+            }
+            else
+            {
+                Debug.Log("스킬 못씀");
+            }
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -135,6 +138,7 @@ public class Player : MonoBehaviour, IAttack, IDead
 
         if (Input.GetKeyDown(KeyCode.C))
         {
+           playerStat.ShowInfo();
             Time.timeScale = 0f; // 시간의 흐름이 멈춤 , //픽스드, 코루틴 안되고, 업데이트되고 , 드래그도 가능
         }
         if (Input.GetKeyDown(KeyCode.V))
