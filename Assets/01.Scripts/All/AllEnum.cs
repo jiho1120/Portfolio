@@ -15,6 +15,17 @@ public class AllEnum
 
         End
     }
+    public enum States
+    {
+        Idle,
+        Walk,
+        Attack,
+        Hit,
+        Die,
+
+        End
+    }
+
     public enum SkillType
     {
         PassiveSkill,
@@ -49,17 +60,6 @@ public class AllEnum
 
         End
     }
-    
-    public enum States
-    {
-        Idle,
-        Walk,
-        Attack,
-        Hit,
-        Die,
-
-        End
-    }
 
     public enum ItemType
     {
@@ -78,6 +78,14 @@ public class AllEnum
         Belt,
         Bottom,
         Shoes,
+
+        End
+    }
+
+    public enum ItemListType
+    {
+        Inventory,
+        PlayerUI,
 
         End
     }

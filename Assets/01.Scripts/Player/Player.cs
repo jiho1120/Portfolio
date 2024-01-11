@@ -218,11 +218,6 @@ public class Player : MonoBehaviour, IAttack, IDead
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawWireSphere(fist.position, 1f);
-
-    //}
     public virtual void Attack(Transform Tr, float Range)
     {
         Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);

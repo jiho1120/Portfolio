@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 
 public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public AllEnum.ItemListType itemListType;
     public int slotIndex;
     public Button removeButton;
     public Image icon;
@@ -69,7 +70,25 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
         if (nextSlot != null)
         {
-            InventoryManager.Instance.SwapItems(slotIndex, nextSlot.slotIndex);
+            if ((int)item.itemType >= (int)AllEnum.ItemType.Head) // 장착무기
+            {
+                if (nextSlot.itemListType == AllEnum.ItemListType.PlayerUI)
+                {
+                    return;
+                }
+            }
+            else if (itemListType == AllEnum.ItemListType.PlayerUI)
+            {
+                if ((int)nextSlot.item.itemType >= (int)AllEnum.ItemType.Head && nextSlot.item.itemType != AllEnum.ItemType.End)
+                {
+                    return;
+                }
+            }
+
+
+            InventoryManager.Instance.SwapItems(this , nextSlot);
+            //InventoryManager.Instance.SwapItems(slotIndex, nextSlot.slotIndex);
+
         }
         else
         {

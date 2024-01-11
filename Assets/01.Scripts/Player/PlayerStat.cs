@@ -47,7 +47,6 @@ public class PlayerStat : UseManaStat
         {
             this.ultimateGauge = maxUltimateGauge;
         }
-
     }
     public void SetUltimateGauge(float num)
     {

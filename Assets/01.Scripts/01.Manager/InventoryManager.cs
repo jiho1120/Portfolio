@@ -63,7 +63,7 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         for (int i = 0; i < itemList.Count; i++)
         {
-            if(itemList[i].item.index == -1)
+            if (itemList[i].item.index == -1)
             {
                 return true;
             }
@@ -129,7 +129,7 @@ public class InventoryManager : Singleton<InventoryManager>
                 }
             }
         }
-        
+
     }
     public void Remove(ItemSlot item)
     {
@@ -139,7 +139,7 @@ public class InventoryManager : Singleton<InventoryManager>
         item.icon.sprite = null;
         Debug.Log("ªË¡¶");
     }
-    
+
     public void ListItems()
     {
         for (int i = 0; i < itemList.Count; i++)
@@ -169,15 +169,30 @@ public class InventoryManager : Singleton<InventoryManager>
             }
         }
     }
-    public void SwapItems(int slotA, int slotB)
+
+    public void SwapItems(ItemSlot slotA, ItemSlot slotB)
     {
-        int count = itemList[slotB].count;
-        SOItem item = itemList[slotB].item;
-        itemList[slotB].SetSlotData(itemList[slotA].count, itemList[slotA].item);
-        itemList[slotA].SetSlotData(count, item);
+        int count = slotB.count;
+        SOItem item = slotB.item;
+        slotB.SetSlotData(slotA.count, slotA.item);
+        slotA.SetSlotData(count, item);
+
     }
-    public void SwapListItems(List<ItemSlot> itemList, List<ItemSlot> PlyerItemList)
-    {
-        
-    }
+    //public void SwapItems(int slotA, int slotB)
+    //{
+    //    if (itemList[slotB].itemListType == AllEnum.ItemListType.Inventory)
+    //    {
+
+    //    }
+    //    else if (true)
+    //    {
+
+    //    }
+    //    int count = itemList[slotB].count;
+    //    SOItem item = itemList[slotB].item;
+    //    AllEnum.ItemListType itemListType = itemList[slotB].itemListType;
+    //    itemList[slotB].SetSlotData(itemList[slotA].itemListType,itemList[slotA].count, itemList[slotA].item);
+    //    itemList[slotA].SetSlotData(itemListType, count, item);
+    //}
+
 }
