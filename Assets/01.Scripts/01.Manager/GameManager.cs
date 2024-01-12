@@ -8,11 +8,10 @@ using UnityEngine;
 //오늘 할일
 // 중력 효과 고치기
 // 그라운드 쓰면 밀치기
-// 경험치 0으로 하고 맥스 늘리기
 // 능력치 아이템 스킬 강화 선택 // 이 방법 외에는 어떤 경우에도 강화 불가
 // 레벨업 함수 완성하기
 // 레벨업 화면 버튼 기능들 만들기
-// 데이터 만들고 넣기
+// 레벨업 데이터 만들고 넣기
 
 public class GameManager : Singleton<GameManager>
 {
@@ -26,6 +25,7 @@ public class GameManager : Singleton<GameManager>
         SkillManager.Instance.Init();
         MonsterManager.Instance.Init();
         MonsterManager.Instance.SpawnMonster();
+        InventoryManager.Instance.Init();
         ItemManager.Instance.Init();
         UiManager.Instance.Init();
     }

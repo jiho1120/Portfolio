@@ -81,7 +81,6 @@ public class ActiveSkill : Skill
 
     public IEnumerator GrowInBoxCollider()
     {
-        Debug.Log("ÇÔ¼öµé¾î¿È");
         BoxCollider col = transform.GetComponent<BoxCollider>();
         if (col != null)
         {

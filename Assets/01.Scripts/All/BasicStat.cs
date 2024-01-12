@@ -56,6 +56,10 @@ public class BasicStat
     public void SetHealth(float helath)
     {
         this.health = helath;
+        if (this.health > maxHealth)
+        {
+            this.health = maxHealth;
+        }
     }
     public void SetMaxHealth(float maxHealth)
     {
@@ -93,12 +97,6 @@ public class BasicStat
     {
         this.level++;
     }
-    public void SetExperience(float Experience)
-    {
-        this.experience = Experience;
-    }
-
-
     public virtual void ShowInfo()
     {
         Debug.Log(this.objectType);

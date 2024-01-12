@@ -60,4 +60,8 @@ public class PowerUpUI : MonoBehaviour
             Cursor.visible = false;
         }
     }
+    public void SetPowerUpUIData()
+    {
+
+    }
 }

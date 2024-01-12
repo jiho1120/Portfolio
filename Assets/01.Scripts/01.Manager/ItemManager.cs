@@ -10,10 +10,10 @@ public class ItemManager : Singleton<ItemManager>
     Queue<Item> itemPool = new Queue<Item>();
     List<Item> infoList = new List<Item>();
     public Item itemDrop;
-    int maxIDroptemLength = 20;
+    int maxDropItemLength = 20;
     public void Init()
     {
-        for (int i = 0; i < maxIDroptemLength; i++)
+        for (int i = 0; i < maxDropItemLength; i++)
         {
             MakeItem();
         }

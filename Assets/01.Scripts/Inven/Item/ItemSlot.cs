@@ -27,6 +27,11 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         icon.sprite = item.icon;
         countTxt.text = count.ToString();
     }
+    public void SetSlotDataCount(int _count)
+    {
+        count = _count;
+        countTxt.text = count.ToString();
+    }
 
     public void RemoveItem()
     {
@@ -87,7 +92,6 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 
             InventoryManager.Instance.SwapItems(this , nextSlot);
-            //InventoryManager.Instance.SwapItems(slotIndex, nextSlot.slotIndex);
 
         }
         else

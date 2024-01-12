@@ -21,16 +21,12 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public GameObject inven;
     public bool invenOn = false;
-    void Start()
+    public void Init()
     {
         SetItemListCount();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
     public void SetItemListCount()
     {
         for (int i = 0; i < maxItemListLenght; i++)
@@ -40,6 +36,11 @@ public class InventoryManager : Singleton<InventoryManager>
             itemList.Add(obj);
         }
     }
+    public void AddItemListCount(int num)
+    {
+        maxItemListLenght += num;
+    }
+
     public void InvenOnOff()
     {
         invenOn = !invenOn;
@@ -47,7 +48,7 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             Time.timeScale = 0f; // 시간의 흐름이 멈춤  //코루틴 안되고, 업데이트 안 되고 , 픽스드 가능, 드래그도 가능
             inven.SetActive(true);
-            ListItems();
+            SetItemsInfo();
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -129,7 +130,6 @@ public class InventoryManager : Singleton<InventoryManager>
                 }
             }
         }
-
     }
     public void Remove(ItemSlot item)
     {
@@ -139,8 +139,7 @@ public class InventoryManager : Singleton<InventoryManager>
         item.icon.sprite = null;
         Debug.Log("삭제");
     }
-
-    public void ListItems()
+    public void SetItemsInfo()
     {
         for (int i = 0; i < itemList.Count; i++)
         {
@@ -152,6 +151,7 @@ public class InventoryManager : Singleton<InventoryManager>
             }
         }
     }
+
     public void EnableItemsRemove()
     {
         if (EnableRemove.isOn)
@@ -178,21 +178,43 @@ public class InventoryManager : Singleton<InventoryManager>
         slotA.SetSlotData(count, item);
 
     }
-    //public void SwapItems(int slotA, int slotB)
-    //{
-    //    if (itemList[slotB].itemListType == AllEnum.ItemListType.Inventory)
-    //    {
 
-    //    }
-    //    else if (true)
-    //    {
+    public void UseItem(int num)
+    {
+        if (playerItemList[num].count > 0)
+        {
+            if (playerItemList[num].item.itemType == AllEnum.ItemType.HpPosion)
+            {
+                GameManager.Instance.player.playerStat.AddHp(playerItemList[num].item.health);
+                Debug.Log(GameManager.Instance.player.playerStat.health);
 
-    //    }
-    //    int count = itemList[slotB].count;
-    //    SOItem item = itemList[slotB].item;
-    //    AllEnum.ItemListType itemListType = itemList[slotB].itemListType;
-    //    itemList[slotB].SetSlotData(itemList[slotA].itemListType,itemList[slotA].count, itemList[slotA].item);
-    //    itemList[slotA].SetSlotData(itemListType, count, item);
-    //}
+            }
+            else if (playerItemList[num].item.itemType == AllEnum.ItemType.MpPosion)
+            {
+                GameManager.Instance.player.playerStat.AddMp(playerItemList[num].item.mana);
+                Debug.Log(GameManager.Instance.player.playerStat.mana);
 
+            }
+            else if (playerItemList[num].item.itemType == AllEnum.ItemType.UltimatePosion)
+            {
+                GameManager.Instance.player.playerStat.AddUltimateGauge(playerItemList[num].item.ultimateGauge);
+                Debug.Log(GameManager.Instance.player.playerStat.ultimateGauge);
+
+            }
+            else
+            {
+                Debug.Log("이건 뭐지...");
+                return;
+            }
+            playerItemList[num].count -= 1;
+            playerItemList[num].SetSlotDataCount(playerItemList[num].count);
+        }
+        else
+        {
+            Debug.Log(playerItemList[num].count);
+            Debug.Log("갯수가 없음");
+
+        }
+
+    }
 }

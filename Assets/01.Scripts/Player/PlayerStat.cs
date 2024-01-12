@@ -51,9 +51,29 @@ public class PlayerStat : UseManaStat
     public void SetUltimateGauge(float num)
     {
         ultimateGauge = num;
+        if (ultimateGauge > maxUltimateGauge)
+        {
+            ultimateGauge = maxUltimateGauge;
+        }
+    }
+    public void AddUltimateGauge(float num)
+    {
+        ultimateGauge += num;
+        if (ultimateGauge > maxUltimateGauge)
+        {
+            ultimateGauge = maxUltimateGauge;
+        }
+    }
+    public void SetMaxUltimateGauge(float num)
+    {
+        maxUltimateGauge = num;
+       
+    }
+    public void AddMaxUltimateGauge(float num)
+    {
+        maxUltimateGauge += num;
     }
 
-    
     public void SetMaxExperience(float MaxExperience)
     {
         this.maxExperience = MaxExperience;

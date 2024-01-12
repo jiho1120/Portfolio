@@ -39,7 +39,8 @@ public class UiManager : Singleton<UiManager>
     {
         return panelName[num];
     }
-
+    
+    
 
     public void ScreenOnOff(char key)
     {

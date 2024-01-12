@@ -46,7 +46,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         Move();
     }
 
-    private void Update() 
+    private void Update()
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -60,20 +60,33 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             BasicAttack();
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            InventoryManager.Instance.UseItem(0);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            InventoryManager.Instance.UseItem(1);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            InventoryManager.Instance.UseItem(2);
+        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             attackSpeed += 0.1f;
             playerAnimator.SetAttackSpeed(attackSpeed);
         }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (passiveCor != null)
-            {
-                StopCoroutine(passiveCor);
-                Debug.Log("멈춤");
-                passiveCor = null;
-            }
-        }
+
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    if (passiveCor != null)
+        //    {
+        //        StopCoroutine(passiveCor);
+        //        Debug.Log("멈춤");
+        //        passiveCor = null;
+        //    }
+        //}
         if (Input.GetKeyDown(KeyCode.T))
         {
             if (HealHpMpCor != null)
@@ -83,7 +96,11 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
                 HealHpMpCor = null;
             }
         }
-        
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            playerStat.AddExp(100);
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash);
@@ -133,7 +150,16 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
             // ScreenOnOff 함수에 누른 키를 매개변수로 전달하여 호출
             UiManager.Instance.ScreenOnOff(keyPressed);
         }
-        
+        if (playerStat.experience >= playerStat.maxExperience) // 이걸 업데이트 조건으로 뺴야함
+        {
+            LevelUp();
+            // UI 데이터 세팅
+            UiManager.Instance.powerUpUI.SetPowerUpUIData();
+            // 고르거나 나가기 버튼 누르면 나가기
+            UiManager.Instance.powerUpUI.ScreenOnOff();
+            // 골라으면 데이터 적용, 아니면 말기
+
+        }
     }
     public IEnumerator HealHpMp()
     {
@@ -141,14 +167,13 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             playerStat.AddHp(10);
             playerStat.AddMp(10);
-            Debug.Log("회복함");
             yield return new WaitForSeconds(2);
         }
     }
     private void Move()
     {
         speed = (run) ? (playerStat.movementSpeed * 1.5f) : playerStat.movementSpeed;
-        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));        
+        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         float percent = ((run) ? 1 : 0.5f) * moveInput.magnitude;
         playerAnimator.WalkOrRun(percent);
 
@@ -164,23 +189,15 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     {
         playerStat.MinusMana(mana);
     }
+
     #region 레벨업
     public void LevelUp()
     {
         if (playerStat != null)
         {
-            if (playerStat.experience >= playerStat.maxExperience)
-            {
-                playerStat.SetExp(playerStat.maxExperience - playerStat.experience);
-                playerStat.LevelUp(); // 레벨 1만 올리는 함수
-                StatUp();
-                // 데이터 세팅
-                UiManager.Instance.powerUpUI.gameObject.SetActive(true);
-                //고르거나 나가기 버튼 누르면 나가기
-                // 골라으면 데이터 적용, 아니면 말기
-                // 2번 레벨업 할수도 있으니 다시 레벨업 체크
-
-            }
+            playerStat.SetExp(playerStat.maxExperience - playerStat.experience);
+            playerStat.LevelUp(); // 레벨 1만 올리는 함수
+            StatUp();
         }
     }
 
@@ -233,9 +250,9 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
 
-    public virtual void Attack(Transform Tr, float Range)
+    public void Attack(Vector3 pos, float Range)
     {
-        Collider[] colliders = Physics.OverlapSphere(Tr.position, Range);
+        Collider[] colliders = Physics.OverlapSphere(pos, Range);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].CompareTag("Monster"))
@@ -245,16 +262,17 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
             }
         }
     }
+
     public void AttackRange() // 애니메이션에 넣음
     {
-        Attack(fist, 1f);
+        Attack(fist.position, 1f);
     }
 
     public IEnumerator TimeLapseAttack(float attackRange, float delayTime)
     {
         while (true)
         {
-            Attack(this.transform, attackRange);
+            Attack(transform.position, attackRange);
             yield return new WaitForSeconds(delayTime);
         }
     }
@@ -319,6 +337,8 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         return isDead;
     }
 
+
+
     #endregion
-    
+
 }

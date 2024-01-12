@@ -65,7 +65,7 @@ public class AllEnum
     {
         HpPosion,
         MpPosion,
-        ExpPosion,
+        UltimatePosion,
 
 
 
