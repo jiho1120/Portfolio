@@ -74,7 +74,7 @@ public class AllEnum
         Head,
         Top,
         Gloves,
-        Waepon,
+        Weapon,
         Belt,
         Bottom,
         Shoes,
