@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ItemGrade>
+		<grade>Normal</grade>
+		<money>100</money>
+		<color>Gray</color>
+		<percentage>50</percentage>
+	</ItemGrade>
+	<ItemGrade>
+		<grade>Rare</grade>
+		<money>200</money>
+		<color>Blue</color>
+		<percentage>39</percentage>
+	</ItemGrade>
+	<ItemGrade>
+		<grade>Unique</grade>
+		<money>300</money>
+		<color>Purple</color>
+		<percentage>10</percentage>
+	</ItemGrade>
+	<ItemGrade>
+		<grade>Legendary</grade>
+		<money>400</money>
+		<color>Yellow</color>
+		<percentage>1</percentage>
+	</ItemGrade>
+</Root>

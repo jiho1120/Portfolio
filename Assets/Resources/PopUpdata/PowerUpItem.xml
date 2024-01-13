@@ -1,0 +1,30 @@
+<PowerUpItem>
+  <Stat Name="Head" Rating="Normal" Value="10" />
+  <Stat Name="Head" Rating="Rare" Value="20" />
+  <Stat Name="Head" Rating="Unique" Value="30" />
+  <Stat Name="Head" Rating="Legendary" Value="40" />
+  <Stat Name="Top" Rating="Normal" Value="10" />
+  <Stat Name="Top" Rating="Rare" Value="20" />
+  <Stat Name="Top" Rating="Unique" Value="30" />
+  <Stat Name="Top" Rating="Legendary" Value="40" />
+  <Stat Name="Gloves" Rating="Normal" Value="0.1" />
+  <Stat Name="Gloves" Rating="Rare" Value="0.2" />
+  <Stat Name="Gloves" Rating="Unique" Value="0.3" />
+  <Stat Name="Gloves" Rating="Legendary" Value="0.4" />
+  <Stat Name="Waepon" Rating="Normal" Value="10" />
+  <Stat Name="Waepon" Rating="Rare" Value="20" />
+  <Stat Name="Waepon" Rating="Unique" Value="30" />
+  <Stat Name="Waepon" Rating="Legendary" Value="40" />
+  <Stat Name="Belt" Rating="Normal" Value="10" />
+  <Stat Name="Belt" Rating="Rare" Value="20" />
+  <Stat Name="Belt" Rating="Unique" Value="30" />
+  <Stat Name="Belt" Rating="Legendary" Value="40" />
+  <Stat Name="Bottom" Rating="Normal" Value="10" />
+  <Stat Name="Bottom" Rating="Rare" Value="20" />
+  <Stat Name="Bottom" Rating="Unique" Value="30" />
+  <Stat Name="Bottom" Rating="Legendary" Value="40" />
+  <Stat Name="Shoes" Rating="Normal" Value="0.1" />
+  <Stat Name="Shoes" Rating="Rare" Value="0.2" />
+  <Stat Name="Shoes" Rating="Unique" Value="0.3" />
+  <Stat Name="Shoes" Rating="Legendary" Value="0.4" />
+</PowerUpItem>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Data>
+  <Row>
+    <Column1>돈</Column1>
+    <Column2>Unique</Column2>
+    <Value>300</Value>
+  </Row>
+  <Row>
+    <Column1>색</Column1>
+    <Column2>Unique</Column2>
+    <Value>Purple</Value>
+  </Row>
+  <Row>
+    <Column1>확률</Column1>
+    <Column2>Unique</Column2>
+    <Value>10</Value>
+  </Row>
+</Data>

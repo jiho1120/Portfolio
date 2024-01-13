@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PopUpDataListClass
 {
-    public List<ItemLating> latingList = new List<ItemLating>();
+    public List<ItemGrade> GradeList = new List<ItemGrade>();
     public List<PowerUpPlayer> powerUpPlayerList = new List<PowerUpPlayer>();
     public List<PowerUpItem> powerUpItemList = new List<PowerUpItem>();
     public List<PowerUpSkill> powerUpSkillList = new List<PowerUpSkill>();
 
 }
-public class ItemLating
+public class ItemGrade
 {
-    public string lating;
+    public string grade;
     public int money;
     public string color;
     public int percentage;
 
-    public ItemLating(string lating, int money, string color, int percentage)
+    public ItemGrade(string grade, int money, string color, int percentage)
     {
-        this.lating = lating;
+        this.grade = grade;
         this.money = money;
         this.color = color;
         this.percentage = percentage;
@@ -26,39 +26,39 @@ public class ItemLating
 }
 public class PowerUpPlayer
 {
-    public string lating;
-    public string ItemName;
+    public string grade;
+    public string statName;
     public float powerUpSize;
 
-    public PowerUpPlayer(string lating, string itemName, float powerUpSize)
+    public PowerUpPlayer(string grade, string statName, float powerUpSize)
     {
-        this.lating = lating;
-        ItemName = itemName;
+        this.grade = grade;
+        this.statName = statName;
         this.powerUpSize = powerUpSize;
     }
 }
 public class PowerUpItem
 {
-    public string lating;
+    public string grade;
     public string itemName;
     public float powerUpSize;
 
-    public PowerUpItem(string lating, string itemName, float powerUpSize)
+    public PowerUpItem(string grade, string itemName, float powerUpSize)
     {
-        this.lating = lating;
+        this.grade = grade;
         this.itemName = itemName;
         this.powerUpSize = powerUpSize;
     }
 }
 public class PowerUpSkill
 {
-    public string lating;
+    public string grade;
     public string SkillName;
     public float powerUpSize;
 
-    public PowerUpSkill(string lating, string skillName, float powerUpSize)
+    public PowerUpSkill(string grade, string skillName, float powerUpSize)
     {
-        this.lating = lating;
+        this.grade = grade;
         SkillName = skillName;
         this.powerUpSize = powerUpSize;
     }

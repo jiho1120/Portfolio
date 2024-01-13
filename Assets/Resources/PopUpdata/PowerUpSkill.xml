@@ -1,0 +1,34 @@
+<PowerUpSkill>
+  <Stat Name="Ground" Rating="Normal" Value="10" />
+  <Stat Name="Ground" Rating="Rare" Value="20" />
+  <Stat Name="Ground" Rating="Unique" Value="30" />
+  <Stat Name="Ground" Rating="Legendary" Value="40" />
+  <Stat Name="AirSlash" Rating="Normal" Value="10" />
+  <Stat Name="AirSlash" Rating="Rare" Value="20" />
+  <Stat Name="AirSlash" Rating="Unique" Value="30" />
+  <Stat Name="AirSlash" Rating="Legendary" Value="40" />
+  <Stat Name="AirCircle" Rating="Normal" Value="10" />
+  <Stat Name="AirCircle" Rating="Rare" Value="20" />
+  <Stat Name="AirCircle" Rating="Unique" Value="30" />
+  <Stat Name="AirCircle" Rating="Legendary" Value="40" />
+  <Stat Name="Gravity" Rating="Normal" Value="10" />
+  <Stat Name="Gravity" Rating="Rare" Value="20" />
+  <Stat Name="Gravity" Rating="Unique" Value="30" />
+  <Stat Name="Gravity" Rating="Legendary" Value="40" />
+  <Stat Name="Wind" Rating="Normal" Value="10" />
+  <Stat Name="Wind" Rating="Rare" Value="20" />
+  <Stat Name="Wind" Rating="Unique" Value="30" />
+  <Stat Name="Wind" Rating="Legendary" Value="40" />
+  <Stat Name="Love" Rating="Normal" Value="10" />
+  <Stat Name="Love" Rating="Rare" Value="20" />
+  <Stat Name="Love" Rating="Unique" Value="30" />
+  <Stat Name="Love" Rating="Legendary" Value="40" />
+  <Stat Name="Fire" Rating="Normal" Value="10" />
+  <Stat Name="Fire" Rating="Rare" Value="20" />
+  <Stat Name="Fire" Rating="Unique" Value="30" />
+  <Stat Name="Fire" Rating="Legendary" Value="40" />
+  <Stat Name="Heal" Rating="Normal" Value="10" />
+  <Stat Name="Heal" Rating="Rare" Value="20" />
+  <Stat Name="Heal" Rating="Unique" Value="30" />
+  <Stat Name="Heal" Rating="Legendary" Value="40" />
+</PowerUpSkill>
