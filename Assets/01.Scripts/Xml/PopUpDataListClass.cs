@@ -16,12 +16,12 @@ public class ItemGrade
     public string color;
     public int percentage;
 
-    public ItemGrade(string grade, int money, string color, int percentage)
+    public ItemGrade(string grade, string money, string color, string percentage)
     {
         this.grade = grade;
-        this.money = money;
+        this.money = int.Parse(money);
         this.color = color;
-        this.percentage = percentage;
+        this.percentage = int.Parse(percentage);
     }
 }
 public class PowerUpPlayer
@@ -30,12 +30,14 @@ public class PowerUpPlayer
     public string statName;
     public float powerUpSize;
 
-    public PowerUpPlayer(string grade, string statName, float powerUpSize)
+    public PowerUpPlayer(string statName, string grade,  string powerUpSize)
     {
         this.grade = grade;
         this.statName = statName;
-        this.powerUpSize = powerUpSize;
+        this.powerUpSize = float.Parse(powerUpSize);
     }
+   
+    
 }
 public class PowerUpItem
 {
@@ -43,23 +45,23 @@ public class PowerUpItem
     public string itemName;
     public float powerUpSize;
 
-    public PowerUpItem(string grade, string itemName, float powerUpSize)
+    public PowerUpItem(string itemName, string grade,  string powerUpSize)
     {
         this.grade = grade;
         this.itemName = itemName;
-        this.powerUpSize = powerUpSize;
+        this.powerUpSize = float.Parse(powerUpSize);
     }
 }
 public class PowerUpSkill
 {
     public string grade;
-    public string SkillName;
+    public string skillName;
     public float powerUpSize;
 
-    public PowerUpSkill(string grade, string skillName, float powerUpSize)
+    public PowerUpSkill(string skillName, string grade,  string powerUpSize)
     {
         this.grade = grade;
-        SkillName = skillName;
-        this.powerUpSize = powerUpSize;
+        this.skillName = skillName;
+        this.powerUpSize = float.Parse(powerUpSize);
     }
 }
