@@ -153,12 +153,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         if (playerStat.experience >= playerStat.maxExperience) // 이걸 업데이트 조건으로 뺴야함
         {
             LevelUp();
-            // UI 데이터 세팅
-            UiManager.Instance.powerUpUI.SetPowerUpUIData();
-            // 고르거나 나가기 버튼 누르면 나가기
-            UiManager.Instance.powerUpUI.ScreenOnOff();
-            // 골라으면 데이터 적용, 아니면 말기
-
+            UiManager.Instance.ShowPowerUpPanel();
         }
     }
     public IEnumerator HealHpMp()

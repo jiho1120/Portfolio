@@ -13,14 +13,14 @@ public class PowerUpUI : MonoBehaviour
     public Button closeButton;
     bool isOn = false;
     int panelCount = 3;
-    
+    public string[] panelName = new string[3] { "플레이어 능력치", "아이템", "스킬" };
+
     public void Init() // 초기 세팅 딱 한번만 하는것
     {
         SpwanPanel();
         for (int i = 0; i < panelUIs.Length; i++)
         {
             panelUIs[i].MatchingUI();
-            panelUIs[i].SetPanelName(UiManager.Instance.RetrunPanelName(i));
         }
     }
     public void SpwanPanel() // 만들기
@@ -32,15 +32,17 @@ public class PowerUpUI : MonoBehaviour
             panelUIs[i] = obj.GetComponent<PanelUI>();
         }
     }
-    public void SetPanelName(int indexNum,string text)
-    {
-        panelUIs[indexNum].SetPanelName(text);
-    }
-    public void SetPanelDate(int indexNum,Sprite image, string accountText, string money)
-    {
-        panelUIs[indexNum].SetDate(image, accountText, money);
-    }
     
+
+    public void SetPanelDate(int indexNum, string color, Sprite image, string accountText, int money)
+    {
+        panelUIs[indexNum].SetDate(color,image, accountText, money);
+    }
+    public void SetPanelDataNoSprite(int indexNum, string color, string accountText, int money)
+    {
+        panelUIs[indexNum].SetDataWithoutSprite(color,accountText, money);
+    }
+
     public void ScreenOnOff()
     {
         isOn = !isOn;
@@ -59,9 +61,14 @@ public class PowerUpUI : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
-    }
-    public void SetPowerUpUIData()
-    {
 
     }
+
+    //public void SetPowerUpUIData()
+    //{
+    //    for (int i = 0; i < panelUIs.Length; i++)
+    //    {
+
+    //    }
+    //}
 }

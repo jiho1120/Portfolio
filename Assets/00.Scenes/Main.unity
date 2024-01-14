@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -437,6 +437,10 @@ MonoBehaviour:
   PanelParent: {fileID: 782910081}
   PanelPrefab: {fileID: 4096111006216283785, guid: 918255b162c610949af40ff5f8f8f16d, type: 3}
   closeButton: {fileID: 1637683466}
+  panelName:
+  - "\uD50C\uB808\uC774\uC5B4 \uB2A5\uB825\uCE58"
+  - "\uC544\uC774\uD15C"
+  - "\uC2A4\uD0AC"
 --- !u!1 &97962041
 GameObject:
   m_ObjectHideFlags: 0
@@ -2330,6 +2334,8 @@ GameObject:
   - component: {fileID: 932798540}
   - component: {fileID: 932798541}
   - component: {fileID: 932798542}
+  - component: {fileID: 932798543}
+  - component: {fileID: 932798544}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -2451,6 +2457,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropItemParent: {fileID: 319348440}
   itemDrop: {fileID: 3858953656235201716, guid: 4d1084cd4f1343f4cb1b5d307d22362a, type: 3}
+--- !u!114 &932798543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932798535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d84ee3bf46db7542b7032589ba68080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dataList:
+  - grade
+  - PowerUpPlayer
+  - PowerUpItem
+  - PowerUpSkill
+--- !u!114 &932798544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932798535}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13955dde5baa5344cac4331bb6c3d88d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &935166947
 GameObject:
   m_ObjectHideFlags: 0
@@ -4051,10 +4086,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 49219744}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1123015298}
+        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
+        m_MethodName: PowerUpScreenOnOff
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

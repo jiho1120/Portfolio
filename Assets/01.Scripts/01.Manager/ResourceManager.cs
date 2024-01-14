@@ -10,17 +10,15 @@ public class ResourceManager : Singleton<ResourceManager>
     public SOSkill[] skillDataAll;
 
     public SOItem[] itemDataAll;
+    public XMLAccess XMLAccess {  get; private set; }
 
-    private void Start()
-    {
-
-    }
     public void LoadResources()
     {
         monsterAll = Resources.LoadAll<Monster>("Object/Monster");
         objectAll = Resources.LoadAll<GameObject>("Skill");
         skillDataAll = Resources.LoadAll<SOSkill>("SOData/SkillData");
         itemDataAll = Resources.LoadAll<SOItem>("SOData/ItemData");
-
+        XMLAccess = GetComponent<XMLAccess>();
+        XMLAccess.Init();
     }
 }

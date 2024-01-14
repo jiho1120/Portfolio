@@ -28,6 +28,7 @@ public class GameManager : Singleton<GameManager>
         InventoryManager.Instance.Init();
         ItemManager.Instance.Init();
         UiManager.Instance.Init();
+        //ResourceManager.Instance.XMLAccess.ShowListInfo();
     }
     private void Update()
     {

@@ -1,14 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-public class PopUpDataListClass
-{
-    public List<ItemGrade> GradeList = new List<ItemGrade>();
-    public List<PowerUpPlayer> powerUpPlayerList = new List<PowerUpPlayer>();
-    public List<PowerUpItem> powerUpItemList = new List<PowerUpItem>();
-    public List<PowerUpSkill> powerUpSkillList = new List<PowerUpSkill>();
-
-}
 public class ItemGrade
 {
     public string grade;
@@ -16,12 +10,40 @@ public class ItemGrade
     public string color;
     public int percentage;
 
+    public ItemGrade()
+    {
+    }
     public ItemGrade(string grade, string money, string color, string percentage)
     {
         this.grade = grade;
         this.money = int.Parse(money);
         this.color = color;
         this.percentage = int.Parse(percentage);
+    }
+    public void AddGrade(string grade)
+    {
+        this.grade = grade;
+
+    }
+    public void AddMoney(string money)
+    {
+        this.money = int.Parse(money);
+
+    }
+    public void AddColor(string color)
+    {
+        this.color = color;
+
+    }
+    public void AddPercentage(string percentage)
+    {
+        this.percentage = int.Parse(percentage);
+    }
+
+
+    public void ShowInfo()
+    {
+        Debug.Log($"grade: {grade}, money: {money}, color: {color},percentage: {percentage}");
     }
 }
 public class PowerUpPlayer
@@ -30,14 +52,17 @@ public class PowerUpPlayer
     public string statName;
     public float powerUpSize;
 
-    public PowerUpPlayer(string statName, string grade,  string powerUpSize)
+    public PowerUpPlayer(string statName, string grade, string powerUpSize)
     {
         this.grade = grade;
         this.statName = statName;
         this.powerUpSize = float.Parse(powerUpSize);
     }
-   
-    
+    public void ShowInfo()
+    {
+        Debug.Log($"Skill: {statName}, Grade: {grade}, PowerUpSize: {powerUpSize}");
+    }
+
 }
 public class PowerUpItem
 {
@@ -45,11 +70,15 @@ public class PowerUpItem
     public string itemName;
     public float powerUpSize;
 
-    public PowerUpItem(string itemName, string grade,  string powerUpSize)
+    public PowerUpItem(string itemName, string grade, string powerUpSize)
     {
         this.grade = grade;
         this.itemName = itemName;
         this.powerUpSize = float.Parse(powerUpSize);
+    }
+    public void ShowInfo()
+    {
+        Debug.Log($"Skill: {itemName}, Grade: {grade}, PowerUpSize: {powerUpSize}");
     }
 }
 public class PowerUpSkill
@@ -58,10 +87,14 @@ public class PowerUpSkill
     public string skillName;
     public float powerUpSize;
 
-    public PowerUpSkill(string skillName, string grade,  string powerUpSize)
+    public PowerUpSkill(string skillName, string grade, string powerUpSize)
     {
         this.grade = grade;
         this.skillName = skillName;
         this.powerUpSize = float.Parse(powerUpSize);
+    }
+    public void ShowInfo()
+    {
+        Debug.Log($"Skill: {skillName}, Grade: {grade}, PowerUpSize: {powerUpSize}");
     }
 }

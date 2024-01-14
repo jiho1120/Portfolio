@@ -3,12 +3,14 @@
   <Stat Name="Normal" Rating="color" Value="Gray" />
   <Stat Name="Normal" Rating="percentage" Value="50" />
   <Stat Name="Rare" Rating="money" Value="200" />
-  <Stat Name="Rare" Rating="color" Value="Blue" />
+  <Stat Name="Rare" Rating="color" Value="Green" />
   <Stat Name="Rare" Rating="percentage" Value="39" />
   <Stat Name="Unique" Rating="money" Value="300" />
-  <Stat Name="Unique" Rating="color" Value="Purple" />
+  <Stat Name="Unique" Rating="color" Value="Blue" />
   <Stat Name="Unique" Rating="percentage" Value="10" />
   <Stat Name="Legendary" Rating="money" Value="400" />
   <Stat Name="Legendary" Rating="color" Value="Yellow" />
   <Stat Name="Legendary" Rating="percentage" Value="1" />
+	<Stat Name="end" Rating="percentage" Value="1" />
+
 </grade>

@@ -5,46 +5,130 @@ using UnityEngine;
 
 public class XMLAccess : MonoBehaviour
 {
-    private List<PowerUpSkill> powerUpSkills;
+    public string[] dataList = new string[4] { "grade", "PowerUpPlayer", "PowerUpItem", "PowerUpSkill" };
+    public List<ItemGrade> gradeList = new List<ItemGrade>();
+    public List<PowerUpPlayer> powerUpPlayerList = new List<PowerUpPlayer>();
+    public List<PowerUpItem> powerUpItemList = new List<PowerUpItem>();
+    public List<PowerUpSkill> powerUpSkillList = new List<PowerUpSkill>();
 
-    void Start()
+    public void Init()
     {
-        powerUpSkills = new List<PowerUpSkill>();
-
-        // XML 파일 로드
-        TextAsset xmlAsset = Resources.Load<TextAsset>("PopUpData/PowerUpSkill");
-        if (xmlAsset != null)
+        for (int i = 0; i < dataList.Length; i++)
         {
-            string xmlData = xmlAsset.text;
-            ParseXml(xmlData);
-        }
-        else
-        {
-            Debug.LogError("PowerUpSkills.xml not found in Resources folder.");
+            // XML 파일 로드
+            TextAsset xmlAsset = Resources.Load<TextAsset>($"PopUpData/{dataList[i]}");
+            if (xmlAsset != null)
+            {
+                string xmlData = xmlAsset.text;
+                ParseXml(i, xmlData);
+            }
+            else
+            {
+                Debug.LogError("PowerUpSkills.xml not found in Resources folder.");
+            }
         }
     }
 
-    private void ParseXml(string xmlData)
+    private void ParseXml(int i, string xmlData)
     {
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(xmlData);
-
         XmlNodeList statNodes = xmlDoc.SelectNodes("//Stat");
+        string tmp = "";
+        List<string> list = new List<string>();
 
         foreach (XmlNode statNode in statNodes)
         {
-            string skillName = statNode.Attributes["Name"].Value;
+            string name = statNode.Attributes["Name"].Value;
             string grade = statNode.Attributes["Rating"].Value;
             string powerUpSize = statNode.Attributes["Value"].Value;
+            if (i == 0)
+            {
+                string exName = tmp;
+                if (exName != name) // xml에 end라는 이름 추가 어쩔수없음(아니면 레전드가 안나옴) 안쓸려면 아예 따로만들어야함
+                {
+                    ItemGrade powerUpGrade = new ItemGrade();
+                    if (list.Count != 0)
+                    {
+                        list.Add(exName);
+                        powerUpGrade.AddMoney(list[0]);
+                        powerUpGrade.AddColor(list[1]);
+                        powerUpGrade.AddPercentage(list[2]);
+                        powerUpGrade.AddGrade(list[3]);
 
-            PowerUpSkill powerUpSkill = new PowerUpSkill(grade, skillName, powerUpSize);
-            powerUpSkills.Add(powerUpSkill);
+                        list.Clear();
+                        gradeList.Add(powerUpGrade);
+                    }
+                }
+                list.Add(powerUpSize);
+                tmp = name;
+            }
+            else if (i == 1)
+            {
+                PowerUpPlayer powerUpPlayer = new PowerUpPlayer(name, grade, powerUpSize);
+                powerUpPlayerList.Add(powerUpPlayer);
+            }
+            else if (i == 2)
+            {
+                PowerUpItem powerUpItem = new PowerUpItem(name, grade, powerUpSize);
+                powerUpItemList.Add(powerUpItem);
+            }
+            else if (i == 3)
+            {
+                PowerUpSkill powerUpSkill = new PowerUpSkill(name, grade, powerUpSize);
+                powerUpSkillList.Add(powerUpSkill);
+            }
         }
 
-        // 파싱된 데이터 사용
-        foreach (PowerUpSkill skill in powerUpSkills)
+    }
+    public ItemGrade Randomgrade()
+    {
+        if (gradeList != null && gradeList.Count > 0)
         {
-            Debug.Log($"Skill: {skill.skillName}, Grade: {skill.grade}, PowerUpSize: {skill.powerUpSize}");
+            int num = Random.Range(0, 101);
+            int Range = gradeList[0].percentage;
+            if (num <= Range)
+            {
+                return gradeList[0];
+            }
+            else if (num <= Range + gradeList[1].percentage)
+            {
+                return gradeList[1];
+            }
+            else if (num <= Range + gradeList[1].percentage + gradeList[2].percentage)
+            {
+                return gradeList[2];
+            }
+            else { return gradeList[3]; }
+        }
+        else
+        {
+            Debug.Log("리스트가 없음");
+            return null;
+        }
+
+    }
+    public void ShowListInfo()
+    {
+        // 파싱된 데이터 사용
+        foreach (ItemGrade skill in gradeList)
+        {
+            skill.ShowInfo();
+        }
+        // 파싱된 데이터 사용
+        foreach (PowerUpPlayer skill in powerUpPlayerList)
+        {
+            skill.ShowInfo();
+        }
+        // 파싱된 데이터 사용
+        foreach (PowerUpItem skill in powerUpItemList)
+        {
+            skill.ShowInfo();
+        }
+        // 파싱된 데이터 사용
+        foreach (PowerUpSkill skill in powerUpSkillList)
+        {
+            skill.ShowInfo();
         }
     }
 }
