@@ -7,6 +7,7 @@ using UnityEngine;
 public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
 {
     public SOPlayer soOriginPlayer;
+    [SerializeField]
     public PlayerStat playerStat { get; private set; }
     PlayerAnimator playerAnimator;
 
@@ -178,9 +179,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     private void Move()
     {
-        Debug.Log("InventoryManager.Instance.equipList[4].itemStat.speed" + InventoryManager.Instance.equipList[4].itemStat.speed);
         speed = (run) ? (Speed * 1.5f) : Speed;
-        Debug.Log("총" + speed);
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         float percent = ((run) ? 1 : 0.5f) * moveInput.magnitude;
         playerAnimator.WalkOrRun(percent);
@@ -265,7 +264,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             if (colliders[i].CompareTag("Monster"))
             {
-                colliders[i].GetComponent<Monster>().TakeDamage(playerStat.criticalChance, playerStat.attack);
+                colliders[i].GetComponent<Monster>().TakeDamage(Cri, Att);
                 colliders[i].GetComponent<Monster>().isHit = true;
             }
         }
@@ -313,7 +312,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         if (!isDead)
         {
             Hit();
-            float damage = Mathf.Max(CriticalDamage(critical, attack) - (playerStat.defense * 0.5f), 0f); // 최소 데미지 0
+            float damage = Mathf.Max(CriticalDamage(critical, attack) - (Def * 0.5f), 1f); // 최소 데미지 1
             float hp = playerStat.health - damage;
             playerStat.SetHealth(hp);
             if (playerStat.health < 0)

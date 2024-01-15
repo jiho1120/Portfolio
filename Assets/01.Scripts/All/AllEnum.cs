@@ -81,6 +81,20 @@ public class AllEnum
 
         End
     }
+    public enum PlyerStat
+    {
+        maxHealth,
+        attack,
+        defense,
+        criticalChance,
+        movementSpeed,
+        experience,
+        maxMana,
+        luck,
+        maxUltimateGauge,
+
+        End
+    }
 
     public enum ItemListType
     {

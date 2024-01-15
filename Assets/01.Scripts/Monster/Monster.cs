@@ -162,7 +162,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
         isDead = true;
         agent.isStopped = true;
         SetDeadAnim();
-        GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money,10); // 몬스터 잡을때마다 10
+        GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money,10); // 몬스터 잡을때마다 궁극기 10씩 
         Invoke("DeletObject",3f);
         DropRandomItem();
     }
@@ -180,7 +180,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
         itemIndex = Random.Range(0,3);
         if (itemIndex == 0)
         {
-            GameManager.Instance.player.soOriginPlayer.money += soOriginMonster.money;
+            GameManager.Instance.player.playerStat.AddMoney(monsterStat.money);
         }
         else
         {

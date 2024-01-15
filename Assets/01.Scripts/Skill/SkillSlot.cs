@@ -20,13 +20,13 @@ public class SkillSlot : MonoBehaviour // 얘는 교체 없음
     }
     public void SetIcon()
     {
-        icon.sprite = ownSkill.orgInfo.icon;
+        icon.sprite = ownSkill.skillStat.icon;
     }
     public void SetCoolTime()
     {
         if (coolTime != null)
         {
-            coolTime.text = ownSkill.orgInfo.cool.ToString();
+            coolTime.text = ownSkill.skillStat.cool.ToString();
         }
     }
     public Skill GetSkill()
@@ -41,11 +41,11 @@ public class SkillSlot : MonoBehaviour // 얘는 교체 없음
     }
     private IEnumerator SkillCoolCor()
     {
-        while (useTime <= GetSkill().orgInfo.cool)
+        while (useTime <= GetSkill().skillStat.cool)
         {
             useTime += Time.deltaTime;
             yield return null;
-            gauge.fillAmount = 1 - useTime / ownSkill.orgInfo.cool;
+            gauge.fillAmount = 1 - useTime / ownSkill.skillStat.cool;
         }
     }
     public void SetBeggginSuper()

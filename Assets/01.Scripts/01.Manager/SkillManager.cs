@@ -8,18 +8,11 @@ public class SkillManager : Singleton<SkillManager>
 
     Dictionary<AllEnum.SkillName, Skill> nameDictObj = new Dictionary<AllEnum.SkillName, Skill>(); // 네임을 키로 쓰는이유는 알아보기 직관적이여서
     Dictionary<AllEnum.SkillName, SOSkill> nameDictInfo = new Dictionary<AllEnum.SkillName, SOSkill>();
-    Dictionary<AllEnum.SkillName, Skill> skillDict = new Dictionary<AllEnum.SkillName, Skill>(); // 스킬 만들때 이거 사용
+    public Dictionary<AllEnum.SkillName, Skill> skillDict { get; private set; } // 스킬 만들때 이거 사용
 
-    private void Start()
-    {
-
-        //foreach (var item in skillDict)
-        //{
-        //    Debug.Log($"{item.Key}는 {item.Value}");
-        //}
-    }
     public void Init()
     {
+        skillDict = new Dictionary<AllEnum.SkillName, Skill>();
         GameObject[] objectAll = ResourceManager.Instance.objectAll;
         SOSkill[] skillDataAll = ResourceManager.Instance.skillDataAll;
         //PrintResourceInfo(objectAll, "GameObject");
@@ -100,15 +93,14 @@ public class SkillManager : Singleton<SkillManager>
     public void UseSKill(AllEnum.SkillName name)
     {
         Skill skill = GetSKillFromDict(name);
-        if (skill.orgInfo.inUse)
+        if (skill.skillStat.inUse)
         {
-            
             Debug.Log("사용중");
             return;
         }
         else
         {
-            if (GameManager.Instance.player.playerStat.mana >= skill.orgInfo.mana)
+            if (GameManager.Instance.player.playerStat.mana >= skill.skillStat.mana)
             {
                 Vector3 pos = GameManager.Instance.player.transform.position;
                 Quaternion rot = GameManager.Instance.player.transform.GetChild(0).rotation;
@@ -121,8 +113,8 @@ public class SkillManager : Singleton<SkillManager>
                 skill = SetSkillPos(skill, pos, rot);
                 skill.gameObject.SetActive(true);
                 skill.DoSkill();
-                GameManager.Instance.player.playerStat.MinusMana(skill.orgInfo.mana);
-                UiManager.Instance.SetUseSKillCoolImg(skill.orgInfo.index); // 검은색창으로 만듬 1,2,3,4
+                GameManager.Instance.player.playerStat.MinusMana(skill.skillStat.mana);
+                UiManager.Instance.SetUseSKillCoolImg(skill.skillStat.index); // 검은색창으로 만듬 1,2,3,4
             }
         }
     }
@@ -135,8 +127,10 @@ public class SkillManager : Singleton<SkillManager>
             {
                 if (nameDictInfo.TryGetValue(skillName, out SOSkill skillInfo))
                 {
-                    skill.orgInfo.inUse = false;
+                    skill.Init(skillInfo);
+                    skill.skillStat.SetInUse(false);
                     skill.SetInfo(skillInfo);
+
                 }
                 skillDict.Add(skillName, skill);
             }
@@ -157,7 +151,7 @@ public class SkillManager : Singleton<SkillManager>
         skill.transform.position = pos;
         skill.transform.rotation = rot;
 
-        if (skill.orgInfo.setParent)
+        if (skill.skillStat.setParent)
         {
             skill.transform.SetParent(GameManager.Instance.player.transform.GetChild(0), true);
         }

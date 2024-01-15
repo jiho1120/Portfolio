@@ -11,13 +11,6 @@ public class UseManaStat : BasicStat
     {
 
     }
-    public UseManaStat(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float experience, int money,float mana, float maxMana)
-        : base(objectType, level, health, maxHealth, attack, defense, criticalChance, movementSpeed, experience ,money)
-    {
-        this.mana = mana;
-        this.maxMana = maxMana;
-    }
-
         
     public void SetValues(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float experience, int money, float mana, float maxMana)
     {

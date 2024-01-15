@@ -21,15 +21,6 @@ public class PlayerStat : UseManaStat
         this.maxUltimateGauge = soPlayer.maxUltimateGauge;
     }
 
-    public PlayerStat(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float experience, int money, float mana, float maxMana, float luck, float maxExperience, float ultimateGauge, float maxUltimateGauge)
-        : base(objectType, level, health, maxHealth, attack, defense, criticalChance, movementSpeed, experience, money, mana, maxMana)
-    {
-        this.luck = luck;
-        this.maxExperience = maxExperience;
-        this.ultimateGauge = ultimateGauge;
-        this.maxUltimateGauge = maxUltimateGauge;
-    }
-
     public void SetValues(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float experience,int money, float mana, float maxMana, float luck, float maxExperience, float ultimateGauge, float maxUltimateGauge)
     {
         base.SetValues(objectType, level, health, maxHealth, attack, defense, criticalChance, movementSpeed, experience, money, mana, maxMana);
@@ -92,9 +83,42 @@ public class PlayerStat : UseManaStat
         this.maxExperience += MaxExperience;
     }
 
-    public void AddAnything(string statName,float effect)
+    public override void AddAnything(AllEnum.PlyerStat statName,float effect)
     {
-        statName += effect;
+        switch (statName)
+        {
+            case AllEnum.PlyerStat.maxHealth:
+                AddMaxHealth(effect);
+                break;
+            case AllEnum.PlyerStat.attack:
+                AddAttack(effect);
+                break;
+            case AllEnum.PlyerStat.defense:
+                AddDefence(effect);
+                break;
+            case AllEnum.PlyerStat.criticalChance:
+                AddcriticalChance(effect);
+                break;
+            case AllEnum.PlyerStat.movementSpeed:
+                AddSpeed(effect);
+                break;
+            case AllEnum.PlyerStat.experience:
+                AddExp(effect);
+                break;
+            case AllEnum.PlyerStat.maxMana:
+                AddMaxMana(effect);
+                break;
+            case AllEnum.PlyerStat.luck:
+                luck += effect;
+                break;
+            case AllEnum.PlyerStat.maxUltimateGauge:
+                maxUltimateGauge += effect;
+                break;
+            default:
+                Debug.Log("없음");
+                break;
+        }
+
         Debug.Log($"{statName}이 {effect}만큼 적용됐습니다");
     }
     public override void ShowInfo()

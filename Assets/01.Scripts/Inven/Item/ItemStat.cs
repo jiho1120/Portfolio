@@ -48,31 +48,24 @@ public class ItemStat
         switch (propertyName)
         {
             case AllEnum.ItemType.Head:
-
                 luck += effect;
                 break;
             case AllEnum.ItemType.Top:
-
                 maxHealth += effect;
                 break;
             case AllEnum.ItemType.Gloves:
-
                 critical += effect;
                 break;
             case AllEnum.ItemType.Weapon:
-
                 attack += effect;
                 break;
             case AllEnum.ItemType.Belt:
-
                 maxMana += effect;
                 break;
             case AllEnum.ItemType.Bottom:
-
                 defence += effect;
                 break;
             case AllEnum.ItemType.Shoes:
-
                 speed += effect;
                 break;
             default:

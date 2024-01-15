@@ -6,13 +6,19 @@ public abstract class Skill : MonoBehaviour
 {
     public int Index;
     public SOSkill orgInfo;
+    public SkillStat skillStat;
 
+    public void Init(SOSkill _Info)
+    {
+        SetInfo(orgInfo);
+        skillStat = new SkillStat(orgInfo);
+    }
     public void SetInfo(SOSkill _Info)
     {
         orgInfo = _Info;
     }
     
-    private void OnCollisionEnter(Collision collision) // 1¹ø,3¹ø
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Monster"))
         {
@@ -28,7 +34,7 @@ public abstract class Skill : MonoBehaviour
         {
             Player plyer = GameManager.Instance.player.GetComponent<Player>();
             Monster monster = other.gameObject.GetComponent<Monster>();
-            monster.TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.orgInfo.effect);
+            monster.TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.skillStat.effect);
         }
     }
     

@@ -21,22 +21,22 @@ public class ActiveSkill : Skill
         }
         else
         {
-            orgInfo.inUse = true;
-            if (orgInfo.index == 1) // ½½·¡½¬
+            skillStat.SetInUse(true);
+            if (skillStat.index == 1) // ½½·¡½¬
             {
             }
-            else if (orgInfo.index == 2) // ¿ø
+            else if (skillStat.index == 2) // ¿ø
             {
                 KnockBackAttack();
             }
-            else if (orgInfo.index == 3) //¶¥
+            else if (skillStat.index == 3) //¶¥
             {
                 if (boxCor == null)
                 {
                     boxCor = StartCoroutine(GrowInBoxCollider());
                 }
             }
-            else if (orgInfo.index == 4) // Áß·Â
+            else if (skillStat.index == 4) // Áß·Â
             {
                 //if (gravityCor == null)
                 //{
@@ -51,10 +51,10 @@ public class ActiveSkill : Skill
 
     IEnumerator DieTimer()
     {
-        yield return new WaitForSeconds(orgInfo.duration);
+        yield return new WaitForSeconds(skillStat.duration);
         SkillManager.Instance.SetOffSkill(this);
-        yield return new WaitForSeconds(orgInfo.cool);
-        orgInfo.inUse = false;
+        yield return new WaitForSeconds(skillStat.cool);
+        skillStat.SetInUse(false);
     }
 
     public void KnockBackAttack()
@@ -66,7 +66,7 @@ public class ActiveSkill : Skill
             if (colliders[i].CompareTag("Monster"))
             {
                 Monster monster = colliders[i].GetComponent<Monster>();
-                monster.TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.orgInfo.effect);
+                monster.TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.skillStat.effect);
 
                 Vector3 direction = colliders[i].transform.position - this.transform.position;
 
@@ -126,7 +126,7 @@ public class ActiveSkill : Skill
         Player plyer = GameManager.Instance.player.GetComponent<Player>();
         List<Monster> monsterList = new List<Monster>();
         float duTime = 0;
-        while(duTime < orgInfo.duration)
+        while(duTime < skillStat.duration)
         {
             duTime += Time.deltaTime;
             Collider[] colliders = Physics.OverlapSphere(this.transform.position, 5f);
@@ -135,7 +135,7 @@ public class ActiveSkill : Skill
                 if (colliders[i].CompareTag("Monster"))
                 {
                     Monster monster = colliders[i].GetComponent<Monster>();
-                    monster.TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.orgInfo.effect);
+                    monster.TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.skillStat.effect);
                     if (!monsterList.Contains(monster))
                     {
                         monsterList.Add(monster);
@@ -154,7 +154,7 @@ public class ActiveSkill : Skill
 
     public override void DoReset() // DieTimer¿¡¼­ ÄÚ·çÆ¾ Áà¼­ ½Ã°£ ÅÒ ¾ÈÁàµµ ±¦ÂúÀ½
     {
-        orgInfo.inUse = false;
+        skillStat.SetInUse(false);
     }
 
 

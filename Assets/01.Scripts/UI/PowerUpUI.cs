@@ -35,7 +35,7 @@ public class PowerUpUI : MonoBehaviour
 
     public void SetPanelData(int indexNum, string setType, string name, float effect, int money)
     {
-        panelUIs[indexNum].SetPanelDate(name, setType,effect, money);
+        panelUIs[indexNum].SetPanelDate(setType,name, effect, money);
     }
     public void SetPanelUI(int indexNum, string color, Sprite image, string accountText, int money)
     {

@@ -17,7 +17,7 @@ public class Equip : MonoBehaviour
         itemStat = new ItemStat(soItem);
         level = transform.Find("ItemLevel").GetComponent<Text>();
         level.text = "Lv : " + itemStat.level;
-        itemStat.DisplayStats();
+        //itemStat.DisplayStats();
     }
     public void GetExp(int val)
     {

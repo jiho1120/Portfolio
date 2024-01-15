@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -94,10 +95,12 @@ public class PanelUI : MonoBehaviour
     public void BuyButton()
     {
         int playerMoney = GameManager.Instance.player.playerStat.money;
+        Debug.Log(playerMoney);
         if (playerMoney > money)
         {
-            GameManager.Instance.player.playerStat.SetMoney(playerMoney -= money);
+            GameManager.Instance.player.playerStat.SetMoney(playerMoney - money);
             ApplyValue();
+            UiManager.Instance.powerUpUI.ScreenOnOff();
         }
         else
         {
@@ -108,7 +111,16 @@ public class PanelUI : MonoBehaviour
     {
         if (setType == "player")
         {
-            GameManager.Instance.player.playerStat.AddAnything(powerUpName, effect);
+            AllEnum.PlyerStat powerUpSkillName;
+            bool parseSuccess = Enum.TryParse(powerUpName, out powerUpSkillName);
+            if (parseSuccess)
+            {
+                GameManager.Instance.player.playerStat.AddAnything(powerUpSkillName, effect);
+            }
+            else
+            {
+                Debug.LogError($"Enum 파싱에 실패했습니다. 유효하지 않은 PlyerStat: {powerUpName}");
+            }
         }
         else if (setType == "item")
         {
@@ -119,10 +131,26 @@ public class PanelUI : MonoBehaviour
                     InventoryManager.Instance.equipList[i].ApplyEffect(effect);
                 }
             }
-}
+        }
         else if (setType == "skill")
         {
-
+            AllEnum.SkillName powerUpSkillName;
+            bool parseSuccess = Enum.TryParse(powerUpName, out powerUpSkillName);
+            if (parseSuccess)
+            {
+                for (int i = 0; i < SkillManager.Instance.skillDict.Count; i++)
+                {
+                    if (SkillManager.Instance.skillDict.ContainsKey(powerUpSkillName))
+                    {
+                        Skill value = SkillManager.Instance.skillDict[powerUpSkillName];
+                        value.skillStat.SetEffect(effect);
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError($"Enum 파싱에 실패했습니다. 유효하지 않은 SkillName: {powerUpName}");
+            }
         }
         else
         {

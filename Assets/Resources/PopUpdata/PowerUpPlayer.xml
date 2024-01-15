@@ -31,8 +31,8 @@
   <Stat Name="luck" Rating="Rare" Value="2" />
   <Stat Name="luck" Rating="Unique" Value="3" />
   <Stat Name="luck" Rating="Legendary" Value="4" />
-  <Stat Name="maxUltimateGauge" Rating="Normal" Value="10" />
-  <Stat Name="maxUltimateGauge" Rating="Rare" Value="20" />
-  <Stat Name="maxUltimateGauge" Rating="Unique" Value="30" />
-  <Stat Name="maxUltimateGauge" Rating="Legendary" Value="40" />
+  <Stat Name="maxUltimateGauge" Rating="Normal" Value="-10" />
+  <Stat Name="maxUltimateGauge" Rating="Rare" Value="-20" />
+  <Stat Name="maxUltimateGauge" Rating="Unique" Value="-30" />
+  <Stat Name="maxUltimateGauge" Rating="Legendary" Value="-40" />
 </PowerUpPlayer>

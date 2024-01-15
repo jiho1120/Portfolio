@@ -20,5 +20,5 @@ MonoBehaviour:
   defense: 2
   criticalChance: 1
   movementSpeed: 1
-  experience: 1
-  money: 1
+  experience: 10
+  money: 10
