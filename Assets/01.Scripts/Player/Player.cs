@@ -23,7 +23,6 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     private float attackCooldown = 1.5f;
     bool isLeft = false;
     bool isDead = false;
-    Coroutine passiveCor;
     Coroutine HealHpMpCor;
 
 
@@ -44,10 +43,8 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         fist = transform.GetChild(0).GetChild(3);
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
-        passiveCor = StartCoroutine(TimeLapseAttack(2.8f, 1f));
 
-        //playerStat.SetValues(soOriginPlayer);
-        playerStat.ShowInfo();
+        //playerStat.ShowInfo();
         HealHpMpCor = StartCoroutine(HealHpMp());
 
     }
@@ -90,15 +87,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
             playerAnimator.SetAttackSpeed(attackSpeed);
         }
 
-        //if (Input.GetKeyDown(KeyCode.Q))
-        //{
-        //    if (passiveCor != null)
-        //    {
-        //        StopCoroutine(passiveCor);
-        //        Debug.Log("멈춤");
-        //        passiveCor = null;
-        //    }
-        //}
+        
         if (Input.GetKeyDown(KeyCode.T))
         {
             if (HealHpMpCor != null)
@@ -162,7 +151,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
             // ScreenOnOff 함수에 누른 키를 매개변수로 전달하여 호출
             UiManager.Instance.ScreenOnOff(keyPressed);
         }
-        if (playerStat.experience >= playerStat.maxExperience) // 이걸 업데이트 조건으로 뺴야함
+        if (playerStat.experience >= playerStat.maxExperience)
         {
             LevelUp();
             UiManager.Instance.ShowPowerUpPanel();
@@ -275,14 +264,6 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         Attack(fist.position, 1f);
     }
 
-    public IEnumerator TimeLapseAttack(float attackRange, float delayTime)
-    {
-        while (true)
-        {
-            Attack(transform.position, attackRange);
-            yield return new WaitForSeconds(delayTime);
-        }
-    }
 
     public bool CheckCritical(float critical)
     {

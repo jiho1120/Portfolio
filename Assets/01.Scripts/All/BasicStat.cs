@@ -77,6 +77,10 @@ public class BasicStat
     public void AddDefence(float dff)
     {
         this.defense += dff;
+        if (this.defense < 1)
+        {
+            this.defense = 1;
+        }
     }
     public void AddcriticalChance(float chance)
     {

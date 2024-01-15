@@ -40,6 +40,8 @@ public class SkillManager : Singleton<SkillManager>
             }
         }
         SetAllSkill();
+        PassiveSkill passiveSkill = new PassiveSkill();
+        passiveSkill.Init();
     }
     //private void PrintResourceInfo<T>(T[] resources, string resourceName)
     //{

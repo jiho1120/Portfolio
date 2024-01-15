@@ -9,10 +9,6 @@ public class MonsterManager : Singleton<MonsterManager>
     int monsterRange = 20;
 
 
-    void Start()
-    {
-        
-    }
     public void Init()
     {
         MakeMonster();
