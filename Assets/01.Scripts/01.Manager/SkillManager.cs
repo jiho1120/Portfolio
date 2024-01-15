@@ -114,7 +114,7 @@ public class SkillManager : Singleton<SkillManager>
                 skill.gameObject.SetActive(true);
                 skill.DoSkill();
                 GameManager.Instance.player.playerStat.MinusMana(skill.skillStat.mana);
-                UiManager.Instance.SetUseSKillCoolImg(skill.skillStat.index); // 검은색창으로 만듬 1,2,3,4
+                UiManager.Instance.SetUseSKillCoolImg(skill.skillStat.index);
             }
         }
     }
@@ -129,7 +129,7 @@ public class SkillManager : Singleton<SkillManager>
                 {
                     skill.Init(skillInfo);
                     skill.skillStat.SetInUse(false);
-                    skill.SetInfo(skillInfo);
+                    //skill.SetInfo(skillInfo);
 
                 }
                 skillDict.Add(skillName, skill);

@@ -112,6 +112,7 @@ public class UiManager : Singleton<UiManager>
             }
             Debug.Log($"{i}, {itemGrade.color}, {accountText}, {itemGrade.money}");
             powerUpUI.SetPanelUINoSprite(i, itemGrade.color, accountText, itemGrade.money);
+
         }
     }
 

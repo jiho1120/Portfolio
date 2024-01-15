@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcaf8ca0ce80ed45b1140bafc104a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPowerUpIcon: {fileID: 21300000, guid: 9c2654c6e93b84e4391bd17cb4054e60, type: 3}
   title: {fileID: 0}
   icon: {fileID: 0}
   account: {fileID: 0}

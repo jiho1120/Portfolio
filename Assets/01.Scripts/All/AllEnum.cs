@@ -53,10 +53,10 @@ public class AllEnum
 
 
 
-        Wind,
-        Love,
         Fire,
         Heal,
+        Love,
+        Wind,
 
         End
     }

@@ -4,7 +4,6 @@ using UnityEngine;
 [Serializable]
 public class PlayerStat : UseManaStat
 {
-
     public float luck { get; private set; }
     public float maxExperience { get; private set; }
     public float ultimateGauge { get; private set; }
