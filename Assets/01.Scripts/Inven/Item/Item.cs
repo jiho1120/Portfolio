@@ -11,11 +11,11 @@ public class Item : MonoBehaviour
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
+    
     public void SetItemData(SOItem data)
     {
         itemData = data;
         spriteRenderer.sprite = itemData.icon;
-
     }
     private void OnTriggerEnter(Collider other)
     {

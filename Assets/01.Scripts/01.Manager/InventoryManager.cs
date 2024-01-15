@@ -24,6 +24,10 @@ public class InventoryManager : Singleton<InventoryManager>
     public void Init()
     {
         SetItemListCount();
+        for (int i = 0; i < equipList.Length; i++)
+        {
+            equipList[i].Init();
+        }
     }
 
 

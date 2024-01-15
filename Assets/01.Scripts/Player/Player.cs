@@ -15,7 +15,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     public Transform fist;
 
     private bool run;
-    private float speed;
+    float speed;
 
     private float attackSpeed = 1;
     private float lastClickTime = 0f;
@@ -25,17 +25,28 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     Coroutine passiveCor;
     Coroutine HealHpMpCor;
 
+
+    public float Luck => playerStat.luck + InventoryManager.Instance.equipList[0].itemStat.luck;
+    public float MaxHp => playerStat.maxHealth + InventoryManager.Instance.equipList[1].itemStat.maxHealth;
+    public float MaxMp => playerStat.maxMana + InventoryManager.Instance.equipList[2].itemStat.maxMana;
+    public float Def => playerStat.defense + InventoryManager.Instance.equipList[3].itemStat.defence;
+    public float Speed => playerStat.movementSpeed + InventoryManager.Instance.equipList[4].itemStat.speed;
+    public float Cri => playerStat.criticalChance + InventoryManager.Instance.equipList[5].itemStat.critical;
+    public float Att => playerStat.attack + InventoryManager.Instance.equipList[6].itemStat.attack;
+
+
+
     void Start()
     {
-        playerStat = new PlayerStat();
+        playerStat = new PlayerStat(soOriginPlayer);
         playerAnimator = GetComponent<PlayerAnimator>();
         fist = transform.GetChild(0).GetChild(3);
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
         passiveCor = StartCoroutine(TimeLapseAttack(2.8f, 1f));
 
-        playerStat.SetValues(soOriginPlayer);
-        //playerStat.ShowInfo();
+        //playerStat.SetValues(soOriginPlayer);
+        playerStat.ShowInfo();
         HealHpMpCor = StartCoroutine(HealHpMp());
 
     }
@@ -167,7 +178,9 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     private void Move()
     {
-        speed = (run) ? (playerStat.movementSpeed * 1.5f) : playerStat.movementSpeed;
+        Debug.Log("InventoryManager.Instance.equipList[4].itemStat.speed" + InventoryManager.Instance.equipList[4].itemStat.speed);
+        speed = (run) ? (Speed * 1.5f) : Speed;
+        Debug.Log("รั" + speed);
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         float percent = ((run) ? 1 : 0.5f) * moveInput.magnitude;
         playerAnimator.WalkOrRun(percent);

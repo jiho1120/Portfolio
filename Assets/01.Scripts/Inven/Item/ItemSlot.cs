@@ -14,7 +14,6 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public Text countTxt;
     //---------------슬롯으로써의 기능
 
-
     //해당 슬롯이 담은 아이템 정보~
     public int count;
     public SOItem item;

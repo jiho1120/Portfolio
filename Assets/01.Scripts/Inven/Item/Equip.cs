@@ -7,14 +7,17 @@ public class Equip : MonoBehaviour
 {
     public AllEnum.ItemType itemType;
     public int exp;
-    public int maxExp =10;
-    int lv = 1;
+    public int maxExp = 10;
     public Text level;
+    public SOItem soItem;
+    public ItemStat itemStat { get; private set; }
 
-    private void Start()
+    public void Init()
     {
+        itemStat = new ItemStat(soItem);
         level = transform.Find("ItemLevel").GetComponent<Text>();
-        level.text = "Lv : " + lv;
+        level.text = "Lv : " + itemStat.level;
+        itemStat.DisplayStats();
     }
     public void GetExp(int val)
     {
@@ -22,12 +25,47 @@ public class Equip : MonoBehaviour
     }
     public void LevelUp()
     {
-        lv += 1;
-        level.text = "Lv : " + lv;
+        itemStat.AddLevel(1);
+        level.text = "Lv : " + itemStat.level;
         exp = exp - maxExp;
         maxExp += 10;
     }
 
+    public void ApplyEffect(float effect)
+    {
+        switch (itemType)
+        {
+            case AllEnum.ItemType.Head:
+                itemStat.AddStat(AllEnum.ItemType.Head, effect);
+                break;
+            case AllEnum.ItemType.Top:
+                itemStat.AddStat(AllEnum.ItemType.Top, effect);
 
+                break;
+            case AllEnum.ItemType.Gloves:
+                itemStat.AddStat(AllEnum.ItemType.Gloves, effect);
+
+                break;
+            case AllEnum.ItemType.Weapon:
+                itemStat.AddStat(AllEnum.ItemType.Weapon, effect);
+
+                break;
+            case AllEnum.ItemType.Belt:
+                itemStat.AddStat(AllEnum.ItemType.Belt, effect);
+
+                break;
+            case AllEnum.ItemType.Bottom:
+                itemStat.AddStat(AllEnum.ItemType.Bottom, effect);
+                break;
+            case AllEnum.ItemType.Shoes:
+                itemStat.AddStat(AllEnum.ItemType.Shoes, effect);
+                break;
+            default:
+                Debug.Log("¾øÀ½");
+                break;
+        }
+        
+
+    }
 
 }

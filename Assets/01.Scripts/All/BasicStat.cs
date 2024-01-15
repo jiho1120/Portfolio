@@ -93,6 +93,10 @@ public class BasicStat
     {
         this.money += money;
     }
+    public void SetMoney(int money)
+    {
+        this.money = money;
+    }
     public void LevelUp()
     {
         this.level++;

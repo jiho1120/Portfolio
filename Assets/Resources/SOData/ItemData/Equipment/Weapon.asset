@@ -24,6 +24,6 @@ MonoBehaviour:
   maxHealth: 0
   luck: 0
   attack: 100
-  criticalChance: 0.5
+  criticalChance: 0
   maxMana: 0
   movementSpeed: 0

@@ -20,7 +20,7 @@ MonoBehaviour:
   health: 0
   mana: 0
   ultimateGauge: 0
-  defense: 100
+  defense: 0
   maxHealth: 100
   luck: 0
   attack: 0

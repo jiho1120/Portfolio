@@ -73,6 +73,7 @@ public class UiManager : Singleton<UiManager>
                 int num = Random.Range(0, pList.Count); //걍 등급 같은 능력치중 아무거나
                 num = pList[num];
                 PowerUpPlayer p = ResourceManager.Instance.XMLAccess.powerUpPlayerList[num]; //리스트중에 하나 뽑음
+                powerUpUI.SetPanelData(i, "player", p.statName, p.powerUpSize, itemGrade.money);
                 accountText = $"{p.statName}을{p.powerUpSize}만큼 강화한다";
 
             }
@@ -89,6 +90,8 @@ public class UiManager : Singleton<UiManager>
                 num = pList[num];
                 PowerUpItem p = ResourceManager.Instance.XMLAccess.powerUpItemList[num]; //리스트중에 하나 뽑음
                 accountText = $"{p.itemName}을{p.powerUpSize}만큼 강화한다";
+                powerUpUI.SetPanelData(i,"item", p.itemName, p.powerUpSize, itemGrade.money);
+
 
             }
             else if (i == 2)
@@ -105,9 +108,10 @@ public class UiManager : Singleton<UiManager>
                 PowerUpSkill p = ResourceManager.Instance.XMLAccess.powerUpSkillList[num]; //리스트중에 하나 뽑음
 
                 accountText = $"{p.skillName}을{p.powerUpSize}만큼 강화한다";
+                powerUpUI.SetPanelData(i,"skill", p.skillName, p.powerUpSize, itemGrade.money);
             }
             Debug.Log($"{i}, {itemGrade.color}, {accountText}, {itemGrade.money}");
-            powerUpUI.SetPanelDataNoSprite(i, itemGrade.color, accountText, itemGrade.money);
+            powerUpUI.SetPanelUINoSprite(i, itemGrade.color, accountText, itemGrade.money);
         }
     }
 

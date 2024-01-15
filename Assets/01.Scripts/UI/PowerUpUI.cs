@@ -32,15 +32,18 @@ public class PowerUpUI : MonoBehaviour
             panelUIs[i] = obj.GetComponent<PanelUI>();
         }
     }
-    
 
-    public void SetPanelDate(int indexNum, string color, Sprite image, string accountText, int money)
+    public void SetPanelData(int indexNum, string setType, string name, float effect, int money)
     {
-        panelUIs[indexNum].SetDate(color,image, accountText, money);
+        panelUIs[indexNum].SetPanelDate(name, setType,effect, money);
     }
-    public void SetPanelDataNoSprite(int indexNum, string color, string accountText, int money)
+    public void SetPanelUI(int indexNum, string color, Sprite image, string accountText, int money)
     {
-        panelUIs[indexNum].SetDataWithoutSprite(color,accountText, money);
+        panelUIs[indexNum].SetPanelUI(color,image, accountText, money);
+    }
+    public void SetPanelUINoSprite(int indexNum, string color, string accountText, int money)
+    {
+        panelUIs[indexNum].SetPanelUINoSprite(color,accountText, money);
     }
 
     public void ScreenOnOff()
@@ -50,7 +53,6 @@ public class PowerUpUI : MonoBehaviour
         {
             Time.timeScale = 0f; // 시간의 흐름이 멈춤  //코루틴 안되고, 업데이트 안 되고 , 픽스드 가능, 드래그도 가능
             this.gameObject.SetActive(true);
-            // 데이터 세팅 해야함######3
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -63,12 +65,5 @@ public class PowerUpUI : MonoBehaviour
         }
 
     }
-
-    //public void SetPowerUpUIData()
-    //{
-    //    for (int i = 0; i < panelUIs.Length; i++)
-    //    {
-
-    //    }
-    //}
+   
 }

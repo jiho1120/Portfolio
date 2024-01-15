@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerStat : UseManaStat
 {
+
     public float luck { get; private set; }
     public float maxExperience { get; private set; }
     public float ultimateGauge { get; private set; }
@@ -10,6 +11,14 @@ public class PlayerStat : UseManaStat
     public PlayerStat() : base()
     {
 
+    }
+    public PlayerStat(SOPlayer soPlayer)
+    {
+        base.SetValues(soPlayer.objectType, soPlayer.level, soPlayer.health, soPlayer.maxHealth, soPlayer.attack, soPlayer.defense, soPlayer.criticalChance, soPlayer.movementSpeed, soPlayer.experience, soPlayer.money, soPlayer.mana, soPlayer.maxMana);
+        this.luck = soPlayer.luck;
+        this.maxExperience = soPlayer.maxExperience;
+        this.ultimateGauge = soPlayer.ultimateGauge;
+        this.maxUltimateGauge = soPlayer.maxUltimateGauge;
     }
 
     public PlayerStat(AllEnum.ObjectType objectType, int level, float health, float maxHealth, float attack, float defense, float criticalChance, float movementSpeed, float experience, int money, float mana, float maxMana, float luck, float maxExperience, float ultimateGauge, float maxUltimateGauge)
@@ -83,7 +92,11 @@ public class PlayerStat : UseManaStat
         this.maxExperience += MaxExperience;
     }
 
-
+    public void AddAnything(string statName,float effect)
+    {
+        statName += effect;
+        Debug.Log($"{statName}이 {effect}만큼 적용됐습니다");
+    }
     public override void ShowInfo()
     {
         base.ShowInfo();
