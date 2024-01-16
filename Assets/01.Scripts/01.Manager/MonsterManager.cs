@@ -46,4 +46,11 @@ public class MonsterManager : Singleton<MonsterManager>
         }
     }
    
+    public void monstersLevelUp()
+    {
+        for (int i = 0; i < monsterPool.InfoList.Count; i++)
+        {
+            monsterPool.InfoList[i].LevelUp();
+        }
+    }
 }

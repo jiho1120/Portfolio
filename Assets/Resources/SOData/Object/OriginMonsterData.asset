@@ -17,7 +17,7 @@ MonoBehaviour:
   health: 15
   maxHealth: 15
   attack: 5
-  defense: 2
+  defense: 100
   criticalChance: 1
   movementSpeed: 1
   experience: 10

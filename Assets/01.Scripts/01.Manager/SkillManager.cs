@@ -5,7 +5,7 @@ using UnityEngine;
 public class SkillManager : Singleton<SkillManager>
 {
     public int PassiveCurrentNum;
-
+    public Skill passiveSkill { get; private set; }
     //나중에 스킬 쏘는 사람 구분도 해야함
 
     Dictionary<AllEnum.SkillName, Skill> nameDictObj = new Dictionary<AllEnum.SkillName, Skill>(); // 네임을 키로 쓰는이유는 알아보기 직관적이여서
@@ -42,21 +42,19 @@ public class SkillManager : Singleton<SkillManager>
             }
         }
         SetAllSkill();
-        int num = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End);
-        PassiveCurrentNum = num;
-
-        Skill passiveSkill = skillDict[(AllEnum.SkillName)PassiveCurrentNum];
+        PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); // 초반 한번 설정 이것도 씬에서
+    }
+    public void CallPassiveSkill()
+    {
+        PassiveCurrentNum++;
+        if (PassiveCurrentNum >= (int)AllEnum.SkillName.End) // 인덱스 넘기면 처음부터 시작
+        {
+            PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
+        }
+        passiveSkill = skillDict[(AllEnum.SkillName)PassiveCurrentNum];
         passiveSkill.DoSkill();
     }
-    //private void PrintResourceInfo<T>(T[] resources, string resourceName)
-    //{
-    //    Debug.Log($"--- {resourceName} Resources Info ---");
-
-    //    for (int i = 0; i < resources.Length; i++)
-    //    {
-    //        Debug.Log($"{resourceName} {i + 1}: {resources[i]}");
-    //    }
-    //}
+    
     public int EnumToInt(AllEnum.SkillName val)
     {
         switch (val)
@@ -153,6 +151,10 @@ public class SkillManager : Singleton<SkillManager>
         return skill;
     }
 
+    public void SetSkillPos(Skill skill, Transform tr)
+    {
+        skill.transform.SetParent(tr);
+    }
     public Skill SetSkillPos(Skill skill, Vector3 pos, Quaternion rot)
     {
         skill.transform.position = pos;

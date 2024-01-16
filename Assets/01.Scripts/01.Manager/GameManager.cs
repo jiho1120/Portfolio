@@ -43,7 +43,9 @@ public class GameManager : Singleton<GameManager>
         UiManager.Instance.Init();
         //ResourceManager.Instance.XMLAccess.ShowListInfo();
         countTime = 5f;
-
+        UiManager.instance.wating.SetActive(true);
+        //SkillManager.Instance.CallPassiveSkill();
+        InvokeRepeating("CallPassiveSkill", 5.0f, 10.0f);
     }
     private void Update()
     {
@@ -57,9 +59,9 @@ public class GameManager : Singleton<GameManager>
         {
             gameStart = true;
         }
-
         if (gameStart)
         {
+            runTime = false;
             gameTime += Time.deltaTime;
             startGame();
         }
@@ -68,14 +70,22 @@ public class GameManager : Singleton<GameManager>
     {
         gameRound = (countGame / maxStage) + 1;
         gameStage = (countGame % maxStage) +1;
+        monsterGoal = gameRound * 10;
         UiManager.instance.wating.SetActive(false);
         //Cursor.lockState = CursorLockMode.Locked; // 씬매니저에서 들어올때 한번
         //Cursor.visible = false;
-        if (gameStage == 5)
+        if (gameStage != 5)
         {
+            if (gameRound != 1 && gameStage != 1)
+            {
+                MonsterManager.Instance.monstersLevelUp();
+            }
             MonsterManager.Instance.SpawnMonster();
         }
-        // 끝나면 countGame 숫자 올리기
+        else
+        {
+            // 보스 생성
+        }
     }
 
     public void StopOnOffTime()
@@ -87,5 +97,10 @@ public class GameManager : Singleton<GameManager>
         countTime = 0;
         gameStart = true;
         gameTime = 0;
+    }
+    public void CallPassiveSkill()
+    {
+        SkillManager.Instance.passiveSkill.DoReset();
+        SkillManager.Instance.CallPassiveSkill();
     }
 }

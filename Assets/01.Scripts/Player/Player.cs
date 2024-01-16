@@ -353,7 +353,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             Debug.Log("이미 죽었어");
         }
-        print("플레이어 체력" + playerStat.health);
+        //print("플레이어 체력" + playerStat.health);
     }
 
     public void Hit()

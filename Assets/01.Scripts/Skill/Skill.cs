@@ -7,9 +7,11 @@ public abstract class Skill : MonoBehaviour
     public int Index;
     public SOSkill orgInfo;
     public SkillStat skillStat;
+    protected int monsterLayer;
 
     public void Init(SOSkill _Info)
     {
+        monsterLayer = 1 << LayerMask.NameToLayer("Enemy");
         SetInfo(orgInfo);
         skillStat = new SkillStat(orgInfo);
     }

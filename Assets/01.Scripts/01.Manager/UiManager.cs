@@ -10,6 +10,7 @@ public class UiManager : Singleton<UiManager>
     public Image fakeIcon;
     public GraphicRaycaster graphicRaycaster;
     public PowerUpUI powerUpUI;
+    public Text totalRound;
     public Text count;
     public GameObject wating;
     public Button stopTime;
@@ -31,6 +32,7 @@ public class UiManager : Singleton<UiManager>
     public void SetUI()
     {
         playerConditionUI.SetUI();
+        totalRound.text = $"{GameManager.Instance.gameRound} - {GameManager.Instance.gameStage}";
         playerMoney.text = $"{GameManager.Instance.player.playerStat.money} G";
         goalCount.text = $" <color=#ff0000> {GameManager.Instance.killMonster}</color>" +
             $" / {GameManager.Instance.monsterGoal}";

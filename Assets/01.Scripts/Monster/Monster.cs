@@ -4,7 +4,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Monster : MonoBehaviour, IAttack, IDead
+public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
 {
     public AllEnum.MonsterType monType;
     public AllEnum.States NowState = AllEnum.States.End;//현재상태
@@ -13,7 +13,7 @@ public class Monster : MonoBehaviour, IAttack, IDead
     public NavMeshAgent Agent => agent;
     MONStateMachine monStateMachine;
     public SOMonster soOriginMonster;
-    MonsterStat monsterStat;
+    public MonsterStat monsterStat { get; private set; }
     public Vector3 dir;
     public GameObject explosionEffect;
 
@@ -200,6 +200,23 @@ public class Monster : MonoBehaviour, IAttack, IDead
         }
     }
 
+    public void LevelUp()
+    {
+        StatUp();
+    }
+
+    public void StatUp()
+    {
+        monsterStat.LevelUp();
+        monsterStat.AddHp(100);
+        monsterStat.SetMaxHealth(monsterStat.health);
+        monsterStat.AddAttack(20);
+        monsterStat.AddDefence(10);
+        monsterStat.AddcriticalChance(0.5f);
+        monsterStat.SetSpeed(0.2f);
+        monsterStat.AddExp(5);
+        monsterStat.AddMoney(10);
+    }
     #region anim 볼 필요없음
     public void SetIdelAnim()
     {
@@ -226,6 +243,9 @@ public class Monster : MonoBehaviour, IAttack, IDead
     {
         return isDead;
     }
+
+    
+
     #endregion
 
 }

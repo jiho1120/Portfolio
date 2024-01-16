@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 151ca8d91ca4a954c95f2cceb7551d65, type: 2}
+--- !u!114 &218760092 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 218760092, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
+  m_PrefabInstance: {fileID: 4819337682611523895}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &308424723
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,6 +349,10 @@ MonoBehaviour:
   player: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
   gameStart: 0
   runTime: 1
+  monsterGoal: 0
+  killMonster: 0
+  gameRound: 0
+  gameStage: 0
 --- !u!4 &932798537
 Transform:
   m_ObjectHideFlags: 0
@@ -776,6 +791,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 218760091, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 218760091, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 218760091, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 508
+      objectReference: {fileID: 0}
+    - target: {fileID: 218760092, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 218760092, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 218760092, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 218760092, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4819337682339838221, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -876,6 +919,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4819337683712674741, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
+      propertyPath: totalRound
+      value: 
+      objectReference: {fileID: 218760092}
     - target: {fileID: 4819337683712674742, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
       propertyPath: m_Pivot.x
       value: 0
