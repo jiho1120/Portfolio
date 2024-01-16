@@ -19,7 +19,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 9f922002032136c4687b8dced9bc624c, type: 3}
   effect: 10
   duration: 0
-  cool: 10
+  cool: 3
   mana: 0
   setParent: 1
   inUse: 0

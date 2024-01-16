@@ -11,6 +11,7 @@ public class MonsterStat : BasicStat
     {
         base.SetValues(soMonster.objectType, soMonster.level, soMonster.health, soMonster.maxHealth, soMonster.attack, soMonster.defense, soMonster.criticalChance, soMonster.movementSpeed, soMonster.experience, soMonster.money);
     }
+    
 
     public override void ShowInfo()
     {

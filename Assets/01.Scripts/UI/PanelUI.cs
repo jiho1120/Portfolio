@@ -66,22 +66,15 @@ public class PanelUI : MonoBehaviour
         }
         else if (num == 2)
         {
-            Debug.Log("이름 : " + name);
             AllEnum.SkillName _name;
             bool parseSuccess = Enum.TryParse(name, out _name);
-            Debug.Log("바꾼 이름 : " + _name);
 
             if (parseSuccess)
             {
-                Debug.Log("딕트 갯수: " + SkillManager.Instance.skillDict.Count);
                 if (SkillManager.Instance.skillDict.ContainsKey(_name))
                 {
                     Skill value = SkillManager.Instance.skillDict[_name];
-                    Debug.Log("스킬 이름: " + value.name);
-                    Debug.Log("스킬 아이콘: " + value.skillStat.icon);
                     icon.sprite = value.skillStat.icon;
-                    Debug.Log("스킬 완료: ");
-
                 }
             }
             else

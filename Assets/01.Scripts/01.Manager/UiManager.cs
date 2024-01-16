@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UiManager : Singleton<UiManager>
 {
+    public GameObject uiManager;
     public PlayerConditionUI playerConditionUI;
     public Image fakeIcon;
     public GraphicRaycaster graphicRaycaster;
@@ -20,8 +21,7 @@ public class UiManager : Singleton<UiManager>
     public Text playerMoney;
     public Text goalCount;
 
-
-
+    
     public void Init()
     {
         stopBtnText = stopTime.transform.GetComponentInChildren<Text>();

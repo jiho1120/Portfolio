@@ -24,7 +24,7 @@ public class GameManager : Singleton<GameManager>
     private int maxStage = 6; // 1라운드당 5스테이지라서
     public int gameRound=0; //gameRound - gameStage 형식
     public int gameStage=0;
-
+    public bool cursorLock = false;
 
     public float gameTime { get; private set; }
     public float countTime { get; private set; }
@@ -44,12 +44,10 @@ public class GameManager : Singleton<GameManager>
         //ResourceManager.Instance.XMLAccess.ShowListInfo();
         countTime = 5f;
         UiManager.instance.wating.SetActive(true);
-        //SkillManager.Instance.CallPassiveSkill();
         InvokeRepeating("CallPassiveSkill", 5.0f, 10.0f);
     }
     private void Update()
     {
-        
         UiManager.Instance.SetUI();
         if (countTime > 0 && runTime)
         {
@@ -61,6 +59,7 @@ public class GameManager : Singleton<GameManager>
         }
         if (gameStart)
         {
+            LockCursor();
             runTime = false;
             gameTime += Time.deltaTime;
             startGame();
@@ -72,8 +71,7 @@ public class GameManager : Singleton<GameManager>
         gameStage = (countGame % maxStage) +1;
         monsterGoal = gameRound * 10;
         UiManager.instance.wating.SetActive(false);
-        //Cursor.lockState = CursorLockMode.Locked; // 씬매니저에서 들어올때 한번
-        //Cursor.visible = false;
+        
         if (gameStage != 5)
         {
             if (gameRound != 1 && gameStage != 1)
@@ -86,6 +84,19 @@ public class GameManager : Singleton<GameManager>
         {
             // 보스 생성
         }
+    }
+    public void LockCursor()
+    {
+        if (cursorLock)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }    
     }
 
     public void StopOnOffTime()
@@ -100,7 +111,11 @@ public class GameManager : Singleton<GameManager>
     }
     public void CallPassiveSkill()
     {
-        SkillManager.Instance.passiveSkill.DoReset();
+        if (SkillManager.Instance.passiveSkill != null)
+        {
+            SkillManager.Instance.passiveSkill.DoReset();
+
+        }
         SkillManager.Instance.CallPassiveSkill();
     }
 }

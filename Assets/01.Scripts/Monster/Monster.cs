@@ -13,7 +13,8 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     public NavMeshAgent Agent => agent;
     MONStateMachine monStateMachine;
     public SOMonster soOriginMonster;
-    public MonsterStat monsterStat { get; private set; }
+    public MonsterStat monsterStat { get; private set; } // ¹Ù²î´Â ½ºÅÈ
+    public MonsterStat staticMonsterStat { get; private set; }
     public Vector3 dir;
     public GameObject explosionEffect;
 
@@ -49,6 +50,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         if (monsterStat == null)
         {
             monsterStat = new MonsterStat();
+            staticMonsterStat = monsterStat;
         }
 
         //monsterStat.ShowInfo();
