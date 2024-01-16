@@ -7,7 +7,7 @@ public class MonsterManager : Singleton<MonsterManager>
     ObjectPool<Monster> monsterPool = new ObjectPool<Monster>();
     public Transform monsterPoolPos;
     int monsterRange = 20;
-
+    Coroutine monCor = null;
 
     public void Init()
     {
@@ -29,7 +29,10 @@ public class MonsterManager : Singleton<MonsterManager>
 
     public void SpawnMonster()
     {
-        StartCoroutine(GetMonster());
+        if (monCor == null)
+        {
+            monCor = StartCoroutine(GetMonster());
+        }
     }
 
     public IEnumerator GetMonster()

@@ -10,10 +10,20 @@ public class UiManager : Singleton<UiManager>
     public Image fakeIcon;
     public GraphicRaycaster graphicRaycaster;
     public PowerUpUI powerUpUI;
+    public Text count;
+    public GameObject wating;
+    public Button stopTime;
+    Text stopBtnText;
+    public Button skipTime;
+    public Text watingCount;
+    public Text playerMoney;
+    public Text goalCount;
+
 
 
     public void Init()
     {
+        stopBtnText = stopTime.transform.GetComponentInChildren<Text>();
         playerConditionUI.Init();
         powerUpUI.Init();
         SetPanelName();
@@ -21,7 +31,24 @@ public class UiManager : Singleton<UiManager>
     public void SetUI()
     {
         playerConditionUI.SetUI();
+        playerMoney.text = $"{GameManager.Instance.player.playerStat.money} G";
+        goalCount.text = $" <color=#ff0000> {GameManager.Instance.killMonster}</color>" +
+            $" / {GameManager.Instance.monsterGoal}";
+        if (GameManager.instance.runTime)
+        {
+            stopBtnText.text = "타이머 멈춤";
+        }
+        else
+        {
+            stopBtnText.text = "타이머 시작";
+        }
 
+        count.text = string.Format("{0:N2}", GameManager.Instance.gameTime.ToString());
+        watingCount.text = Mathf.Ceil(GameManager.Instance.countTime).ToString();
+        if (GameManager.Instance.countTime <=  1)
+        {
+            watingCount.text = "게임 시작";
+        }
     }
     public void ShowPowerUpPanel()
     {
@@ -116,15 +143,12 @@ public class UiManager : Singleton<UiManager>
         }
     }
 
-    public void ScreenOnOff(char key)
+    public void ScreenOnOff(char key) // 나중에 더 많아지면 사용하기 편할것같아서 만듬
     {
         switch (key)
         {
             case 'i':
                 InventoryManager.Instance.InvenOnOff();
-                break;
-            case 'o':
-                powerUpUI.ScreenOnOff();
                 break;
             default:
                 break;

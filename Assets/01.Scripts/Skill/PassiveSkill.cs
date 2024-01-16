@@ -4,28 +4,24 @@ using UnityEngine;
 
 public class PassiveSkill : Skill
 {
-    int currentNum = 0;
+    int currentNum=0;
     Coroutine firePassiveCor = null;
     Coroutine healPassiveCor = null;
     Coroutine lovePassiveCor = null;
     Coroutine windPassiveCor = null;
 
-    public void Init()
-    {
-        int num = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End);
-        currentNum = num;
-        DoReset(); // 싹 리셋
-        Debug.Log("리셋 통과");
-        DoSkill();
-    }
+   
     public override void DoSkill()
     {
+        currentNum = SkillManager.Instance.PassiveCurrentNum;
+        DoReset(); // 싹 리셋
+        Debug.Log("리셋 통과");
         DoPassiveSkill(currentNum); // 하나 키기
         Debug.Log("패시브 통과");
-        currentNum++;
-        if (currentNum >= (int)AllEnum.SkillName.End) // 인덱스 넘기면 처음부터 시작
+        SkillManager.Instance.PassiveCurrentNum++;
+        if (SkillManager.Instance.PassiveCurrentNum >= (int)AllEnum.SkillName.End) // 인덱스 넘기면 처음부터 시작
         {
-            currentNum = (int)AllEnum.SkillName.Fire;
+            SkillManager.Instance.PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
         }
         Debug.Log("스킬 전체 통과");
     }
@@ -34,6 +30,7 @@ public class PassiveSkill : Skill
     {
         Debug.Log(_currentNum);
         Skill skill = SkillManager.Instance.skillDict[(AllEnum.SkillName)_currentNum];
+        SkillManager.Instance.SetSkillPos(skill, GameManager.Instance.player.transform.position);
         Debug.Log(skill);
         skill.gameObject.SetActive(true);
         skill.skillStat.SetInUse(true);
@@ -72,7 +69,6 @@ public class PassiveSkill : Skill
             Debug.Log("무언가 잘못됨");
         }
         Debug.Log("코루틴 시작하고 나감");
-
     }
     public IEnumerator FireSkill(Skill skill)
     {

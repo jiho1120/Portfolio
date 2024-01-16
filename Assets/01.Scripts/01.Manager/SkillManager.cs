@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SkillManager : Singleton<SkillManager>
 {
+    public int PassiveCurrentNum;
+
     //나중에 스킬 쏘는 사람 구분도 해야함
 
     Dictionary<AllEnum.SkillName, Skill> nameDictObj = new Dictionary<AllEnum.SkillName, Skill>(); // 네임을 키로 쓰는이유는 알아보기 직관적이여서
@@ -40,8 +42,11 @@ public class SkillManager : Singleton<SkillManager>
             }
         }
         SetAllSkill();
-        PassiveSkill passiveSkill = new PassiveSkill();
-        passiveSkill.Init();
+        int num = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End);
+        PassiveCurrentNum = num;
+
+        Skill passiveSkill = skillDict[(AllEnum.SkillName)PassiveCurrentNum];
+        passiveSkill.DoSkill();
     }
     //private void PrintResourceInfo<T>(T[] resources, string resourceName)
     //{
@@ -152,6 +157,16 @@ public class SkillManager : Singleton<SkillManager>
     {
         skill.transform.position = pos;
         skill.transform.rotation = rot;
+
+        if (skill.skillStat.setParent)
+        {
+            skill.transform.SetParent(GameManager.Instance.player.transform.GetChild(0), true);
+        }
+        return skill;
+    }
+    public Skill SetSkillPos(Skill skill, Vector3 pos)
+    {
+        skill.transform.position = pos;
 
         if (skill.skillStat.setParent)
         {

@@ -26,27 +26,27 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     Coroutine HealHpMpCor;
 
 
-    public float Luck => playerStat.luck + InventoryManager.Instance.equipList[0].itemStat.luck;
-    public float MaxHp => playerStat.maxHealth + InventoryManager.Instance.equipList[1].itemStat.maxHealth;
-    public float MaxMp => playerStat.maxMana + InventoryManager.Instance.equipList[2].itemStat.maxMana;
-    public float Def => playerStat.defense + InventoryManager.Instance.equipList[3].itemStat.defence;
-    public float Speed => playerStat.movementSpeed + InventoryManager.Instance.equipList[4].itemStat.speed;
-    public float Cri => playerStat.criticalChance + InventoryManager.Instance.equipList[5].itemStat.critical;
-    public float Att => playerStat.attack + InventoryManager.Instance.equipList[6].itemStat.attack;
+    public float Luck { get; private set; }
+    public float MaxHp { get; private set; }
+    public float MaxMp { get; private set; }
+    public float Def { get; private set; }
+    public float Speed { get; private set; }
+    public float Cri { get; private set; }
+    public float Att { get; private set; }
 
-
-
-    void Start()
+    public void FirstStart()
     {
         playerStat = new PlayerStat(soOriginPlayer);
         playerAnimator = GetComponent<PlayerAnimator>();
         fist = transform.GetChild(0).GetChild(3);
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
-
         //playerStat.ShowInfo();
         HealHpMpCor = StartCoroutine(HealHpMp());
-
+    }
+    public void Init()
+    {
+        CalcPlayerStat();
     }
 
     // Update is called once per frame
@@ -87,7 +87,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
             playerAnimator.SetAttackSpeed(attackSpeed);
         }
 
-        
+
         if (Input.GetKeyDown(KeyCode.T))
         {
             if (HealHpMpCor != null)
@@ -157,6 +157,53 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
             UiManager.Instance.ShowPowerUpPanel();
         }
     }
+    #region 강화 능력
+    public void CalculateLuck()
+    {
+        Luck = playerStat.luck + InventoryManager.Instance.equipList[0].itemStat.luck;
+    }
+
+    public void CalculateMaxHp()
+    {
+        MaxHp = playerStat.maxHealth + InventoryManager.Instance.equipList[1].itemStat.maxHealth;
+    }
+
+    public void CalculateMaxMp()
+    {
+        MaxMp = playerStat.maxMana + InventoryManager.Instance.equipList[2].itemStat.maxMana;
+    }
+
+    public void CalculateDef()
+    {
+        Def = playerStat.defense + InventoryManager.Instance.equipList[3].itemStat.defence;
+    }
+
+    public void CalculateSpeed()
+    {
+        Speed = playerStat.movementSpeed + InventoryManager.Instance.equipList[4].itemStat.speed;
+    }
+
+    public void CalculateCri()
+    {
+        Cri = playerStat.criticalChance + InventoryManager.Instance.equipList[5].itemStat.critical;
+    }
+
+    public void CalculateAtt()
+    {
+        Att = playerStat.attack + InventoryManager.Instance.equipList[6].itemStat.attack;
+    }
+    public void CalcPlayerStat()
+    {
+
+        CalculateLuck();
+        CalculateMaxHp();
+        CalculateMaxMp();
+        CalculateDef();
+        CalculateSpeed();
+        CalculateCri();
+        CalculateAtt();
+    }
+    #endregion
     public IEnumerator HealHpMp()
     {
         while (true)
