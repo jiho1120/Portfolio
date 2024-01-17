@@ -11,10 +11,10 @@
   <Stat Name="Gloves" Rating="Rare" Value="0.2" />
   <Stat Name="Gloves" Rating="Unique" Value="0.3" />
   <Stat Name="Gloves" Rating="Legendary" Value="0.4" />
-  <Stat Name="Waepon" Rating="Normal" Value="10" />
-  <Stat Name="Waepon" Rating="Rare" Value="20" />
-  <Stat Name="Waepon" Rating="Unique" Value="30" />
-  <Stat Name="Waepon" Rating="Legendary" Value="40" />
+  <Stat Name="Weapon" Rating="Normal" Value="10" />
+  <Stat Name="Weapon" Rating="Rare" Value="20" />
+  <Stat Name="Weapon" Rating="Unique" Value="30" />
+  <Stat Name="Weapon" Rating="Legendary" Value="40" />
   <Stat Name="Belt" Rating="Normal" Value="10" />
   <Stat Name="Belt" Rating="Rare" Value="20" />
   <Stat Name="Belt" Rating="Unique" Value="30" />

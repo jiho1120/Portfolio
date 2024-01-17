@@ -74,6 +74,10 @@ public class BasicStat
     {
         this.attack += att;
     }
+    public void SetAttack(float att)
+    {
+        this.attack = att;
+    }
     public void AddDefence(float dff)
     {
         this.defense += dff;
@@ -82,15 +86,28 @@ public class BasicStat
             this.defense = 1;
         }
     }
+    public void SetDefence(float dff)
+    {
+        this.defense = dff;
+        if (this.defense < 1)
+        {
+            this.defense = 1;
+        }
+    }
     public void AddcriticalChance(float chance)
     {
         this.criticalChance += chance;
-    }
 
+    }
+    public void SetcriticalChance(float chance)
+    {
+        this.criticalChance = chance;
+    }
     public void AddExp(float exp)
     {
         this.experience += exp;
     }
+
     public void SetExp(float exp)
     {
         experience = exp;
@@ -144,8 +161,5 @@ public class BasicStat
         Debug.Log(this.defense);
         Debug.Log(this.criticalChance);
         Debug.Log(this.movementSpeed);
-
     }
-    
-
 }

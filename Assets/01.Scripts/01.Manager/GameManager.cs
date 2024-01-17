@@ -16,62 +16,125 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public Player player;
-    public bool gameStart = false;
-    public bool runTime = true;
+    public bool gameStart;
+    public bool isRunTime = true; // 버튼 글자 바꾸기 위해 선언
     public int monsterGoal = 0;
     public int killMonster = 0;
-    private int countGame = 0; //이걸 나누고 몫과 나머지이 gameRound, gameStage
+    private int countGame = 0; //이걸 나누고 몫과 나머지 gameRound, gameStage
     private int maxStage = 6; // 1라운드당 5스테이지라서
-    public int gameRound=0; //gameRound - gameStage 형식
-    public int gameStage=0;
+    public int gameRound = 0; //gameRound - gameStage 형식
+    public int gameStage = 0;
     public bool cursorLock = false;
+    Coroutine startGameCor = null;
+    Coroutine goWatingRoom = null;
+    Coroutine passiveCor = null;
+    Coroutine runTimeCor = null;
 
     public float gameTime { get; private set; }
     public float countTime { get; private set; }
 
     private void Start()
     {
+        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        //ResourceManager.Instance.LoadResources();
+        //player.FirstStart();
+        ////player.CalcPlayerStat();
+        //SkillManager.Instance.Init();
+        //MonsterManager.Instance.Init();
+        //InventoryManager.Instance.Init();
+        //ItemManager.Instance.Init();
+        //player.CalcPlayerStat();
+        //UiManager.Instance.Init();
+        ////ResourceManager.Instance.XMLAccess.ShowListInfo();
+        //countTime = 5f;
+        //UiManager.instance.wating.SetActive(true);
+        DoItOnceMain();
+    }
+    public void DoItOnceMain()
+    {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         ResourceManager.Instance.LoadResources();
         player.FirstStart();
-        //player.CalcPlayerStat();
         SkillManager.Instance.Init();
         MonsterManager.Instance.Init();
         InventoryManager.Instance.Init();
         ItemManager.Instance.Init();
-        player.Init();
+        player.CalcPlayerStat();
         UiManager.Instance.Init();
-        //ResourceManager.Instance.XMLAccess.ShowListInfo();
         countTime = 5f;
         UiManager.instance.wating.SetActive(true);
-        InvokeRepeating("CallPassiveSkill", 5.0f, 10.0f);
+        gameStart = false;
+        runTimeCor = StartCoroutine(RunTime());
     }
+
+
     private void Update()
     {
         UiManager.Instance.SetUI();
-        if (countTime > 0 && runTime)
+        if (killMonster > monsterGoal && gameStart == true)
         {
-            countTime -= Time.deltaTime;
+            gameStart = false;
+            if (goWatingRoom == null)
+            {
+                goWatingRoom = StartCoroutine(GoWatingRoom());
+            }
         }
-        if (countTime <= 0)
+
+        if (Input.GetKeyDown(KeyCode.M))
         {
-            gameStart = true;
-        }
-        if (gameStart)
-        {
-            LockCursor();
-            runTime = false;
-            gameTime += Time.deltaTime;
-            startGame();
+            killMonster += 10;
         }
     }
-    public void startGame()
+    IEnumerator RunTime()
     {
-        gameRound = (countGame / maxStage) + 1;
-        gameStage = (countGame % maxStage) +1;
-        monsterGoal = gameRound * 10;
+        while (isRunTime)
+        {
+            yield return new WaitForSeconds(1f);
+            countTime -= 1;
+            if (countTime <= 0)
+            {
+                gameStart = true;
+                if (startGameCor == null)
+                {
+                    startGameCor = StartCoroutine(startGame());
+                }
+            }
+        }
+    }
+    IEnumerator GameTime()
+    {
+        while (gameStart)
+        {
+            gameTime += 1;
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    IEnumerator startGame()
+    {
+        if (runTimeCor != null)
+        {
+            StopCoroutine(runTimeCor);
+            runTimeCor = null;
+        }
         UiManager.instance.wating.SetActive(false);
-        
+        if (goWatingRoom != null)
+        {
+            StopCoroutine(goWatingRoom);
+            goWatingRoom = null;
+        }
+        StartCoroutine(GameTime());
+        isRunTime = false;
+        countTime = 5f;
+        gameRound = (countGame / maxStage) + 1;
+        gameStage = (countGame % maxStage) + 1;
+        monsterGoal = (countGame+1) * 10;
+
+        if (passiveCor == null)
+        {
+            passiveCor = StartCoroutine(CallPassive());
+        }
+        cursorLock = true;
+
         if (gameStage != 5)
         {
             if (gameRound != 1 && gameStage != 1)
@@ -83,8 +146,40 @@ public class GameManager : Singleton<GameManager>
         else
         {
             // 보스 생성
+            monsterGoal = 1;
         }
+        yield return null;
     }
+    IEnumerator GoWatingRoom()
+    {        
+        MonsterManager.Instance.StopSpawnMonster();
+        MonsterManager.Instance.CleanMonster();//=>딱 살아있던 애들만 죽임. (단순히 죽임. 
+        StopCoroutine(GameTime());
+        killMonster = 0;
+        monsterGoal = 0;
+        gameTime = 0;
+        countGame++;
+        if (startGameCor != null)
+        {
+            StopCoroutine(startGameCor);
+            startGameCor = null;
+        }
+        isRunTime = true;
+        cursorLock = false;
+        if (passiveCor != null)
+        {
+            StopCoroutine(passiveCor);
+            passiveCor = null;
+        }
+        UiManager.instance.wating.SetActive(true);
+        if (runTimeCor == null)
+        {
+            runTimeCor = StartCoroutine(RunTime());
+        }
+        
+        yield return null;
+    }
+
     public void LockCursor()
     {
         if (cursorLock)
@@ -96,18 +191,16 @@ public class GameManager : Singleton<GameManager>
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-        }    
+        }
     }
-
-    public void StopOnOffTime()
+    
+    IEnumerator CallPassive()
     {
-        runTime = !runTime;
-    }
-    public void SkipTime()
-    {
-        countTime = 0;
-        gameStart = true;
-        gameTime = 0;
+        while (gameStart)
+        {
+            CallPassiveSkill();
+            yield return new WaitForSeconds(10f);
+        }
     }
     public void CallPassiveSkill()
     {
@@ -117,5 +210,15 @@ public class GameManager : Singleton<GameManager>
 
         }
         SkillManager.Instance.CallPassiveSkill();
+    }
+    public void StopOnOffTime()
+    {
+        isRunTime = !isRunTime;
+    }
+    public void SkipTime()
+    {
+        countTime = 0;
+        gameStart = true;
+        gameTime = 0;
     }
 }

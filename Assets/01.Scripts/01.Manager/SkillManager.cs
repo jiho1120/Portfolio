@@ -105,7 +105,7 @@ public class SkillManager : Singleton<SkillManager>
         }
         else
         {
-            if (GameManager.Instance.player.playerStat.mana >= skill.skillStat.mana)
+            if (GameManager.Instance.player.Mp >= skill.skillStat.mana)
             {
                 Vector3 pos = GameManager.Instance.player.transform.position;
                 Quaternion rot = GameManager.Instance.player.transform.GetChild(0).rotation;
@@ -118,8 +118,6 @@ public class SkillManager : Singleton<SkillManager>
                 skill = SetSkillPos(skill, pos, rot);
                 skill.gameObject.SetActive(true);
                 skill.DoSkill();
-                GameManager.Instance.player.playerStat.MinusMana(skill.skillStat.mana);
-                UiManager.Instance.SetUseSKillCoolImg(skill.skillStat.index);
             }
         }
     }

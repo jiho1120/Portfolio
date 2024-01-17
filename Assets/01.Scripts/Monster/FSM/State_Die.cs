@@ -10,7 +10,7 @@ public class State_Die : State
 
     public override void OnStateEnter()
     {
-        monster.Dead();
+        monster.Dead(false);
     }
 
     public override void OnStateExit()

@@ -26,12 +26,13 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
     {
         for (int i = 0; i < prefabArray.Length; i++)
         {
-            T tInfo = Instantiate(prefabArray[i]).GetComponent<T>();
+            T tInfo = Instantiate(prefabArray[i]).GetComponent<T>();            
             objectPool.Enqueue(tInfo);
             InfoList.Add(tInfo);
             tInfo.gameObject.SetActive(false);
         }
     }
+    int iii = 0;
     public void RandomInitializeObjectPool(T[] prefabArray, Transform pos)
     {
         num = prefabArray.Length;
@@ -40,6 +41,9 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
         tInfo.transform.parent = pos;
         objectPool.Enqueue(tInfo);
         InfoList.Add(tInfo);
+
+        tInfo.gameObject.name = tInfo.gameObject.name + iii;
+        iii++;
         tInfo.gameObject.SetActive(false);
     }
 
@@ -71,13 +75,12 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
         IDead dead;
         for (int i = 0; i < InfoList.Count; i++)
         {
-            dead = InfoList[i].GetComponent<IDead>();
+            dead = InfoList[i].GetComponent<IDead>();            
             if (dead != null)
             {
-                if (dead.IsDead() == false)
-                {
-                    dead.Dead();
-                }                
+                Debug.Log("죽일 목록 체크 : " + InfoList[i].gameObject.name + " / 상태 : " + dead.IsDead());
+                //if (dead.IsDead() == false)                
+                    dead.Dead(true);                
             }
         }
     }

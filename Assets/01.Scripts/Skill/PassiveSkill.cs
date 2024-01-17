@@ -61,7 +61,7 @@ public class PassiveSkill : Skill
         GameManager.Instance.player.playerStat.AddAttack(skillStat.effect);
         while (true)
         {
-            GameManager.Instance.player.playerStat.AddHp(-skillStat.effect);
+            GameManager.Instance.player.SetHp(GameManager.Instance.player.Hp + skillStat.effect); // 값을 -로 지정해서 뺄려면 더해야함
             yield return new WaitForSeconds(skillStat.cool);
         }
     }

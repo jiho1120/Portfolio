@@ -12,7 +12,7 @@ public interface IAttack
 
 public interface IDead
 {
-    public void Dead();
+    public void Dead(bool force);
     public bool IsDead();
 }
 

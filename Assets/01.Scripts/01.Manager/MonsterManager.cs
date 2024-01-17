@@ -34,6 +34,14 @@ public class MonsterManager : Singleton<MonsterManager>
             monCor = StartCoroutine(GetMonster());
         }
     }
+    public void StopSpawnMonster()
+    {
+        if (monCor != null)
+        {
+            StopCoroutine(monCor);
+            monCor = null;
+        }
+    }
 
     public IEnumerator GetMonster()
     {
@@ -52,5 +60,9 @@ public class MonsterManager : Singleton<MonsterManager>
         {
             monsterPool.InfoList[i].LevelUp();
         }
+    }
+    public void CleanMonster()
+    {
+        monsterPool.DeleteActive();
     }
 }

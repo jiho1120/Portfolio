@@ -31,26 +31,33 @@ public class UiManager : Singleton<UiManager>
     }
     public void SetUI()
     {
-        playerConditionUI.SetUI();
-        totalRound.text = $"{GameManager.Instance.gameRound} - {GameManager.Instance.gameStage}";
-        playerMoney.text = $"{GameManager.Instance.player.playerStat.money} G";
-        goalCount.text = $" <color=#ff0000> {GameManager.Instance.killMonster}</color>" +
-            $" / {GameManager.Instance.monsterGoal}";
-        if (GameManager.instance.runTime)
+        if (GameManager.Instance.gameStart)
         {
-            stopBtnText.text = "타이머 멈춤";
+            playerConditionUI.SetUI();
+            count.text = string.Format("{0:N2}", GameManager.Instance.gameTime.ToString());
+            totalRound.text = $"{GameManager.Instance.gameRound} - {GameManager.Instance.gameStage}";
+            playerMoney.text = $"{GameManager.Instance.player.playerStat.money} G";
+            goalCount.text = $" <color=#ff0000> {GameManager.Instance.killMonster}</color>" +
+                $" / {GameManager.Instance.monsterGoal + 1}";
         }
         else
         {
-            stopBtnText.text = "타이머 시작";
-        }
+            if (GameManager.instance.isRunTime)
+            {
+                stopBtnText.text = "타이머 멈춤";
+            }
+            else
+            {
+                stopBtnText.text = "타이머 시작";
+            }
 
-        count.text = string.Format("{0:N2}", GameManager.Instance.gameTime.ToString());
-        watingCount.text = Mathf.Ceil(GameManager.Instance.countTime).ToString();
-        if (GameManager.Instance.countTime <=  1)
-        {
-            watingCount.text = "게임 시작";
+            watingCount.text = Mathf.Ceil(GameManager.Instance.countTime).ToString();
+            if (GameManager.Instance.countTime <= 1)
+            {
+                watingCount.text = "게임 시작";
+            }
         }
+        
     }
     public void ShowPowerUpPanel()
     {
@@ -112,15 +119,14 @@ public class UiManager : Singleton<UiManager>
                 {
                     if (ResourceManager.Instance.XMLAccess.powerUpItemList[j].grade == itemGrade.grade) // 같은 등급인것만 넣고
                     {
-                        pList.Add(j);
+                        pList.Add(j);                        
                     }
                 }
                 int num = Random.Range(0, pList.Count); //걍 등급 같은 능력치중 아무거나
                 num = pList[num];
                 PowerUpItem p = ResourceManager.Instance.XMLAccess.powerUpItemList[num]; //리스트중에 하나 뽑음
                 accountText = $"{p.itemName}을{p.powerUpSize}만큼 강화한다";
-                powerUpUI.SetPanelData(i,"item", p.itemName, p.powerUpSize, itemGrade.money);
-
+                powerUpUI.SetPanelData(i,"item", p.itemName, p.powerUpSize, itemGrade.money);                                
 
             }
             else if (i == 2)
@@ -139,7 +145,7 @@ public class UiManager : Singleton<UiManager>
                 accountText = $"{p.skillName}을{p.powerUpSize}만큼 강화한다";
                 powerUpUI.SetPanelData(i,"skill", p.skillName, p.powerUpSize, itemGrade.money);
             }
-            Debug.Log($"{i}, {itemGrade.color}, {accountText}, {itemGrade.money}");
+            //Debug.Log($"{i}, {itemGrade.color}, {accountText}, {itemGrade.money}");
             powerUpUI.SetPanelUINoSprite(i, itemGrade.color, accountText, itemGrade.money);
 
         }

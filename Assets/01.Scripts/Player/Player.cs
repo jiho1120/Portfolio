@@ -28,7 +28,11 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
 
     public float Luck { get; private set; }
     public float MaxHp { get; private set; }
+    public float Hp { get; private set; }
+
     public float MaxMp { get; private set; }
+    public float Mp { get; private set; }
+
     public float Def { get; private set; }
     public float Speed { get; private set; }
     public float Cri { get; private set; }
@@ -41,12 +45,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         fist = transform.GetChild(0).GetChild(3);
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
-        //playerStat.ShowInfo();
-        HealHpMpCor = StartCoroutine(HealHpMp());
-    }
-    public void Init()
-    {
-        CalcPlayerStat();
+        //HealHpMpCor = StartCoroutine(HealHpMp());
     }
 
     // Update is called once per frame
@@ -57,6 +56,23 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
 
     private void Update()
     {
+        if (playerStat.health > playerStat.maxHealth)
+        {
+            playerStat.SetHealth(playerStat.maxHealth);
+        }
+        if (Hp > MaxHp)
+        {
+            playerStat.SetHealth(MaxHp);
+        }
+        if (playerStat.mana > playerStat.maxMana)
+        {
+            playerStat.SetMana(MaxMp);
+        }
+        if (Mp > MaxMp)
+        {
+            playerStat.SetMana(MaxMp);
+        }
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             run = true;
@@ -81,11 +97,6 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             InventoryManager.Instance.UseItem(2);
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            attackSpeed += 0.1f;
-            playerAnimator.SetAttackSpeed(attackSpeed);
-        }
 
 
         if (Input.GetKeyDown(KeyCode.T))
@@ -105,14 +116,20 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash);
+            Debug.Log(Mp);
+
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle);
+            Debug.Log(Mp);
+
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground);
+            Debug.Log(Mp);
+
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
@@ -167,10 +184,17 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     {
         MaxHp = playerStat.maxHealth + InventoryManager.Instance.equipList[1].itemStat.maxHealth;
     }
-
+    public void SetHp(float hp)
+    {
+        Hp = hp;
+    }
     public void CalculateMaxMp()
     {
         MaxMp = playerStat.maxMana + InventoryManager.Instance.equipList[2].itemStat.maxMana;
+    }
+    public void SetMp(float mana)
+    {
+        Mp = mana;
     }
 
     public void CalculateDef()
@@ -194,10 +218,11 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     public void CalcPlayerStat()
     {
-
         CalculateLuck();
         CalculateMaxHp();
+        Hp = MaxHp;
         CalculateMaxMp();
+        Mp = MaxMp;
         CalculateDef();
         CalculateSpeed();
         CalculateCri();
@@ -208,8 +233,8 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     {
         while (true)
         {
-            playerStat.AddHp(10);
-            playerStat.AddMp(10);
+            SetHp(Hp + 10);
+            SetMp(Mp + 10);
             yield return new WaitForSeconds(2);
         }
     }
@@ -228,10 +253,6 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         characterBody.forward = lookForward;
         transform.position += moveDir * speed * Time.deltaTime;
     }
-    public void UseMana(float mana)
-    {
-        playerStat.MinusMana(mana);
-    }
 
     #region 레벨업
     public void LevelUp()
@@ -249,6 +270,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         playerStat.AddMaxHealth(100f);
         playerStat.AddMaxMana(100f);
         playerStat.AddMaxExperience(100f);
+        CalcPlayerStat();
     }
     #endregion
 
@@ -341,12 +363,12 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             Hit();
             float damage = Mathf.Max(CriticalDamage(critical, attack) - (Def * 0.5f), 1f); // 최소 데미지 1
-            float hp = playerStat.health - damage;
-            playerStat.SetHealth(hp);
-            if (playerStat.health < 0)
+            float hp = Hp - damage;
+            SetHp(hp);
+            if (Hp < 0)
             {
-                playerStat.SetHealth(0);
-                Dead();
+                SetHp(0);
+                Dead(false);
             }
         }
         else
@@ -361,7 +383,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         playerAnimator.SetHit();
     }
 
-    public virtual void Dead()
+    public virtual void Dead(bool force)
     {
         isDead = true;
         Debug.Log("죽음");
@@ -371,8 +393,6 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     {
         return isDead;
     }
-
-
 
     #endregion
 

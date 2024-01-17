@@ -29,14 +29,19 @@ public class UseManaStat : BasicStat
     public void AddMp(float mana)
     {
         this.mana += mana;
-        if (this.mana > maxMana)
+        if (mana > maxMana)
         {
             this.mana = maxMana;
         }
+
     }
     public void SetMana(float mana)
     {
         this.mana = mana;
+        if (this.mana > maxMana)
+        {
+            this.mana = maxMana;
+        }
     }
     public void SetMaxMana(float maxMana)
     {

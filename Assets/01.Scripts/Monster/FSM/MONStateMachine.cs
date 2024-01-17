@@ -32,6 +32,15 @@ public class MONStateMachine : MonoBehaviour
         SetState(AllEnum.States.Idle);
     }
 
+    public void StopNowState()
+    {
+        owner.NowState = AllEnum.States.Die;
+        if (ExState != AllEnum.States.End)
+        {
+            StateDic[ExState].OnStateExit();
+        }        
+        ExState = AllEnum.States.End;                    
+    }
     public void SetState(AllEnum.States _enum)
     {
         owner.NowState = _enum;
@@ -45,4 +54,5 @@ public class MONStateMachine : MonoBehaviour
         }
     }
     
+
 }

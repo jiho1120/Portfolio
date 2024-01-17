@@ -7,25 +7,26 @@ using UnityEngine.AI;
 public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
 {
     public AllEnum.MonsterType monType;
-    public AllEnum.States NowState = AllEnum.States.End;//현재상태
-    MonsterAnimation anim; //얘는 진짜 단순히 애니메이션 출력...
+    public AllEnum.States NowState = AllEnum.States.End;//현재상태    
+    MonsterAnimation anim; //얘는 진짜 단순히 애니메이션 출력...    
     NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
     MONStateMachine monStateMachine;
     public SOMonster soOriginMonster;
     public MonsterStat monsterStat { get; private set; } // 바뀌는 스탯
-    public MonsterStat staticMonsterStat { get; private set; }
     public Vector3 dir;
     public GameObject explosionEffect;
 
     public Transform attackPos;
     public bool isAttack = false;  // 공격 쿨타임을 줘서 시간이 되면 트루로 바꾸게
     public bool isHit = false;
-    public bool isDead = false;
+    public bool isDead = true;
     public float coolAttackTime = 0;
     public float rotationSpeed = 5f;
     protected int itemIndex;
     Vector3 itempos = new Vector3(0, 1, 0);
+
+    Coroutine dieCor = null;
 
 
     public void Init()
@@ -50,13 +51,12 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         if (monsterStat == null)
         {
             monsterStat = new MonsterStat();
-            staticMonsterStat = monsterStat;
+            monsterStat.SetValues(soOriginMonster);
         }
-
+        StatUp();//내 레벨에 맞는 스탯을 세팅함
         //monsterStat.ShowInfo();
         isAttack = false;
         isHit = false;
-        monsterStat.SetValues(soOriginMonster);
         isDead = false;
         agent.baseOffset = 0f; // 중력으로 죽은애가 코루틴 끝나기전에 태어날경우 위치 초기화가 안되서 시작할때 세팅
         monStateMachine.SetState(AllEnum.States.Idle);
@@ -108,7 +108,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
     public virtual void Attack(Vector3 Tr, float Range)
-    { 
+    {
         Collider[] colliders = Physics.OverlapSphere(Tr, Range);
         for (int i = 0; i < colliders.Length; i++)
         {
@@ -161,28 +161,55 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         SetHitAnim();
         agent.isStopped = true;
     }
-    public virtual void Dead()
+    public virtual void Dead(bool force)
     {
+        if (isDead == false)
+        {
+            agent.isStopped = true;
+            SetDeadAnim();
+        }
         isDead = true;
-        agent.isStopped = true;
-        SetDeadAnim();
-        GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money, 10); // 몬스터 잡을때마다 궁극기 10씩 
-        GameManager.Instance.killMonster++;
-        Invoke("DeletObject",3f);
-        DropRandomItem();
+
+        if (force)
+        {
+            if (dieCor != null)
+            {
+                StopCoroutine(dieCor);
+                dieCor = null;
+            }
+            if (monStateMachine!=null)            
+            monStateMachine.StopNowState();
+            MonsterManager.Instance.MonsterPool().ReturnObjectToPool(this);
+        }
+        else
+        {
+            GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money, 10); // 몬스터 잡을때마다 궁극기 10씩 
+            GameManager.Instance.killMonster++;
+            DropRandomItem();
+            if (dieCor == null)
+            {
+                dieCor = StartCoroutine(DeletObject());
+
+            }
+        }
     }
-    public void DeletObject()
+
+
+    IEnumerator DeletObject()
     {
+        yield return new WaitForSeconds(3f);
         if (this.monType == AllEnum.MonsterType.Explosion)
         {
             Explosion();
         }
+
         MonsterManager.Instance.MonsterPool().ReturnObjectToPool(this);
+        dieCor = null;
     }
-    
+
     void DropRandomItem()
     {
-        itemIndex = Random.Range(0,3);
+        itemIndex = Random.Range(0, 3);
         if (itemIndex == 0)
         {
             GameManager.Instance.player.playerStat.AddMoney(monsterStat.money);
@@ -204,20 +231,20 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
 
     public void LevelUp()
     {
+        monsterStat.LevelUp();
         StatUp();
     }
 
     public void StatUp()
     {
-        monsterStat.LevelUp();
-        monsterStat.AddHp(100);
-        monsterStat.SetMaxHealth(monsterStat.health);
-        monsterStat.AddAttack(20);
-        monsterStat.AddDefence(10);
-        monsterStat.AddcriticalChance(0.5f);
-        monsterStat.SetSpeed(0.2f);
-        monsterStat.AddExp(5);
-        monsterStat.AddMoney(10);
+        monsterStat.SetMaxHealth((monsterStat.level * 10) + soOriginMonster.maxHealth);
+        monsterStat.SetHealth(soOriginMonster.maxHealth);
+        monsterStat.SetAttack((monsterStat.level * 10) + soOriginMonster.attack);
+        monsterStat.SetDefence((monsterStat.level * 10) + soOriginMonster.defense);
+        monsterStat.SetcriticalChance((monsterStat.level * 0.5f) + soOriginMonster.criticalChance);
+        monsterStat.SetSpeed((monsterStat.level * 0.1f) + soOriginMonster.movementSpeed);
+        monsterStat.SetExp((monsterStat.level * 10) + soOriginMonster.experience);
+        monsterStat.SetMoney((monsterStat.level * 10) + soOriginMonster.money);
     }
     #region anim 볼 필요없음
     public void SetIdelAnim()
@@ -246,7 +273,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         return isDead;
     }
 
-    
+
 
     #endregion
 

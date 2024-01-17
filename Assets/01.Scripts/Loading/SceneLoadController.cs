@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoScene : MonoBehaviour
+public class SceneLoadController : MonoBehaviour
 {
     public void GoMainScene()
     {

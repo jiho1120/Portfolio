@@ -44,6 +44,8 @@ public class ActiveSkill : Skill
                 //}
                 GravityAttack();
             }
+            GameManager.Instance.player.SetMp(GameManager.Instance.player.Mp - skillStat.mana);
+            UiManager.Instance.SetUseSKillCoolImg(skillStat.index);
         }
         StartCoroutine(DieTimer());
        

@@ -25,10 +25,10 @@ public class PlayerConditionUI : MonoBehaviour
 
     public void SetUI()
     {
-        hp.maxValue = GameManager.Instance.player.playerStat.maxHealth;
-        hp.value = GameManager.Instance.player.playerStat.health;
-        mp.maxValue = GameManager.Instance.player.playerStat.maxMana;
-        mp.value = GameManager.Instance.player.playerStat.mana;
+        hp.maxValue = GameManager.Instance.player.MaxHp;
+        hp.value = GameManager.Instance.player.Hp;
+        mp.maxValue = GameManager.Instance.player.MaxMp;
+        mp.value = GameManager.Instance.player.Mp;
         exp.maxValue = GameManager.Instance.player.playerStat.maxExperience;
         exp.value = GameManager.Instance.player.playerStat.experience;
 

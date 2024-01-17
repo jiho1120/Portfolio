@@ -56,7 +56,7 @@ public class PanelUI : MonoBehaviour
         else if (num == 1)
         {
             for (int i = 0; i < InventoryManager.Instance.equipList.Length; i++)
-            {
+            {                
                 if (InventoryManager.Instance.equipList[i].itemType.ToString() == name)
                 {
                     icon.sprite = InventoryManager.Instance.equipList[i].itemStat.icon;

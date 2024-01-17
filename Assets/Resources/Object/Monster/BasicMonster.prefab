@@ -985,12 +985,11 @@ MonoBehaviour:
   NowState: 5
   soOriginMonster: {fileID: 11400000, guid: 84596b97179400547acca318a00309c8, type: 2}
   dir: {x: 0, y: 0, z: 0}
-  targetTr: {fileID: 2309431332358196974, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
   explosionEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
   attackPos: {fileID: 314737498}
   isAttack: 0
   isHit: 0
-  isDead: 0
+  isDead: 1
   coolAttackTime: 0
   rotationSpeed: 5
 --- !u!195 &2041818361
