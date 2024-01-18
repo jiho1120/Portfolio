@@ -153,13 +153,13 @@ public class BasicStat
     }
     public virtual void ShowInfo()
     {
-        Debug.Log(this.objectType);
-        Debug.Log(this.level);
-        Debug.Log(this.health);
-        Debug.Log(this.maxHealth);
-        Debug.Log(this.attack);
-        Debug.Log(this.defense);
-        Debug.Log(this.criticalChance);
-        Debug.Log(this.movementSpeed);
+        Debug.Log(objectType);
+        Debug.Log(level);
+        Debug.Log(health);
+        Debug.Log(maxHealth);
+        Debug.Log(attack);
+        Debug.Log(defense);
+        Debug.Log(criticalChance);
+        Debug.Log(movementSpeed);
     }
 }

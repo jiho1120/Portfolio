@@ -103,4 +103,22 @@ public class AllEnum
 
         End
     }
+
+    public enum NodeState
+    {
+        Running, //실행중임
+        Success, //성공함
+        Failure //실패함
+    }
+    public enum StateEnum // 디버깅용
+    {
+        DIe,
+        Skill,
+        BasicAttack,
+        Run,
+        Walk,
+        Idle,
+
+        End
+    }
 }

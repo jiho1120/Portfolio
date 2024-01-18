@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: OriginBossData
   m_EditorClassIdentifier: 
   objectType: 1
-  level: 0
-  health: 0
-  maxHealth: 0
-  attack: 0
-  defense: 0
-  criticalChance: 0
-  movementSpeed: 0
-  mana: 0
-  maxMana: 0
+  level: 1
+  health: 100
+  maxHealth: 10
+  attack: 5
+  defense: 5
+  criticalChance: 0.5
+  movementSpeed: 5
+  experience: 100
+  money: 1000
+  mana: 100
+  maxMana: 100

@@ -83,7 +83,6 @@ public class PassiveSkill : Skill
             for (int i = 0; i < colliders.Length; i++)
             {
                 colliders[i].GetComponent<Monster>().ReduceDefence(skillStat.effect);
-                Debug.Log(colliders[i].GetComponent<Monster>().monsterStat.defense);
             }
             yield return new WaitForSeconds(skillStat.cool);
         }

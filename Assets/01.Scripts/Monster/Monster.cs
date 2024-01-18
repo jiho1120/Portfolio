@@ -40,7 +40,6 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         if (agent == null)
         {
             agent = GetComponent<NavMeshAgent>();
-
         }
         if (monStateMachine == null)
         {
@@ -163,14 +162,14 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     public virtual void Dead(bool force)
     {
-        if (isDead == false)
+        if (isDead == false) // 살아있는 애들을 강제로 죽임
         {
             agent.isStopped = true;
             SetDeadAnim();
         }
         isDead = true;
 
-        if (force)
+        if (force) // 죽어있던 애들을 죽는 시간없이 없애기
         {
             if (dieCor != null)
             {

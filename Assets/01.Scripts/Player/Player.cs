@@ -45,7 +45,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         fist = transform.GetChild(0).GetChild(3);
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
-        //HealHpMpCor = StartCoroutine(HealHpMp());
+        HealHpMpCor = StartCoroutine(HealHpMp());
     }
 
     // Update is called once per frame
@@ -315,15 +315,19 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
 
-    public void Attack(Vector3 pos, float Range)
+    public void Attack(Vector3 Tr, float Range)
     {
-        Collider[] colliders = Physics.OverlapSphere(pos, Range);
+        Collider[] colliders = Physics.OverlapSphere(Tr, Range);
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].CompareTag("Monster"))
+            if (colliders[i].CompareTag("Monster")) // 에너미 레이어로 바꾸기
             {
                 colliders[i].GetComponent<Monster>().TakeDamage(Cri, Att);
                 colliders[i].GetComponent<Monster>().isHit = true;
+            }
+            else if (colliders[i].CompareTag("Boss"))
+            {
+                colliders[i].GetComponent<Boss>().TakeDamage(Cri, Att);
             }
         }
     }

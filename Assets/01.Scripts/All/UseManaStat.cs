@@ -21,6 +21,9 @@ public class UseManaStat : BasicStat
     public override void ShowInfo()
     {
         base.ShowInfo();
+        Debug.Log(mana);
+        Debug.Log(maxMana);
+
     }
     public void MinusMana(float mana)
     {
