@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
 {
+    [Header("NowState는 인스펙터 창에서 건들지 마세요")]
+    public AllEnum.StateEnum NowState = AllEnum.StateEnum.End;//현재상태
     public SOBoss soOriginBoss;
     public BossStat bossStat { get; private set; }
     PlayerAnimator animator; // 플레이어랑 똑같음
@@ -14,27 +16,53 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     private float attackSpeed = 1;
     private float lastClickTime = 0f;
     private float attackCooldown = 1.5f;
-    public float speed { get; private set; }
     bool isLeft = false;
     bool isDead = false;
     Coroutine HealHpMpCor;
+    public bool isStop;
+    public float distance { get; private set; }
     public void FirstStart()
     {
-        Init();
         animator = GetComponent<PlayerAnimator>();
         agent = GetComponent<NavMeshAgent>();
         fist = transform.GetChild(0).GetChild(3);
         animator.Starts();
         animator.SetAttackSpeed(attackSpeed);
-
+        bossStat = new BossStat(soOriginBoss);
+        Debug.Log("보스 first start");
         //HealHpMpCor = StartCoroutine(HealHpMp());
     }
 
     public void Init()
     {
-        bossStat = new BossStat(soOriginBoss);
+        gameObject.SetActive(true);
+        LevelUp(); // 능력치 세팅
+        agent.isStopped = false;
+        StartCoroutine(StartMoveTimer());
+
+    }
+    public void Stop()
+    {
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
+        SetMoveAnim(0,agent.velocity.z, agent.velocity.x);
+    }
+    public void Clear()
+    {
+        Stop();
+    }
+    IEnumerator StartMoveTimer()
+    {
+        isStop = true;
+        yield return new WaitForSeconds(2f);
+        isStop = false;
     }
 
+    public float CheckDistance()
+    {
+        distance = (GameManager.Instance.player.transform.position - transform.position).sqrMagnitude;
+        return distance;
+    }
     void BasicAttack()
     {
         //클릭할때마다 이전시간과 비교해서 연속공격상태면 다음 주먹으로 변경하고
@@ -161,7 +189,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     }
 
     #region Anim
-    public void SetMoveAnim(float z, float x)
+    public void SetMoveAnim(float speed,float z, float x)
     {
         animator.WalkOrRun(speed); // 1or 1.5
         animator.MoveAnim(z, x);

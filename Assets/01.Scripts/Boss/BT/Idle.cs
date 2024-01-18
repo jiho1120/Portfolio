@@ -12,10 +12,11 @@ public class Idle : Node
     }
     public override AllEnum.NodeState Evaluate()
     {
-        owner.agent.isStopped = true;
-        owner.agent.velocity = Vector3.zero;
-        owner.SetMoveAnim(owner.agent.velocity.z, owner.agent.velocity.x);
-        return AllEnum.NodeState.Success;
+        if (owner.isStop)
+        {
+            owner.Stop();
+            return AllEnum.NodeState.Success;
+        }
+        return AllEnum.NodeState.Failure;
     }
-    
 }

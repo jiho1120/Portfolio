@@ -12,18 +12,18 @@ public class Move : Node
     }
     public override AllEnum.NodeState Evaluate()
     {
-        if (owner.speed == 1f)
+        if (owner.CheckDistance() < 16)
         {
             owner.agent.isStopped = false;
             owner.agent.SetDestination(GameManager.Instance.player.transform.position);
-            owner.SetMoveAnim(owner.agent.velocity.z, owner.agent.velocity.x);
+            owner.SetMoveAnim(1f,owner.agent.velocity.z, owner.agent.velocity.x);
             return AllEnum.NodeState.Success;
         }
-        else if (owner.speed == 1.5f)
+        else if (owner.CheckDistance() >= 16)
         {
             owner.agent.isStopped = false;
             owner.agent.SetDestination(GameManager.Instance.player.transform.position);
-            owner.SetMoveAnim(owner.agent.velocity.z, owner.agent.velocity.x);
+            owner.SetMoveAnim(1.5f,owner.agent.velocity.z, owner.agent.velocity.x);
             return AllEnum.NodeState.Success;
         }
         else

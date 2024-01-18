@@ -10,18 +10,9 @@ public class Attack : Node
     {
         this.owner = owner;
     }
-    public override AllEnum.NodeState Evaluate()
+    public override AllEnum.NodeState Evaluate() // »ç°Å¸® 2
     {
         throw new System.NotImplementedException();
     }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

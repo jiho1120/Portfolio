@@ -15,6 +15,7 @@ public class Die : Node
     {
         if (owner.IsDead())
         {
+            owner.agent.isStopped = true;
             owner.gameObject.SetActive(false);
             return AllEnum.NodeState.Success;
         }

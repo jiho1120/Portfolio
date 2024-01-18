@@ -4,44 +4,62 @@ using UnityEngine;
 
 public class SkillManager : Singleton<SkillManager>
 {
-    public int PassiveCurrentNum;
     public Skill passiveSkill { get; private set; }
     //나중에 스킬 쏘는 사람 구분도 해야함
 
     Dictionary<AllEnum.SkillName, Skill> nameDictObj = new Dictionary<AllEnum.SkillName, Skill>(); // 네임을 키로 쓰는이유는 알아보기 직관적이여서
     Dictionary<AllEnum.SkillName, SOSkill> nameDictInfo = new Dictionary<AllEnum.SkillName, SOSkill>();
     public Dictionary<AllEnum.SkillName, Skill> skillDict { get; private set; } // 스킬 만들때 이거 사용
+    public Dictionary<AllEnum.SkillName, Skill> bossSkillDict { get; private set; }
+
+    public int PassiveCurrentNum;
 
     public void Init()
     {
         skillDict = new Dictionary<AllEnum.SkillName, Skill>();
+        bossSkillDict = new Dictionary<AllEnum.SkillName, Skill>();
+
         GameObject[] objectAll = ResourceManager.Instance.objectAll;
         SOSkill[] skillDataAll = ResourceManager.Instance.skillDataAll;
         //PrintResourceInfo(objectAll, "GameObject");
         //PrintResourceInfo(skillDataAll, "SOSkillData");
         Skill skilltmp;
-        foreach (var item in objectAll)
-        {
 
+        foreach (var item in ResourceManager.Instance.objectAll)
+        {
             skilltmp = Instantiate(item).GetComponent<Skill>();
-            AllEnum.SkillName name = IntToEnum(skilltmp.Index);
-
-            if (!nameDictObj.ContainsKey(name))
-            {
-                nameDictObj.Add(name, skilltmp);
-                skilltmp.gameObject.SetActive(false);
-            }
+            skilltmp.Init(ResourceManager.Instance.GetSkillData(skilltmp.Index));
+            skilltmp.skillStat.SetInUse(false);
+            skilltmp.gameObject.SetActive(false);
+            skillDict.Add(IntToEnum(skilltmp.Index), skilltmp);
         }
-        for (int i = 0; i < skillDataAll.Length; i++)
+
+        //foreach (var item in objectAll)
+        //{
+
+        //    skilltmp = Instantiate(item).GetComponent<Skill>();
+        ////    AllEnum.SkillName name = IntToEnum(skilltmp.Index);
+
+        ////    if (!nameDictObj.ContainsKey(name))
+        ////    {
+        ////        nameDictObj.Add(name, skilltmp);
+        ////        skilltmp.gameObject.SetActive(false);
+        ////    }
+        ////}
+        //for (int i = 0; i < skillDataAll.Length; i++)
+        //{
+        //    AllEnum.SkillName skillName = IntToEnum(skillDataAll[i].index);
+
+        //    if (!nameDictInfo.ContainsKey(skillName))
+        //    {
+        //        nameDictInfo.Add(skillName, skillDataAll[i]);
+        //    }
+        //}
+        //SetAllSkill();
+        foreach (var item in skillDict)
         {
-            AllEnum.SkillName skillName = IntToEnum(skillDataAll[i].index);
-
-            if (!nameDictInfo.ContainsKey(skillName))
-            {
-                nameDictInfo.Add(skillName, skillDataAll[i]);
-            }
+            Debug.Log(item.Key);
         }
-        SetAllSkill();
         PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); // 초반 한번 설정 이것도 씬에서
     }
     public void CallPassiveSkill()
@@ -121,28 +139,28 @@ public class SkillManager : Singleton<SkillManager>
             }
         }
     }
-    public void SetAllSkill()
-    {
-        for (int i = 0; i < (int)AllEnum.SkillName.End; i++)
-        {
-            AllEnum.SkillName skillName = (AllEnum.SkillName)i;
-            if (nameDictObj.TryGetValue(skillName, out Skill skill))
-            {
-                if (nameDictInfo.TryGetValue(skillName, out SOSkill skillInfo))
-                {
-                    skill.Init(skillInfo);
-                    skill.skillStat.SetInUse(false);
-                    //skill.SetInfo(skillInfo);
+    //public void SetAllSkill()
+    //{
+    //    for (int i = 0; i < (int)AllEnum.SkillName.End; i++)
+    //    {
+    //        AllEnum.SkillName skillName = (AllEnum.SkillName)i;
+    //        if (nameDictObj.TryGetValue(skillName, out Skill skill))
+    //        {
+    //            if (nameDictInfo.TryGetValue(skillName, out SOSkill skillInfo))
+    //            {
+    //                skill.Init(skillInfo);
+    //                skill.skillStat.SetInUse(false);
+    //                //skill.SetInfo(skillInfo);
 
-                }
-                skillDict.Add(skillName, skill);
-            }
-            else
-            {
-                Debug.LogError($"Skill not found: {skillName}");
-            }
-        }
-    }
+    //            }
+    //            skillDict.Add(skillName, skill);
+    //        }
+    //        else
+    //        {
+    //            Debug.LogError($"Skill not found: {skillName}");
+    //        }
+    //    }
+    //}
     public Skill GetSKillFromDict(AllEnum.SkillName skillName)
     {
         Skill skill = skillDict[skillName];

@@ -18,15 +18,14 @@ public class BehaviorTree : MonoBehaviour
                 // 죽음 노드 (죽었을때 해야 할것들)
                 new Die(owner),
 
-                new SelectorNode
+                //가만히 있기
+                new Idle(owner),
+                new SequenceNode
                 (
                     new List<Node>
                     {
-                        // 적탐지
-                        new CheckEnemy(owner),
-                        
-                        // 공격 거리체크
-                        new CheckAttack(owner),
+                        // 이동(뛰기, 걷기)
+                        new Move(owner),
                         new SelectorNode
                         (
                             new List<Node>
@@ -35,15 +34,10 @@ public class BehaviorTree : MonoBehaviour
                                 new UseSkill(owner),
                                 // 기본 공격
                                 new Attack(owner),
-                                // 이동(뛰기, 걷기)
-                                new Move(owner)
                             }
                         )
                     }
-                ),
-
-                //가만히 있기
-                new Idle(owner)
+                )
             }
         );
     }

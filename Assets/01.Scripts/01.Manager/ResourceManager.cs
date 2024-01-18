@@ -21,4 +21,17 @@ public class ResourceManager : Singleton<ResourceManager>
         XMLAccess = GetComponent<XMLAccess>();
         XMLAccess.Init();
     }
+
+    public SOSkill GetSkillData(int index)
+    {
+        for (int i = 0; i < skillDataAll.Length; i++)
+        {
+            if (skillDataAll[i].index == index)
+            {
+                return skillDataAll[i];
+            }            
+        }
+
+        return null;
+    }
 }

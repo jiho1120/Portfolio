@@ -5301,6 +5301,7 @@ GameObject:
   - component: {fileID: 8021355147897810138}
   - component: {fileID: 5718774989385993743}
   - component: {fileID: 5718774989385993744}
+  - component: {fileID: 7260039081260179209}
   m_Layer: 6
   m_Name: Boss
   m_TagString: Boss
@@ -5387,9 +5388,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86eccfe5229115546aa610523e72d0de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NowState: 6
   soOriginBoss: {fileID: 11400000, guid: 22228116a3f89ec49a7a25c418f967da, type: 2}
   characterBody: {fileID: 8982195072780944994}
   fist: {fileID: 5718774989643379306}
+  isStop: 0
 --- !u!195 &5718774989385993744
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5412,6 +5415,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7260039081260179209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8021355147897810143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a401661d9a40d944c972ecb743ea5519, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8021355148102326997
 GameObject:
   m_ObjectHideFlags: 0

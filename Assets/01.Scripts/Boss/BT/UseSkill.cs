@@ -12,7 +12,16 @@ public class UseSkill : Node
     }
     public override AllEnum.NodeState Evaluate()
     {
-        throw new System.NotImplementedException();
+        if (owner.CheckDistance() < 16)
+        {
+
+            return AllEnum.NodeState.Success;
+
+        }
+        else
+        {
+            return AllEnum.NodeState.Failure;
+        }
     }
-    
+
 }

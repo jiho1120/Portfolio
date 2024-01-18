@@ -348,12 +348,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
   gameStart: 0
-  runTime: 1
+  isRunTime: 1
   monsterGoal: 0
   killMonster: 0
   gameRound: 0
   gameStage: 0
   cursorLock: 0
+  bossObj: {fileID: 8021355147897810143, guid: e510989983ee02242af3a055ef7e04d1, type: 3}
 --- !u!4 &932798537
 Transform:
   m_ObjectHideFlags: 0

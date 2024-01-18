@@ -8,10 +8,6 @@ using UnityEngine;
 //오늘 할일
 // 중력 효과 고치기
 // 그라운드 쓰면 밀치기
-// 능력치 아이템 스킬 강화 선택 // 이 방법 외에는 어떤 경우에도 강화 불가
-// 레벨업 함수 완성하기
-// 레벨업 화면 버튼 기능들 만들기
-// 레벨업 데이터 만들고 넣기
 
 public class GameManager : Singleton<GameManager>
 {
@@ -32,6 +28,10 @@ public class GameManager : Singleton<GameManager>
 
     public float gameTime { get; private set; }
     public float countTime { get; private set; }
+
+    public Boss boss { get; private set; }
+    public GameObject bossObj;
+
 
     private void Start()
     {
@@ -65,6 +65,15 @@ public class GameManager : Singleton<GameManager>
         UiManager.instance.wating.SetActive(true);
         gameStart = false;
         runTimeCor = StartCoroutine(RunTime());
+        boss = Instantiate(bossObj).GetComponent<Boss>();
+        if (boss ==null)
+        {
+            Debug.Log("보스없");
+        }
+        
+        boss.FirstStart();
+        boss.gameObject.SetActive(false);
+        Debug.Log("보스 끄,ㅁ");
     }
 
 
@@ -145,7 +154,8 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            // 보스 생성
+            
+            boss.Init();
             monsterGoal = 1;
         }
         yield return null;
