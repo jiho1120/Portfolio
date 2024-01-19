@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Skill : MonoBehaviour
@@ -12,15 +10,9 @@ public abstract class Skill : MonoBehaviour
     public void Init(SOSkill _Info)
     {
         //monsterLayer = 1 << LayerMask.NameToLayer("Enemy");
-        SetInfo(orgInfo);
+        orgInfo = _Info;
         skillStat = new SkillStat(orgInfo);
     }
-    public void SetInfo(SOSkill _Info)
-    {
-        orgInfo = _Info;
-    }
-   
-
     private void OnTriggerStay(Collider other)
     {
         // 플레이어가 썻을때
@@ -46,8 +38,12 @@ public abstract class Skill : MonoBehaviour
             }
         }
     }
-    
-
+    //끄기 (초기화를 담고있는)
+    public void SetOffSkill()
+    {
+        DoReset();
+        gameObject.SetActive(false);
+    }
     public virtual void DoSkill(bool isPlayer) /* 스킬로써해야할일들*/
     {
 

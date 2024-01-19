@@ -94,6 +94,7 @@ public class BasicStat
             this.defense = 1;
         }
     }
+    
     public void AddcriticalChance(float chance)
     {
         this.criticalChance += chance;

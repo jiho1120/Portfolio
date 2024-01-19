@@ -12,7 +12,13 @@ public class Attack : Node
     }
     public override AllEnum.NodeState Evaluate() // 사거리 2
     {
-        throw new System.NotImplementedException();
+        if (owner.CheckDistance() < 4) // 스킬 사거리
+        {
+            owner.NowState = AllEnum.StateEnum.BasicAttack;
+            return AllEnum.NodeState.Success;
+        }
+            return AllEnum.NodeState.Failure;
+
     }
-    
+
 }

@@ -22,6 +22,8 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     public bool isStop;
     public int bossLayer;
     public int PassiveCurrentNum;
+    public Coroutine skillcor = null;
+
 
     public float distance { get; private set; }
     public void FirstStart()
@@ -32,7 +34,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         animator.Starts();
         animator.SetAttackSpeed(attackSpeed);
         bossStat = new BossStat(soOriginBoss);
-        Debug.Log("보스 first start");
         HealHpMpCor = StartCoroutine(HealHpMp());
         bossLayer = 1 << LayerMask.NameToLayer("Player");
         PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); // 초반 한번 설정 이것도 씬에서
@@ -40,10 +41,12 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
 
     public void Init()
     {
+        gameObject.transform.position = GameManager.Instance.player.transform.position + new Vector3(1, 0, 1);
         gameObject.SetActive(true);
         LevelUp(); // 능력치 세팅
         agent.isStopped = false;
         StartCoroutine(StartMoveTimer());
+        GetComponent<BehaviorTree>().SetInit();
 
     }
     public void Stop()
@@ -55,6 +58,24 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     public void Clear()
     {
         Stop();
+    }
+    public void StartSkillTime()
+    {
+        skillcor = StartCoroutine(SkillTime());
+    }
+    IEnumerator SkillTime() // 스킬 한번에 쓰지 않고 좀 기다렸다가 쓸려고
+    {
+        for (int i = 0; i < (int)AllEnum.SkillName.Gravity; i++) //inUse가 아닌것
+        {
+            AllEnum.SkillName skillname = (AllEnum.SkillName)i;
+            if (SkillManager.Instance.UseableSkill(skillname, false))
+            {
+                SkillManager.Instance.UseSKill(skillname, false);
+                break;
+            }
+        }
+        yield return new WaitForSeconds(5f);
+        skillcor = null;
     }
     IEnumerator StartMoveTimer()
     {
@@ -127,6 +148,17 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
 
+    public void SetStop()
+    {
+        Invoke("AgentStop", 1f);
+    }
+    void AgentStop()
+    {        
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
+        Debug.Log("agent 강제로 멈춤 "+ agent.velocity);
+    }
+
     public bool CheckCritical(float critical)
     {
         bool isCritical = Random.Range(0f, 100f) < critical;
@@ -149,16 +181,19 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     public void TakeDamage(float critical, float attack)
     {
+        return;
         if (!isDead)
         {
             Hit();
+            Debug.Log("맞음");
             float damage = Mathf.Max(CriticalDamage(critical, attack) - (bossStat.defense * 0.5f), 1f); // 최소 데미지 1
             float hp = bossStat.health - damage;
             bossStat.SetHealth(hp);
-            if (hp < 0)
+            if (hp <= 0)
             {
+                Debug.Log("피가 0이하");
                 bossStat.SetHealth(0);
-                Dead(false);
+                //Dead(false);
             }
         }
         else

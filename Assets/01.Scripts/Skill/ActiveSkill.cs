@@ -44,8 +44,16 @@ public class ActiveSkill : Skill
                 //}
                 GravityAttack();
             }
-            GameManager.Instance.player.SetMp(GameManager.Instance.player.Mp - skillStat.mana);
-            UiManager.Instance.SetUseSKillCoolImg(skillStat.index);
+            if (isPlayer)
+            {
+                GameManager.Instance.player.SetMp(GameManager.Instance.player.Mp - skillStat.mana);
+                UiManager.Instance.SetUseSKillCoolImg(skillStat.index);
+            }
+            else
+            {
+                GameManager.Instance.boss.bossStat.SetMana(GameManager.Instance.boss.bossStat.mana - skillStat.mana);
+
+            }
         }
         StartCoroutine(DieTimer());
 
@@ -55,7 +63,7 @@ public class ActiveSkill : Skill
     IEnumerator DieTimer()
     {
         yield return new WaitForSeconds(skillStat.duration);
-        SkillManager.Instance.SetOffSkill(this);
+        SetOffSkill();
         yield return new WaitForSeconds(skillStat.cool);
         skillStat.SetInUse(false);
     }
@@ -68,23 +76,23 @@ public class ActiveSkill : Skill
             Collider[] colliders = Physics.OverlapSphere(transform.position, 8f, player.PlayerLayer);
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (colliders[i].CompareTag("Monster"))
+                IAttack attm = colliders[i].GetComponent<IAttack>();
+                if (attm !=null)
                 {
-                    Monster monster = colliders[i].GetComponent<Monster>();
-                    monster.TakeDamage(player.Cri, player.Att * skillStat.effect);
-                }
-                else if (colliders[i].CompareTag("Boss"))
-                {
-                    Boss boss = colliders[i].GetComponent<Boss>();
-                    boss.TakeDamage(player.Cri, player.Att * skillStat.effect);
-                }
-                Vector3 direction = colliders[i].transform.position - transform.position;
+                    attm.TakeDamage(player.Cri, player.Att * skillStat.effect);
+                    Vector3 direction = colliders[i].transform.position - transform.position;
 
-                Rigidbody enemyRigidbody = colliders[i].GetComponent<Rigidbody>();
-                if (enemyRigidbody != null)
-                {
-                    enemyRigidbody.AddForce(direction.normalized * 10, ForceMode.Impulse);
-                }
+                    Rigidbody enemyRigidbody = colliders[i].GetComponent<Rigidbody>();
+                    if (enemyRigidbody != null)
+                    {
+                        enemyRigidbody.AddForce(direction.normalized * 2, ForceMode.Impulse);
+                    }
+
+                    if (colliders[i].GetComponent<Boss>()!=null)
+                    {
+                        colliders[i].GetComponent<Boss>().SetStop();
+                    }
+                }                                
             }
         }
         else
@@ -93,10 +101,7 @@ public class ActiveSkill : Skill
             Collider[] colliders = Physics.OverlapSphere(transform.position, 8f, boss.bossLayer);
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (colliders[i].CompareTag("Player"))
-                {
                     GameManager.Instance.player.TakeDamage(boss.bossStat.criticalChance, boss.bossStat.attack * skillStat.effect);
-                }
                 
                 Vector3 direction = colliders[i].transform.position - transform.position;
 

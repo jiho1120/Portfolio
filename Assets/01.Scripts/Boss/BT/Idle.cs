@@ -15,6 +15,7 @@ public class Idle : Node
         if (owner.isStop)
         {
             owner.Stop();
+            owner.NowState = AllEnum.StateEnum.Idle;
             return AllEnum.NodeState.Success;
         }
         return AllEnum.NodeState.Failure;

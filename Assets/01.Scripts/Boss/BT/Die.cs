@@ -13,10 +13,13 @@ public class Die : Node
 
     public override AllEnum.NodeState Evaluate()
     {
-        if (owner.IsDead())
+        if (owner.bossStat.health <= 0)
         {
+            owner.Dead(false);
             owner.agent.isStopped = true;
             owner.gameObject.SetActive(false);
+
+            owner.NowState = AllEnum.StateEnum.DIe;
             return AllEnum.NodeState.Success;
         }
         return AllEnum.NodeState.Failure;

@@ -120,21 +120,15 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash,true);
-            Debug.Log(Mp);
-
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash,true);            
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle, true);
-            Debug.Log(Mp);
-
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle, true);            
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground, true);
-            Debug.Log(Mp);
-
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {

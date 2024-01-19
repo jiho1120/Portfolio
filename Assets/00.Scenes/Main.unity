@@ -382,6 +382,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92cf5f37d54c53844a35cb9eaa601faa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSKillPool: {fileID: 1010811077}
+  bossSKillPool: {fileID: 1594786426}
 --- !u!114 &932798539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,6 +596,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7031fbd633e8d14d932f83696e56505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1010811076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1010811077}
+  m_Layer: 0
+  m_Name: PlayerSkillPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1010811077
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010811076}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.1923876, y: -0.6692071, z: 4.272047}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1117175514 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4819337683708964845, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}
@@ -721,6 +754,37 @@ Transform:
   m_Father: {fileID: 308424724}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1594786425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1594786426}
+  m_Layer: 0
+  m_Name: 'BossSkillPool '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1594786426
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594786425}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.1923876, y: -0.6692071, z: 4.272047}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1818191981 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4819337683353057626, guid: e87c8b6e7b60ba2438799c399d36c053, type: 3}

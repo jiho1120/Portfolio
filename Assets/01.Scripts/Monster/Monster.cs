@@ -60,10 +60,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         agent.baseOffset = 0f; // 중력으로 죽은애가 코루틴 끝나기전에 태어날경우 위치 초기화가 안되서 시작할때 세팅
         monStateMachine.SetState(AllEnum.States.Idle);
     }
-    public void ReduceDefence(float num)
-    {
-        monsterStat.AddDefence(-num);
-    }
+    
 
     public Vector3 CheckDir()
     {
