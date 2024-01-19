@@ -35,19 +35,6 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        //ResourceManager.Instance.LoadResources();
-        //player.FirstStart();
-        ////player.CalcPlayerStat();
-        //SkillManager.Instance.Init();
-        //MonsterManager.Instance.Init();
-        //InventoryManager.Instance.Init();
-        //ItemManager.Instance.Init();
-        //player.CalcPlayerStat();
-        //UiManager.Instance.Init();
-        ////ResourceManager.Instance.XMLAccess.ShowListInfo();
-        //countTime = 5f;
-        //UiManager.instance.wating.SetActive(true);
         DoItOnceMain();
     }
     public void DoItOnceMain()
@@ -66,14 +53,8 @@ public class GameManager : Singleton<GameManager>
         gameStart = false;
         runTimeCor = StartCoroutine(RunTime());
         boss = Instantiate(bossObj).GetComponent<Boss>();
-        if (boss ==null)
-        {
-            Debug.Log("보스없");
-        }
-        
         boss.FirstStart();
         boss.gameObject.SetActive(false);
-        Debug.Log("보스 끄,ㅁ");
     }
 
 
@@ -140,7 +121,7 @@ public class GameManager : Singleton<GameManager>
 
         if (passiveCor == null)
         {
-            passiveCor = StartCoroutine(CallPassive());
+            passiveCor = StartCoroutine(CallPassive(true));
         }
         cursorLock = true;
 
@@ -204,22 +185,22 @@ public class GameManager : Singleton<GameManager>
         }
     }
     
-    IEnumerator CallPassive()
+    IEnumerator CallPassive(bool isPlayer)
     {
         while (gameStart)
         {
-            CallPassiveSkill();
+            CallPassiveSkill(isPlayer);
             yield return new WaitForSeconds(10f);
         }
     }
-    public void CallPassiveSkill()
+    public void CallPassiveSkill(bool isPlayer)
     {
         if (SkillManager.Instance.passiveSkill != null)
         {
             SkillManager.Instance.passiveSkill.DoReset();
 
         }
-        SkillManager.Instance.CallPassiveSkill();
+        SkillManager.Instance.CallPassiveSkill(isPlayer);
     }
     public void StopOnOffTime()
     {

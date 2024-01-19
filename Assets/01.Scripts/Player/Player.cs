@@ -24,6 +24,9 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     bool isLeft = false;
     bool isDead = false;
     Coroutine HealHpMpCor;
+    public int PlayerLayer;
+    public int PassiveCurrentNum;
+
 
 
     public float Luck { get; private set; }
@@ -46,6 +49,8 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
         HealHpMpCor = StartCoroutine(HealHpMp());
+        PlayerLayer = 1 << LayerMask.NameToLayer("Enemy");
+        PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); // 초반 한번 설정 이것도 씬에서
     }
 
     // Update is called once per frame
@@ -115,19 +120,19 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash);
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash,true);
             Debug.Log(Mp);
 
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle);
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle, true);
             Debug.Log(Mp);
 
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground);
+            SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground, true);
             Debug.Log(Mp);
 
         }
@@ -137,7 +142,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
             {
                 Debug.Log("스킬 사용 가능");
 
-                SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity);
+                SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity, true);
             }
             else
             {
@@ -317,13 +322,13 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
 
     public void Attack(Vector3 Tr, float Range)
     {
-        Collider[] colliders = Physics.OverlapSphere(Tr, Range);
+        Collider[] colliders = Physics.OverlapSphere(GameManager.Instance.player.transform.position, Range, PlayerLayer);
+
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].CompareTag("Monster")) // 에너미 레이어로 바꾸기
+            if (colliders[i].CompareTag("Monster"))
             {
                 colliders[i].GetComponent<Monster>().TakeDamage(Cri, Att);
-                colliders[i].GetComponent<Monster>().isHit = true;
             }
             else if (colliders[i].CompareTag("Boss"))
             {

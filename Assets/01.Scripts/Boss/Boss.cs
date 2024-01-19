@@ -20,6 +20,9 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     bool isDead = false;
     Coroutine HealHpMpCor;
     public bool isStop;
+    public int bossLayer;
+    public int PassiveCurrentNum;
+
     public float distance { get; private set; }
     public void FirstStart()
     {
@@ -30,7 +33,9 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         animator.SetAttackSpeed(attackSpeed);
         bossStat = new BossStat(soOriginBoss);
         Debug.Log("보스 first start");
-        //HealHpMpCor = StartCoroutine(HealHpMp());
+        HealHpMpCor = StartCoroutine(HealHpMp());
+        bossLayer = 1 << LayerMask.NameToLayer("Player");
+        PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); // 초반 한번 설정 이것도 씬에서
     }
 
     public void Init()
@@ -57,7 +62,15 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         yield return new WaitForSeconds(2f);
         isStop = false;
     }
-
+    public IEnumerator HealHpMp()
+    {
+        while (true)
+        {
+            bossStat.SetHealth((bossStat.health + 1) * 0.1f );
+            bossStat.SetMana((bossStat.mana + 1) * 0.1f);
+            yield return new WaitForSeconds(2);
+        }
+    }
     public float CheckDistance()
     {
         distance = (GameManager.Instance.player.transform.position - transform.position).sqrMagnitude;

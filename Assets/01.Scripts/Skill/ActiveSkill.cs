@@ -13,7 +13,7 @@ public class ActiveSkill : Skill
 
 
 
-    public override void DoSkill()
+    public override void DoSkill(bool isPlayer)
     {
         if (this == null)
         {
@@ -27,16 +27,16 @@ public class ActiveSkill : Skill
             }
             else if (skillStat.index == 2) // 원
             {
-                KnockBackAttack();
+                KnockBackAttack(isPlayer);
             }
             else if (skillStat.index == 3) //땅
             {
                 if (boxCor == null)
                 {
-                    boxCor = StartCoroutine(GrowInBoxCollider());
+                    boxCor = StartCoroutine(GrowInBoxCollider(isPlayer));
                 }
             }
-            else if (skillStat.index == 4) // 중력
+            else if (skillStat.index == 4 && isPlayer) // 중력
             {
                 //if (gravityCor == null)
                 //{
@@ -48,7 +48,8 @@ public class ActiveSkill : Skill
             UiManager.Instance.SetUseSKillCoolImg(skillStat.index);
         }
         StartCoroutine(DieTimer());
-       
+
+
     }
 
     IEnumerator DieTimer()
@@ -59,18 +60,25 @@ public class ActiveSkill : Skill
         skillStat.SetInUse(false);
     }
 
-    public void KnockBackAttack()
+    public void KnockBackAttack(bool isPlayer)
     {
-        Player plyer = GameManager.Instance.player.GetComponent<Player>();
-        Collider[] colliders = Physics.OverlapSphere(this.transform.position, 8f);
-        for (int i = 0; i < colliders.Length; i++)
+        if (isPlayer)
         {
-            if (colliders[i].CompareTag("Monster"))
+            Player player = GameManager.Instance.player;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 8f, player.PlayerLayer);
+            for (int i = 0; i < colliders.Length; i++)
             {
-                Monster monster = colliders[i].GetComponent<Monster>();
-                monster.TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.skillStat.effect);
-
-                Vector3 direction = colliders[i].transform.position - this.transform.position;
+                if (colliders[i].CompareTag("Monster"))
+                {
+                    Monster monster = colliders[i].GetComponent<Monster>();
+                    monster.TakeDamage(player.Cri, player.Att * skillStat.effect);
+                }
+                else if (colliders[i].CompareTag("Boss"))
+                {
+                    Boss boss = colliders[i].GetComponent<Boss>();
+                    boss.TakeDamage(player.Cri, player.Att * skillStat.effect);
+                }
+                Vector3 direction = colliders[i].transform.position - transform.position;
 
                 Rigidbody enemyRigidbody = colliders[i].GetComponent<Rigidbody>();
                 if (enemyRigidbody != null)
@@ -79,9 +87,30 @@ public class ActiveSkill : Skill
                 }
             }
         }
+        else
+        {
+            Boss boss = GameManager.Instance.boss;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 8f, boss.bossLayer);
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                if (colliders[i].CompareTag("Player"))
+                {
+                    GameManager.Instance.player.TakeDamage(boss.bossStat.criticalChance, boss.bossStat.attack * skillStat.effect);
+                }
+                
+                Vector3 direction = colliders[i].transform.position - transform.position;
+
+                Rigidbody enemyRigidbody = colliders[i].GetComponent<Rigidbody>();
+                if (enemyRigidbody != null)
+                {
+                    enemyRigidbody.AddForce(direction.normalized * 10, ForceMode.Impulse);
+                }
+            }
+        }
+        
     }
 
-    public IEnumerator GrowInBoxCollider()
+    public IEnumerator GrowInBoxCollider(bool isPlayer)
     {
         BoxCollider col = transform.GetComponent<BoxCollider>();
         if (col != null)
@@ -128,7 +157,7 @@ public class ActiveSkill : Skill
         Player plyer = GameManager.Instance.player.GetComponent<Player>();
         List<Monster> monsterList = new List<Monster>();
         float duTime = 0;
-        while(duTime < skillStat.duration)
+        while (duTime < skillStat.duration)
         {
             duTime += Time.deltaTime;
             Collider[] colliders = Physics.OverlapSphere(this.transform.position, 5f);

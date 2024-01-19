@@ -7,11 +7,11 @@ public abstract class Skill : MonoBehaviour
     public int Index;
     public SOSkill orgInfo;
     public SkillStat skillStat;
-    protected int monsterLayer;
-
+    public bool isPlayer; // 나중에는 enum으로 관리
+        
     public void Init(SOSkill _Info)
     {
-        monsterLayer = 1 << LayerMask.NameToLayer("Enemy");
+        //monsterLayer = 1 << LayerMask.NameToLayer("Enemy");
         SetInfo(orgInfo);
         skillStat = new SkillStat(orgInfo);
     }
@@ -19,29 +19,36 @@ public abstract class Skill : MonoBehaviour
     {
         orgInfo = _Info;
     }
-    
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Monster"))
-        {
-            Player plyer = GameManager.Instance.player.GetComponent<Player>();
-            
-        }
-    }
    
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Monster"))
+        // 플레이어가 썻을때
+        if (isPlayer)
         {
-            Player plyer = GameManager.Instance.player.GetComponent<Player>();
-            Monster monster = other.gameObject.GetComponent<Monster>();
-            monster.TakeDamage(plyer.playerStat.criticalChance, plyer.playerStat.attack * this.skillStat.effect);
+            if (other.CompareTag("Monster"))
+            {
+                Monster monster = other.GetComponent<Monster>();
+                monster.TakeDamage(GameManager.Instance.player.Cri, GameManager.Instance.player.Att * skillStat.effect);
+            }
+
+            if (other.CompareTag("Boss"))
+            {
+                other.GetComponent<Boss>().TakeDamage(GameManager.Instance.player.Cri, GameManager.Instance.player.Att * skillStat.effect);
+            }
+        }
+        else
+        {
+            // 보스가 썻을때
+            if (other.CompareTag("Player"))
+            {
+                other.GetComponent<Player>().TakeDamage(GameManager.Instance.boss.bossStat.criticalChance, GameManager.Instance.boss.bossStat.attack * skillStat.effect);
+            }
         }
     }
     
 
-    public virtual void DoSkill() /* 스킬로써해야할일들*/
+    public virtual void DoSkill(bool isPlayer) /* 스킬로써해야할일들*/
     {
 
     }

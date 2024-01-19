@@ -164,6 +164,10 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     {
         if (isDead == false) // 살아있는 애들을 강제로 죽임
         {
+            if (agent == null)
+            {
+                Debug.Log("에이전트 없음");
+            }
             agent.isStopped = true;
             SetDeadAnim();
         }

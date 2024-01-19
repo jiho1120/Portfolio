@@ -78,9 +78,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
             dead = InfoList[i].GetComponent<IDead>();            
             if (dead != null)
             {
-                Debug.Log("죽일 목록 체크 : " + InfoList[i].gameObject.name + " / 상태 : " + dead.IsDead());
-                //if (dead.IsDead() == false)                
-                    dead.Dead(true);                
+                dead.Dead(true);                
             }
         }
     }

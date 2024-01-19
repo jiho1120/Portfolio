@@ -5,14 +5,24 @@ using UnityEngine;
 public class PassiveSkill : Skill
 {
     Coroutine passiveCor = null;
+    float _currentNum;
 
-    public override void DoSkill()
+
+    public override void DoSkill(bool isPlayer)
     {
-        DoPassiveSkill(SkillManager.Instance.PassiveCurrentNum); // 하나 키기
+        PassiveSkillEffect(isPlayer); // 하나 키기
     }
 
-    public void DoPassiveSkill(int _currentNum)
+    public void PassiveSkillEffect(bool isPlayer)
     {
+        if (isPlayer)
+        {
+            _currentNum = GameManager.Instance.player.PassiveCurrentNum;
+        }
+        else
+        {
+            _currentNum = GameManager.Instance.boss.PassiveCurrentNum;
+        }
         gameObject.SetActive(true);
         transform.SetParent(GameManager.Instance.player.transform);
         transform.localPosition = Vector3.up;
@@ -79,7 +89,7 @@ public class PassiveSkill : Skill
 
         while (true)
         {
-            Collider[] colliders = Physics.OverlapSphere(GameManager.Instance.player.transform.position, Range, monsterLayer);
+            Collider[] colliders = Physics.OverlapSphere(GameManager.Instance.player.transform.position, Range, GameManager.Instance.player.PlayerLayer);
             for (int i = 0; i < colliders.Length; i++)
             {
                 colliders[i].GetComponent<Monster>().ReduceDefence(skillStat.effect);
@@ -93,7 +103,7 @@ public class PassiveSkill : Skill
         float Range = 2.8f;
         while (true)
         {
-            Collider[] colliders = Physics.OverlapSphere(GameManager.Instance.player.transform.position, Range, monsterLayer);
+            Collider[] colliders = Physics.OverlapSphere(GameManager.Instance.player.transform.position, Range, GameManager.Instance.player.PlayerLayer);
             for (int i = 0; i < colliders.Length; i++)
             {
                 colliders[i].GetComponent<Monster>().TakeDamage(GameManager.Instance.player.Cri, skillStat.effect);

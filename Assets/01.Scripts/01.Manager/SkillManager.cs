@@ -5,24 +5,16 @@ using UnityEngine;
 public class SkillManager : Singleton<SkillManager>
 {
     public Skill passiveSkill { get; private set; }
-    //나중에 스킬 쏘는 사람 구분도 해야함
-
-    Dictionary<AllEnum.SkillName, Skill> nameDictObj = new Dictionary<AllEnum.SkillName, Skill>(); // 네임을 키로 쓰는이유는 알아보기 직관적이여서
-    Dictionary<AllEnum.SkillName, SOSkill> nameDictInfo = new Dictionary<AllEnum.SkillName, SOSkill>();
+    //하나로 설정후 주인을 지정해주기
     public Dictionary<AllEnum.SkillName, Skill> skillDict { get; private set; } // 스킬 만들때 이거 사용
     public Dictionary<AllEnum.SkillName, Skill> bossSkillDict { get; private set; }
 
-    public int PassiveCurrentNum;
 
     public void Init()
     {
         skillDict = new Dictionary<AllEnum.SkillName, Skill>();
         bossSkillDict = new Dictionary<AllEnum.SkillName, Skill>();
 
-        GameObject[] objectAll = ResourceManager.Instance.objectAll;
-        SOSkill[] skillDataAll = ResourceManager.Instance.skillDataAll;
-        //PrintResourceInfo(objectAll, "GameObject");
-        //PrintResourceInfo(skillDataAll, "SOSkillData");
         Skill skilltmp;
 
         foreach (var item in ResourceManager.Instance.objectAll)
@@ -31,46 +23,44 @@ public class SkillManager : Singleton<SkillManager>
             skilltmp.Init(ResourceManager.Instance.GetSkillData(skilltmp.Index));
             skilltmp.skillStat.SetInUse(false);
             skilltmp.gameObject.SetActive(false);
+            skilltmp.isPlayer = true;
             skillDict.Add(IntToEnum(skilltmp.Index), skilltmp);
+
+            skilltmp = Instantiate(item).GetComponent<Skill>();
+            skilltmp.Init(ResourceManager.Instance.GetSkillData(skilltmp.Index));
+            skilltmp.skillStat.SetInUse(false);
+            skilltmp.gameObject.SetActive(false);
+            skilltmp.isPlayer = false;
+            bossSkillDict.Add(IntToEnum(skilltmp.Index), skilltmp);
         }
-
-        //foreach (var item in objectAll)
-        //{
-
-        //    skilltmp = Instantiate(item).GetComponent<Skill>();
-        ////    AllEnum.SkillName name = IntToEnum(skilltmp.Index);
-
-        ////    if (!nameDictObj.ContainsKey(name))
-        ////    {
-        ////        nameDictObj.Add(name, skilltmp);
-        ////        skilltmp.gameObject.SetActive(false);
-        ////    }
-        ////}
-        //for (int i = 0; i < skillDataAll.Length; i++)
-        //{
-        //    AllEnum.SkillName skillName = IntToEnum(skillDataAll[i].index);
-
-        //    if (!nameDictInfo.ContainsKey(skillName))
-        //    {
-        //        nameDictInfo.Add(skillName, skillDataAll[i]);
-        //    }
-        //}
-        //SetAllSkill();
-        foreach (var item in skillDict)
-        {
-            Debug.Log(item.Key);
-        }
-        PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); // 초반 한번 설정 이것도 씬에서
+       
     }
-    public void CallPassiveSkill()
+
+
+    public void CallPassiveSkill(bool isPlayer)
     {
-        PassiveCurrentNum++;
-        if (PassiveCurrentNum >= (int)AllEnum.SkillName.End) // 인덱스 넘기면 처음부터 시작
+        if (isPlayer)
         {
-            PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
+            GameManager.instance.player.PassiveCurrentNum++;
+            if (GameManager.instance.player.PassiveCurrentNum >= (int)AllEnum.SkillName.End) // 인덱스 넘기면 처음부터 시작
+            {
+                GameManager.instance.player.PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
+            }
+
+            passiveSkill = skillDict[(AllEnum.SkillName)GameManager.instance.player.PassiveCurrentNum];
         }
-        passiveSkill = skillDict[(AllEnum.SkillName)PassiveCurrentNum];
-        passiveSkill.DoSkill();
+        else
+        {
+            GameManager.instance.boss.PassiveCurrentNum++;
+            if (GameManager.instance.boss.PassiveCurrentNum >= (int)AllEnum.SkillName.End) // 인덱스 넘기면 처음부터 시작
+            {
+                GameManager.instance.boss.PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
+            }
+
+            passiveSkill = bossSkillDict[(AllEnum.SkillName)GameManager.instance.boss.PassiveCurrentNum];
+        }
+        
+        passiveSkill.DoSkill(isPlayer);
     }
     
     public int EnumToInt(AllEnum.SkillName val)
@@ -113,9 +103,9 @@ public class SkillManager : Singleton<SkillManager>
             default: return AllEnum.SkillName.End;
         }
     }
-    public void UseSKill(AllEnum.SkillName name)
+    public void UseSKill(AllEnum.SkillName name, bool isPlayer)
     {
-        Skill skill = GetSKillFromDict(name);
+        Skill skill = GetSKillFromDict(name, isPlayer);
         if (skill.skillStat.inUse)
         {
             Debug.Log("사용중");
@@ -135,35 +125,36 @@ public class SkillManager : Singleton<SkillManager>
                 }
                 skill = SetSkillPos(skill, pos, rot);
                 skill.gameObject.SetActive(true);
-                skill.DoSkill();
+                skill.DoSkill(skill.isPlayer);
             }
         }
     }
-    //public void SetAllSkill()
-    //{
-    //    for (int i = 0; i < (int)AllEnum.SkillName.End; i++)
-    //    {
-    //        AllEnum.SkillName skillName = (AllEnum.SkillName)i;
-    //        if (nameDictObj.TryGetValue(skillName, out Skill skill))
-    //        {
-    //            if (nameDictInfo.TryGetValue(skillName, out SOSkill skillInfo))
-    //            {
-    //                skill.Init(skillInfo);
-    //                skill.skillStat.SetInUse(false);
-    //                //skill.SetInfo(skillInfo);
-
-    //            }
-    //            skillDict.Add(skillName, skill);
-    //        }
-    //        else
-    //        {
-    //            Debug.LogError($"Skill not found: {skillName}");
-    //        }
-    //    }
-    //}
-    public Skill GetSKillFromDict(AllEnum.SkillName skillName)
+    
+    public Skill GetSKillFromDict(AllEnum.SkillName skillName, bool isPlayer = true)
     {
-        Skill skill = skillDict[skillName];
+        Skill skill;
+        if (isPlayer)
+        {
+            if (skillDict.ContainsKey(skillName))
+            {
+                skill = skillDict[skillName];
+            }
+            else
+            {
+                throw new System.Exception( $"플레이어의 {skillName} 스킬이없음");
+            }
+        }
+        else
+        {
+            if (bossSkillDict.ContainsKey(skillName))
+            {
+                skill = bossSkillDict[skillName];
+            }
+            else
+            {
+                throw new System.Exception($"보스의 {skillName} 스킬이없음");
+            }
+        }
         return skill;
     }
 
@@ -182,16 +173,6 @@ public class SkillManager : Singleton<SkillManager>
         }
         return skill;
     }
-    public Skill SetSkillPos(Skill skill, Vector3 pos)
-    {
-        skill.transform.position = pos;
-
-        if (skill.skillStat.setParent)
-        {
-            skill.transform.SetParent(GameManager.Instance.player.transform.GetChild(0), true);
-        }
-        return skill;
-    }
 
     //끄기 (초기화를 담고있는)
     public void SetOffSkill(Skill skill)
@@ -199,8 +180,6 @@ public class SkillManager : Singleton<SkillManager>
         skill.DoReset();
         skill.gameObject.SetActive(false);
     }
-
-
 
 
 }
