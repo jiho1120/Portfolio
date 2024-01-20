@@ -60,12 +60,15 @@ public class GameManager : Singleton<GameManager>
     private void Update()
     {
         UiManager.Instance.SetUI();
-        if (killMonster > monsterGoal && gameStart == true)
+        if (killMonster !=0 && killMonster != 0)
         {
-            gameStart = false;
-            if (goWatingRoom == null)
+            if (killMonster >= monsterGoal && gameStart == true)
             {
-                goWatingRoom = StartCoroutine(GoWatingRoom());
+                gameStart = false;
+                if (goWatingRoom == null)
+                {
+                    goWatingRoom = StartCoroutine(GoWatingRoom());
+                }
             }
         }
 
@@ -76,18 +79,26 @@ public class GameManager : Singleton<GameManager>
     }
     IEnumerator RunTime()
     {
-        while (isRunTime)
+        while (true)
         {
-            yield return new WaitForSeconds(1f);
-            countTime -= 1;
-            if (countTime <= 0)
+            if (isRunTime)
             {
-                gameStart = true;
-                if (startGameCor == null)
+                yield return new WaitForSeconds(1f);
+                countTime -= 1;
+                if (countTime <= 0)
                 {
-                    startGameCor = StartCoroutine(startGame());
+                    gameStart = true;
+                    if (startGameCor == null)
+                    {
+                        startGameCor = StartCoroutine(startGame());
+                    }
                 }
             }
+            else
+            {
+                yield return null;
+            }
+
         }
     }
     IEnumerator GameTime()
@@ -116,7 +127,7 @@ public class GameManager : Singleton<GameManager>
         countTime = 5f;
         gameRound = (countGame / maxStage) + 1;
         gameStage = (countGame % maxStage) + 1;
-        monsterGoal = (countGame+1) * 10;
+        monsterGoal = (countGame + 1) * 10;
 
         if (passiveCor == null)
         {
@@ -135,12 +146,13 @@ public class GameManager : Singleton<GameManager>
         else
         {
             boss.Init();
+            boss.bossStat.ShowInfo();
             monsterGoal = 1;
         }
         yield return null;
     }
     IEnumerator GoWatingRoom()
-    {        
+    {
         MonsterManager.Instance.StopSpawnMonster();
         MonsterManager.Instance.CleanMonster();//=>µü »ì¾ÆÀÖ´ø ¾Öµé¸¸ Á×ÀÓ. (´Ü¼øÈ÷ Á×ÀÓ. 
         StopCoroutine(GameTime());
@@ -165,7 +177,7 @@ public class GameManager : Singleton<GameManager>
         {
             runTimeCor = StartCoroutine(RunTime());
         }
-        
+
         yield return null;
     }
 
@@ -182,7 +194,7 @@ public class GameManager : Singleton<GameManager>
             Cursor.visible = true;
         }
     }
-    
+
     public IEnumerator CallPassive(bool isPlayer)
     {
         while (gameStart)

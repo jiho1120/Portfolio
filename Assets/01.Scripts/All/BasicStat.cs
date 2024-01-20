@@ -27,8 +27,8 @@ public class BasicStat
     {
         this.objectType = objectType;
         this.level = level;
-        this.health = health;
         this.maxHealth = maxHealth;
+        this.health = maxHealth;
         this.attack = attack;
         this.defense = defense;
         this.criticalChance = criticalChance;
@@ -154,13 +154,12 @@ public class BasicStat
     }
     public virtual void ShowInfo()
     {
-        Debug.Log(objectType);
-        Debug.Log(level);
-        Debug.Log(health);
-        Debug.Log(maxHealth);
-        Debug.Log(attack);
-        Debug.Log(defense);
-        Debug.Log(criticalChance);
-        Debug.Log(movementSpeed);
+        Debug.Log("lv" + level);
+        Debug.Log("health" + health);
+        Debug.Log("maxHealth" + maxHealth);
+        Debug.Log("attack" + attack);
+        Debug.Log("defense" + defense);
+        Debug.Log("criticalChance" + criticalChance);
+        Debug.Log("movementSpeed" + movementSpeed);
     }
 }

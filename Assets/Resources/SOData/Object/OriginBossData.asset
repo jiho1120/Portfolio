@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: OriginBossData
   m_EditorClassIdentifier: 
   objectType: 1
-  level: 1
-  health: 1000
-  maxHealth: 10
+  level: 0
+  health: 500
+  maxHealth: 500
   attack: 5
   defense: 5
   criticalChance: 0.5

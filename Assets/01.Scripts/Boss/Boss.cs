@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
 {
@@ -47,9 +48,11 @@ public float distance { get; private set; }
 
     public void Init()
     {
-        rb.isKinematic = false;
-        gameObject.transform.position = GameManager.Instance.player.transform.position + new Vector3(1, 0, 1);
         gameObject.SetActive(true);
+        isDead = false;
+        rb.isKinematic = false;
+        gameObject.transform.position = GameManager.Instance.player.transform.position + new Vector3(3, 0, 3);
+        gameObject.transform.LookAt(GameManager.Instance.player.transform.position);
         LevelUp(); // 능력치 세팅
         if (passiveCor == null)
         {
@@ -242,6 +245,12 @@ public float distance { get; private set; }
             StopCoroutine(passiveCor);
             passiveCor = null;
         }
+        GameManager.Instance.player.playerStat.AddMoney(bossStat.money);
+        GameManager.Instance.player.playerStat.AddExp(bossStat.experience);
+        agent.isStopped = true;
+        gameObject.SetActive(false);
+        GameManager.Instance.killMonster++;
+
         Debug.Log("죽음");
     }
 
@@ -262,7 +271,7 @@ public float distance { get; private set; }
     public void StatUp()
     {
         bossStat.SetMaxHealth((bossStat.level * 1000) + soOriginBoss.maxHealth);
-        bossStat.SetHealth(soOriginBoss.maxHealth);
+        bossStat.SetHealth(bossStat.maxHealth);
         bossStat.SetAttack((bossStat.level * 100) + soOriginBoss.attack);
         bossStat.SetDefence((bossStat.level * 100) + soOriginBoss.defense);
         bossStat.SetcriticalChance((bossStat.level * 2.5f) + soOriginBoss.criticalChance);

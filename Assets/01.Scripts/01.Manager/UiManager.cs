@@ -38,7 +38,7 @@ public class UiManager : Singleton<UiManager>
             totalRound.text = $"{GameManager.Instance.gameRound} - {GameManager.Instance.gameStage}";
             playerMoney.text = $"{GameManager.Instance.player.playerStat.money} G";
             goalCount.text = $" <color=#ff0000> {GameManager.Instance.killMonster}</color>" +
-                $" / {GameManager.Instance.monsterGoal + 1}";
+                $" / {GameManager.Instance.monsterGoal}";
         }
         else
         {
