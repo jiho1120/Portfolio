@@ -93,6 +93,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     public virtual void TakeDamage(float critical, float attack)
     {
+        return;
         isHit = true;
         float damage = CriticalDamage(critical, attack) - (this.monsterStat.defense * 0.5f); // 몬스터 스탯 추가
         float hp = this.monsterStat.health - damage;

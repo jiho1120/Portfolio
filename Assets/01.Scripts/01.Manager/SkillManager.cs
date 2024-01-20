@@ -26,9 +26,8 @@ public class SkillManager : Singleton<SkillManager>
             skilltmp.skillStat.SetInUse(false);
             skilltmp.gameObject.SetActive(false);
             skilltmp.isPlayer = true;
-            Debug.Log(skilltmp.skillStat.skillName);
             skillDict.Add(IntToEnum(skilltmp.Index), skilltmp);
-            if (skilltmp.skillStat.skillName != AllEnum.SkillName.Gravity ) // 궁극기는 안넣음
+            if (skilltmp.skillStat.skillName != AllEnum.SkillName.Gravity) // 궁극기는 안넣음
             {
                 skilltmp = Instantiate(item, bossSKillPool).GetComponent<Skill>();
                 skilltmp.gameObject.layer = LayerMask.NameToLayer("BossSkill");
@@ -65,10 +64,10 @@ public class SkillManager : Singleton<SkillManager>
 
             passiveSkill = bossSkillDict[(AllEnum.SkillName)GameManager.instance.boss.PassiveCurrentNum];
         }
-        
+
         passiveSkill.DoSkill(isPlayer);
     }
-    
+
     public int EnumToInt(AllEnum.SkillName val)
     {
         switch (val)
@@ -113,7 +112,7 @@ public class SkillManager : Singleton<SkillManager>
     {
         Skill skill = GetSKillFromDict(name, isPlayer);
         Vector3 pos = Vector3.zero;
-        Quaternion rot = Quaternion.identity ;
+        Quaternion rot = Quaternion.identity;
 
         if (skill.skillStat.inUse)
         {
@@ -126,26 +125,29 @@ public class SkillManager : Singleton<SkillManager>
             {
                 if (GameManager.Instance.player.Mp >= skill.skillStat.mana)
                 {
-                     pos = GameManager.Instance.player.transform.position;
-                     rot = GameManager.Instance.player.transform.GetChild(0).rotation;
+                    pos = GameManager.Instance.player.transform.position;
+                    rot = GameManager.Instance.player.transform.GetChild(0).rotation;
                     if (name == AllEnum.SkillName.Gravity)
                     {
                         Vector3 spawnOffset = rot * new Vector3(0, 0.5f, 1) * 10f;
                         rot = Quaternion.Euler(skill.transform.rotation.eulerAngles);
                         pos = pos + spawnOffset;
                     }
+                    skill = SetSkillPos(skill, pos, rot, isPlayer);
+
                 }
             }
             else
             {
                 if (GameManager.Instance.boss.bossStat.mana >= skill.skillStat.mana)
                 {
-                     pos = GameManager.Instance.boss.transform.position;
-                     rot = GameManager.Instance.boss.transform.GetChild(0).rotation;
+                    pos = GameManager.Instance.boss.transform.position;
+                    rot = GameManager.Instance.boss.transform.GetChild(0).rotation;
                 }
+                skill = SetSkillPos(skill, pos, rot, isPlayer);
+
             }
-            
-            skill = SetSkillPos(skill, pos, rot,isPlayer);
+
             skill.gameObject.SetActive(true);
             skill.DoSkill(skill.isPlayer);
 
@@ -168,7 +170,7 @@ public class SkillManager : Singleton<SkillManager>
             return true;
         }
     }
-    
+
     public Skill GetSKillFromDict(AllEnum.SkillName skillName, bool isPlayer = true)
     {
         Skill skill;
@@ -180,7 +182,7 @@ public class SkillManager : Singleton<SkillManager>
             }
             else
             {
-                throw new System.Exception( $"플레이어의 {skillName} 스킬이없음");
+                throw new System.Exception($"플레이어의 {skillName} 스킬이없음");
             }
         }
         else
@@ -201,7 +203,7 @@ public class SkillManager : Singleton<SkillManager>
     {
         skill.transform.SetParent(tr);
     }
-    public Skill SetSkillPos(Skill skill, Vector3 pos, Quaternion rot,bool isPlayer)
+    public Skill SetSkillPos(Skill skill, Vector3 pos, Quaternion rot, bool isPlayer)
     {
         skill.transform.position = pos;
         skill.transform.rotation = rot;
@@ -221,7 +223,7 @@ public class SkillManager : Singleton<SkillManager>
         return skill;
     }
 
-    
+
 
 
 }

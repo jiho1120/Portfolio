@@ -81,16 +81,22 @@ public class ActiveSkill : Skill
                 {
                     attm.TakeDamage(player.Cri, player.Att * skillStat.effect);
                     Vector3 direction = colliders[i].transform.position - transform.position;
-
                     Rigidbody enemyRigidbody = colliders[i].GetComponent<Rigidbody>();
-                    if (enemyRigidbody != null)
+                    if (colliders[i].GetComponent<Boss>() != null)
                     {
-                        enemyRigidbody.AddForce(direction.normalized * 2, ForceMode.Impulse);
+                       //enemyRigidbody = colliders[i].transform.GetComponentInChildren <Rigidbody>();
+                        if (enemyRigidbody != null)
+                        {
+                            enemyRigidbody.AddForce(direction.normalized * 10, ForceMode.Impulse);
+                            colliders[i].GetComponent<Boss>().SetStopAndMove();
+                        }
                     }
-
-                    if (colliders[i].GetComponent<Boss>()!=null)
+                    else
                     {
-                        colliders[i].GetComponent<Boss>().SetStop();
+                        if (enemyRigidbody != null)
+                        {
+                            enemyRigidbody.AddForce(direction.normalized * 10, ForceMode.Impulse);
+                        }
                     }
                 }                                
             }
@@ -108,7 +114,7 @@ public class ActiveSkill : Skill
                 Rigidbody enemyRigidbody = colliders[i].GetComponent<Rigidbody>();
                 if (enemyRigidbody != null)
                 {
-                    enemyRigidbody.AddForce(direction.normalized * 10, ForceMode.Impulse);
+                    enemyRigidbody.AddForce(direction.normalized * 5, ForceMode.Impulse);
                 }
             }
         }
