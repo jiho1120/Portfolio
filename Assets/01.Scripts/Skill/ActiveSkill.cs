@@ -79,7 +79,7 @@ public class ActiveSkill : Skill
                 IAttack attm = colliders[i].GetComponent<IAttack>();
                 if (attm !=null)
                 {
-                    attm.TakeDamage(player.Cri, player.Att * skillStat.effect);
+                    attm.TakeDamage(player.Cri, player.Att + skillStat.effect);
                     Vector3 direction = colliders[i].transform.position - transform.position;
                     Rigidbody enemyRigidbody = colliders[i].GetComponent<Rigidbody>();
                     if (colliders[i].GetComponent<Boss>() != null)
@@ -94,6 +94,7 @@ public class ActiveSkill : Skill
                     {
                         if (enemyRigidbody != null)
                         {
+                            colliders[i].GetComponent<Monster>().SetStopAndMove();
                             enemyRigidbody.AddForce(direction.normalized * 10, ForceMode.Impulse);
                         }
                     }
@@ -106,7 +107,7 @@ public class ActiveSkill : Skill
             Collider[] colliders = Physics.OverlapSphere(transform.position, 8f, boss.bossLayer);
             for (int i = 0; i < colliders.Length; i++)
             {
-                    GameManager.Instance.player.TakeDamage(boss.bossStat.criticalChance, boss.bossStat.attack * skillStat.effect);
+                    GameManager.Instance.player.TakeDamage(boss.bossStat.criticalChance, boss.bossStat.attack + skillStat.effect);
                 
                 Vector3 direction = colliders[i].transform.position - transform.position;
 
@@ -133,7 +134,6 @@ public class ActiveSkill : Skill
                 timecal = elapsedTime / duration;
                 col.center = new Vector3(0, 0, colCenter * timecal); // 누적한걸 적용 , 여기다 누적해도됨
                 col.size = new Vector3(1, 1, colSize * timecal);
-                //Debug.Log("Counter1: " + col.center + " | Counter2: " + col.size);
                 yield return null; // 프레임당 늘어남
             }
         }

@@ -48,8 +48,8 @@ public class MonsterManager : Singleton<MonsterManager>
         while (true)
         {
             // 두 가지 종류의 몬스터를 랜덤으로 선택하여 소환
-            Monster monstersc = monsterPool.GetObjectFromPool(ResourceManager.Instance.monsterAll, monsterPoolPos);
-            monstersc.Init();
+            Monster monster = monsterPool.GetObjectFromPool(ResourceManager.Instance.monsterAll, monsterPoolPos);
+            monster.Init();
             yield return new WaitForSeconds(1f);
         }
     }

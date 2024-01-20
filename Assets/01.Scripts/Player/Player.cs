@@ -134,8 +134,6 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             if (playerStat.ultimateGauge >= playerStat.maxUltimateGauge)
             {
-                Debug.Log("스킬 사용 가능");
-
                 SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity, true);
             }
             else

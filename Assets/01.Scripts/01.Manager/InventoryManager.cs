@@ -53,15 +53,14 @@ public class InventoryManager : Singleton<InventoryManager>
             Time.timeScale = 0f; // 시간의 흐름이 멈춤  //코루틴 안되고, 업데이트 안 되고 , 픽스드 가능, 드래그도 가능
             inven.SetActive(true);
             SetItemsInfo();
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            GameManager.Instance.LockCursor(false);
         }
         else
         {
             Time.timeScale = 1f;
             inven.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            GameManager.Instance.LockCursor(true);
+
         }
     }
     public bool checkAdd(SOItem item)

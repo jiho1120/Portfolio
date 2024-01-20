@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d193a764e528253418a9c8161269688c
+guid: 268d66548cb4ddc4fac72e896de9cb1b
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable:
@@ -7,8 +7,8 @@ ModelImporter:
       74: 416870459326255563
     second: tpose
   - first:
-      74: 5327579647636344352
-    second: PunchLeft
+      74: 190365492218098281
+    second: PunchRight
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -25,7 +25,11 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'human_male_punch_mirrored_01' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'Elbow_L' has translation
+      animation that will be discarded.\n\t'Wrist_L' has translation animation that
+      will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -50,15 +54,15 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -68,8 +72,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: PunchLeft
-      takeName: human_male_punch_01
+      name: PunchRight
+      takeName: human_male_punch_mirrored_01
       internalID: 0
       firstFrame: 2
       lastFrame: 62
@@ -92,10 +96,10 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.50056833
+      - time: 0.5
         functionName: AttackRange
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 86eccfe5229115546aa610523e72d0de, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 88d5101f4fc8c7e4da3583b24ce5dbd7, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
@@ -592,13 +596,13 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: PunchLeft(Clone)
+    - name: PunchRight(Clone)
       parentName: 
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Armature
-      parentName: PunchLeft(Clone)
+      parentName: PunchRight(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}

@@ -53,15 +53,15 @@ public class PowerUpUI : MonoBehaviour
         {
             Time.timeScale = 0f; // 시간의 흐름이 멈춤  //코루틴 안되고, 업데이트 안 되고 , 픽스드 가능, 드래그도 가능
             this.gameObject.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            GameManager.Instance.LockCursor(false);
+
         }
         else
         {
             Time.timeScale = 1f;
             this.gameObject.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            GameManager.Instance.LockCursor(true);
+
         }
 
     }

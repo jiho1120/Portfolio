@@ -14,6 +14,7 @@ public class Move : Node
     {
         if (!owner.isStop)
         {
+            owner.SetAgentDirection(owner.agent.destination);
             if (owner.CheckDistance() > 100)
             {
                 owner.agent.isStopped = false;

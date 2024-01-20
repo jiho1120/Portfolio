@@ -16,6 +16,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     public MonsterStat monsterStat { get; private set; } // 바뀌는 스탯
     public Vector3 dir;
     public GameObject explosionEffect;
+    public Rigidbody rb;
 
     public Transform attackPos;
     public bool isAttack = false;  // 공격 쿨타임을 줘서 시간이 되면 트루로 바꾸게
@@ -52,15 +53,40 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
             monsterStat = new MonsterStat();
             monsterStat.SetValues(soOriginMonster);
         }
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
         StatUp();//내 레벨에 맞는 스탯을 세팅함
         //monsterStat.ShowInfo();
+        StartCoroutine(StopKnockBack());
         isAttack = false;
         isHit = false;
         isDead = false;
         agent.baseOffset = 0f; // 중력으로 죽은애가 코루틴 끝나기전에 태어날경우 위치 초기화가 안되서 시작할때 세팅
         monStateMachine.SetState(AllEnum.States.Idle);
     }
-    
+    public void SetStopAndMove()
+    {
+        StartCoroutine(StartMoveTimer());
+    }
+    public IEnumerator StopKnockBack()
+    {
+        agent.isStopped = true;
+        rb.isKinematic = true;
+        yield return new WaitForSeconds(0.1f);
+        rb.isKinematic = false;
+        agent.isStopped = false;
+    }
+    public IEnumerator StartMoveTimer()
+    {
+        agent.isStopped = true;
+        yield return new WaitForSeconds(1f);
+        rb.isKinematic = true;
+        yield return new WaitForSeconds(1f);
+        rb.isKinematic = false;
+        agent.isStopped = false;
+    }
 
     public Vector3 CheckDir()
     {
@@ -93,7 +119,6 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     public virtual void TakeDamage(float critical, float attack)
     {
-        return;
         isHit = true;
         float damage = CriticalDamage(critical, attack) - (this.monsterStat.defense * 0.5f); // 몬스터 스탯 추가
         float hp = this.monsterStat.health - damage;
@@ -153,6 +178,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
             isAttack = true;
         }
     }
+
     public void Hit()
     {
         SetHitAnim();
@@ -166,7 +192,10 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
             {
                 Debug.Log("에이전트 없음");
             }
-            agent.isStopped = true;
+            else
+            {
+                agent.isStopped = true;
+            }
             SetDeadAnim();
         }
         isDead = true;

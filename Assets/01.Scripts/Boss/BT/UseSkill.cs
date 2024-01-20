@@ -5,7 +5,9 @@ using UnityEngine;
 public class UseSkill : Node
 {
     Boss owner;
-    public UseSkill(Boss owner)
+    
+
+public UseSkill(Boss owner)
     {
         this.owner = owner;
     }

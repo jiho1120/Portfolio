@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectType: 1
   level: 1
-  health: 100
+  health: 1000
   maxHealth: 10
   attack: 5
   defense: 5

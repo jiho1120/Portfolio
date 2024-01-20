@@ -25,10 +25,11 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     public int bossLayer;
     public int PassiveCurrentNum;
     public Coroutine skillcor = null;
+    Coroutine passiveCor = null;
+    
 
 
-
-    public float distance { get; private set; }
+public float distance { get; private set; }
     public void FirstStart()
     {
         //rb = transform.GetComponentInChildren<Rigidbody>();
@@ -50,6 +51,11 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         gameObject.transform.position = GameManager.Instance.player.transform.position + new Vector3(1, 0, 1);
         gameObject.SetActive(true);
         LevelUp(); // 능력치 세팅
+        if (passiveCor == null)
+        {
+            passiveCor = StartCoroutine(GameManager.Instance.CallPassive(false));
+        }
+        GameManager.Instance.CallPassiveSkill(false);
         agent.isStopped = false;
         GetComponent<BehaviorTree>().SetInit();
 
@@ -63,6 +69,12 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     public void Clear()
     {
         Stop();
+    }
+    public void SetAgentDirection(Vector3 targetPosition)
+    {
+        // 에이전트의 방향을 목표 위치로 설정
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        transform.LookAt(transform.position + direction);
     }
     public void StartSkillTime()
     {
@@ -90,18 +102,24 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
                 }
             }
         }
-        yield return new WaitForSeconds(30f);
+        yield return new WaitForSeconds(10f);
         useableSKill = true;
         skillcor = null;
     }
+    public void SetStopAndMove()
+    {
+        StartCoroutine(StartMoveTimer());
+    }
     public IEnumerator StartMoveTimer()
     {
+        agent.isStopped = true;
         isStop = true;
         yield return new WaitForSeconds(1f);
         rb.isKinematic = true;
         yield return new WaitForSeconds(1f);
         isStop = false;
         rb.isKinematic = false;
+        agent.isStopped = false;
 
     }
     public IEnumerator HealHpMp()
@@ -168,21 +186,12 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
             }
         }
     }
-
-    public void SetStopAndMove()
+    public void AttackRange() // 애니메이션에 넣음
     {
-        AgentStop();
-        StartCoroutine(StartMoveTimer());
-        AgentMove();
+        Attack(fist.position, 1f);
     }
-    void AgentStop()
-    {
-        agent.isStopped = true;
-    }
-    void AgentMove()
-    {
-        agent.isStopped = false;
-    }
+    
+    
 
     public bool CheckCritical(float critical)
     {
@@ -206,7 +215,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     public void TakeDamage(float critical, float attack)
     {
-        return; // ############################## 나중에 없애기
         if (!isDead)
         {
             Hit();
@@ -229,6 +237,11 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     public void Dead(bool force)
     {
         isDead = true;
+        if (passiveCor != null)
+        {
+            StopCoroutine(passiveCor);
+            passiveCor = null;
+        }
         Debug.Log("죽음");
     }
 

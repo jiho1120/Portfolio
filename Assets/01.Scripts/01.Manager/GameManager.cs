@@ -16,11 +16,10 @@ public class GameManager : Singleton<GameManager>
     public bool isRunTime = true; // 버튼 글자 바꾸기 위해 선언
     public int monsterGoal = 0;
     public int killMonster = 0;
-    private int countGame = 4; //이걸 나누고 몫과 나머지 gameRound, gameStage
+    private int countGame = 0; //이걸 나누고 몫과 나머지 gameRound, gameStage
     private int maxStage = 6; // 1라운드당 5스테이지라서
     public int gameRound = 0; //gameRound - gameStage 형식
     public int gameStage = 0;
-    public bool cursorLock = false;
     Coroutine startGameCor = null;
     Coroutine goWatingRoom = null;
     Coroutine passiveCor = null;
@@ -123,7 +122,7 @@ public class GameManager : Singleton<GameManager>
         {
             passiveCor = StartCoroutine(CallPassive(true));
         }
-        cursorLock = true;
+        LockCursor(true);
 
         if (gameStage != 5)
         {
@@ -155,7 +154,7 @@ public class GameManager : Singleton<GameManager>
             startGameCor = null;
         }
         isRunTime = true;
-        cursorLock = false;
+        LockCursor(false);
         if (passiveCor != null)
         {
             StopCoroutine(passiveCor);
@@ -170,7 +169,7 @@ public class GameManager : Singleton<GameManager>
         yield return null;
     }
 
-    public void LockCursor()
+    public void LockCursor(bool cursorLock)
     {
         if (cursorLock)
         {
@@ -184,7 +183,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
     
-    IEnumerator CallPassive(bool isPlayer)
+    public IEnumerator CallPassive(bool isPlayer)
     {
         while (gameStart)
         {

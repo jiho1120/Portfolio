@@ -18,13 +18,16 @@ public class PassiveSkill : Skill
         if (isPlayer)
         {
             _currentNum = GameManager.Instance.player.PassiveCurrentNum;
+            gameObject.SetActive(true);
+            transform.SetParent(GameManager.Instance.player.transform);
         }
         else
         {
             _currentNum = GameManager.Instance.boss.PassiveCurrentNum;
+            gameObject.SetActive(true);
+            transform.SetParent(GameManager.Instance.boss.transform);
         }
-        gameObject.SetActive(true);
-        transform.SetParent(GameManager.Instance.player.transform);
+        
         transform.localPosition = Vector3.up;
         skillStat.SetInUse(true);
 
@@ -73,7 +76,7 @@ public class PassiveSkill : Skill
             GameManager.Instance.player.playerStat.AddAttack(skillStat.effect);
             while (true)
             {
-                GameManager.Instance.player.SetHp(GameManager.Instance.player.Hp + skillStat.effect); // 값을 -로 지정해서 뺄려면 더해야함
+                GameManager.Instance.player.SetHp(GameManager.Instance.player.Hp -skillStat.effect); 
                 yield return new WaitForSeconds(skillStat.cool);
                 GameManager.Instance.player.playerStat.AddAttack(-skillStat.effect);
             }
@@ -83,7 +86,7 @@ public class PassiveSkill : Skill
             GameManager.Instance.boss.bossStat.AddAttack(skillStat.effect);
             while (true)
             {
-                GameManager.Instance.boss.bossStat.SetHealth(GameManager.Instance.boss.bossStat.health + skillStat.effect); // 값을 -로 지정해서 뺄려면 더해야함
+                GameManager.Instance.boss.bossStat.SetHealth(GameManager.Instance.boss.bossStat.health - skillStat.effect);
                 yield return new WaitForSeconds(skillStat.cool);
                 GameManager.Instance.boss.bossStat.AddAttack(-skillStat.effect);
             }
