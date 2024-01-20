@@ -11,15 +11,21 @@ public class UseSkill : Node
     }
     public override AllEnum.NodeState Evaluate()
     {
-        if (owner.CheckDistance() < 16) // 스킬 사거리
+        if (owner.useableSKill)
         {
-            if (owner.skillcor == null)
+            if (owner.CheckDistance() <= 49) // 스킬 사거리
             {
-               owner.StartSkillTime();
+                if (owner.skillcor == null)
+                {
+                    owner.StartSkillTime();
+                }
+                owner.NowState = AllEnum.StateEnum.Skill;
+                return AllEnum.NodeState.Success;
             }
-            owner.NowState = AllEnum.StateEnum.Skill;
-            return AllEnum.NodeState.Success;
-
+            else
+            {
+                return AllEnum.NodeState.Failure;
+            }
         }
         else
         {

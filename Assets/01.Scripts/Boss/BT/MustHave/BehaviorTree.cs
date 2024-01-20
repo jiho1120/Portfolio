@@ -18,14 +18,15 @@ public class BehaviorTree : MonoBehaviour
                 // 죽음 노드 (죽었을때 해야 할것들)
                 new Die(owner),
 
-                //가만히 있기
-                new Idle(owner),
+                //못 움직임(스킬 맞았을때)
+                new Stun(owner),
                 new SequenceNode
                 (
                     new List<Node>
                     {
-                        // 이동(뛰기, 걷기)
+                        // 이동(뛰기, 걷기, 멈추기)
                         new Move(owner),
+                        // 앞에있는지 체크해서 스킬 날리거나 주먹 날리기
                         new SelectorNode
                         (
                             new List<Node>
@@ -33,7 +34,7 @@ public class BehaviorTree : MonoBehaviour
                                 // 스킬
                                 new UseSkill(owner),
                                 // 기본 공격
-                                new Attack(owner),
+                                new Attack(owner)
                             }
                         )
                     }

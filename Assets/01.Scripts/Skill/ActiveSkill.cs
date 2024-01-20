@@ -84,7 +84,6 @@ public class ActiveSkill : Skill
                     Rigidbody enemyRigidbody = colliders[i].GetComponent<Rigidbody>();
                     if (colliders[i].GetComponent<Boss>() != null)
                     {
-                       //enemyRigidbody = colliders[i].transform.GetComponentInChildren <Rigidbody>();
                         if (enemyRigidbody != null)
                         {
                             enemyRigidbody.AddForce(direction.normalized * 10, ForceMode.Impulse);
@@ -114,7 +113,7 @@ public class ActiveSkill : Skill
                 Rigidbody enemyRigidbody = colliders[i].GetComponent<Rigidbody>();
                 if (enemyRigidbody != null)
                 {
-                    enemyRigidbody.AddForce(direction.normalized * 5, ForceMode.Impulse);
+                    enemyRigidbody.AddForce(direction.normalized * 10, ForceMode.Impulse);
                 }
             }
         }

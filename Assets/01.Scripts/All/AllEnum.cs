@@ -113,6 +113,7 @@ public class AllEnum
     public enum StateEnum // µð¹ö±ë¿ë
     {
         DIe,
+        Stun,
         Skill,
         BasicAttack,
         Run,

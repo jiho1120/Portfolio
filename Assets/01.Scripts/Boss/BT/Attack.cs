@@ -10,14 +10,15 @@ public class Attack : Node
     {
         this.owner = owner;
     }
-    public override AllEnum.NodeState Evaluate() // 사거리 2
+    public override AllEnum.NodeState Evaluate() 
     {
-        if (owner.CheckDistance() < 4) // 스킬 사거리
+        if (owner.CheckDistance() <= 4) // 평타 사거리
         {
+            owner.BasicAttack();
             owner.NowState = AllEnum.StateEnum.BasicAttack;
             return AllEnum.NodeState.Success;
         }
-            return AllEnum.NodeState.Failure;
+        return AllEnum.NodeState.Failure;
 
     }
 

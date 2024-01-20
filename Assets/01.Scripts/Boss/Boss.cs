@@ -19,6 +19,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     private float attackCooldown = 1.5f;
     bool isLeft = false;
     bool isDead = false;
+    public bool useableSKill = true;
     Coroutine HealHpMpCor;
     public bool isStop;
     public int bossLayer;
@@ -69,16 +70,28 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     IEnumerator SkillTime() // 스킬 한번에 쓰지 않고 좀 기다렸다가 쓸려고
     {
-        for (int i = 0; i < (int)AllEnum.SkillName.Gravity; i++) //inUse가 아닌것
+        int i = Random.Range(0, (int)AllEnum.SkillName.Gravity);
+
+        while (true)
         {
             AllEnum.SkillName skillname = (AllEnum.SkillName)i;
             if (SkillManager.Instance.UseableSkill(skillname, false))
             {
                 SkillManager.Instance.UseSKill(skillname, false);
+                useableSKill = false;
                 break;
             }
+            else
+            {
+                i++;
+                if (i >= (int)AllEnum.SkillName.Gravity)
+                {
+                    i = Random.Range(0, (int)AllEnum.SkillName.Gravity);
+                }
+            }
         }
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(30f);
+        useableSKill = true;
         skillcor = null;
     }
     public IEnumerator StartMoveTimer()
@@ -105,7 +118,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         distance = (GameManager.Instance.player.transform.position - transform.position).sqrMagnitude;
         return distance;
     }
-    void BasicAttack()
+    public void BasicAttack()
     {
         //클릭할때마다 이전시간과 비교해서 연속공격상태면 다음 주먹으로 변경하고
         //연속공격내의 시간이 아니면 첫주먹으로.
