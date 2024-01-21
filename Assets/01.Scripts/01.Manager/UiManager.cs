@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
 
 public class UiManager : Singleton<UiManager>
 {
-    public GameObject uiManager;
+    [SerializeField] private Camera cam;
     public PlayerConditionUI playerConditionUI;
     public Image fakeIcon;
     public GraphicRaycaster graphicRaycaster;
@@ -20,14 +21,22 @@ public class UiManager : Singleton<UiManager>
     public Text watingCount;
     public Text playerMoney;
     public Text goalCount;
+    public GameObject note;
+    public SpriteRenderer innerNote { get; private set; }
+    public SpriteRenderer outterNote { get; private set; }
 
-    
+
     public void Init()
     {
+        SetCamera();
         stopBtnText = stopTime.transform.GetComponentInChildren<Text>();
         playerConditionUI.Init();
         powerUpUI.Init();
         SetPanelName();
+        innerNote = note.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        outterNote = note.transform.GetChild(1).GetComponent<SpriteRenderer>();
+        innerNote.transform.localScale = Vector3.one;
+        outterNote.transform.localScale = Vector3.one * 4;
     }
     public void SetUI()
     {
@@ -58,6 +67,52 @@ public class UiManager : Singleton<UiManager>
             }
         }
         
+    }
+    public void SetCamera()
+    {
+        if (cam == null)
+            cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+    }
+    public void StartShrike()
+    {
+        StartCoroutine(ShrinkCircle());
+    }
+    IEnumerator ShrinkCircle()
+    {
+        note.SetActive(true);
+        while (true)
+        {
+            note.transform.position = GameManager.Instance.boss.transform.position + new Vector3(0, 3, 0);
+            outterNote.transform.localScale -= new Vector3(0.01f, 0.01f, 0.01f);
+            yield return null;
+            if (outterNote.transform.localScale == new Vector3(1, 1, 1))
+            {
+                Debug.Log("²¨Áü");
+                note.SetActive(false);
+                break;
+            }
+        }
+    }
+    
+    public void CheckTiming()
+    {
+        float dis = Mathf.Abs(innerNote.transform.localScale.x - outterNote.transform.localScale.x);
+        if (dis < 0.3f)
+        {
+            Debug.Log("Great");
+        }
+        else if (dis < 0.5f)
+        {
+            Debug.Log("Good");
+        }
+        else if (dis < 1f)
+        {
+            Debug.Log("Normal");
+        }
+        else
+        {
+            Debug.Log("Bad");
+        }
     }
     public void ShowPowerUpPanel()
     {
