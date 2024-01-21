@@ -8,6 +8,10 @@ using UnityEngine;
 //오늘 할일
 // 중력 효과 고치기
 // 그라운드 쓰면 밀치기
+//히트타이밍
+//저장 
+//스킬
+//네비게이션 스탑오류 고치기(내일)
 
 public class GameManager : Singleton<GameManager>
 {

@@ -120,6 +120,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     public virtual void TakeDamage(float critical, float attack)
     {
         isHit = true;
+        Hit();
         float damage = CriticalDamage(critical, attack) - (this.monsterStat.defense * 0.5f); // 몬스터 스탯 추가
         float hp = this.monsterStat.health - damage;
         monsterStat.SetHealth(hp);
@@ -147,8 +148,8 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
 
     public void Explosion()
     {
-        Attack(this.transform.position, 2f);
-        Instantiate(explosionEffect, this.transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+        Attack(transform.position, 2f);
+        Instantiate(explosionEffect, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
     }
 
     public void Idle()
@@ -213,13 +214,13 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         }
         else
         {
+            SetDeadAnim();
             GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money, 10); // 몬스터 잡을때마다 궁극기 10씩 
             GameManager.Instance.killMonster++;
             DropRandomItem();
             if (dieCor == null)
             {
                 dieCor = StartCoroutine(DeletObject());
-
             }
         }
     }
@@ -227,13 +228,14 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
 
     IEnumerator DeletObject()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
+        MonsterManager.Instance.MonsterPool().ReturnObjectToPool(this);
+        yield return new WaitForSeconds(2f);
         if (this.monType == AllEnum.MonsterType.Explosion)
         {
             Explosion();
         }
 
-        MonsterManager.Instance.MonsterPool().ReturnObjectToPool(this);
         dieCor = null;
     }
 
