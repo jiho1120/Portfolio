@@ -35,8 +35,7 @@ public class UiManager : Singleton<UiManager>
         SetPanelName();
         innerNote = note.transform.GetChild(0).GetComponent<SpriteRenderer>();
         outterNote = note.transform.GetChild(1).GetComponent<SpriteRenderer>();
-        innerNote.transform.localScale = Vector3.one;
-        outterNote.transform.localScale = Vector3.one * 4;
+        
     }
     public void SetUI()
     {
@@ -75,43 +74,23 @@ public class UiManager : Singleton<UiManager>
     }
     public void StartShrike()
     {
+        note.SetActive(true);
+        outterNote.transform.localScale = new Vector3(3, 3, 3);
+        innerNote.transform.localScale = new Vector3(1, 1, 1);
         StartCoroutine(ShrinkCircle());
     }
     IEnumerator ShrinkCircle()
     {
-        note.SetActive(true);
         while (true)
         {
             note.transform.position = GameManager.Instance.boss.transform.position + new Vector3(0, 3, 0);
             outterNote.transform.localScale -= new Vector3(0.01f, 0.01f, 0.01f);
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
             if (outterNote.transform.localScale == new Vector3(1, 1, 1))
             {
-                Debug.Log("꺼짐");
                 note.SetActive(false);
                 break;
             }
-        }
-    }
-    
-    public void CheckTiming()
-    {
-        float dis = Mathf.Abs(innerNote.transform.localScale.x - outterNote.transform.localScale.x);
-        if (dis < 0.3f)
-        {
-            Debug.Log("Great");
-        }
-        else if (dis < 0.5f)
-        {
-            Debug.Log("Good");
-        }
-        else if (dis < 1f)
-        {
-            Debug.Log("Normal");
-        }
-        else
-        {
-            Debug.Log("Bad");
         }
     }
     public void ShowPowerUpPanel()
@@ -121,11 +100,7 @@ public class UiManager : Singleton<UiManager>
         // 고르거나 나가기 버튼 누르면 나가기
         PowerUpScreenOnOff();
     }
-    public void PowerUpScreenOnOff()
-    {
-        powerUpUI.ScreenOnOff();
-
-    }
+    
     public void SetUseSKillCoolImg(int _num)
     {
         int num = _num - 1;
@@ -205,7 +180,10 @@ public class UiManager : Singleton<UiManager>
 
         }
     }
-
+    public void PowerUpScreenOnOff()
+    {
+        powerUpUI.ScreenOnOff();
+    }
     public void ScreenOnOff(char key) // 나중에 더 많아지면 사용하기 편할것같아서 만듬
     {
         switch (key)

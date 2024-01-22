@@ -52,16 +52,20 @@ public class PowerUpUI : MonoBehaviour
         if (isOn)
         {
             Time.timeScale = 0f; // 시간의 흐름이 멈춤  //코루틴 안되고, 업데이트 안 되고 , 픽스드 가능, 드래그도 가능
-            this.gameObject.SetActive(true);
+            gameObject.SetActive(true);
             GameManager.Instance.LockCursor(false);
+            Debug.Log("스크린 통해서 커서 열림");
 
         }
         else
         {
             Time.timeScale = 1f;
-            this.gameObject.SetActive(false);
-            GameManager.Instance.LockCursor(true);
-
+            gameObject.SetActive(false);
+            Debug.Log("스크린 통해서 커서 잠김");
+            if (GameManager.Instance.goWatingRoom == null)
+            {
+                GameManager.Instance.LockCursor(true);
+            }
         }
 
     }

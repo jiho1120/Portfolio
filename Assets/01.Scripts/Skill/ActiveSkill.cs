@@ -10,8 +10,7 @@ public class ActiveSkill : Skill
     private float duration = 1f;
     float skillSpeed = 3;
     Coroutine boxCor = null;
-
-
+    Coroutine ColCor = null;
 
     public override void DoSkill(bool isPlayer)
     {
@@ -24,6 +23,10 @@ public class ActiveSkill : Skill
             skillStat.SetInUse(true);
             if (skillStat.index == 1) // 슬래쉬
             {
+                if (ColCor == null)
+                {
+                    //ColCor = StartCoroutine(OnOffCol());
+                }
             }
             else if (skillStat.index == 2) // 원
             {
@@ -63,9 +66,31 @@ public class ActiveSkill : Skill
     IEnumerator DieTimer()
     {
         yield return new WaitForSeconds(skillStat.duration);
+        //if (ColCor != null)
+        //{
+        //    StopCoroutine(ColCor);
+        //    ColCor = null;
+        //}
         SetOffSkill();
         yield return new WaitForSeconds(skillStat.cool);
         skillStat.SetInUse(false);
+    }
+    IEnumerator OnOffCol()
+    {
+        SphereCollider[] sp = GetComponents<SphereCollider>();
+        while (true)
+        {
+            for (int i = 0; i < sp.Length; i++)
+            {
+                sp[i].gameObject.SetActive(true);
+            }
+            yield return new WaitForSeconds(0.1f);
+            for (int i = 0; i < sp.Length; i++)
+            {
+                sp[i].gameObject.SetActive(false);
+            }
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
     public void KnockBackAttack(bool isPlayer)

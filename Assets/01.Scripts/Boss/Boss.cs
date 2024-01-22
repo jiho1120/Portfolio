@@ -27,10 +27,16 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     public int PassiveCurrentNum;
     public Coroutine skillcor = null;
     Coroutine passiveCor = null;
-    
+    public Coroutine weaknessCor = null;
+    public Coroutine timingCor = null;
+
+    public bool isHit { get; private set; }
+    public bool haveTiming { get; private set; }
 
 
-public float distance { get; private set; }
+
+
+    public float distance { get; private set; }
     public void FirstStart()
     {
         //rb = transform.GetComponentInChildren<Rigidbody>();
@@ -54,6 +60,8 @@ public float distance { get; private set; }
         gameObject.transform.position = GameManager.Instance.player.transform.position + new Vector3(3, 0, 3);
         gameObject.transform.LookAt(GameManager.Instance.player.transform.position);
         LevelUp(); // 능력치 세팅
+        SetHaveTiming(false);
+
         if (passiveCor == null)
         {
             passiveCor = StartCoroutine(GameManager.Instance.CallPassive(false));
@@ -125,6 +133,7 @@ public float distance { get; private set; }
         agent.isStopped = false;
 
     }
+    
     public IEnumerator HealHpMp()
     {
         while (true)
@@ -175,7 +184,6 @@ public float distance { get; private set; }
                 animator.RightAttack();
             }
             lastClickTime = Time.time;
-
         }
     }
     public void Attack(Vector3 Tr, float Range)
@@ -193,8 +201,8 @@ public float distance { get; private set; }
     {
         Attack(fist.position, 1f);
     }
-    
-    
+
+
 
     public bool CheckCritical(float critical)
     {
@@ -220,16 +228,30 @@ public float distance { get; private set; }
     {
         if (!isDead)
         {
-            Hit();
-            Debug.Log("맞음");
-            float damage = Mathf.Max(CriticalDamage(critical, attack) - (bossStat.defense * 0.5f), 1f); // 최소 데미지 1
-            float hp = bossStat.health - damage;
-            bossStat.SetHealth(hp);
-            if (hp <= 0)
+            if (!isHit)
             {
-                Debug.Log("피가 0이하");
-                bossStat.SetHealth(0);
-                //Dead(false);
+                Debug.Log(isHit);
+                Debug.Log(haveTiming);
+                Debug.Log(timingCor);
+                if (haveTiming && timingCor == null)
+                {
+                    timingCor = StartCoroutine(CheckTiming());
+                    StartCoroutine(HitCool());
+                }
+                Hit();
+                Debug.Log("맞음");
+                float damage = Mathf.Max(CriticalDamage(critical, attack) - (bossStat.defense * 0.5f), 1f); // 최소 데미지 1
+                float hp = bossStat.health - damage;
+                bossStat.SetHealth(hp);
+                if (hp <= 0)
+                {
+                    Debug.Log("피가 0이하");
+                    bossStat.SetHealth(0);
+                }
+            }
+            else
+            {
+                Debug.Log("아직 쿨타임");
             }
         }
         else
@@ -237,6 +259,68 @@ public float distance { get; private set; }
             Debug.Log("이미 죽었어");
         }
     }
+    public void StartWeak()
+    {
+        weaknessCor = StartCoroutine(StartWeakness());
+    }
+    public void StopWeak()
+    {
+        StopCoroutine(weaknessCor);
+        weaknessCor = null;
+
+    }
+    public IEnumerator StartWeakness()
+    {
+        while (true)
+        {
+            if (!isHit)
+            {
+                UiManager.Instance.StartShrike();
+                timingCor = null;
+                SetHaveTiming(true);
+                yield return new WaitForSeconds(10f);
+            }
+        }
+    }
+    public void SetHaveTiming(bool isbool)
+    {
+        haveTiming = isbool;
+    }
+    public IEnumerator CheckTiming()
+    {
+        float dis = Mathf.Abs(UiManager.Instance.innerNote.transform.localScale.x - UiManager.Instance.outterNote.transform.localScale.x);
+        float att = GameManager.Instance.player.Att;
+        if (dis < 0.3f)
+        {
+            att *= 2;
+            Debug.Log("Great");
+        }
+        else if (dis < 0.5f)
+        {
+            att *= 1.5f;
+            Debug.Log("Good");
+        }
+        else if (dis < 1f)
+        {
+            att *= 1f;
+            Debug.Log("Normal");
+        }
+        else
+        {
+            att *= 0.5f;
+            Debug.Log("Bad");
+        }
+        SetHaveTiming(false);
+        UiManager.Instance.note.SetActive(false);
+        yield return null;
+    }
+    IEnumerator HitCool()
+    {
+        isHit = true;
+        yield return new WaitForSeconds(0.5f);
+        isHit = false;
+    }
+
     public void Dead(bool force)
     {
         isDead = true;
@@ -248,6 +332,7 @@ public float distance { get; private set; }
         GameManager.Instance.player.playerStat.AddMoney(bossStat.money);
         GameManager.Instance.player.playerStat.AddExp(bossStat.experience);
         agent.isStopped = true;
+        //GameManager.Instance.boss.StopWeak();
         gameObject.SetActive(false);
         GameManager.Instance.killMonster++;
 

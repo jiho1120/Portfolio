@@ -25,10 +25,10 @@ public class GameManager : Singleton<GameManager>
     public int gameRound = 0; //gameRound - gameStage 형식
     public int gameStage = 0;
     Coroutine startGameCor = null;
-    Coroutine goWatingRoom = null;
+    public Coroutine goWatingRoom = null;
     Coroutine passiveCor = null;
     Coroutine runTimeCor = null;
-    
+
 
     public float gameTime { get; private set; }
     public float countTime { get; private set; }
@@ -65,7 +65,7 @@ public class GameManager : Singleton<GameManager>
     private void Update()
     {
         UiManager.Instance.SetUI();
-        if (killMonster !=0 && killMonster != 0)
+        if (killMonster != 0 && killMonster != 0)
         {
             if (killMonster >= monsterGoal && gameStart == true)
             {
@@ -81,12 +81,9 @@ public class GameManager : Singleton<GameManager>
         {
             killMonster += 10;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UiManager.Instance.CheckTiming();
-        }
+        
     }
-    
+
     IEnumerator RunTime()
     {
         while (true)
@@ -130,6 +127,7 @@ public class GameManager : Singleton<GameManager>
         if (goWatingRoom != null)
         {
             StopCoroutine(goWatingRoom);
+            LockCursor(false);
             goWatingRoom = null;
         }
         StartCoroutine(GameTime());
@@ -156,8 +154,7 @@ public class GameManager : Singleton<GameManager>
         else
         {
             boss.Init();
-            UiManager.instance.StartShrike();
-            boss.bossStat.ShowInfo();
+            boss.StartWeak();
             monsterGoal = 1;
         }
         yield return null;
@@ -167,17 +164,16 @@ public class GameManager : Singleton<GameManager>
         MonsterManager.Instance.StopSpawnMonster();
         MonsterManager.Instance.CleanMonster();//=>딱 살아있던 애들만 죽임. (단순히 죽임. 
         StopCoroutine(GameTime());
-        killMonster = 0;
-        monsterGoal = 0;
-        gameTime = 0;
-        countGame++;
         if (startGameCor != null)
         {
             StopCoroutine(startGameCor);
             startGameCor = null;
         }
+        killMonster = 0;
+        monsterGoal = 0;
+        gameTime = 0;
+        countGame++;
         isRunTime = true;
-        LockCursor(false);
         if (passiveCor != null)
         {
             StopCoroutine(passiveCor);
@@ -188,6 +184,7 @@ public class GameManager : Singleton<GameManager>
         {
             runTimeCor = StartCoroutine(RunTime());
         }
+        LockCursor(false);
 
         yield return null;
     }
@@ -198,6 +195,7 @@ public class GameManager : Singleton<GameManager>
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
         }
         else
         {
