@@ -42,7 +42,7 @@ public class SkillManager : Singleton<SkillManager>
     }
 
 
-    public void CallPassiveSkill(bool isPlayer)
+    public PassiveSkill CallPassiveSkill(bool isPlayer)
     {
         if (isPlayer)
         {
@@ -66,6 +66,7 @@ public class SkillManager : Singleton<SkillManager>
         }
 
         passiveSkill.DoSkill(isPlayer);
+        return passiveSkill.GetComponent<PassiveSkill>();
     }
 
     public int EnumToInt(AllEnum.SkillName val)

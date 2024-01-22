@@ -71,26 +71,33 @@ public class PassiveSkill : Skill
     }
     public IEnumerator FireSkill(bool isPlayer)
     {
+        float time = 0;
         if (isPlayer)
         {
             GameManager.Instance.player.playerStat.AddAttack(skillStat.effect);
-            while (true)
+            while (time <= skillStat.duration)
             {
-                GameManager.Instance.player.SetHp(GameManager.Instance.player.Hp -skillStat.effect); 
-                yield return new WaitForSeconds(skillStat.cool);
-                GameManager.Instance.player.playerStat.AddAttack(-skillStat.effect);
+                GameManager.Instance.player.SetHp(GameManager.Instance.player.Hp - skillStat.effect);
+                yield return new WaitForSeconds(1f);
+                time += 1f;
             }
+            GameManager.Instance.player.playerStat.AddAttack(-skillStat.effect);
+
         }
         else
         {
             GameManager.Instance.boss.bossStat.AddAttack(skillStat.effect);
-            while (true)
+            while (time <= skillStat.duration)
             {
+
                 GameManager.Instance.boss.bossStat.SetHealth(GameManager.Instance.boss.bossStat.health - skillStat.effect);
-                yield return new WaitForSeconds(skillStat.cool);
-                GameManager.Instance.boss.bossStat.AddAttack(-skillStat.effect);
+                yield return new WaitForSeconds(1f);
+                time += 1f;
+
             }
+            GameManager.Instance.boss.bossStat.AddAttack(-skillStat.effect);
         }
+        yield return new WaitForSeconds(skillStat.cool);
     }
     public IEnumerator HealSkill(bool isPlayer)
     {

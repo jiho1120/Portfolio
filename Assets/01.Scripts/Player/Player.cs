@@ -374,7 +374,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         }
         else
         {
-            Debug.Log("이미 죽었어");
+            Debug.Log("player 이미 죽었어");
         }
         //print("플레이어 체력" + playerStat.health);
     }
@@ -387,6 +387,8 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     public virtual void Dead(bool force)
     {
         isDead = true;
+        GameManager.Instance.SetGameOver();
+        UiManager.Instance.ActiveEndPanel();
         Debug.Log("죽음");
     }
 

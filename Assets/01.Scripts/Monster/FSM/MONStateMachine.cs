@@ -15,6 +15,7 @@ public class MONStateMachine : MonoBehaviour
     }
     private void Update()
     {
+        Debug.Log($"이전상태 {ExState} / 지금 {owner.NowState}");
         if (ExState == owner.NowState && owner.NowState != AllEnum.States.End)
         {
             StateDic[owner.NowState].OnStateStay();

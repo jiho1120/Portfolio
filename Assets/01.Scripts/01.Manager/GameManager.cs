@@ -4,23 +4,23 @@ using UnityEngine;
 
 // 문제점
 // 또 같은 팔로 공격
-
-//오늘 할일
 // 중력 효과 고치기
 // 그라운드 쓰면 밀치기
-//히트타이밍
+//오늘 할일
 //저장 
-//스킬
 //네비게이션 스탑오류 고치기(내일)
 
 public class GameManager : Singleton<GameManager>
 {
+    public bool gameOver { get; private set; }
+    public bool gameClear { get; private set; }
+
     public Player player;
     public bool gameStart;
     public bool isRunTime = true; // 버튼 글자 바꾸기 위해 선언
     public int monsterGoal = 0;
     public int killMonster = 0;
-    private int countGame = 4; //이걸 나누고 몫과 나머지 gameRound, gameStage
+    private int countGame = 0; //이걸 나누고 몫과 나머지 gameRound, gameStage
     private int maxStage = 6; // 1라운드당 5스테이지라서
     public int gameRound = 0; //gameRound - gameStage 형식
     public int gameStage = 0;
@@ -45,6 +45,8 @@ public class GameManager : Singleton<GameManager>
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         ResourceManager.Instance.LoadResources();
+        gameClear = false;
+        gameOver = false;
         player.FirstStart();
         SkillManager.Instance.Init();
         MonsterManager.Instance.Init();
@@ -77,13 +79,25 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
-            killMonster += 10;
+            killMonster += 1;
         }
-        
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            player.SetHp(0);
+        }
+
     }
 
+    public void SetGameOver()
+    {
+        gameOver = true;
+    }
+    public void SetGameClear(bool clear = true)
+    {
+        gameClear = clear;
+    }
     IEnumerator RunTime()
     {
         while (true)
@@ -208,18 +222,19 @@ public class GameManager : Singleton<GameManager>
     {
         while (gameStart)
         {
-            CallPassiveSkill(isPlayer);
-            yield return new WaitForSeconds(10f);
+            PassiveSkill ps =  CallPassiveSkill(isPlayer);
+            yield return new WaitForSeconds(ps.skillStat.duration);
         }
     }
-    public void CallPassiveSkill(bool isPlayer)
+    public PassiveSkill CallPassiveSkill(bool isPlayer)
     {
         if (SkillManager.Instance.passiveSkill != null)
         {
             SkillManager.Instance.passiveSkill.DoReset();
 
         }
-        SkillManager.Instance.CallPassiveSkill(isPlayer);
+        PassiveSkill ps =  SkillManager.Instance.CallPassiveSkill(isPlayer);
+        return ps;
     }
     public void StopOnOffTime()
     {

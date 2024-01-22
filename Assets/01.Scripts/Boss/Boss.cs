@@ -230,9 +230,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             if (!isHit)
             {
-                Debug.Log(isHit);
-                Debug.Log(haveTiming);
-                Debug.Log(timingCor);
                 if (haveTiming && timingCor == null)
                 {
                     timingCor = StartCoroutine(CheckTiming());
@@ -253,6 +250,8 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
             {
                 Debug.Log("¾ÆÁ÷ ÄðÅ¸ÀÓ");
             }
+            Debug.Log(bossStat.health);
+
         }
         else
         {
@@ -335,7 +334,8 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         //GameManager.Instance.boss.StopWeak();
         gameObject.SetActive(false);
         GameManager.Instance.killMonster++;
-
+        GameManager.Instance.SetGameClear();
+        UiManager.Instance.ActiveEndPanel();
         Debug.Log("Á×À½");
     }
 

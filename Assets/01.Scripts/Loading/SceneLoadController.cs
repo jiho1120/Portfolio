@@ -8,4 +8,8 @@ public class SceneLoadController : MonoBehaviour
     {
         LoadingSceneController.LoadScene("Main");
     }
+    public void GoStartScene()
+    {
+        LoadingSceneController.LoadScene("Start");
+    }
 }

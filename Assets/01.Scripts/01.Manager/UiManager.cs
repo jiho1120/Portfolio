@@ -12,6 +12,7 @@ public class UiManager : Singleton<UiManager>
     public Image fakeIcon;
     public GraphicRaycaster graphicRaycaster;
     public PowerUpUI powerUpUI;
+    public EndPanel endPanel;
     public Text totalRound;
     public Text count;
     public GameObject wating;
@@ -195,5 +196,11 @@ public class UiManager : Singleton<UiManager>
                 break;
         }
     }
-
+    public void ActiveEndPanel()
+    {
+        endPanel.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+        GameManager.Instance.LockCursor(false);
+        endPanel.SetPanel();
+    }
 }

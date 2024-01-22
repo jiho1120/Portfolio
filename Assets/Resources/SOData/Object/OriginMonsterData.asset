@@ -16,7 +16,7 @@ MonoBehaviour:
   level: 1
   health: 40
   maxHealth: 15
-  attack: 5
+  attack: 30
   defense: 100
   criticalChance: 1
   movementSpeed: 1

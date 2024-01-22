@@ -6,7 +6,7 @@ public class MonsterManager : Singleton<MonsterManager>
 {
     ObjectPool<Monster> monsterPool = new ObjectPool<Monster>();
     public Transform monsterPoolPos;
-    int monsterRange = 20;
+    int monsterRange = 10;//20; //###############
     Coroutine monCor = null;
 
     public void Init()
@@ -49,7 +49,10 @@ public class MonsterManager : Singleton<MonsterManager>
         {
             // 두 가지 종류의 몬스터를 랜덤으로 선택하여 소환
             Monster monster = monsterPool.GetObjectFromPool(ResourceManager.Instance.monsterAll, monsterPoolPos);
-            monster.Init();
+            if (monster!=null)
+            {
+                monster.Init();
+            }            
             yield return new WaitForSeconds(1f);
         }
     }

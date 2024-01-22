@@ -37,6 +37,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
     {
         num = prefabArray.Length;
         ranNum = Random.Range(0, num);
+        ranNum = 0;//########################
         T tInfo = Instantiate(prefabArray[ranNum]).GetComponent<T>();
         tInfo.transform.parent = pos;
         objectPool.Enqueue(tInfo);
@@ -52,7 +53,8 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
     {
         if (objectPool.Count == 0)
         {
-            RandomInitializeObjectPool(prefabArray, pos);
+            //RandomInitializeObjectPool(prefabArray, pos); //################
+            return null;
         }
 
         T obj = objectPool.Dequeue();
@@ -67,7 +69,10 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
     public void ReturnObjectToPool(T tInfo)
     {
         tInfo.gameObject.SetActive(false);
-        objectPool.Enqueue(tInfo);
+        if (objectPool.Contains(tInfo) == false)
+        {
+            objectPool.Enqueue(tInfo);
+        }        
     }
 
     public void DeleteActive()

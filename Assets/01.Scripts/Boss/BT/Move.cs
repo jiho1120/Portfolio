@@ -18,6 +18,7 @@ public class Move : Node
             if (owner.CheckDistance() > 100)
             {
                 owner.agent.isStopped = false;
+                Debug.Log(owner.gameObject.name + "¸ñÀûÁöÁÜ");
                 owner.agent.SetDestination(GameManager.Instance.player.transform.position);
                 owner.SetMoveAnim(1f, owner.agent.velocity.z, owner.agent.velocity.x);
                 owner.NowState = AllEnum.StateEnum.Run;

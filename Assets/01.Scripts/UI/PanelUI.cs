@@ -109,7 +109,7 @@ public class PanelUI : MonoBehaviour
     public void BuyButton()
     {
         int playerMoney = GameManager.Instance.player.playerStat.money;
-        if (playerMoney > money)
+        if (playerMoney >= money)
         {
             GameManager.Instance.player.playerStat.SetMoney(playerMoney - money);
             ApplyValue();
