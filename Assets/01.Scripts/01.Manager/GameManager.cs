@@ -12,9 +12,10 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    public GameObject pools;
     public bool gameOver { get; private set; }
     public bool gameClear { get; private set; }
-
+    public GameObject playerPrefab;
     public Player player;
     public bool gameStart;
     public bool isRunTime = true; // 버튼 글자 바꾸기 위해 선언
@@ -35,16 +36,20 @@ public class GameManager : Singleton<GameManager>
 
     public Boss boss { get; private set; }
     public GameObject bossObj;
-
+    public GameObject canvas;
 
     private void Start()
     {
-        DoItOnceMain();
+        SceneLoadController.Instance.GoStartScene();
+
+
+        //DoItOnceMain();
     }
     public void DoItOnceMain()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         ResourceManager.Instance.LoadResources();
+        player.gameObject.SetActive(true);
         gameClear = false;
         gameOver = false;
         player.FirstStart();
@@ -53,7 +58,7 @@ public class GameManager : Singleton<GameManager>
         InventoryManager.Instance.Init();
         ItemManager.Instance.Init();
         player.CalcPlayerStat();
-        UiManager.Instance.Init();
+        UiManager.Instance.FirstSet();
         countTime = 5f;
         UiManager.instance.wating.SetActive(true);
         gameStart = false;
@@ -66,7 +71,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {
-        UiManager.Instance.SetUI();
+        //UiManager.Instance.SetUI();
         if (killMonster != 0 && killMonster != 0)
         {
             if (killMonster >= monsterGoal && gameStart == true)
@@ -89,7 +94,30 @@ public class GameManager : Singleton<GameManager>
         }
 
     }
+    public void LoadStart()
+    {
+        player.gameObject.SetActive(false);
+        pools.SetActive(false);
+        canvas.SetActive(true);
+        for (int i = 1; i < canvas.transform.childCount; i++) // 0은 eventSystem
+        {
+            canvas.transform.GetChild(i).gameObject.SetActive(false);
+        }
+        canvas.transform.GetChild(0).gameObject.SetActive(true);
+        UiManager.Instance.startScene.SetActive(true);
+    }
 
+    public void LoadMain()
+    {
+        if (player == null)
+        {
+            player = Instantiate(playerPrefab).GetComponent<Player>();
+        }
+        player.gameObject.SetActive(true);
+        pools.SetActive(true);
+        canvas.SetActive(true);
+        DoItOnceMain();
+    }
     public void SetGameOver()
     {
         gameOver = true;

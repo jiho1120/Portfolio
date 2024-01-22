@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class UiManager : Singleton<UiManager>
 {
+    public GameObject startScene;
     [SerializeField] private Camera cam;
     public PlayerConditionUI playerConditionUI;
     public Image fakeIcon;
@@ -26,9 +27,9 @@ public class UiManager : Singleton<UiManager>
     public SpriteRenderer innerNote { get; private set; }
     public SpriteRenderer outterNote { get; private set; }
 
-
-    public void Init()
+    public void FirstSet()
     {
+        Init();
         SetCamera();
         stopBtnText = stopTime.transform.GetComponentInChildren<Text>();
         playerConditionUI.Init();
@@ -36,7 +37,23 @@ public class UiManager : Singleton<UiManager>
         SetPanelName();
         innerNote = note.transform.GetChild(0).GetComponent<SpriteRenderer>();
         outterNote = note.transform.GetChild(1).GetComponent<SpriteRenderer>();
-        
+    }
+
+    public void Init()
+    {
+        startScene.gameObject.SetActive(false);
+        playerConditionUI.gameObject.SetActive(true);
+        totalRound.gameObject.SetActive(true);
+        count.gameObject.SetActive(true);
+        wating.gameObject.SetActive(true);
+        stopTime.gameObject.SetActive(true);
+        skipTime.gameObject.SetActive(true);
+        watingCount.gameObject.SetActive(true);
+        playerMoney.gameObject.SetActive(true);
+        goalCount.gameObject.SetActive(true);
+        note.gameObject.SetActive(true);
+
+
     }
     public void SetUI()
     {
