@@ -104,7 +104,6 @@ public class ActiveSkill : Skill
                 IAttack attm = colliders[i].GetComponent<IAttack>();
                 if (attm !=null)
                 {
-                    attm.TakeDamage(player.Cri, player.Att + skillStat.effect);
                     Vector3 direction = colliders[i].transform.position - transform.position;
                     Rigidbody enemyRigidbody = colliders[i].GetComponent<Rigidbody>();
                     if (colliders[i].GetComponent<Boss>() != null)
@@ -119,10 +118,20 @@ public class ActiveSkill : Skill
                     {
                         if (enemyRigidbody != null)
                         {
-                            colliders[i].GetComponent<Monster>().SetStopAndMove();
-                            enemyRigidbody.AddForce(direction.normalized * 10, ForceMode.Impulse);
+                            Monster monster = colliders[i].GetComponent<Monster>();
+                            if (!monster.isDead)
+                            {
+                                monster.SetStopAndMove();
+                                enemyRigidbody.AddForce(direction.normalized * 10, ForceMode.Impulse);
+                            }
+                            else
+                            {
+                                return;
+                            }
+                            
                         }
                     }
+                    attm.TakeDamage(player.Cri, player.Att + skillStat.effect); // 이걸 뒤에 둬야 밀림(앞에두면 죽음상태가 먼저 될경우 안밀리고 죽음)
                 }                                
             }
         }

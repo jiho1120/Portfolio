@@ -37,7 +37,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
     {
         num = prefabArray.Length;
         ranNum = Random.Range(0, num);
-        ranNum = 0;//########################
+        //ranNum = 0;//########################
         T tInfo = Instantiate(prefabArray[ranNum]).GetComponent<T>();
         tInfo.transform.parent = pos;
         objectPool.Enqueue(tInfo);

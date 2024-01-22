@@ -11,7 +11,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     MonsterAnimation anim; //얘는 진짜 단순히 애니메이션 출력...    
     NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
-    MONStateMachine monStateMachine;
+    public MONStateMachine monStateMachine { get; private set; }
     public SOMonster soOriginMonster;
     public MonsterStat monsterStat { get; private set; } // 바뀌는 스탯
     public Vector3 dir;
@@ -28,6 +28,8 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     Vector3 itempos = new Vector3(0, 1, 0);
 
     Coroutine dieCor = null;
+    public bool force { get; private set; }
+
 
 
     public void Init()
@@ -63,6 +65,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         isAttack = false;
         isHit = false;
         isDead = false;
+        force = false;
         agent.baseOffset = 0f; // 중력으로 죽은애가 코루틴 끝나기전에 태어날경우 위치 초기화가 안되서 시작할때 세팅
         monStateMachine.SetState(AllEnum.States.Idle);
         dieCor = null;
@@ -81,12 +84,16 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     public IEnumerator StartMoveTimer()
     {
-        agent.isStopped = true;
-        yield return new WaitForSeconds(1f);
-        rb.isKinematic = true;
-        yield return new WaitForSeconds(1f);
-        rb.isKinematic = false;
-        agent.isStopped = false;
+        if (rb != null)
+        {
+            agent.isStopped = true;
+            yield return new WaitForSeconds(1f);
+            rb.isKinematic = true;
+            yield return new WaitForSeconds(1f);
+            rb.isKinematic = false;
+            agent.isStopped = false;
+        }
+        
     }
 
     public Vector3 CheckDir()
@@ -192,61 +199,47 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         agent.isStopped = true;
     }
 
+    public void StartDieCor()
+    {
+        dieCor = StartCoroutine(DeletObject());
+
+    }
+    public void StopDieCor()
+    {
+        if (dieCor != null)
+        {
+            StopCoroutine(dieCor);
+            dieCor = null;
+        }
+    }
+
     //dead가 불리는 경우
     //1 필드에 멀쩡히 살아있었음 //활성화 되어있고 죽었다표기 안되어있음.
     //2 필드에 있었으나 죽기 대기중이었음 //활성화 되어있지만, 죽었다 표기되어있는 상태
     //3 필드에 없었음. => 비활성화 상태
-    public virtual void Dead(bool force)
+    public virtual void Dead(bool _force)
     {
-        if (force) // 죽어있던 애들을 죽는 시간없이 없애기
-        {
-            if (dieCor != null)
-            {
-                StopCoroutine(dieCor);
-                dieCor = null;
-            }
-            if (monStateMachine!=null)            
-                monStateMachine.StopNowState();
-
-            if (isDead == false)// 살아있는 애들을 강제로 죽임
-            {
-                isDead = true;
-                SetDeadAnim();
-            }
-            MonsterManager.Instance.MonsterPool().ReturnObjectToPool(this);
-        }
-        else
-        {
-            //살아있다가 죽는 거니까. 이전에 뭐가되어있음???
-            isDead = true;//이미 이상태.
-            SetDeadAnim();
-            GameManager.Instance.player.playerStat.KillMonster(monsterStat.experience, monsterStat.money, 10); // 몬스터 잡을때마다 궁극기 10씩 
-            GameManager.Instance.killMonster++;
-            DropRandomItem();
-
-            if (dieCor == null)
-            {
-                dieCor = StartCoroutine(DeletObject());
-            }
-        }
+        force = _force;
     }
 
-
+    public bool IsDead()
+    {
+        return isDead;
+    }
     IEnumerator DeletObject()
     {
         yield return new WaitForSeconds(2f);
         if (monType == AllEnum.MonsterType.Explosion)
         {
             Explosion();
-            yield return new WaitForSeconds(2f);            
+            yield return new WaitForSeconds(2f);
         }
-        
-            MonsterManager.Instance.MonsterPool().ReturnObjectToPool(this);        
-        
+
+        MonsterManager.Instance.MonsterPool().ReturnObjectToPool(this);
         dieCor = null;
     }
 
-    void DropRandomItem()
+    public void DropRandomItem()
     {
         itemIndex = Random.Range(0, 3);
         if (itemIndex == 0)
@@ -304,6 +297,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     public void SetDeadAnim()
     {
+        Debug.Log("SetDeadAnim까지는 들어옴" + gameObject.name);
         if (agent != null)
         {
             Debug.Log("agent DieAnim부른다" + gameObject.name);
@@ -312,8 +306,8 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero;
                 //SetDeadAnim();
-                if(anim!=null)
-                anim.Die();
+                if (anim != null)
+                    anim.Die();
             }
             catch (System.Exception ex)
             {
@@ -323,14 +317,5 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         }
         //anim.Die();
     }
-
-    public bool IsDead()
-    {
-        return isDead;
-    }
-
-
-
     #endregion
-
 }
