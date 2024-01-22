@@ -1722,7 +1722,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2309431332358196974
 Transform:
   m_ObjectHideFlags: 0
@@ -1807,8 +1807,8 @@ MonoBehaviour:
   characterBody: {fileID: 3745307524588528724}
   cameraArm: {fileID: 2309431333251735585}
   fist: {fileID: 1509544028}
-  PlayerLayer: 0
-  PassiveCurrentNum: 0
+  PlayerLayer: 64
+  PassiveCurrentNum: 4
 --- !u!114 &270158268
 MonoBehaviour:
   m_ObjectHideFlags: 0
