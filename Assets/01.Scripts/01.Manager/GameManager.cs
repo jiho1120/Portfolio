@@ -104,9 +104,14 @@ public class GameManager : Singleton<GameManager>
             isNew = false;
         }
         player.Init();
-        UiManager.instance.Init();
+        UiManager.Instance.Init();
 
         GoWatingRoom();
+    }
+    public void loadEnd()
+    {
+        UiManager.Instance.ActiveEndPanel();
+
     }
 
     public void DoItOnceMain()
@@ -127,11 +132,14 @@ public class GameManager : Singleton<GameManager>
     public void AddKillMonster(int count = 1)
     {
         killMonster += count;
-        UiManager.instance.SetGameUI();
+        UiManager.Instance.SetGameUI();
 
         if (killMonster >= monsterGoal)
         {
-            GoWatingRoom();
+            if (!gameClear)
+            {
+                GoWatingRoom();
+            }
         }
     }
 
@@ -145,7 +153,6 @@ public class GameManager : Singleton<GameManager>
         countTime = 5f;
         isWating = true;
         MonsterManager.Instance.StopSpawnMonster();
-        //MonsterManager.Instance.SetAllListForce(true);
         MonsterManager.Instance.CleanMonster();//=>딱 살아있던 애들만 죽임. (단순히 죽임. 
         if (stageTimeCor != null)
         {
@@ -160,7 +167,7 @@ public class GameManager : Singleton<GameManager>
             StopCoroutine(passiveCor);
             passiveCor = null;
         }
-        UiManager.instance.wating.SetActive(true);
+        UiManager.Instance.wating.SetActive(true);
         isRunTime = true;
         if (runTimeCor == null)
         {
@@ -193,13 +200,13 @@ public class GameManager : Singleton<GameManager>
     }
     public void startGame() // 게임 스테이지 들어갈떄 설정
     {
-        UiManager.instance.SetGameUI(); //시작할때 한번은 보여줘야함
+        UiManager.Instance.SetGameUI(); //시작할때 한번은 보여줘야함
         if (runTimeCor != null)
         {
             StopCoroutine(runTimeCor);
             runTimeCor = null;
         }
-        UiManager.instance.wating.SetActive(false);
+        UiManager.Instance.wating.SetActive(false);
         isRunTime = false;
         countTime = 5f;
         if (stageTimeCor == null)

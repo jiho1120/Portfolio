@@ -63,7 +63,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
             dieCor = null;
         }
         StatUp();//내 레벨에 맞는 스탯을 세팅함
-        //monsterStat.ShowInfo();
+        monsterStat.ShowInfo();
         StartCoroutine(StopKnockBack());
         isAttack = false;
         isHit = false;

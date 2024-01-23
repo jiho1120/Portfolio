@@ -30,12 +30,15 @@ public class EndPanel : MonoBehaviour
     {
         if (GameManager.Instance.gameOver)
         {
+            Time.timeScale = 1f;
             SceneLoadController.Instance.GoStartScene();
         }
         else if (GameManager.Instance.gameClear)
         {
             // 저장 후 게임 이어하기
+            Time.timeScale = 1f;
             GameManager.Instance.SetGameClear(false);
+            GameManager.Instance.GoWatingRoom();
         }
         gameObject.SetActive(false);
     }

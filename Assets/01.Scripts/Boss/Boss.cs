@@ -348,6 +348,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         GameManager.Instance.killMonster++;
         GameManager.Instance.SetGameClear();
         UiManager.Instance.ActiveEndPanel();
+
         Debug.Log("Á×À½");
     }
 

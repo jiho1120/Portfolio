@@ -209,6 +209,8 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     public void SetHp(float hp)
     {
         Hp = hp;
+        UiManager.Instance.SetGameUI(); //시작할때 한번은 보여줘야함
+
     }
     public void CalculateMaxMp()
     {
@@ -217,6 +219,8 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     public void SetMp(float mana)
     {
         Mp = mana;
+        UiManager.Instance.SetGameUI(); //시작할때 한번은 보여줘야함
+
     }
 
     public void CalculateDef()
@@ -402,7 +406,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             Debug.Log("player 이미 죽었어");
         }
-        //print("플레이어 체력" + playerStat.health);
+        UiManager.Instance.playerConditionUI.SetUI();
     }
 
     public void Hit()
