@@ -138,6 +138,7 @@ public class GameManager : Singleton<GameManager>
     public void GoWatingRoom() // 숫자 카운팅 되는 웨이팅룸 들어갈때
     {
         Debug.Log("웨이팅 들어옴");
+        ItemManager.Instance.ReturnAllObjectToPool();
         stageStart = false; // 이게 되야 게임 시작
         gameClear = false; // 마지막 버튼 위해서 필요함
         gameOver = false; // 마지막 버튼 위해서 필요함
@@ -198,7 +199,7 @@ public class GameManager : Singleton<GameManager>
             StopCoroutine(runTimeCor);
             runTimeCor = null;
         }
-        UiManager.instance.wating.SetActive(false); 
+        UiManager.instance.wating.SetActive(false);
         isRunTime = false;
         countTime = 5f;
         if (stageTimeCor == null)

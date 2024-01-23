@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 
@@ -8,7 +9,7 @@ public class ItemManager : Singleton<ItemManager>
 {
     public Transform dropItemParent;
     public Queue<Item> itemPool = new Queue<Item>();
-    List<Item> infoList = new List<Item>();
+    public List<Item> infoList = new List<Item>();
     public Item itemDrop;
     int maxDropItemLength = 20;
     public void Init()
@@ -59,5 +60,16 @@ public class ItemManager : Singleton<ItemManager>
     {
         tInfo.gameObject.SetActive(false);
         itemPool.Enqueue(tInfo);
+    }
+    public void ReturnAllObjectToPool()
+    {
+        for (int i = 0; i < infoList.Count; i++)
+        {
+            if (infoList[i] != null)
+            {
+                ReturnObjectToPool(infoList[i]);
+            }
+        }
+       
     }
 }
