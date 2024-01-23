@@ -12,13 +12,15 @@ public class State_Die : State
 
     public override void OnStateEnter()
     {
-        Debug.Log(monster.gameObject.name + "죽음 상태 들어옴");  
+        //Debug.Log(monster.gameObject.name + "죽음 상태 들어옴");  
         force = monster.force; // 여기서 force인지 받기
         if (force) // 죽어있던 애들을 죽는 시간없이 없애기
         {
             monster.StopDieCor();
             if (monster.monStateMachine != null)
+            {
                 monster.monStateMachine.StopNowState();
+            }
 
             if (monster.isDead == false)// 살아있는 애들을 강제로 죽임
             {
@@ -34,19 +36,14 @@ public class State_Die : State
             monster.SetDeadAnim();
             GameManager.Instance.player.CatchMonster(monster.monsterStat.experience, monster.monsterStat.money);
                  // 몬스터 잡을때마다 궁극기 10씩 
-            GameManager.Instance.killMonster++;
+            GameManager.Instance.AddKillMonster();
             monster.DropRandomItem();
 
             if (monster.dieCor == null)
             {
                 monster.StartDieCor();
             }
-
-            GameManager.Instance.AddKillMonster();
-            
         }
-
-        
     }
 
     public override void OnStateExit()

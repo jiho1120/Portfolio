@@ -59,6 +59,11 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     public void Init()
     {
         isDead = false;
+        isLeft = false;
+        run = false;
+        attackSpeed = 1;
+        lastClickTime = 0f;
+        attackCooldown = 1.5f;
         playerStat = new PlayerStat(soOriginPlayer); //플레이어 데이터 세팅
         UiManager.Instance.SetGameUI(); //데이터에 따라 ui세팅
     }
@@ -252,6 +257,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             SetHp(Hp + 10);
             SetMp(Mp + 10);
+            UiManager.Instance.playerConditionUI.SetUI();
             yield return new WaitForSeconds(2);
         }
     }

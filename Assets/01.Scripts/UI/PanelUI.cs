@@ -137,13 +137,32 @@ public class PanelUI : MonoBehaviour
         }
         else if (setType == "item")
         {
-            for (int i = 0; i < InventoryManager.Instance.equipList.Length; i++)
+            int num = 0;
+            for (int j = 0; j < InventoryManager.Instance.itemList.Count; j++)
             {
-                if (InventoryManager.Instance.equipList[i].itemType.ToString() == powerUpName)
+                if (InventoryManager.Instance.itemList[j].item.itemType.ToString() == powerUpName)
                 {
-                    InventoryManager.Instance.equipList[i].ApplyEffect(effect);
+                    num++;
                 }
             }
+            if (num < 3)
+            {
+                Debug.Log("갯수 부족으로 강화실패");
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < InventoryManager.Instance.equipList.Length; i++)
+                {
+                    if (InventoryManager.Instance.equipList[i].itemType.ToString() == powerUpName)
+                    {
+                        InventoryManager.Instance.Remove(InventoryManager.Instance.equipList[i].itemType);
+                        InventoryManager.Instance.equipList[i].ApplyEffect(effect);
+                        return;
+                    }
+                }
+            }
+            
         }
         else if (setType == "skill")
         {

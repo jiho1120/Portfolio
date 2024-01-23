@@ -268,8 +268,11 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
     public void StartWeak()
-    {
-        weaknessCor = StartCoroutine(StartWeakness());
+    { 
+        if (weaknessCor == null)
+        {
+            weaknessCor = StartCoroutine(StartWeakness());
+        }
     }
     public void StopWeak()
     {

@@ -21,7 +21,7 @@ MonoBehaviour:
   criticalChance: 5
   movementSpeed: 5
   experience: 0
-  money: 0
+  money: 100
   mana: 100
   maxMana: 100
   luck: 1

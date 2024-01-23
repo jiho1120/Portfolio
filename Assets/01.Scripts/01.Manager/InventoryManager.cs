@@ -136,6 +136,13 @@ public class InventoryManager : Singleton<InventoryManager>
             }
         }
     }
+    public void AllDataRemove()
+    {
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            Remove(itemList[i]);
+        }
+    }
     public void Remove(ItemSlot item)
     {
         item.item = emptyData;
@@ -143,6 +150,27 @@ public class InventoryManager : Singleton<InventoryManager>
         item.countTxt.text = item.count.ToString();
         item.icon.sprite = null;
         Debug.Log("삭제");
+    }
+    public void Remove(AllEnum.ItemType item)
+    {
+        int num = 0;
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            if (num >= 3)
+            {
+                return;
+            }
+
+            if (itemList[i].item.itemType == item)
+            {
+                itemList[i].item = emptyData;
+                itemList[i].count = 0;
+                itemList[i].countTxt.text = "0";
+                itemList[i].icon.sprite = null;
+                Debug.Log("삭제");
+                num++;
+            }
+        }
     }
     public void SetItemsInfo()
     {

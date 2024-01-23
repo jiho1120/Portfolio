@@ -60,12 +60,14 @@ public class PowerUpUI : MonoBehaviour
         {
             Time.timeScale = 1f;
             gameObject.SetActive(false);
-            if (GameManager.Instance.goWatingRoom == null)
+            if (GameManager.Instance.stageStart)
             {
                 GameManager.Instance.LockCursor(true);
             }
         }
+        UiManager.Instance.SetGameUI(); //선택하고 돈 적용
+
 
     }
-   
+
 }

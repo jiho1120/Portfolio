@@ -59,7 +59,7 @@ public class UiManager : Singleton<UiManager>
         goalCount.text = $" <color=#ff0000> {GameManager.Instance.killMonster}</color>" +
             $" / {GameManager.Instance.monsterGoal}";
     }
-    public void StopTimer()
+    public void SetStopTimer()
     {
         if (GameManager.instance.isRunTime)
         {
@@ -70,9 +70,9 @@ public class UiManager : Singleton<UiManager>
             stopBtnText.text = "타이머 시작";
         }
     }
-    public void SetWatingUI()
+    public void SetWaitingUI()
     {
-        watingCount.text = Mathf.Ceil(GameManager.Instance.countTime).ToString();
+        watingCount.text = GameManager.Instance.countTime.ToString();
         if (GameManager.Instance.countTime <= 1)
         {
             watingCount.text = "게임 시작";
@@ -106,6 +106,7 @@ public class UiManager : Singleton<UiManager>
         SetPanelData();
         // 고르거나 나가기 버튼 누르면 나가기
         PowerUpScreenOnOff();
+
     }
 
     public void SetUseSKillCoolImg(int _num)

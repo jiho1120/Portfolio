@@ -136,10 +136,10 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         }
         isHit = true;
         Hit();
-        float damage = CriticalDamage(critical, attack) - (this.monsterStat.defense * 0.5f); // 몬스터 스탯 추가
-        float hp = this.monsterStat.health - damage;
+        float damage = CriticalDamage(critical, attack) - (monsterStat.defense * 0.5f); // 몬스터 스탯 추가
+        float hp = monsterStat.health - damage;
         monsterStat.SetHealth(hp);
-        if (this.monsterStat.health <= 0)
+        if (monsterStat.health <= 0)
         {
             monsterStat.SetHealth(0);
             isDead = true;
@@ -222,6 +222,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     //3 필드에 없었음. => 비활성화 상태
     public virtual void Dead(bool _force)
     {
+        isDead = true;
         force = _force;
     }
 
