@@ -23,9 +23,9 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     private float attackCooldown = 1.5f;
     bool isLeft = false;
     bool isDead = false;
-    Coroutine HealHpMpCor;
     public int PlayerLayer;
     public int PassiveCurrentNum;
+    Coroutine HealHpMpCor;
 
 
 
@@ -41,6 +41,11 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     public float Cri { get; private set; }
     public float Att { get; private set; }
 
+    public void CorReset()
+    {
+        StopAllCoroutines();
+        HealHpMpCor = null;
+    }
     public void FirstStart()
     {
         playerStat = new PlayerStat(soOriginPlayer);
@@ -48,9 +53,19 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         fist = transform.GetChild(0).GetChild(3);
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
-        HealHpMpCor = StartCoroutine(HealHpMp());
         PlayerLayer = 1 << LayerMask.NameToLayer("Enemy");
+    }
+
+    public void Init()
+    {
+        isDead = false;
+        playerStat = new PlayerStat(soOriginPlayer); //플레이어 데이터 세팅
+        UiManager.Instance.SetGameUI(); //데이터에 따라 ui세팅
+    }
+    public void StageStartInit()
+    {
         PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); // 초반 한번 설정 이것도 씬에서
+        HealHpMpCor = StartCoroutine(HealHpMp());
     }
 
     // Update is called once per frame
@@ -61,110 +76,115 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
 
     private void Update()
     {
-        if (playerStat.health > playerStat.maxHealth)
+        if (GameManager.Instance.stageStart)
         {
-            playerStat.SetHealth(playerStat.maxHealth);
-        }
-        if (Hp > MaxHp)
-        {
-            playerStat.SetHealth(MaxHp);
-        }
-        if (playerStat.mana > playerStat.maxMana)
-        {
-            playerStat.SetMana(MaxMp);
-        }
-        if (Mp > MaxMp)
-        {
-            playerStat.SetMana(MaxMp);
-        }
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            run = true;
-        }
-        else
-        {
-            run = false;
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            BasicAttack();
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            InventoryManager.Instance.UseItem(0);
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            InventoryManager.Instance.UseItem(1);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            InventoryManager.Instance.UseItem(2);
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            if (HealHpMpCor != null)
+            if (playerStat.health > playerStat.maxHealth)
             {
-                StopCoroutine(HealHpMpCor);
-                Debug.Log("회복 멈춤");
-                HealHpMpCor = null;
+                playerStat.SetHealth(playerStat.maxHealth);
             }
-        }
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            playerStat.AddExp(100);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash,true);            
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle, true);            
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground, true);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            if (playerStat.ultimateGauge >= playerStat.maxUltimateGauge)
+            if (Hp > MaxHp)
             {
-                SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity, true);
+                playerStat.SetHealth(MaxHp);
+            }
+            if (playerStat.mana > playerStat.maxMana)
+            {
+                playerStat.SetMana(MaxMp);
+            }
+            if (Mp > MaxMp)
+            {
+                playerStat.SetMana(MaxMp);
+            }
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                run = true;
             }
             else
             {
-                Debug.Log("스킬 못씀");
+                run = false;
             }
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            AllEnum.ItemType name = AllEnum.ItemType.Head;
-            for (int i = 0; i < InventoryManager.Instance.equipList.Length; i++)
+            if (Input.GetMouseButtonDown(0))
             {
-                Equip eq = InventoryManager.Instance.equipList[i];
-                if (eq.itemType == name)
+                BasicAttack();
+            }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                InventoryManager.Instance.UseItem(0);
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                InventoryManager.Instance.UseItem(1);
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                InventoryManager.Instance.UseItem(2);
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                if (HealHpMpCor != null)
                 {
-                    eq.exp += 5;
-                }
-                if (eq.exp >= eq.maxExp)
-                {
-                    eq.LevelUp();
+                    StopCoroutine(HealHpMpCor);
+                    Debug.Log("회복 멈춤");
+                    HealHpMpCor = null;
                 }
             }
-        }
-        if (Input.anyKeyDown)
-        {
-            // 만약 아무 키도 입력되지 않았을 경우에는 '\0'가 반환 null역활
-            char keyPressed = Input.inputString.Length > 0 ? Input.inputString[0] : '\0';
+           
 
-            // ScreenOnOff 함수에 누른 키를 매개변수로 전달하여 호출
-            UiManager.Instance.ScreenOnOff(keyPressed);
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash, true);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle, true);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground, true);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                if (playerStat.ultimateGauge >= playerStat.maxUltimateGauge)
+                {
+                    SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity, true);
+                }
+                else
+                {
+                    Debug.Log("스킬 못씀");
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                AllEnum.ItemType name = AllEnum.ItemType.Head;
+                for (int i = 0; i < InventoryManager.Instance.equipList.Length; i++)
+                {
+                    Equip eq = InventoryManager.Instance.equipList[i];
+                    if (eq.itemType == name)
+                    {
+                        eq.exp += 5;
+                    }
+                    if (eq.exp >= eq.maxExp)
+                    {
+                        eq.LevelUp();
+                    }
+                }
+            }
+            if (Input.anyKeyDown)
+            {
+                // 만약 아무 키도 입력되지 않았을 경우에는 '\0'가 반환 null역활
+                char keyPressed = Input.inputString.Length > 0 ? Input.inputString[0] : '\0';
+
+                // ScreenOnOff 함수에 누른 키를 매개변수로 전달하여 호출
+                UiManager.Instance.ScreenOnOff(keyPressed);
+            }
+            
         }
+    }
+    public void CatchMonster(float monsterexp, int _money)
+    {
+        playerStat.KillMonster(monsterexp, _money, 10);
         if (playerStat.experience >= playerStat.maxExperience)
         {
             LevelUp();

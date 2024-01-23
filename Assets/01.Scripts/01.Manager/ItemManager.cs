@@ -7,7 +7,7 @@ using UnityEngine;
 public class ItemManager : Singleton<ItemManager>
 {
     public Transform dropItemParent;
-    Queue<Item> itemPool = new Queue<Item>();
+    public Queue<Item> itemPool = new Queue<Item>();
     List<Item> infoList = new List<Item>();
     public Item itemDrop;
     int maxDropItemLength = 20;
@@ -18,14 +18,7 @@ public class ItemManager : Singleton<ItemManager>
             MakeItem();
         }
     }
-    //public Queue<Item> getItemPool()
-    //{
-    //    return itemPool;
-    //}
-    //public List<Item> getInfoList()
-    //{
-    //    return infoList;
-    //}
+    
     public void MakeItem()
     {
         Item obj = Instantiate(itemDrop, dropItemParent);

@@ -8,17 +8,19 @@ public class MonsterManager : Singleton<MonsterManager>
     public Transform monsterPoolPos;
     int monsterRange = 10;//20; //###############
     Coroutine monCor = null;
-
-    public void Init()
+    Monster mon = new Monster();
+    public void CorReset()
     {
-        MakeMonster();
+        StopAllCoroutines();
+        monCor = null;
     }
+
     public ObjectPool<Monster> MonsterPool()
     {
         return monsterPool;
     }
 
-    void MakeMonster()
+    public void MakeMonster()
     {
         // 몬스터 풀 초기화
         for (int i = 0; i < monsterRange; i++)
@@ -59,10 +61,7 @@ public class MonsterManager : Singleton<MonsterManager>
    
     public void monstersLevelUp()
     {
-        for (int i = 0; i < monsterPool.InfoList.Count; i++)
-        {
-            monsterPool.InfoList[i].LevelUp();
-        }
+        mon.LevelUp();
     }
     public void CleanMonster()
     {

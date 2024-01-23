@@ -67,12 +67,14 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         for (int i = 0; i < itemList.Count; i++)
         {
+
             if (itemList[i].item.index == -1)
             {
                 return true;
             }
             else if (item.index > 100)
             {
+
                 if (itemList[i].item.index == item.index)
                 {
                     int remainingQuantity = maxItemLenght - itemList[i].count;

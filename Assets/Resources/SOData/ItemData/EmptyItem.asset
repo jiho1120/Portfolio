@@ -16,7 +16,7 @@ MonoBehaviour:
   level: 0
   count: 0
   itemType: 10
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: a745d3d011f074194abdb0b0e5f8085f, type: 3}
   health: 0
   mana: 0
   ultimateGauge: 0

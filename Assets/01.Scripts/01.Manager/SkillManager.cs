@@ -10,7 +10,6 @@ public class SkillManager : Singleton<SkillManager>
     public Dictionary<AllEnum.SkillName, Skill> bossSkillDict { get; private set; }
     public Transform playerSKillPool;
     public Transform bossSKillPool;
-
     public void Init()
     {
         skillDict = new Dictionary<AllEnum.SkillName, Skill>();

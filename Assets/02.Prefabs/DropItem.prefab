@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 2806769420078284574}
   - component: {fileID: 2806769420078284575}
   m_Layer: 9
-  m_Name: Helmet_10
+  m_Name: image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

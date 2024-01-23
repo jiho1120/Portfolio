@@ -12,6 +12,8 @@ public class ActiveSkill : Skill
     Coroutine boxCor = null;
     Coroutine ColCor = null;
 
+    
+
     public override void DoSkill(bool isPlayer)
     {
         if (this == null)

@@ -1808,7 +1808,7 @@ MonoBehaviour:
   cameraArm: {fileID: 2309431333251735585}
   fist: {fileID: 1509544028}
   PlayerLayer: 64
-  PassiveCurrentNum: 4
+  PassiveCurrentNum: 6
 --- !u!114 &270158268
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class State_Die : State
 {
-    Coroutine dieCor = null;
     bool force = false;
 
     public State_Die(Monster monster, SetStateDel StateDel) : base(monster, StateDel)
@@ -33,15 +32,21 @@ public class State_Die : State
             //살아있다가 죽는 거니까. 이전에 뭐가되어있음???
             monster.isDead = true;//이미 이상태.
             monster.SetDeadAnim();
-            GameManager.Instance.player.playerStat.KillMonster(monster.monsterStat.experience, monster.monsterStat.money, 10); // 몬스터 잡을때마다 궁극기 10씩 
+            GameManager.Instance.player.CatchMonster(monster.monsterStat.experience, monster.monsterStat.money);
+                 // 몬스터 잡을때마다 궁극기 10씩 
             GameManager.Instance.killMonster++;
             monster.DropRandomItem();
 
-            if (dieCor == null)
+            if (monster.dieCor == null)
             {
                 monster.StartDieCor();
             }
+
+            GameManager.Instance.AddKillMonster();
+            
         }
+
+        
     }
 
     public override void OnStateExit()

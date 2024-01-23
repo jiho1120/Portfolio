@@ -6,7 +6,10 @@ public class PassiveSkill : Skill
 {
     Coroutine passiveCor = null;
     float _currentNum;
-
+    public void CorReset()
+    {
+        passiveCor = null;
+    }
 
     public override void DoSkill(bool isPlayer)
     {

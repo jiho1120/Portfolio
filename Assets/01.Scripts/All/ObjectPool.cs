@@ -11,6 +11,8 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
     int ranNum;
     int num;
     int mapSize = 10;
+    int nameNum = 0;
+
 
     public void SetRandomPosition(T obj)
     {
@@ -32,7 +34,6 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
             tInfo.gameObject.SetActive(false);
         }
     }
-    int iii = 0;
     public void RandomInitializeObjectPool(T[] prefabArray, Transform pos)
     {
         num = prefabArray.Length;
@@ -43,8 +44,8 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
         objectPool.Enqueue(tInfo);
         InfoList.Add(tInfo);
 
-        tInfo.gameObject.name = tInfo.gameObject.name + iii;
-        iii++;
+        tInfo.gameObject.name = tInfo.gameObject.name + nameNum;
+        nameNum++;
         tInfo.gameObject.SetActive(false);
     }
 

@@ -21,10 +21,10 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     bool isLeft = false;
     bool isDead = false;
     public bool useableSKill = true;
-    Coroutine HealHpMpCor;
     public bool isStop;
     public int bossLayer;
     public int PassiveCurrentNum;
+    Coroutine HealHpMpCor;
     public Coroutine skillcor = null;
     Coroutine passiveCor = null;
     public Coroutine weaknessCor = null;
@@ -33,13 +33,19 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     public bool isHit { get; private set; }
     public bool haveTiming { get; private set; }
 
-
-
-
     public float distance { get; private set; }
+
+    public void CorReset()
+    {
+        StopAllCoroutines();
+        HealHpMpCor = null;
+        skillcor = null;
+        passiveCor = null;
+        weaknessCor = null;
+        timingCor = null;
+    }
     public void FirstStart()
     {
-        //rb = transform.GetComponentInChildren<Rigidbody>();
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<PlayerAnimator>();
         agent = GetComponent<NavMeshAgent>();
@@ -47,7 +53,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         animator.Starts();
         animator.SetAttackSpeed(attackSpeed);
         bossStat = new BossStat(soOriginBoss);
-        HealHpMpCor = StartCoroutine(HealHpMp());
         bossLayer = 1 << LayerMask.NameToLayer("Player");
         PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); // 초반 한번 설정 이것도 씬에서
     }
@@ -55,6 +60,10 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     public void Init()
     {
         gameObject.SetActive(true);
+        if (HealHpMpCor == null)
+        {
+            HealHpMpCor = StartCoroutine(HealHpMp());
+        }
         isDead = false;
         rb.isKinematic = false;
         gameObject.transform.position = GameManager.Instance.player.transform.position + new Vector3(3, 0, 3);

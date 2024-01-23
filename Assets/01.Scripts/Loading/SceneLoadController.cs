@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class SceneLoadController : Singleton<SceneLoadController>
 {
-    
-
-
-
-    public void GoMainScene()
-    {
-        GameManager.Instance. LoadMain();
-        LoadingSceneController.LoadScene("Main");
-    }
     public void GoStartScene()
     {
-        GameManager.Instance.LoadStart();
+        GameManager.Instance.AllScriptsCorReset();
         LoadingSceneController.LoadScene("Start");
+        GameManager.Instance.LoadStartScene();
     }
+    public void GoMainScene()
+    {
+        LoadingSceneController.LoadScene("Main");
+        GameManager.Instance.LoadMain();
+    }
+    
 }

@@ -27,10 +27,8 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     protected int itemIndex;
     Vector3 itempos = new Vector3(0, 1, 0);
 
-    Coroutine dieCor = null;
+    public Coroutine dieCor = null;
     public bool force { get; private set; }
-
-
 
     public void Init()
     {
@@ -58,6 +56,11 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         if (rb == null)
         {
             rb = GetComponent<Rigidbody>();
+        }
+        if (dieCor != null)
+        {
+            StopCoroutine(dieCor);
+            dieCor = null;
         }
         StatUp();//내 레벨에 맞는 스탯을 세팅함
         //monsterStat.ShowInfo();
@@ -232,7 +235,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         if (monType == AllEnum.MonsterType.Explosion)
         {
             Explosion();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         MonsterManager.Instance.MonsterPool().ReturnObjectToPool(this);
@@ -257,7 +260,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
                 itemIndex = Random.Range(101, 104);
 
             }
-            ItemManager.Instance.DropItem(itemIndex, this.transform.position + itempos);
+            ItemManager.Instance.DropItem(itemIndex, transform.position + itempos);
         }
     }
 
@@ -297,10 +300,10 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     public void SetDeadAnim()
     {
-        Debug.Log("SetDeadAnim까지는 들어옴" + gameObject.name);
+        //Debug.Log("SetDeadAnim까지는 들어옴" + gameObject.name);
         if (agent != null)
         {
-            Debug.Log("agent DieAnim부른다" + gameObject.name);
+            //Debug.Log("agent DieAnim부른다" + gameObject.name);
             try
             {
                 agent.isStopped = true;

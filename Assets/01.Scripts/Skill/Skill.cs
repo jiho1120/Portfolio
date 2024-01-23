@@ -6,7 +6,7 @@ public abstract class Skill : MonoBehaviour
     public SOSkill orgInfo;
     public SkillStat skillStat;
     public bool isPlayer; // 나중에는 enum으로 관리
-        
+
     public void Init(SOSkill _Info)
     {
         //monsterLayer = 1 << LayerMask.NameToLayer("Enemy");

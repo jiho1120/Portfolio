@@ -30,7 +30,7 @@ public class EndPanel : MonoBehaviour
     {
         if (GameManager.Instance.gameOver)
         {
-            LoadingSceneController.LoadScene("Start");
+            SceneLoadController.Instance.GoStartScene();
         }
         else if (GameManager.Instance.gameClear)
         {
