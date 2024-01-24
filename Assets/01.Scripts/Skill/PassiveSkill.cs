@@ -39,14 +39,14 @@ public class PassiveSkill : Skill
             StopCoroutine(passiveCor);
             passiveCor = null;
         }
-        if (_currentNum == (int)AllEnum.SkillName.Fire) //Fire
+        if (_currentNum == (int)AllEnum.SkillName.Fire)
         {
             if (passiveCor == null)
             {
                 passiveCor = StartCoroutine(FireSkill(isPlayer));
             }
         }
-        else if (_currentNum == (int)AllEnum.SkillName.Heal) //Heal
+        else if (_currentNum == (int)AllEnum.SkillName.Heal)
         {
             if (passiveCor == null)
             {
@@ -108,7 +108,7 @@ public class PassiveSkill : Skill
         {
             while (true)
             {
-                GameManager.Instance.player.playerStat.AddHp(skillStat.effect);
+                GameManager.Instance.player.SetHp(GameManager.Instance.player.Hp + skillStat.effect);
                 yield return new WaitForSeconds(skillStat.cool);
             }
         }

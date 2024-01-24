@@ -1,5 +1,4 @@
-﻿using OpenCover.Framework.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
 

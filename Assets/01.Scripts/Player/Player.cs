@@ -84,23 +84,6 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     {
         if (GameManager.Instance.stageStart)
         {
-            if (playerStat.health > playerStat.maxHealth)
-            {
-                playerStat.SetHealth(playerStat.maxHealth);
-            }
-            if (Hp > MaxHp)
-            {
-                playerStat.SetHealth(MaxHp);
-            }
-            if (playerStat.mana > playerStat.maxMana)
-            {
-                playerStat.SetMana(MaxMp);
-            }
-            if (Mp > MaxMp)
-            {
-                playerStat.SetMana(MaxMp);
-            }
-
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 run = true;
@@ -109,6 +92,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
             {
                 run = false;
             }
+
             if (Input.GetMouseButtonDown(0))
             {
                 BasicAttack();
@@ -125,18 +109,6 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
             {
                 InventoryManager.Instance.UseItem(2);
             }
-
-
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                if (HealHpMpCor != null)
-                {
-                    StopCoroutine(HealHpMpCor);
-                    Debug.Log("È¸º¹ ¸ØÃã");
-                    HealHpMpCor = null;
-                }
-            }
-           
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
@@ -195,6 +167,10 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     public void SetHp(float hp)
     {
         Hp = hp;
+        if (Hp > MaxHp)
+        {
+            playerStat.SetHealth(MaxHp);
+        }
         UiManager.Instance.playerConditionUI.SetUI();
 
     }
@@ -205,6 +181,10 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     public void SetMp(float mana)
     {
         Mp = mana;
+        if (Mp > MaxMp)
+        {
+            playerStat.SetMana(MaxMp);
+        }
         UiManager.Instance.playerConditionUI.SetUI();
 
     }
@@ -408,6 +388,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         MonsterManager.Instance.CleanMonster();//=>µü »ì¾ÆÀÖ´ø ¾Öµé¸¸ Á×ÀÓ. (´Ü¼øÈ÷ Á×ÀÓ. 
         InventoryManager.Instance.AllDataRemove();
         UiManager.Instance.ActiveEndPanel();
+        GameManager.Instance.StopBGM();
         Debug.Log("Á×À½");
     }
 

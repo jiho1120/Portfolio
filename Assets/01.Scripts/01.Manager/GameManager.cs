@@ -25,8 +25,7 @@ public class GameManager : Singleton<GameManager>
     Coroutine passiveCor = null;
     Coroutine runTimeCor = null; // 5초에서 줄어듬
     Coroutine stageTimeCor = null; // 0초에서 늘어남
-
-
+    public AudioSource audioSource { get; private set; }
 
     public float gameTime { get; private set; }
     public float countTime { get; private set; }
@@ -50,26 +49,15 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
         SceneLoadController.Instance.GoStartScene();
     }
 
-    private void Update()
-    {
-
-        if (Input.GetKeyDown(KeyCode.KeypadPlus))
-        {
-            AddKillMonster(10);
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            player.SetHp(0);
-        }
-
-    }
     public void LoadStartScene()
     {
+        audioSource.Play();
         player.gameObject.SetActive(false);
         pools.SetActive(false);
         canvas.SetActive(true);
@@ -233,6 +221,7 @@ public class GameManager : Singleton<GameManager>
         while (stageStart)
         {
             gameTime += 1;
+            UiManager.Instance.count.text = string.Format("{0:N2}", gameTime.ToString());
             yield return new WaitForSeconds(1f);
         }
     }
@@ -294,5 +283,10 @@ public class GameManager : Singleton<GameManager>
     public void SetCountGame(int num)
     {
         countGame = num;
+    }
+
+    public void StopBGM()
+    {
+        audioSource.Stop();
     }
 }
