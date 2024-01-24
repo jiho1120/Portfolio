@@ -70,7 +70,6 @@ public class GameManager : Singleton<GameManager>
         }
         canvas.transform.GetChild(0).gameObject.SetActive(true);
         UiManager.Instance.startScene.SetActive(true);
-        //InventoryManager.Instance.itemList.Clear();
     }
 
     public void LoadMain()
@@ -122,15 +121,15 @@ public class GameManager : Singleton<GameManager>
 
     public void GoWatingRoom() // 숫자 카운팅 되는 웨이팅룸 들어갈때
     {
-        Debug.Log("웨이팅 들어옴");
         ItemManager.Instance.ReturnAllObjectToPool();
+        MonsterManager.Instance.StopSpawnMonster();
+        MonsterManager.Instance.CleanMonster();//=>딱 살아있던 애들만 죽임. (단순히 죽임. 
         stageStart = false; // 이게 되야 게임 시작
         gameClear = false; // 마지막 버튼 위해서 필요함
         gameOver = false; // 마지막 버튼 위해서 필요함
         countTime = 5f;
         isWating = true;
-        MonsterManager.Instance.StopSpawnMonster();
-        MonsterManager.Instance.CleanMonster();//=>딱 살아있던 애들만 죽임. (단순히 죽임. 
+        
         if (stageTimeCor != null)
         {
             StopCoroutine(stageTimeCor);
@@ -173,11 +172,12 @@ public class GameManager : Singleton<GameManager>
             {
                 yield return null;
             }
-
         }
     }
     public void startGame() // 게임 스테이지 들어갈떄 설정
     {
+        MonsterManager.Instance.CleanMonster();// 잘 안되서 한번더
+        ItemManager.Instance.ReturnAllObjectToPool(); // 잘 안되서 한번더
         if (runTimeCor != null)
         {
             StopCoroutine(runTimeCor);

@@ -65,11 +65,8 @@ public class InventoryManager : Singleton<InventoryManager>
     }
     public bool checkAdd(SOItem item)
     {
-        Debug.Log(itemList.Count + "전");
-
         for (int i = 0; i < itemList.Count; i++)
         {
-            Debug.Log(itemList.Count + "후");
             if (itemList[i].item.index == -1)
             {
                 return true;
@@ -151,7 +148,6 @@ public class InventoryManager : Singleton<InventoryManager>
         item.count = 0;
         item.countTxt.text = item.count.ToString();
         item.icon.sprite = null;
-        Debug.Log("삭제");
     }
     public void Remove(AllEnum.ItemType item)
     {
@@ -169,7 +165,6 @@ public class InventoryManager : Singleton<InventoryManager>
                 itemList[i].count = 0;
                 itemList[i].countTxt.text = "0";
                 itemList[i].icon.sprite = null;
-                Debug.Log("삭제");
                 num++;
             }
         }
@@ -239,7 +234,6 @@ public class InventoryManager : Singleton<InventoryManager>
             }
             else
             {
-                Debug.Log("이건 뭐지...");
                 return;
             }
             playerItemList[num].count -= 1;

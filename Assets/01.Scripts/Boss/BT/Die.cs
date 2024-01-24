@@ -26,7 +26,6 @@ public class Die : Node
             GameManager.Instance.SetGameClear();
             UiManager.Instance.ActiveEndPanel();
 
-            Debug.Log("Á×À½");
             owner.NowState = AllEnum.StateEnum.DIe;
             return AllEnum.NodeState.Success;
         }

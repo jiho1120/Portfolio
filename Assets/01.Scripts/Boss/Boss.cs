@@ -245,7 +245,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
                     StartCoroutine(HitCool());
                 }
                 Hit();
-                Debug.Log("맞음");
                 float damage = Mathf.Max(CriticalDamage(critical, attack) - (bossStat.defense * 0.5f), 1f); // 최소 데미지 1
                 float hp = bossStat.health - damage;
                 bossStat.SetHealth(hp);
@@ -259,8 +258,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
             {
                 Debug.Log("아직 쿨타임");
             }
-            Debug.Log(bossStat.health);
-
         }
         else
         {
