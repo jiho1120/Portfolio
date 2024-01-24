@@ -123,7 +123,11 @@ public class BasicStat
     }
     public void LevelUp()
     {
-        this.level++;
+        level++;
+    }
+    public void SetLevel(int num)
+    {
+        level = num;
     }
     public virtual void AddAnything(AllEnum.PlyerStat statName, float effect)
     {

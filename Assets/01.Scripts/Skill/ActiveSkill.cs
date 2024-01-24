@@ -27,7 +27,7 @@ public class ActiveSkill : Skill
             {
                 if (ColCor == null)
                 {
-                    //ColCor = StartCoroutine(OnOffCol());
+                   
                 }
             }
             else if (skillStat.index == 2) // ¿ø
@@ -61,39 +61,16 @@ public class ActiveSkill : Skill
             }
         }
         StartCoroutine(DieTimer());
-
-
+        SkillManager.Instance.SetSkillInUse(skillStat.cool, this);
     }
 
     IEnumerator DieTimer()
     {
         yield return new WaitForSeconds(skillStat.duration);
-        //if (ColCor != null)
-        //{
-        //    StopCoroutine(ColCor);
-        //    ColCor = null;
-        //}
-        SetOffSkill();
-        yield return new WaitForSeconds(skillStat.cool);
-        skillStat.SetInUse(false);
+        Debug.Log("Áö¼Ó½Ã°£ Áö³²" + skillStat.duration);
+        gameObject.SetActive(false);
     }
-    IEnumerator OnOffCol()
-    {
-        SphereCollider[] sp = GetComponents<SphereCollider>();
-        while (true)
-        {
-            for (int i = 0; i < sp.Length; i++)
-            {
-                sp[i].gameObject.SetActive(true);
-            }
-            yield return new WaitForSeconds(0.1f);
-            for (int i = 0; i < sp.Length; i++)
-            {
-                sp[i].gameObject.SetActive(false);
-            }
-            yield return new WaitForSeconds(0.2f);
-        }
-    }
+
 
     public void KnockBackAttack(bool isPlayer)
     {
@@ -229,9 +206,8 @@ public class ActiveSkill : Skill
         }
     }
 
-    public override void DoReset() // DieTimer¿¡¼­ ÄÚ·çÆ¾ Áà¼­ ½Ã°£ ÅÒ ¾ÈÁàµµ ±¦ÂúÀ½
+    public override void DoReset()
     {
-        skillStat.SetInUse(false);
     }
 
 

@@ -13,7 +13,7 @@ public abstract class Skill : MonoBehaviour
         orgInfo = _Info;
         skillStat = new SkillStat(orgInfo);
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         // 플레이어가 썻을때
         if (isPlayer)
@@ -35,6 +35,32 @@ public abstract class Skill : MonoBehaviour
             if (other.CompareTag("Player"))
             {
                 other.GetComponent<Player>().TakeDamage(GameManager.Instance.boss.bossStat.criticalChance, GameManager.Instance.boss.bossStat.attack * skillStat.effect);
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 플레이어가 썻을때
+        if (isPlayer)
+        {
+            if (collision.transform.CompareTag("Monster"))
+            {
+                Monster monster = collision.transform.GetComponent<Monster>();
+                monster.TakeDamage(GameManager.Instance.player.Cri, GameManager.Instance.player.Att * skillStat.effect);
+            }
+
+            if (collision.transform.CompareTag("Boss"))
+            {
+                collision.transform.GetComponent<Boss>().TakeDamage(GameManager.Instance.player.Cri, GameManager.Instance.player.Att * skillStat.effect);
+            }
+        }
+        else
+        {
+            // 보스가 썻을때
+            if (collision.transform.CompareTag("Player"))
+            {
+                collision.transform.GetComponent<Player>().TakeDamage(GameManager.Instance.boss.bossStat.criticalChance, GameManager.Instance.boss.bossStat.attack * skillStat.effect);
             }
         }
     }

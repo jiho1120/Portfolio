@@ -8,7 +8,6 @@ public class MonsterManager : Singleton<MonsterManager>
     public Transform monsterPoolPos;
     int monsterRange = 10;//20; //###############
     Coroutine monCor = null;
-    Monster mon = new Monster();
     public void CorReset()
     {
         StopAllCoroutines();
@@ -59,10 +58,7 @@ public class MonsterManager : Singleton<MonsterManager>
         }
     }
    
-    public void monstersLevelUp()
-    {
-        mon.LevelUp();
-    }
+   
     public void CleanMonster()
     {
         monsterPool.DeleteActive();

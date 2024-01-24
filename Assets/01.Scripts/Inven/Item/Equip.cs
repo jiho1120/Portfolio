@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class Equip : MonoBehaviour
 {
     public AllEnum.ItemType itemType;
-    public int exp;
-    public int maxExp = 10;
     public Text level;
     public SOItem soItem;
     public ItemStat itemStat { get; private set; }
@@ -18,16 +16,11 @@ public class Equip : MonoBehaviour
         level = transform.Find("ItemLevel").GetComponent<Text>();
         level.text = "Lv : " + itemStat.level;
     }
-    public void GetExp(int val)
-    {
-        exp += val;
-    }
+    
     public void LevelUp()
     {
         itemStat.AddLevel(1);
         level.text = "Lv : " + itemStat.level;
-        exp = exp - maxExp;
-        maxExp += 10;
     }
 
     public void ApplyEffect(float effect)

@@ -25,7 +25,6 @@ public class EndPanel : MonoBehaviour
         CloseBtnText.text = "게임 종료";
     }
     
-   
     public void SaveBtn()
     {
         if (GameManager.Instance.gameOver)

@@ -43,6 +43,7 @@ public class State_Die : State
             {
                 monster.StartDieCor();
             }
+            UiManager.Instance.playerConditionUI.SetUI();
         }
     }
 

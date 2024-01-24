@@ -158,6 +158,7 @@ public class PanelUI : MonoBehaviour
                     {
                         InventoryManager.Instance.Remove(InventoryManager.Instance.equipList[i].itemType);
                         InventoryManager.Instance.equipList[i].ApplyEffect(effect);
+                        InventoryManager.Instance.equipList[i].LevelUp();
                         return;
                     }
                 }

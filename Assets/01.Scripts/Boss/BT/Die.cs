@@ -16,6 +16,17 @@ public class Die : Node
         if (owner.bossStat.health <= 0)
         {
             owner.Dead(false);
+            
+            GameManager.Instance.player.playerStat.AddMoney(GameManager.Instance.boss.bossStat.money);
+            GameManager.Instance.player.playerStat.AddExp(GameManager.Instance.boss.bossStat.experience);
+            GameManager.Instance.boss.agent.isStopped = true;
+            GameManager.Instance.boss.gameObject.SetActive(false);
+            GameManager.Instance.killMonster++;
+            GameManager.Instance.SetCountGame(GameManager.Instance.countGame + 1);
+            GameManager.Instance.SetGameClear();
+            UiManager.Instance.ActiveEndPanel();
+
+            Debug.Log("Á×À½");
             owner.NowState = AllEnum.StateEnum.DIe;
             return AllEnum.NodeState.Success;
         }

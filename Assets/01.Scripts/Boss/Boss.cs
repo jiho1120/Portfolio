@@ -340,16 +340,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
             StopCoroutine(passiveCor);
             passiveCor = null;
         }
-        GameManager.Instance.player.playerStat.AddMoney(bossStat.money);
-        GameManager.Instance.player.playerStat.AddExp(bossStat.experience);
-        agent.isStopped = true;
-        //GameManager.Instance.boss.StopWeak();
-        gameObject.SetActive(false);
-        GameManager.Instance.killMonster++;
-        GameManager.Instance.SetGameClear();
-        UiManager.Instance.ActiveEndPanel();
-
-        Debug.Log("Á×À½");
     }
 
     public bool IsDead()
@@ -370,15 +360,14 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     {
         bossStat.SetMaxHealth((bossStat.level * 1000) + soOriginBoss.maxHealth);
         bossStat.SetHealth(bossStat.maxHealth);
-        bossStat.SetAttack((bossStat.level * 100) + soOriginBoss.attack);
-        bossStat.SetDefence((bossStat.level * 100) + soOriginBoss.defense);
-        bossStat.SetcriticalChance((bossStat.level * 2.5f) + soOriginBoss.criticalChance);
+        bossStat.SetAttack((bossStat.level * 10) + soOriginBoss.attack);
+        bossStat.SetDefence((bossStat.level * 10) + soOriginBoss.defense);
+        bossStat.SetcriticalChance((bossStat.level * 0.5f) + soOriginBoss.criticalChance);
         bossStat.SetSpeed((bossStat.level * 0.5f) + soOriginBoss.movementSpeed);
         bossStat.SetExp((bossStat.level * 1000) + soOriginBoss.experience);
         bossStat.SetMoney((bossStat.level * 1000) + soOriginBoss.money);
         bossStat.SetMaxMana((bossStat.level * 1000) + soOriginBoss.maxMana);
         bossStat.SetMana(bossStat.maxMana);
-
     }
 
     #region Anim

@@ -2,18 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// 문제점
-// 또 같은 팔로 공격
-// 중력 효과 고치기
-// 그라운드 쓰면 밀치기
-//오늘 할일
-//저장 
-//네비게이션 스탑오류 고치기(내일)
 
 public class GameManager : Singleton<GameManager>
 {
     public GameObject pools;
-    bool isNew = true; // 저장한거 불러오는지 처음인지
+    bool isNew = true; // 저장한거 불러오는지, 처음인지
     public bool isWating = false; // 웨이팅화면인 상태
     public bool isRunTime = true; // 버튼 글자 바꾸기 위해 선언
     public bool stageStart; // 몬스터 나오는게 스테이지 스타트
@@ -25,7 +18,7 @@ public class GameManager : Singleton<GameManager>
 
     public int monsterGoal = 0;
     public int killMonster = 0;
-    private int countGame = 0; //이걸 나누고 몫과 나머지 gameRound, gameStage
+    public int countGame { get; private set; } //이걸 나누고 몫과 나머지 gameRound, gameStage
     private int maxStage = 6; // 1라운드당 5스테이지라서
     public int gameRound = 0; //gameRound - gameStage 형식
     public int gameStage = 0;
@@ -82,14 +75,14 @@ public class GameManager : Singleton<GameManager>
         canvas.SetActive(true);
         monsterGoal = 0;
         killMonster = 0;
-        countGame = 0;
+        SetCountGame(0);
         for (int i = 1; i < canvas.transform.childCount; i++) // 0은 eventSystem
         {
             canvas.transform.GetChild(i).gameObject.SetActive(false);
         }
         canvas.transform.GetChild(0).gameObject.SetActive(true);
         UiManager.Instance.startScene.SetActive(true);
-        InventoryManager.Instance.itemList.Clear();
+        //InventoryManager.Instance.itemList.Clear();
     }
 
     public void LoadMain()
@@ -108,11 +101,7 @@ public class GameManager : Singleton<GameManager>
 
         GoWatingRoom();
     }
-    public void loadEnd()
-    {
-        UiManager.Instance.ActiveEndPanel();
-
-    }
+    
 
     public void DoItOnceMain()
     {
@@ -168,6 +157,7 @@ public class GameManager : Singleton<GameManager>
             passiveCor = null;
         }
         UiManager.Instance.wating.SetActive(true);
+        UiManager.Instance.SetGameUI(); //시작할때 한번은 보여줘야함
         isRunTime = true;
         if (runTimeCor == null)
         {
@@ -200,7 +190,6 @@ public class GameManager : Singleton<GameManager>
     }
     public void startGame() // 게임 스테이지 들어갈떄 설정
     {
-        UiManager.Instance.SetGameUI(); //시작할때 한번은 보여줘야함
         if (runTimeCor != null)
         {
             StopCoroutine(runTimeCor);
@@ -213,10 +202,13 @@ public class GameManager : Singleton<GameManager>
         {
             stageTimeCor = StartCoroutine(GameTime());
         }
-        countGame++;
+        SetCountGame(countGame + 1);
         gameRound = (countGame / maxStage) + 1;
         gameStage = countGame % maxStage;
+        
+
         monsterGoal = countGame * 10;
+        UiManager.Instance.SetGameUI(); //시작할때 한번은 보여줘야함
 
         if (passiveCor == null)
         {
@@ -226,10 +218,6 @@ public class GameManager : Singleton<GameManager>
 
         if (gameStage != 5)
         {
-            if (gameRound != 1 && gameStage != 1)
-            {
-                MonsterManager.Instance.monstersLevelUp();
-            }
             MonsterManager.Instance.SpawnMonster();
         }
         else
@@ -301,5 +289,10 @@ public class GameManager : Singleton<GameManager>
         countTime = 0;
         stageStart = true;
         gameTime = 0;
+    }
+
+    public void SetCountGame(int num)
+    {
+        countGame = num;
     }
 }

@@ -5,8 +5,8 @@ using UnityEngine;
 public class SkillManager : Singleton<SkillManager>
 {
     public Skill passiveSkill { get; private set; }
-    //ÇÏ³ª·Î ¼³Á¤ÈÄ ÁÖÀÎÀ» ÁöÁ¤ÇØÁÖ±â
-    public Dictionary<AllEnum.SkillName, Skill> skillDict { get; private set; } // ½ºÅ³ ¸¸µé¶§ ÀÌ°Å »ç¿ë
+    //ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
+    public Dictionary<AllEnum.SkillName, Skill> skillDict { get; private set; } // ï¿½ï¿½Å³ ï¿½ï¿½ï¿½é¶§ ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½
     public Dictionary<AllEnum.SkillName, Skill> bossSkillDict { get; private set; }
     public Transform playerSKillPool;
     public Transform bossSKillPool;
@@ -26,7 +26,7 @@ public class SkillManager : Singleton<SkillManager>
             skilltmp.gameObject.SetActive(false);
             skilltmp.isPlayer = true;
             skillDict.Add(IntToEnum(skilltmp.Index), skilltmp);
-            if (skilltmp.skillStat.skillName != AllEnum.SkillName.Gravity) // ±Ã±Ø±â´Â ¾È³ÖÀ½
+            if (skilltmp.skillStat.skillName != AllEnum.SkillName.Gravity) // ï¿½Ã±Ø±ï¿½ï¿½ ï¿½È³ï¿½ï¿½ï¿½
             {
                 skilltmp = Instantiate(item, bossSKillPool).GetComponent<Skill>();
                 skilltmp.gameObject.layer = LayerMask.NameToLayer("BossSkill");
@@ -46,7 +46,7 @@ public class SkillManager : Singleton<SkillManager>
         if (isPlayer)
         {
             GameManager.instance.player.PassiveCurrentNum++;
-            if (GameManager.instance.player.PassiveCurrentNum >= (int)AllEnum.SkillName.End) // ÀÎµ¦½º ³Ñ±â¸é Ã³À½ºÎÅÍ ½ÃÀÛ
+            if (GameManager.instance.player.PassiveCurrentNum >= (int)AllEnum.SkillName.End) // ï¿½Îµï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             {
                 GameManager.instance.player.PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
             }
@@ -56,7 +56,7 @@ public class SkillManager : Singleton<SkillManager>
         else
         {
             GameManager.instance.boss.PassiveCurrentNum++;
-            if (GameManager.instance.boss.PassiveCurrentNum >= (int)AllEnum.SkillName.End) // ÀÎµ¦½º ³Ñ±â¸é Ã³À½ºÎÅÍ ½ÃÀÛ
+            if (GameManager.instance.boss.PassiveCurrentNum >= (int)AllEnum.SkillName.End) // ï¿½Îµï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             {
                 GameManager.instance.boss.PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
             }
@@ -116,7 +116,7 @@ public class SkillManager : Singleton<SkillManager>
 
         if (skill.skillStat.inUse)
         {
-            Debug.Log("»ç¿ëÁß");
+            Debug.Log("ì‚¬ìš©ì¤‘");
             return;
         }
         else
@@ -158,7 +158,7 @@ public class SkillManager : Singleton<SkillManager>
         Skill skill = GetSKillFromDict(name, isPlayer);
         if (skill.skillStat.inUse)
         {
-            Debug.Log("»ç¿ëÁß");
+            Debug.Log("ì‚¬ìš©ì¤‘");
             return false;
         }
         else if (GameManager.Instance.boss.bossStat.mana < skill.skillStat.mana)
@@ -182,7 +182,7 @@ public class SkillManager : Singleton<SkillManager>
             }
             else
             {
-                throw new System.Exception($"ÇÃ·¹ÀÌ¾îÀÇ {skillName} ½ºÅ³ÀÌ¾øÀ½");
+                throw new System.Exception($"ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ {skillName} ï¿½ï¿½Å³ï¿½Ì¾ï¿½ï¿½ï¿½");
             }
         }
         else
@@ -193,7 +193,7 @@ public class SkillManager : Singleton<SkillManager>
             }
             else
             {
-                throw new System.Exception($"º¸½ºÀÇ {skillName} ½ºÅ³ÀÌ¾øÀ½");
+                throw new System.Exception($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ {skillName} ï¿½ï¿½Å³ï¿½Ì¾ï¿½ï¿½ï¿½");
             }
         }
         return skill;
@@ -222,8 +222,17 @@ public class SkillManager : Singleton<SkillManager>
         }
         return skill;
     }
+    public void SetSkillInUse(float cool, Skill skill)
+    {
+        StartCoroutine(SetSkillInUseTimer(cool, skill));
+    }
+
+    IEnumerator SetSkillInUseTimer(float cool, Skill skill)
+    {
+        yield return new WaitForSeconds(cool);
+        skill.skillStat.SetInUse(false);
 
 
-
-
+        Debug.Log("ìŠ¤í‚¬ ì‚¬ìš©ì¤‘ í•´ì œ");
+    }
 }

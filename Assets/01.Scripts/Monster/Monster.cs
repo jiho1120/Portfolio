@@ -62,8 +62,9 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
             StopCoroutine(dieCor);
             dieCor = null;
         }
+        monsterStat.SetLevel(GameManager.Instance.countGame);
         StatUp();//내 레벨에 맞는 스탯을 세팅함
-        monsterStat.ShowInfo();
+        //monsterStat.ShowInfo();
         StartCoroutine(StopKnockBack());
         isAttack = false;
         isHit = false;
@@ -265,10 +266,9 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
 
-    public void LevelUp()
+    public void LevelUp() // 필요없어짐
     {
         monsterStat.LevelUp();
-        StatUp();
     }
 
     public void StatUp()

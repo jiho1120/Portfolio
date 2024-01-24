@@ -65,6 +65,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         lastClickTime = 0f;
         attackCooldown = 1.5f;
         playerStat = new PlayerStat(soOriginPlayer); //플레이어 데이터 세팅
+        CalcPlayerStat();
         UiManager.Instance.SetGameUI(); //데이터에 따라 ui세팅
     }
     public void StageStartInit()
@@ -160,22 +161,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
                     Debug.Log("스킬 못씀");
                 }
             }
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                AllEnum.ItemType name = AllEnum.ItemType.Head;
-                for (int i = 0; i < InventoryManager.Instance.equipList.Length; i++)
-                {
-                    Equip eq = InventoryManager.Instance.equipList[i];
-                    if (eq.itemType == name)
-                    {
-                        eq.exp += 5;
-                    }
-                    if (eq.exp >= eq.maxExp)
-                    {
-                        eq.LevelUp();
-                    }
-                }
-            }
+            
             if (Input.anyKeyDown)
             {
                 // 만약 아무 키도 입력되지 않았을 경우에는 '\0'가 반환 null역활
@@ -209,7 +195,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     public void SetHp(float hp)
     {
         Hp = hp;
-        UiManager.Instance.SetGameUI(); //시작할때 한번은 보여줘야함
+        UiManager.Instance.playerConditionUI.SetUI();
 
     }
     public void CalculateMaxMp()
@@ -219,7 +205,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     public void SetMp(float mana)
     {
         Mp = mana;
-        UiManager.Instance.SetGameUI(); //시작할때 한번은 보여줘야함
+        UiManager.Instance.playerConditionUI.SetUI();
 
     }
 
@@ -418,6 +404,9 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     {
         isDead = true;
         GameManager.Instance.SetGameOver();
+        MonsterManager.Instance.StopSpawnMonster();
+        MonsterManager.Instance.CleanMonster();//=>딱 살아있던 애들만 죽임. (단순히 죽임. 
+        InventoryManager.Instance.AllDataRemove();
         UiManager.Instance.ActiveEndPanel();
         Debug.Log("죽음");
     }

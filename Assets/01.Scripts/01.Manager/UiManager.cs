@@ -54,7 +54,7 @@ public class UiManager : Singleton<UiManager>
     {
         playerConditionUI.SetUI();
         count.text = string.Format("{0:N2}", GameManager.Instance.gameTime.ToString());
-        totalRound.text = $"{GameManager.Instance.gameRound} - {GameManager.Instance.gameStage}";
+            totalRound.text = $"{GameManager.Instance.gameRound} - {GameManager.Instance.gameStage}";
         playerMoney.text = $"{GameManager.Instance.player.playerStat.money} G";
         goalCount.text = $" <color=#ff0000> {GameManager.Instance.killMonster}</color>" +
             $" / {GameManager.Instance.monsterGoal}";

@@ -65,16 +65,17 @@ public class InventoryManager : Singleton<InventoryManager>
     }
     public bool checkAdd(SOItem item)
     {
+        Debug.Log(itemList.Count + "Àü");
+
         for (int i = 0; i < itemList.Count; i++)
         {
-
+            Debug.Log(itemList.Count + "ÈÄ");
             if (itemList[i].item.index == -1)
             {
                 return true;
             }
             else if (item.index > 100)
             {
-
                 if (itemList[i].item.index == item.index)
                 {
                     int remainingQuantity = maxItemLenght - itemList[i].count;
@@ -93,14 +94,15 @@ public class InventoryManager : Singleton<InventoryManager>
                 }
             }
         }
-        if (item.count > 0)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return false;
+        //if (item.count > 0)
+        //{
+        //    return false;
+        //}
+        //else
+        //{
+        //    return true;
+        //}
 
     }
     public void DataAdd(SOItem item)
@@ -218,13 +220,14 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             if (playerItemList[num].item.itemType == AllEnum.ItemType.HpPosion)
             {
-                GameManager.Instance.player.playerStat.AddHp(playerItemList[num].item.health);
+                GameManager.Instance.player.SetHp(GameManager.Instance.player.Hp+playerItemList[num].item.health);
+
                 Debug.Log(GameManager.Instance.player.playerStat.health);
 
             }
             else if (playerItemList[num].item.itemType == AllEnum.ItemType.MpPosion)
             {
-                GameManager.Instance.player.playerStat.AddMp(playerItemList[num].item.mana);
+                GameManager.Instance.player.SetMp(GameManager.Instance.player.Mp + (playerItemList[num].item.mana));
                 Debug.Log(GameManager.Instance.player.playerStat.mana);
 
             }

@@ -81,8 +81,8 @@ public class PassiveSkill : Skill
             while (time <= skillStat.duration)
             {
                 GameManager.Instance.player.SetHp(GameManager.Instance.player.Hp - skillStat.effect);
-                yield return new WaitForSeconds(1f);
-                time += 1f;
+                time += 3f;
+                yield return new WaitForSeconds(3f);
             }
             GameManager.Instance.player.playerStat.AddAttack(-skillStat.effect);
 
@@ -94,8 +94,8 @@ public class PassiveSkill : Skill
             {
 
                 GameManager.Instance.boss.bossStat.SetHealth(GameManager.Instance.boss.bossStat.health - skillStat.effect);
-                yield return new WaitForSeconds(1f);
-                time += 1f;
+                time += 3f;
+                yield return new WaitForSeconds(3f);
 
             }
             GameManager.Instance.boss.bossStat.AddAttack(-skillStat.effect);
