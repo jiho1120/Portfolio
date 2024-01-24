@@ -154,7 +154,7 @@ public class BasicStat
             default:
                 break;
         }
-        Debug.Log($"{statName}이 {effect}만큼 적용됐습니다");
+        UiManager.Instance.OpenWarning($"{statName}이 {effect}만큼 적용됐습니다");
     }
     public virtual void ShowInfo()
     {

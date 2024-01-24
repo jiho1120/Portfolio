@@ -25,10 +25,7 @@ public class ActiveSkill : Skill
             skillStat.SetInUse(true);
             if (skillStat.index == 1) // 슬래쉬
             {
-                if (ColCor == null)
-                {
-                   
-                }
+                
             }
             else if (skillStat.index == 2) // 원
             {
@@ -67,7 +64,7 @@ public class ActiveSkill : Skill
     IEnumerator DieTimer()
     {
         yield return new WaitForSeconds(skillStat.duration);
-        Debug.Log("지속시간 지남" + skillStat.duration);
+        
         gameObject.SetActive(false);
     }
 
@@ -107,7 +104,6 @@ public class ActiveSkill : Skill
                             {
                                 return;
                             }
-                            
                         }
                     }
                     attm.TakeDamage(player.Cri, player.Att + skillStat.effect); // 이걸 뒤에 둬야 밀림(앞에두면 죽음상태가 먼저 될경우 안밀리고 죽음)
@@ -131,7 +127,6 @@ public class ActiveSkill : Skill
                 }
             }
         }
-        
     }
 
     public IEnumerator GrowInBoxCollider(bool isPlayer)

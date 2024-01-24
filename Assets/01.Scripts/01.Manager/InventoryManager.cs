@@ -51,13 +51,19 @@ public class InventoryManager : Singleton<InventoryManager>
         if (invenOn)
         {
             Time.timeScale = 0f; // 시간의 흐름이 멈춤  //코루틴 안되고, 업데이트 안 되고 , 픽스드 가능, 드래그도 가능
+            GameManager.Instance.StopNum++;
             inven.SetActive(true);
             SetItemsInfo();
             GameManager.Instance.LockCursor(false);
         }
         else
         {
-            Time.timeScale = 1f;
+            GameManager.Instance.StopNum--;
+
+            if (GameManager.Instance.StopNum == 0)
+            {
+                Time.timeScale = 1f;
+            }
             inven.SetActive(false);
             GameManager.Instance.LockCursor(true);
 
@@ -241,9 +247,7 @@ public class InventoryManager : Singleton<InventoryManager>
         }
         else
         {
-            Debug.Log(playerItemList[num].count);
-            Debug.Log("갯수가 없음");
-
+            UiManager.Instance.OpenWarning("장착된 아이템이 없음");
         }
 
     }

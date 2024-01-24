@@ -35,7 +35,6 @@ public class State_Die : State
             monster.isDead = true;//이미 이상태.
             monster.SetDeadAnim();
             GameManager.Instance.player.CatchMonster(monster.monsterStat.experience, monster.monsterStat.money);
-                 // 몬스터 잡을때마다 궁극기 10씩 
             GameManager.Instance.AddKillMonster();
             monster.DropRandomItem();
 

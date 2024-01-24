@@ -16,8 +16,8 @@ public class GameManager : Singleton<GameManager>
     public Player player;
     public Boss boss { get; private set; }
 
-    public int monsterGoal = 0;
-    public int killMonster = 0;
+    public int monsterGoal { get; private set; }
+    public int killMonster { get; private set; }
     public int countGame { get; private set; } //이걸 나누고 몫과 나머지 gameRound, gameStage
     private int maxStage = 6; // 1라운드당 5스테이지라서
     public int gameRound = 0; //gameRound - gameStage 형식
@@ -32,6 +32,7 @@ public class GameManager : Singleton<GameManager>
 
     public GameObject bossObj;
     public GameObject canvas;
+    public int StopNum; // 게임 정지와 커서가 다른 창에 의해서 풀려버리는 걸 방지, 0일떄만 작동되게
 
     public void AllScriptsCorReset()
     {
@@ -54,15 +55,20 @@ public class GameManager : Singleton<GameManager>
         boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
         SceneLoadController.Instance.GoStartScene();
     }
+    private void Update()
+    {
+        
+    }
 
     public void LoadStartScene()
     {
         audioSource.Play();
+        StopNum = 0;
         player.gameObject.SetActive(false);
         pools.SetActive(false);
         canvas.SetActive(true);
         monsterGoal = 0;
-        killMonster = 0;
+        SetKillMonster(0);
         SetCountGame(0);
         for (int i = 1; i < canvas.transform.childCount; i++) // 0은 eventSystem
         {
@@ -136,7 +142,7 @@ public class GameManager : Singleton<GameManager>
             stageTimeCor = null;
         }
         gameTime = 0;
-        killMonster = 0;
+        SetKillMonster(0);
         monsterGoal = 0;
         if (passiveCor != null)
         {
@@ -237,7 +243,7 @@ public class GameManager : Singleton<GameManager>
 
     public void LockCursor(bool cursorLock)
     {
-        if (cursorLock)
+        if (cursorLock && StopNum == 0)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -288,5 +294,9 @@ public class GameManager : Singleton<GameManager>
     public void StopBGM()
     {
         audioSource.Stop();
+    }
+    public void SetKillMonster(int num)
+    {
+        killMonster = num;
     }
 }

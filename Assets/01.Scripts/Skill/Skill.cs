@@ -9,7 +9,6 @@ public abstract class Skill : MonoBehaviour
 
     public void Init(SOSkill _Info)
     {
-        //monsterLayer = 1 << LayerMask.NameToLayer("Enemy");
         orgInfo = _Info;
         skillStat = new SkillStat(orgInfo);
     }
@@ -22,11 +21,13 @@ public abstract class Skill : MonoBehaviour
             {
                 Monster monster = other.GetComponent<Monster>();
                 monster.TakeDamage(GameManager.Instance.player.Cri, GameManager.Instance.player.Att * skillStat.effect);
+                Debug.Log(monster.monsterStat.health + "몬스터 피");
             }
 
             if (other.CompareTag("Boss"))
             {
                 other.GetComponent<Boss>().TakeDamage(GameManager.Instance.player.Cri, GameManager.Instance.player.Att * skillStat.effect);
+                Debug.Log(other.GetComponent<Boss>().bossStat.health + "보스 피");
             }
         }
         else
@@ -35,6 +36,7 @@ public abstract class Skill : MonoBehaviour
             if (other.CompareTag("Player"))
             {
                 other.GetComponent<Player>().TakeDamage(GameManager.Instance.boss.bossStat.criticalChance, GameManager.Instance.boss.bossStat.attack * skillStat.effect);
+                Debug.Log(other.GetComponent<Player>().Hp + "플레이어 피");
             }
         }
     }

@@ -82,19 +82,20 @@ public class XMLAccess : MonoBehaviour
     }
     public ItemGrade Randomgrade()
     {
-        if (gradeList != null && gradeList.Count > 0)
+        if (gradeList != null)
         {
             int num = Random.Range(0, 101);
+            int luck = num + (int)GameManager.Instance.player.Luck; // 수 내림 적용
             int Range = gradeList[0].percentage;
-            if (num <= Range)
+            if (luck <= Range)
             {
                 return gradeList[0];
             }
-            else if (num <= Range + gradeList[1].percentage)
+            else if (luck <= Range + gradeList[1].percentage)
             {
                 return gradeList[1];
             }
-            else if (num <= Range + gradeList[1].percentage + gradeList[2].percentage)
+            else if (luck <= Range + gradeList[1].percentage + gradeList[2].percentage)
             {
                 return gradeList[2];
             }

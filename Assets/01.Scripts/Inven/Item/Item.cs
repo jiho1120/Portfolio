@@ -29,7 +29,8 @@ public class Item : MonoBehaviour
             }
             else
             {
-                Debug.Log("칸부족");
+                UiManager.Instance.OpenWarning("인벤토리 칸부족");
+
             }
         }
     }

@@ -82,6 +82,11 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         if (GameManager.Instance.stageStart)
         {
             if (Input.GetKey(KeyCode.LeftShift))
@@ -142,7 +147,6 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
                 // ScreenOnOff 함수에 누른 키를 매개변수로 전달하여 호출
                 UiManager.Instance.ScreenOnOff(keyPressed);
             }
-            
         }
     }
     public void CatchMonster(float monsterexp, int _money)
@@ -389,7 +393,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         InventoryManager.Instance.AllDataRemove();
         UiManager.Instance.ActiveEndPanel();
         GameManager.Instance.StopBGM();
-        Debug.Log("죽음");
+        
     }
 
     public bool IsDead()

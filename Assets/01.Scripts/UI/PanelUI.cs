@@ -117,7 +117,7 @@ public class PanelUI : MonoBehaviour
         }
         else
         {
-            Debug.Log("돈이 부족함");
+            UiManager.Instance.OpenWarning("돈이 부족함");
         }
     }
     public void ApplyValue()
@@ -147,7 +147,7 @@ public class PanelUI : MonoBehaviour
             }
             if (num < 3)
             {
-                Debug.Log("갯수 부족으로 강화실패");
+                UiManager.Instance.OpenWarning("갯수 부족으로 강화실패");
                 return;
             }
             else

@@ -51,6 +51,7 @@ public class PowerUpUI : MonoBehaviour
         isOn = !isOn;
         if (isOn)
         {
+            GameManager.Instance.StopNum++;
             Time.timeScale = 0f; // 시간의 흐름이 멈춤  //코루틴 안되고, 업데이트 안 되고 , 픽스드 가능, 드래그도 가능
             gameObject.SetActive(true);
             GameManager.Instance.LockCursor(false);
@@ -58,7 +59,11 @@ public class PowerUpUI : MonoBehaviour
         }
         else
         {
-            Time.timeScale = 1f;
+            GameManager.Instance.StopNum--;
+            if (GameManager.Instance.StopNum == 0)
+            {
+                Time.timeScale = 1f;
+            }
             gameObject.SetActive(false);
             if (GameManager.Instance.stageStart)
             {

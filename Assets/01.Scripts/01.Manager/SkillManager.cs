@@ -233,6 +233,6 @@ public class SkillManager : Singleton<SkillManager>
         skill.skillStat.SetInUse(false);
 
 
-        Debug.Log("스킬 사용중 해제");
+       
     }
 }

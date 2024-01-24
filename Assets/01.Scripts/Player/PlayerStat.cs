@@ -119,7 +119,6 @@ public class PlayerStat : UseManaStat
                 Debug.Log("없음");
                 break;
         }
-
         Debug.Log($"{statName}이 {effect}만큼 적용됐습니다");
     }
     public override void ShowInfo()

@@ -22,6 +22,9 @@ public class UiManager : Singleton<UiManager>
     public Text playerMoney;
     public Text goalCount;
     public GameObject note;
+    public GameObject warning;
+    Text warningText;
+    
     public SpriteRenderer innerNote { get; private set; }
     public SpriteRenderer outterNote { get; private set; }
 
@@ -34,6 +37,7 @@ public class UiManager : Singleton<UiManager>
         SetPanelName();
         innerNote = note.transform.GetChild(0).GetComponent<SpriteRenderer>();
         outterNote = note.transform.GetChild(1).GetComponent<SpriteRenderer>();
+        warningText = warning.transform.GetChild(0).GetComponent<Text>();
     }
 
     public void Init() // Wating 갔을때
@@ -183,7 +187,7 @@ public class UiManager : Singleton<UiManager>
                 accountText = $"{p.skillName}을{p.powerUpSize}만큼 강화한다";
                 powerUpUI.SetPanelData(i, "skill", p.skillName, p.powerUpSize, itemGrade.money);
             }
-            //Debug.Log($"{i}, {itemGrade.color}, {accountText}, {itemGrade.money}");
+            
             powerUpUI.SetPanelUINoSprite(i, itemGrade.color, accountText, itemGrade.money);
 
         }
@@ -207,7 +211,27 @@ public class UiManager : Singleton<UiManager>
     {
         endPanel.gameObject.SetActive(true);
         Time.timeScale = 0f;
+        GameManager.Instance.StopNum++;
+
         GameManager.Instance.LockCursor(false);
         endPanel.SetPanel();
+    }
+    public void OpenWarning(string _text)
+    {
+        GameManager.Instance.StopNum++;
+        Time.timeScale = 0f;
+        GameManager.Instance.LockCursor(false);
+        warning.SetActive(true);
+        warningText.text = _text;
+    }
+    public void CloseWarning()
+    {
+        GameManager.Instance.StopNum--;
+        GameManager.Instance.LockCursor(true);
+        warning.SetActive(false);
+        if (GameManager.Instance.StopNum == 0)
+        {
+            Time.timeScale = 1f;
+        }
     }
 }

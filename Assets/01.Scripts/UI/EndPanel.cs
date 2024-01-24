@@ -39,6 +39,7 @@ public class EndPanel : MonoBehaviour
             GameManager.Instance.SetGameClear(false);
             GameManager.Instance.GoWatingRoom();
         }
+        GameManager.Instance.StopNum--;
         gameObject.SetActive(false);
     }
     public void CloseBtn()
