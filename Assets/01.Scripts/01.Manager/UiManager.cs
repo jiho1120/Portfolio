@@ -83,7 +83,7 @@ public class UiManager : Singleton<UiManager>
         }
     }
 
-    public void StartShrike()
+    public void StartShrinke()
     {
         note.SetActive(true);
         outterNote.transform.localScale = new Vector3(3, 3, 3);

@@ -55,11 +55,19 @@ public class GameManager : Singleton<GameManager>
         boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
         SceneLoadController.Instance.GoStartScene();
     }
+
     private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            AddKillMonster(10);
+        }
+       
     }
-
     public void LoadStartScene()
     {
         audioSource.Play();
@@ -91,6 +99,7 @@ public class GameManager : Singleton<GameManager>
         }
         player.Init();
         UiManager.Instance.Init();
+        UiManager.Instance.playerConditionUI.SetUI();
 
         GoWatingRoom();
     }

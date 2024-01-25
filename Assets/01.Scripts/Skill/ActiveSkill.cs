@@ -10,7 +10,6 @@ public class ActiveSkill : Skill
     private float duration = 1f;
     float skillSpeed = 3;
     Coroutine boxCor = null;
-    Coroutine ColCor = null;
 
     
 

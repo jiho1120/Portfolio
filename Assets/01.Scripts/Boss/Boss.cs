@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.UI.GridLayoutGroup;
 
 public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
 {
@@ -27,8 +26,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     Coroutine HealHpMpCor;
     public Coroutine skillcor = null;
     Coroutine passiveCor = null;
-    public Coroutine weaknessCor = null;
-    public Coroutine timingCor = null;
 
     public bool isHit { get; private set; }
     public bool haveTiming { get; private set; }
@@ -41,8 +38,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         HealHpMpCor = null;
         skillcor = null;
         passiveCor = null;
-        weaknessCor = null;
-        timingCor = null;
     }
     public void FirstStart()
     {
@@ -75,7 +70,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             passiveCor = StartCoroutine(GameManager.Instance.CallPassive(false));
         }
-        GameManager.Instance.CallPassiveSkill(false);
         agent.isStopped = false;
         GetComponent<BehaviorTree>().SetInit();
 
@@ -142,7 +136,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         agent.isStopped = false;
 
     }
-    
+
     public IEnumerator HealHpMp()
     {
         while (true)
@@ -211,8 +205,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         Attack(fist.position, 1f);
     }
 
-
-
     public bool CheckCritical(float critical)
     {
         bool isCritical = Random.Range(0f, 100f) < critical;
@@ -239,9 +231,9 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         {
             if (!isHit)
             {
-                if (haveTiming && timingCor == null)
+                if (haveTiming)
                 {
-                    timingCor = StartCoroutine(CheckTiming());
+                    CheckTiming();
                     StartCoroutine(HitCool());
                 }
                 Hit();
@@ -264,37 +256,25 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
             Debug.Log("이미 죽었어");
         }
     }
-    public void StartWeak()
-    { 
-        if (weaknessCor == null)
-        {
-            weaknessCor = StartCoroutine(StartWeakness());
-        }
-    }
-    public void StopWeak()
-    {
-        StopCoroutine(weaknessCor);
-        weaknessCor = null;
 
-    }
-    public IEnumerator StartWeakness()
+    
+    public void StartWeak()
     {
-        while (true)
+        if (!isHit)
         {
-            if (!isHit)
-            {
-                UiManager.Instance.StartShrike();
-                timingCor = null;
-                SetHaveTiming(true);
-                yield return new WaitForSeconds(10f);
-            }
+            UiManager.Instance.StartShrinke();
+            SetHaveTiming(true);
+        }
+        else
+        {
+            return;
         }
     }
     public void SetHaveTiming(bool isbool)
     {
         haveTiming = isbool;
     }
-    public IEnumerator CheckTiming()
+    public void CheckTiming()
     {
         float dis = Mathf.Abs(UiManager.Instance.innerNote.transform.localScale.x - UiManager.Instance.outterNote.transform.localScale.x);
         float att = GameManager.Instance.player.Att;
@@ -320,7 +300,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         }
         SetHaveTiming(false);
         UiManager.Instance.note.SetActive(false);
-        yield return null;
+        //여기에 약점 다시 시작하기 넣기
     }
     IEnumerator HitCool()
     {

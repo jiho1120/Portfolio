@@ -82,13 +82,13 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
 
         if (GameManager.Instance.stageStart)
         {
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                playerStat.AddExp(10);
+            }
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 run = true;

@@ -20,11 +20,13 @@ public class Die : Node
             GameManager.Instance.player.playerStat.AddMoney(GameManager.Instance.boss.bossStat.money);
             GameManager.Instance.player.playerStat.AddExp(GameManager.Instance.boss.bossStat.experience);
             GameManager.Instance.boss.agent.isStopped = true;
+            UiManager.Instance.note.SetActive(false);
             GameManager.Instance.boss.gameObject.SetActive(false);
             GameManager.Instance.AddKillMonster(1);
             GameManager.Instance.SetCountGame(GameManager.Instance.countGame + 1);
             GameManager.Instance.SetGameClear();
             UiManager.Instance.ActiveEndPanel();
+
 
             owner.NowState = AllEnum.StateEnum.DIe;
             return AllEnum.NodeState.Success;
