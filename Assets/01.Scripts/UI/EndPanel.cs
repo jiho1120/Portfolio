@@ -27,6 +27,7 @@ public class EndPanel : MonoBehaviour
     
     public void SaveBtn()
     {
+        GameManager.Instance.pools.SetActive(false);
         if (GameManager.Instance.gameOver)
         {
             Time.timeScale = 1f;
@@ -40,6 +41,7 @@ public class EndPanel : MonoBehaviour
             GameManager.Instance.GoWatingRoom();
         }
         GameManager.Instance.StopNum--;
+        GameManager.Instance.pools.SetActive(true);
         gameObject.SetActive(false);
     }
     public void CloseBtn()

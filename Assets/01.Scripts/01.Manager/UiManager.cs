@@ -90,6 +90,13 @@ public class UiManager : Singleton<UiManager>
         innerNote.transform.localScale = new Vector3(1, 1, 1);
         StartCoroutine(ShrinkCircle());
     }
+    public void StopShrinke()
+    {
+        outterNote.transform.localScale = new Vector3(3, 3, 3);
+        innerNote.transform.localScale = new Vector3(1, 1, 1);
+        note.SetActive(false);
+        StopCoroutine(ShrinkCircle());
+    }
     IEnumerator ShrinkCircle()
     {
         while (true)

@@ -26,6 +26,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     Coroutine HealHpMpCor;
     public Coroutine skillcor = null;
     Coroutine passiveCor = null;
+    Coroutine weakCor = null;
 
     public bool isHit { get; private set; }
     public bool haveTiming { get; private set; }
@@ -38,6 +39,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         HealHpMpCor = null;
         skillcor = null;
         passiveCor = null;
+        weakCor = null;
     }
     public void FirstStart()
     {
@@ -257,17 +259,38 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
 
-    
-    public void StartWeak()
+    public void StartWeakCor()
     {
-        if (!isHit)
+        if (weakCor == null)
         {
-            SetHaveTiming(true);
-            UiManager.Instance.StartShrinke();
+            weakCor = StartCoroutine(StartWeak());
         }
         else
         {
             return;
+        }
+    }
+    public void StopWeakCor()
+    {
+        if (weakCor != null)
+        {
+            StopCoroutine(weakCor);
+            weakCor = null;
+            UiManager.Instance.StopShrinke();
+        }
+        else
+        {
+            return;
+        }
+    }
+    public IEnumerator StartWeak()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+            SetHaveTiming(true);
+            UiManager.Instance.StartShrinke();
+            yield return new WaitForSeconds(5f);
         }
     }
     public void SetHaveTiming(bool isbool)
@@ -299,9 +322,9 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
             Debug.Log("Bad");
         }
         SetHaveTiming(false);
+        UiManager.Instance.StopShrinke();
         UiManager.Instance.note.SetActive(false);
-        //약점 다시 시작하기
-        StartWeak();
+        
     }
     IEnumerator HitCool()
     {

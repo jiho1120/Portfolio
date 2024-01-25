@@ -21,6 +21,7 @@ public class Die : Node
             GameManager.Instance.player.playerStat.AddExp(GameManager.Instance.boss.bossStat.experience);
             GameManager.Instance.boss.agent.isStopped = true;
             UiManager.Instance.note.SetActive(false);
+            owner.CorReset();
             GameManager.Instance.boss.gameObject.SetActive(false);
             GameManager.Instance.AddKillMonster(1);
             GameManager.Instance.SetCountGame(GameManager.Instance.countGame + 1);

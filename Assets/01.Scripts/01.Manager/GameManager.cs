@@ -226,7 +226,7 @@ public class GameManager : Singleton<GameManager>
         else
         {
             boss.Init();
-            boss.StartWeak();
+            boss.StartWeakCor();
             monsterGoal = 1;
         }
     }
