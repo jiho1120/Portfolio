@@ -262,8 +262,8 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     {
         if (!isHit)
         {
-            UiManager.Instance.StartShrinke();
             SetHaveTiming(true);
+            UiManager.Instance.StartShrinke();
         }
         else
         {
@@ -300,7 +300,8 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         }
         SetHaveTiming(false);
         UiManager.Instance.note.SetActive(false);
-        //여기에 약점 다시 시작하기 넣기
+        //약점 다시 시작하기
+        StartWeak();
     }
     IEnumerator HitCool()
     {
