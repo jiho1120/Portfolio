@@ -1,27 +1,27 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+//넉백 ,죽을때 사라지는거 문제 고치기
+// end 판넬 조금 늦게 띄우기
 
 
 public class GameManager : Singleton<GameManager>
 {
     public GameObject pools;
-    bool isNew = true; // 저장한거 불러오는지, 처음인지
-    public bool isWating = false; // 웨이팅화면인 상태
-    public bool isRunTime = true; // 버튼 글자 바꾸기 위해 선언
-    public bool stageStart; // 몬스터 나오는게 스테이지 스타트
+    public GameObject playerPrefab;
+    public Player player { get; private set; }
+    public Boss boss { get; private set; }
+    public bool isNew { get; private set; } // 저장한거 불러오는지, 처음인지
+    public bool isRunTime { get; private set; } // 버튼 글자 바꾸기 위해 선언
+    public bool stageStart { get; private set; } // 몬스터 나오는게 스테이지 스타트
     public bool gameOver { get; private set; }
     public bool gameClear { get; private set; }
-    public GameObject playerPrefab;
-    public Player player;
-    public Boss boss { get; private set; }
 
     public int monsterGoal { get; private set; }
     public int killMonster { get; private set; }
-    public int countGame { get; private set; } //이걸 나누고 몫과 나머지 gameRound, gameStage
-    private int maxStage = 6; // 1라운드당 5스테이지라서
-    public int gameRound = 0; //gameRound - gameStage 형식
-    public int gameStage = 0;
+    public int countGame { get; private set; } //이걸 나누고 몫과 나머지 gameRound, gameStage , 1부터 시작
+    private int maxStage = 5; // 1라운드당 5스테이지라서
+    public int gameRound { get; private set; } //gameRound - gameStage 형식
+    public int gameStage { get; private set; }
     Coroutine passiveCor = null;
     Coroutine runTimeCor = null; // 5초에서 줄어듬
     Coroutine stageTimeCor = null; // 0초에서 늘어남
@@ -31,9 +31,96 @@ public class GameManager : Singleton<GameManager>
     public float countTime { get; private set; }
 
     public GameObject bossObj;
-    public GameObject canvas;
     public int StopNum; // 게임 정지와 커서가 다른 창에 의해서 풀려버리는 걸 방지, 0일떄만 작동되게
 
+    #region 초기화 관련
+    public void SetUpOnce() // 처음 설정할것
+    {
+        audioSource = GetComponent<AudioSource>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
+        SceneLoadController.Instance.GoStartScene();
+
+    }
+    public void LoadStartScene()
+    {
+        audioSource.Play();
+        Time.timeScale = 1f;
+        player.gameObject.SetActive(false);
+        UiManager.Instance.canvas.SetActive(true);
+        pools.SetActive(false);
+        SetIsNew(true);
+        SetIsRunTime(false);
+        SetStageStart(false);
+        SetGameOver(false);
+        SetGameClear(false);
+        StopNum = 0;
+        monsterGoal = 0;
+        SetKillMonster(0);
+        SetCountGame(1);
+        for (int i = 1; i < UiManager.Instance.canvas.transform.childCount; i++) // 0은 eventSystem
+        {
+            UiManager.Instance.canvas.transform.GetChild(i).gameObject.SetActive(false);
+        }
+        UiManager.Instance.canvas.transform.GetChild(0).gameObject.SetActive(true);
+        UiManager.Instance.startScene.SetActive(true);
+    }
+    public void Recycle() // 재사용할때 
+    {
+        audioSource.Play();
+
+    }
+    public void Deactivate() //비활성화 할때
+    {
+
+    }
+    public void DontUse() // 안쓰게 될때
+    {
+
+    }
+    #endregion
+
+    #region Set함수
+    public void SetIsNew(bool _bool)
+    {
+        isNew = _bool;
+        
+    }
+    
+    public void SetIsRunTime(bool _bool)
+    {
+        isRunTime = _bool;
+    }
+    public void SetStageStart(bool _bool)
+    {
+        stageStart = _bool;
+    }
+    public void SetGameOver(bool _bool = true)
+    {
+        gameOver = _bool;
+    }
+    public void SetGameClear(bool clear = true)
+    {
+        gameClear = clear;
+    }
+    public void SetCountGame(int num)
+    {
+        countGame = num;
+    }
+    public void SetKillMonster(int num)
+    {
+        killMonster = num;
+    }
+    public void SetGameStage(int num)
+    {
+        gameStage = num;
+    }
+    public void SetGameRound(int num)
+    {
+        gameRound = num;
+    }
+
+    #endregion
     public void AllScriptsCorReset()
     {
         CorReset();
@@ -41,19 +128,23 @@ public class GameManager : Singleton<GameManager>
         boss.CorReset();
         player.CorReset();
     }
+
     public void CorReset()
     {
         StopAllCoroutines();
-        passiveCor = null;
-        runTimeCor = null;
+        if (passiveCor != null)
+        {
+            passiveCor = null;
+        }
+        if (runTimeCor != null)
+        {
+            runTimeCor = null;
+        }
     }
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
-        SceneLoadController.Instance.GoStartScene();
+        SetUpOnce();
     }
 
     private void Update()
@@ -66,36 +157,20 @@ public class GameManager : Singleton<GameManager>
         {
             AddKillMonster(10);
         }
-       
     }
-    public void LoadStartScene()
-    {
-        audioSource.Play();
-        StopNum = 0;
-        player.gameObject.SetActive(false);
-        pools.SetActive(false);
-        canvas.SetActive(true);
-        monsterGoal = 0;
-        SetKillMonster(0);
-        SetCountGame(0);
-        for (int i = 1; i < canvas.transform.childCount; i++) // 0은 eventSystem
-        {
-            canvas.transform.GetChild(i).gameObject.SetActive(false);
-        }
-        canvas.transform.GetChild(0).gameObject.SetActive(true);
-        UiManager.Instance.startScene.SetActive(true);
-    }
+
+    
 
     public void LoadMain()
     {
         player.gameObject.SetActive(true);
         boss.gameObject.SetActive(false);
         pools.SetActive(true);
-        canvas.SetActive(true);
+        UiManager.Instance.canvas.SetActive(true);
         if (isNew)
         {
             DoItOnceMain();
-            isNew = false;
+            SetIsNew(false);
         }
         player.Init();
         UiManager.Instance.Init();
@@ -130,6 +205,7 @@ public class GameManager : Singleton<GameManager>
             if (!gameClear)
             {
                 GoWatingRoom();
+                countGame++;
             }
         }
     }
@@ -143,7 +219,6 @@ public class GameManager : Singleton<GameManager>
         gameClear = false; // 마지막 버튼 위해서 필요함
         gameOver = false; // 마지막 버튼 위해서 필요함
         countTime = 5f;
-        isWating = true;
         
         if (stageTimeCor != null)
         {
@@ -168,27 +243,6 @@ public class GameManager : Singleton<GameManager>
         LockCursor(false);
     }
 
-    IEnumerator RunTime()
-    {
-        while (true)
-        {
-            if (isRunTime)
-            {
-                yield return new WaitForSeconds(1f);
-                countTime -= 1;
-                UiManager.Instance.SetWaitingUI();
-                if (countTime <= 0)
-                {
-                    stageStart = true;
-                    startGame();
-                }
-            }
-            else
-            {
-                yield return null;
-            }
-        }
-    }
     public void startGame() // 게임 스테이지 들어갈떄 설정
     {
         MonsterManager.Instance.CleanMonster();// 잘 안되서 한번더
@@ -205,9 +259,12 @@ public class GameManager : Singleton<GameManager>
         {
             stageTimeCor = StartCoroutine(GameTime());
         }
-        SetCountGame(countGame + 1);
         gameRound = (countGame / maxStage) + 1;
         gameStage = countGame % maxStage;
+        if (gameStage == 0)
+        {
+            gameStage = 5;
+        }
         
 
         monsterGoal = countGame * 10;
@@ -230,7 +287,28 @@ public class GameManager : Singleton<GameManager>
             monsterGoal = 1;
         }
     }
-
+    #region 시간
+    IEnumerator RunTime()
+    {
+        while (true)
+        {
+            if (isRunTime)
+            {
+                yield return new WaitForSeconds(1f);
+                countTime -= 1;
+                UiManager.Instance.SetWaitingUI();
+                if (countTime <= 0)
+                {
+                    stageStart = true;
+                    startGame();
+                }
+            }
+            else
+            {
+                yield return null;
+            }
+        }
+    }
     IEnumerator GameTime()
     {
         while (stageStart)
@@ -240,14 +318,19 @@ public class GameManager : Singleton<GameManager>
             yield return new WaitForSeconds(1f);
         }
     }
-    public void SetGameOver()
+    public void StopOnOffTime()
     {
-        gameOver = true;
+        isRunTime = !isRunTime;
+        UiManager.Instance.SetStopTimer();
     }
-    public void SetGameClear(bool clear = true)
+    public void SkipTime()
     {
-        gameClear = clear;
+        countTime = 0;
+        stageStart = true;
+        gameTime = 0;
     }
+
+    #endregion
 
 
     public void LockCursor(bool cursorLock)
@@ -262,6 +345,7 @@ public class GameManager : Singleton<GameManager>
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+
         }
     }
 
@@ -283,29 +367,10 @@ public class GameManager : Singleton<GameManager>
         PassiveSkill ps = SkillManager.Instance.CallPassiveSkill(isPlayer);
         return ps;
     }
-    public void StopOnOffTime()
-    {
-        isRunTime = !isRunTime;
-        UiManager.Instance.SetStopTimer();
-    }
-    public void SkipTime()
-    {
-        countTime = 0;
-        stageStart = true;
-        gameTime = 0;
-    }
 
-    public void SetCountGame(int num)
-    {
-        countGame = num;
-    }
 
     public void StopBGM()
     {
         audioSource.Stop();
-    }
-    public void SetKillMonster(int num)
-    {
-        killMonster = num;
     }
 }

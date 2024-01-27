@@ -24,7 +24,6 @@ public class Die : Node
             owner.CorReset();
             GameManager.Instance.boss.gameObject.SetActive(false);
             GameManager.Instance.AddKillMonster(1);
-            GameManager.Instance.SetCountGame(GameManager.Instance.countGame + 1);
             GameManager.Instance.SetGameClear();
             UiManager.Instance.ActiveEndPanel();
 

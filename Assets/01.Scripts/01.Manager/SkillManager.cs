@@ -5,7 +5,6 @@ using UnityEngine;
 public class SkillManager : Singleton<SkillManager>
 {
     public Skill passiveSkill { get; private set; }
-    //�ϳ��� ������ ������ �������ֱ�
     public Dictionary<AllEnum.SkillName, Skill> skillDict { get; private set; } // ��ų ���鶧 �̰� ���
     public Dictionary<AllEnum.SkillName, Skill> bossSkillDict { get; private set; }
     public Transform playerSKillPool;
@@ -134,7 +133,6 @@ public class SkillManager : Singleton<SkillManager>
                         pos = pos + spawnOffset;
                     }
                     skill = SetSkillPos(skill, pos, rot, isPlayer);
-
                 }
             }
             else
@@ -145,12 +143,9 @@ public class SkillManager : Singleton<SkillManager>
                     rot = GameManager.Instance.boss.transform.GetChild(0).rotation;
                 }
                 skill = SetSkillPos(skill, pos, rot, isPlayer);
-
             }
-
             skill.gameObject.SetActive(true);
             skill.DoSkill(skill.isPlayer);
-
         }
     }
     public bool UseableSkill(AllEnum.SkillName name, bool isPlayer)
@@ -199,10 +194,6 @@ public class SkillManager : Singleton<SkillManager>
         return skill;
     }
 
-    public void SetSkillPos(Skill skill, Transform tr)
-    {
-        skill.transform.SetParent(tr);
-    }
     public Skill SetSkillPos(Skill skill, Vector3 pos, Quaternion rot, bool isPlayer)
     {
         skill.transform.position = pos;
@@ -231,8 +222,5 @@ public class SkillManager : Singleton<SkillManager>
     {
         yield return new WaitForSeconds(cool);
         skill.skillStat.SetInUse(false);
-
-
-       
     }
 }

@@ -63,7 +63,6 @@ public class ActiveSkill : Skill
     IEnumerator DieTimer()
     {
         yield return new WaitForSeconds(skillStat.duration);
-        
         gameObject.SetActive(false);
     }
 

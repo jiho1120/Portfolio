@@ -24,7 +24,9 @@ public class UiManager : Singleton<UiManager>
     public GameObject note;
     public GameObject warning;
     Text warningText;
-    
+    public GameObject canvas;
+
+
     public SpriteRenderer innerNote { get; private set; }
     public SpriteRenderer outterNote { get; private set; }
 
@@ -216,13 +218,20 @@ public class UiManager : Singleton<UiManager>
     }
     public void ActiveEndPanel()
     {
+        StartCoroutine(EndPanel());
+    }
+    IEnumerator EndPanel()
+    {
+        ItemManager.Instance.ReturnAllObjectToPool();
+        MonsterManager.Instance.StopSpawnMonster();
+        MonsterManager.Instance.CleanMonster();//=>딱 살아있던 애들만 죽임. (단순히 죽임. 
+        yield return new WaitForSeconds(1f);
         endPanel.gameObject.SetActive(true);
+        endPanel.SetPanel();
         Time.timeScale = 0f;
         GameManager.Instance.StopNum++;
-
         GameManager.Instance.LockCursor(false);
-        endPanel.SetPanel();
-    }
+    } 
     public void OpenWarning(string _text)
     {
         GameManager.Instance.StopNum++;

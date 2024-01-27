@@ -31,6 +31,9 @@ public class EndPanel : MonoBehaviour
         if (GameManager.Instance.gameOver)
         {
             Time.timeScale = 1f;
+            ItemManager.Instance.ReturnAllObjectToPool();
+            MonsterManager.Instance.StopSpawnMonster();
+            MonsterManager.Instance.CleanMonster();//=>딱 살아있던 애들만 죽임. (단순히 죽임. 
             SceneLoadController.Instance.GoStartScene();
         }
         else if (GameManager.Instance.gameClear)

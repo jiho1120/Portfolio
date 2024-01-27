@@ -71,8 +71,5 @@ public class PowerUpUI : MonoBehaviour
             }
         }
         UiManager.Instance.SetGameUI(); //선택하고 돈 적용
-
-
     }
-
 }

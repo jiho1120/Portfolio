@@ -88,17 +88,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools: {fileID: 6568465657801051638}
-  isWating: 0
-  isRunTime: 1
-  stageStart: 0
   playerPrefab: {fileID: 2309431332358196969, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-  player: {fileID: 8743685704018895548, guid: d8ba33a6cf555a14e9bb3ea0a60bc45e, type: 3}
-  monsterGoal: 0
-  killMonster: 0
-  gameRound: 0
-  gameStage: 0
   bossObj: {fileID: 8021355147897810143, guid: e510989983ee02242af3a055ef7e04d1, type: 3}
-  canvas: {fileID: 0}
+  StopNum: 0
 --- !u!114 &6568465657280153579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropItemParent: {fileID: 6568465657659514396}
+  infoList: []
   itemDrop: {fileID: 3858953656235201716, guid: 4d1084cd4f1343f4cb1b5d307d22362a, type: 3}
 --- !u!114 &6568465657280153572
 MonoBehaviour:
@@ -265,7 +258,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6568465657801051641}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6568465657659514397
 GameObject:
@@ -328,8 +321,8 @@ Transform:
   m_Children:
   - {fileID: 6568465656919594198}
   - {fileID: 6568465657659514396}
-  - {fileID: 6568465658007457382}
   - {fileID: 6568465657340635356}
+  - {fileID: 6568465658007457382}
   m_Father: {fileID: 6568465657280153581}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -362,7 +355,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6568465657801051641}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6568465657107579898
 PrefabInstance:
