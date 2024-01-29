@@ -1,28 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
-public class State_Attack : State
+public class State_Walk : State
 {
-    public State_Attack(Monster monster, SetStateDel StateDel) : base(monster, StateDel)
+    public State_Walk(Monster monster, SetStateDel StateDel) : base(monster, StateDel)
     {
     }
 
     public override void OnStateEnter()
     {
-        monster.Attack();
+
     }
 
     public override void OnStateExit()
     {
-        monster.isAttack = false;
     }
 
     public override void OnStateStay()
     {
         monster.dir = monster.CheckDir();
+        monster.SetAttackState();
+        monster.Move(GameManager.Instance.player.transform.position);
 
-        if (monster.isDead)
+        if (monster.IsDead())
         {
             StateDel(AllEnum.States.Die);
             return;
@@ -37,12 +39,6 @@ public class State_Attack : State
             else if (monster.dir.sqrMagnitude <= 4f)
             {
                 StateDel(AllEnum.States.Idle);
-                return;
-                
-            }
-            else //맞지도 않고 공격거리 밖이면
-            {
-                StateDel(AllEnum.States.Walk);
                 return;
             }
         }

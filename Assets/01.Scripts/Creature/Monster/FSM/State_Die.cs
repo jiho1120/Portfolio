@@ -22,9 +22,9 @@ public class State_Die : State
                 monster.monStateMachine.StopNowState();
             }
 
-            if (monster.isDead == false)// 살아있는 애들을 강제로 죽임
+            if (!monster.IsDead())// 살아있는 애들을 강제로 죽임
             {
-                monster.isDead = true;
+                monster.SetDead(true);
                 monster.SetDeadAnim();
             }
             MonsterManager.Instance.MonsterPool().ReturnObjectToPool(monster);
@@ -32,7 +32,7 @@ public class State_Die : State
         else
         {
             //살아있다가 죽는 거니까. 이전에 뭐가되어있음???
-            monster.isDead = true;//이미 이상태.
+            monster.SetDead(true);// 이미 이상태
             monster.SetDeadAnim();
             GameManager.Instance.player.CatchMonster(monster.monsterStat.experience, monster.monsterStat.money);
             GameManager.Instance.AddKillMonster();

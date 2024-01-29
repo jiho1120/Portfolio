@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
+public class Monster : Creature
 {
     public AllEnum.MonsterType monType;
     public AllEnum.States NowState = AllEnum.States.End;//현재상태    
@@ -16,12 +14,11 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     public MonsterStat monsterStat { get; private set; } // 바뀌는 스탯
     public Vector3 dir;
     public GameObject explosionEffect;
-    public Rigidbody rb;
+    Rigidbody rb;
 
     public Transform attackPos;
     public bool isAttack = false;  // 공격 쿨타임을 줘서 시간이 되면 트루로 바꾸게
     public bool isHit = false;
-    public bool isDead = true;
     public float coolAttackTime = 0;
     public float rotationSpeed = 5f;
     protected int itemIndex;
@@ -108,35 +105,13 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         return dir;
     }
 
-    public bool CheckCritical(float critical)
-    {
-        bool isCritical = Random.Range(0f, 100f) < critical;
-        return isCritical;
-
-    }
-    public float CriticalDamage(float critical, float attack)
-    {
-        float criticalDamage = 0;
-        if (CheckCritical(critical))
-        {
-            criticalDamage = attack * 2;
-        }
-        else
-        {
-            criticalDamage = attack;
-
-        }
-
-        return criticalDamage;
-    }
-    public virtual void TakeDamage(float critical, float attack)
+    public override void TakeDamage(float critical, float attack)
     {
         if (isDead)
         {
             return;
         }
         isHit = true;
-        Hit();
         float damage = CriticalDamage(critical, attack) - (monsterStat.defense * 0.5f); // 몬스터 스탯 추가
         float hp = monsterStat.health - damage;
         monsterStat.SetHealth(hp);
@@ -147,7 +122,7 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         }
 
     }
-    public virtual void Attack(Vector3 Tr, float Range)
+    public override void Attack(Vector3 Tr, float Range)
     {
         Collider[] colliders = Physics.OverlapSphere(Tr, Range);
         for (int i = 0; i < colliders.Length; i++)
@@ -221,16 +196,13 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     //1 필드에 멀쩡히 살아있었음 //활성화 되어있고 죽었다표기 안되어있음.
     //2 필드에 있었으나 죽기 대기중이었음 //활성화 되어있지만, 죽었다 표기되어있는 상태
     //3 필드에 없었음. => 비활성화 상태
-    public virtual void Dead(bool _force)
+    public override void Dead(bool _force)
     {
         isDead = true;
         force = _force;
     }
 
-    public bool IsDead()
-    {
-        return isDead;
-    }
+    
     IEnumerator DeletObject()
     {
         yield return new WaitForSeconds(2f);
@@ -266,12 +238,12 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
 
-    public void LevelUp() // 필요없어짐
+    public override void LevelUp() // 필요없어짐
     {
         monsterStat.LevelUp();
     }
 
-    public void StatUp()
+    public override void StatUp()
     {
         monsterStat.SetMaxHealth((monsterStat.level * 10) + soOriginMonster.maxHealth);
         monsterStat.SetHealth(soOriginMonster.maxHealth);
@@ -301,15 +273,12 @@ public class Monster : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     public void SetDeadAnim()
     {
-        //Debug.Log("SetDeadAnim까지는 들어옴" + gameObject.name);
         if (agent != null)
         {
-            //Debug.Log("agent DieAnim부른다" + gameObject.name);
             try
             {
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero;
-                //SetDeadAnim();
                 if (anim != null)
                     anim.Die();
             }

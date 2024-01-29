@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class PassiveSkill : Skill
 {
-    Coroutine passiveCor = null;
     float _currentNum;
-    public void CorReset()
-    {
-        passiveCor = null;
-    }
+    Coroutine passiveCor;
+
 
     public override void DoSkill(bool isPlayer)
     {
@@ -23,14 +20,17 @@ public class PassiveSkill : Skill
             _currentNum = GameManager.Instance.player.PassiveCurrentNum;
             gameObject.SetActive(true);
             transform.SetParent(GameManager.Instance.player.transform);
+            passiveCor = GameManager.Instance.player.passiveCor;
         }
         else
         {
             _currentNum = GameManager.Instance.boss.PassiveCurrentNum;
             gameObject.SetActive(true);
             transform.SetParent(GameManager.Instance.boss.transform);
+            passiveCor = GameManager.Instance.boss.passiveCor;
+
         }
-        
+
         transform.localPosition = Vector3.up;
         skillStat.SetInUse(true);
 
@@ -139,7 +139,7 @@ public class PassiveSkill : Skill
                     }
                     else if (colliders[i].CompareTag("Boss"))
                     {
-                      GameManager.Instance.boss.bossStat.AddDefence(-skillStat.effect);
+                        GameManager.Instance.boss.bossStat.AddDefence(-skillStat.effect);
                     }
                 }
                 yield return new WaitForSeconds(skillStat.cool);
@@ -201,6 +201,12 @@ public class PassiveSkill : Skill
     public override void DoReset()
     {
         skillStat.SetInUse(false);
+        if (passiveCor != null)
+        {
+            StopCoroutine(passiveCor);
+            passiveCor = null;
+        }
         gameObject.SetActive(false);
     }
+
 }

@@ -2,21 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class State_Idle : State
+public class State_Hit : State
 {
-    
-    public State_Idle(Monster monster, SetStateDel StateDel) : base(monster, StateDel)
+    public State_Hit(Monster monster, SetStateDel StateDel) : base(monster, StateDel)
     {
     }
 
     public override void OnStateEnter()
     {
-        monster.Idle();
+        monster.Hit();
     }
 
     public override void OnStateExit()
     {
-
+        monster.isHit = false;
     }
 
     public override void OnStateStay()
@@ -24,22 +23,26 @@ public class State_Idle : State
         monster.dir = monster.CheckDir();
         monster.SetAttackState();
 
-        if (monster.isDead)
+        if (monster.IsDead())
         {
             StateDel(AllEnum.States.Die);
             return;
         }
         else
         {
-            if (monster.isAttack) // 어차피 사정거리 안이라 거리체크 안해도됨
+            if (monster.CheckDir().sqrMagnitude <= 4f)
             {
-                StateDel(AllEnum.States.Attack);
-                return;
-            }
-            else if (monster.isHit)
-            {
-                StateDel(AllEnum.States.Hit);
-                return;
+                if (monster.isAttack)
+                {
+                    StateDel(AllEnum.States.Attack);
+                    return;
+                }
+                else
+                {
+                    StateDel(AllEnum.States.Idle);
+                    return;
+                }
+               
             }
             else if (monster.dir.sqrMagnitude > 4f)
             {

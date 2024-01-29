@@ -1,8 +1,7 @@
 using System.Collections;
 using UnityEngine;
 //넉백 ,죽을때 사라지는거 문제 고치기
-// end 판넬 조금 늦게 띄우기
-
+// 파워업 판넬 다시시작시 복제됨 
 
 public class GameManager : Singleton<GameManager>
 {
@@ -22,7 +21,6 @@ public class GameManager : Singleton<GameManager>
     private int maxStage = 5; // 1라운드당 5스테이지라서
     public int gameRound { get; private set; } //gameRound - gameStage 형식
     public int gameStage { get; private set; }
-    Coroutine passiveCor = null;
     Coroutine runTimeCor = null; // 5초에서 줄어듬
     Coroutine stageTimeCor = null; // 0초에서 늘어남
     public AudioSource audioSource { get; private set; }
@@ -44,7 +42,7 @@ public class GameManager : Singleton<GameManager>
     }
     public void LoadStartScene()
     {
-        audioSource.Play();
+        //audioSource.Play();
         Time.timeScale = 1f;
         player.gameObject.SetActive(false);
         UiManager.Instance.canvas.SetActive(true);
@@ -58,6 +56,8 @@ public class GameManager : Singleton<GameManager>
         monsterGoal = 0;
         SetKillMonster(0);
         SetCountGame(1);
+        player.PassiveCorReset();
+
         for (int i = 1; i < UiManager.Instance.canvas.transform.childCount; i++) // 0은 eventSystem
         {
             UiManager.Instance.canvas.transform.GetChild(i).gameObject.SetActive(false);
@@ -67,7 +67,7 @@ public class GameManager : Singleton<GameManager>
     }
     public void Recycle() // 재사용할때 
     {
-        audioSource.Play();
+        //audioSource.Play();
 
     }
     public void Deactivate() //비활성화 할때
@@ -126,16 +126,13 @@ public class GameManager : Singleton<GameManager>
         CorReset();
         MonsterManager.Instance.CorReset();
         boss.CorReset();
-        player.CorReset();
+        player.AllCorReset();
     }
 
     public void CorReset()
     {
         StopAllCoroutines();
-        if (passiveCor != null)
-        {
-            passiveCor = null;
-        }
+        
         if (runTimeCor != null)
         {
             runTimeCor = null;
@@ -158,7 +155,6 @@ public class GameManager : Singleton<GameManager>
             AddKillMonster(10);
         }
     }
-
     
 
     public void LoadMain()
@@ -195,20 +191,7 @@ public class GameManager : Singleton<GameManager>
         boss.gameObject.SetActive(false);
     }
 
-    public void AddKillMonster(int count = 1)
-    {
-        killMonster += count;
-        UiManager.Instance.SetGameUI();
-
-        if (killMonster >= monsterGoal)
-        {
-            if (!gameClear)
-            {
-                GoWatingRoom();
-                countGame++;
-            }
-        }
-    }
+    
 
     public void GoWatingRoom() // 숫자 카운팅 되는 웨이팅룸 들어갈때
     {
@@ -228,11 +211,7 @@ public class GameManager : Singleton<GameManager>
         gameTime = 0;
         SetKillMonster(0);
         monsterGoal = 0;
-        if (passiveCor != null)
-        {
-            StopCoroutine(passiveCor);
-            passiveCor = null;
-        }
+        player.PassiveCorReset();
         UiManager.Instance.wating.SetActive(true);
         UiManager.Instance.SetGameUI(); //시작할때 한번은 보여줘야함
         isRunTime = true;
@@ -266,14 +245,10 @@ public class GameManager : Singleton<GameManager>
             gameStage = 5;
         }
         
-
         monsterGoal = countGame * 10;
         UiManager.Instance.SetGameUI(); //시작할때 한번은 보여줘야함
+        player.DoPassive();
 
-        if (passiveCor == null)
-        {
-            passiveCor = StartCoroutine(CallPassive(true));
-        }
         LockCursor(true);
 
         if (gameStage != 5)
@@ -331,7 +306,20 @@ public class GameManager : Singleton<GameManager>
     }
 
     #endregion
+    public void AddKillMonster(int count = 1)
+    {
+        killMonster += count;
+        UiManager.Instance.SetGameUI();
 
+        if (killMonster >= monsterGoal)
+        {
+            if (!gameClear)
+            {
+                GoWatingRoom();
+                countGame++;
+            }
+        }
+    }
 
     public void LockCursor(bool cursorLock)
     {
@@ -339,34 +327,15 @@ public class GameManager : Singleton<GameManager>
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
         }
         else
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-
         }
     }
 
-    public IEnumerator CallPassive(bool isPlayer)
-    {
-        while (stageStart)
-        {
-            PassiveSkill ps = CallPassiveSkill(isPlayer);
-            yield return new WaitForSeconds(ps.skillStat.duration);
-        }
-    }
-    public PassiveSkill CallPassiveSkill(bool isPlayer)
-    {
-        if (SkillManager.Instance.passiveSkill != null)
-        {
-            SkillManager.Instance.passiveSkill.DoReset();
-
-        }
-        PassiveSkill ps = SkillManager.Instance.CallPassiveSkill(isPlayer);
-        return ps;
-    }
+   
 
 
     public void StopBGM()

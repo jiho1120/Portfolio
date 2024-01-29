@@ -1,44 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class State_Walk : State
+public class State_Idle : State
 {
-    public State_Walk(Monster monster, SetStateDel StateDel) : base(monster, StateDel)
+    
+    public State_Idle(Monster monster, SetStateDel StateDel) : base(monster, StateDel)
     {
     }
 
     public override void OnStateEnter()
     {
-
+        monster.Idle();
     }
 
     public override void OnStateExit()
     {
+
     }
 
     public override void OnStateStay()
     {
         monster.dir = monster.CheckDir();
         monster.SetAttackState();
-        monster.Move(GameManager.Instance.player.transform.position);
 
-        if (monster.isDead)
+        if (monster.IsDead())
         {
             StateDel(AllEnum.States.Die);
             return;
         }
         else
         {
-            if (monster.isHit)
+            if (monster.isAttack) // 어차피 사정거리 안이라 거리체크 안해도됨
+            {
+                StateDel(AllEnum.States.Attack);
+                return;
+            }
+            else if (monster.isHit)
             {
                 StateDel(AllEnum.States.Hit);
                 return;
             }
-            else if (monster.dir.sqrMagnitude <= 4f)
+            else if (monster.dir.sqrMagnitude > 4f)
             {
-                StateDel(AllEnum.States.Idle);
+                StateDel(AllEnum.States.Walk);
                 return;
             }
         }

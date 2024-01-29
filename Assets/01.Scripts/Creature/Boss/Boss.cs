@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
+public class Boss : Creature
 {
     [Header("NowState는 인스펙터 창에서 건들지 마세요")]
     public AllEnum.StateEnum NowState = AllEnum.StateEnum.End;//현재상태
@@ -18,14 +18,12 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     private float lastClickTime = 0f;
     private float attackCooldown = 1.5f;
     bool isLeft = false;
-    bool isDead = false;
     public bool useableSKill = true;
     public bool isStop;
     public int bossLayer;
     public int PassiveCurrentNum;
-    Coroutine HealHpMpCor;
     public Coroutine skillcor = null;
-    Coroutine passiveCor = null;
+    public Coroutine passiveCor { get; private set; }
     Coroutine weakCor = null;
 
     public bool isHit { get; private set; }
@@ -36,7 +34,6 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     public void CorReset()
     {
         StopAllCoroutines();
-        HealHpMpCor = null;
         skillcor = null;
         passiveCor = null;
         weakCor = null;
@@ -57,10 +54,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
     public void Init()
     {
         gameObject.SetActive(true);
-        if (HealHpMpCor == null)
-        {
-            HealHpMpCor = StartCoroutine(HealHpMp());
-        }
+        
         isDead = false;
         rb.isKinematic = false;
         gameObject.transform.position = GameManager.Instance.player.transform.position + new Vector3(3, 0, 3);
@@ -68,13 +62,24 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         LevelUp(); // 능력치 세팅
         SetHaveTiming(false);
 
-        if (passiveCor == null)
-        {
-            passiveCor = StartCoroutine(GameManager.Instance.CallPassive(false));
-        }
+        DoPassive();
         agent.isStopped = false;
         GetComponent<BehaviorTree>().SetInit();
-
+    }
+    public void DoPassive()
+    {
+        if (passiveCor == null)
+        {
+            passiveCor = StartCoroutine(DoPassive(true));
+        }
+    }
+    IEnumerator DoPassive(bool isPlayer)
+    {
+        while (GameManager.Instance.stageStart)
+        {
+            PassiveSkill ps = SkillManager.Instance.CallPassiveSkill(isPlayer);
+            yield return new WaitForSeconds(ps.skillStat.duration);
+        }
     }
     public void Stop()
     {
@@ -191,7 +196,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
             lastClickTime = Time.time;
         }
     }
-    public void Attack(Vector3 Tr, float Range)
+    public override void Attack(Vector3 Tr, float Range)
     {
         Collider[] colliders = Physics.OverlapSphere(Tr, Range);
         for (int i = 0; i < colliders.Length; i++)
@@ -207,27 +212,8 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         Attack(fist.position, 1f);
     }
 
-    public bool CheckCritical(float critical)
-    {
-        bool isCritical = Random.Range(0f, 100f) < critical;
-        return isCritical;
-    }
-
-    public float CriticalDamage(float critical, float attack)
-    {
-        float criticalDamage = 0;
-        if (CheckCritical(critical))
-        {
-            criticalDamage = attack * 2;
-        }
-        else
-        {
-            criticalDamage = attack;
-        }
-
-        return criticalDamage;
-    }
-    public void TakeDamage(float critical, float attack)
+    
+    public override void TakeDamage(float critical, float attack)
     {
         if (!isDead)
         {
@@ -333,7 +319,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         isHit = false;
     }
 
-    public void Dead(bool force)
+    public override void Dead(bool force)
     {
         isDead = true;
         if (passiveCor != null)
@@ -343,12 +329,9 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
 
-    public bool IsDead()
-    {
-        return isDead;
-    }
+   
 
-    public void LevelUp()
+    public override void LevelUp()
     {
         if (bossStat != null)
         {
@@ -357,7 +340,7 @@ public class Boss : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
 
-    public void StatUp()
+    public override void StatUp()
     {
         bossStat.SetMaxHealth((bossStat.level * 1000) + soOriginBoss.maxHealth);
         bossStat.SetHealth(bossStat.maxHealth);

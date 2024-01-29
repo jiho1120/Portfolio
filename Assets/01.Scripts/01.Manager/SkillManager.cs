@@ -34,18 +34,17 @@ public class SkillManager : Singleton<SkillManager>
                 skilltmp.gameObject.SetActive(false);
                 skilltmp.isPlayer = false;
                 bossSkillDict.Add(IntToEnum(skilltmp.Index), skilltmp);
-
             }
         }
     }
-
+    
 
     public PassiveSkill CallPassiveSkill(bool isPlayer)
     {
         if (isPlayer)
         {
             GameManager.instance.player.PassiveCurrentNum++;
-            if (GameManager.instance.player.PassiveCurrentNum >= (int)AllEnum.SkillName.End) // �ε��� �ѱ�� ó������ ����
+            if (GameManager.instance.player.PassiveCurrentNum >= (int)AllEnum.SkillName.End)
             {
                 GameManager.instance.player.PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
             }
@@ -55,7 +54,7 @@ public class SkillManager : Singleton<SkillManager>
         else
         {
             GameManager.instance.boss.PassiveCurrentNum++;
-            if (GameManager.instance.boss.PassiveCurrentNum >= (int)AllEnum.SkillName.End) // �ε��� �ѱ�� ó������ ����
+            if (GameManager.instance.boss.PassiveCurrentNum >= (int)AllEnum.SkillName.End)
             {
                 GameManager.instance.boss.PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
             }

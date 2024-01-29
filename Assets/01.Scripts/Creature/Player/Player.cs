@@ -1,10 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
 //Time.timeScale = 0f; 시간의 흐름이 멈춤 , //픽스드, 코루틴 안되고, 업데이트되고 , 드래그도 가능
-public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
+public class Player : Creature
 {
     public SOPlayer soOriginPlayer;
     [SerializeField]
@@ -22,10 +21,9 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     private float lastClickTime = 0f;
     private float attackCooldown = 1.5f;
     bool isLeft = false;
-    bool isDead = false;
     public int PlayerLayer;
     public int PassiveCurrentNum;
-    Coroutine HealHpMpCor;
+    public Coroutine passiveCor { get; private set; }
 
 
 
@@ -41,11 +39,36 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     public float Cri { get; private set; }
     public float Att { get; private set; }
 
-    public void CorReset()
+    public void AllCorReset()
     {
-        StopAllCoroutines();
-        HealHpMpCor = null;
+        PassiveCorReset();
+
     }
+    public void PassiveCorReset()
+    {
+        if (passiveCor != null)
+        {
+            StopCoroutine(passiveCor);
+            passiveCor = null;
+        }
+    }
+    public void DoPassive()
+    {
+        if (passiveCor == null)
+        {
+            passiveCor = StartCoroutine(DoPassive(true));
+        }
+    }
+    IEnumerator DoPassive(bool isPlayer)
+    {
+        while (GameManager.Instance.stageStart)
+        {
+            PassiveSkill ps = SkillManager.Instance.CallPassiveSkill(isPlayer);
+            yield return new WaitForSeconds(ps.skillStat.duration);
+            ps.DoReset();
+        }
+    }
+
     public void FirstStart()
     {
         playerStat = new PlayerStat(soOriginPlayer);
@@ -70,8 +93,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     }
     public void StageStartInit()
     {
-        PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); // 초반 한번 설정 이것도 씬에서
-        HealHpMpCor = StartCoroutine(HealHpMp());
+        PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); 
     }
 
     // Update is called once per frame
@@ -252,7 +274,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     }
 
     #region 레벨업
-    public void LevelUp()
+    public override void LevelUp()
     {
         if (playerStat != null)
         {
@@ -262,7 +284,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
 
-    public void StatUp()
+    public override void StatUp()
     {
         playerStat.AddMaxHealth(100f);
         playerStat.AddMaxMana(100f);
@@ -312,7 +334,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         }
     }
 
-    public void Attack(Vector3 Tr, float Range)
+    public override void Attack(Vector3 Tr, float Range)
     {
         Collider[] colliders = Physics.OverlapSphere(GameManager.Instance.player.transform.position, Range, PlayerLayer);
 
@@ -335,30 +357,11 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
     }
 
 
-    public bool CheckCritical(float critical)
-    {
-        bool isCritical = Random.Range(0f, 100f) < critical;
-        return isCritical;
-
-    }
-    public float CriticalDamage(float critical, float attack)
-    {
-        float criticalDamage = 0;
-        if (CheckCritical(critical))
-        {
-            criticalDamage = attack * 2;
-        }
-        else
-        {
-            criticalDamage = attack;
-        }
-
-        return criticalDamage;
-    }
+   
     #endregion
 
     #region 맞고 죽고
-    public virtual void TakeDamage(float critical, float attack) // 플레이어피가 다는거
+    public override void TakeDamage(float critical, float attack) // 플레이어피가 다는거
     {
         if (!isDead)
         {
@@ -384,7 +387,7 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         playerAnimator.SetHit();
     }
 
-    public virtual void Dead(bool force)
+    public override void Dead(bool force)
     {
         isDead = true;
         GameManager.Instance.SetGameOver();
@@ -392,14 +395,11 @@ public class Player : MonoBehaviour, IAttack, IDead, ILevelUp
         MonsterManager.Instance.CleanMonster();//=>딱 살아있던 애들만 죽임. (단순히 죽임. 
         InventoryManager.Instance.AllDataRemove();
         UiManager.Instance.ActiveEndPanel();
-        GameManager.Instance.StopBGM();
-        
+        //GameManager.Instance.StopBGM();
     }
 
-    public bool IsDead()
-    {
-        return isDead;
-    }
+        
+    
 
     #endregion
 

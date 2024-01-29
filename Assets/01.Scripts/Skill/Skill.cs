@@ -66,12 +66,7 @@ public abstract class Skill : MonoBehaviour
             }
         }
     }
-    //끄기 (초기화를 담고있는)
-    public void SetOffSkill()
-    {
-        DoReset();
-        gameObject.SetActive(false);
-    }
+    
     public virtual void DoSkill(bool isPlayer) /* 스킬로써해야할일들*/
     {
 

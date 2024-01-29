@@ -93,7 +93,7 @@ public class ActiveSkill : Skill
                         if (enemyRigidbody != null)
                         {
                             Monster monster = colliders[i].GetComponent<Monster>();
-                            if (!monster.isDead)
+                            if (!monster.IsDead())
                             {
                                 monster.SetStopAndMove();
                                 enemyRigidbody.AddForce(direction.normalized * 10, ForceMode.Impulse);
