@@ -30,7 +30,7 @@ public class MONStateMachine : MonoBehaviour
         StateDic.Add(AllEnum.States.Hit, new State_Hit(owner, SetState));
         StateDic.Add(AllEnum.States.Die, new State_Die(owner, SetState));
 
-        SetState(AllEnum.States.Idle);
+        //SetState(AllEnum.States.Idle); ########################
     }
 
     public void StopNowState()

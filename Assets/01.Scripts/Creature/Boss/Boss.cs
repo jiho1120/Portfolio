@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -31,14 +30,8 @@ public class Boss : Creature
 
     public float distance { get; private set; }
 
-    public void CorReset()
-    {
-        StopAllCoroutines();
-        skillcor = null;
-        passiveCor = null;
-        weakCor = null;
-    }
-    public void FirstStart()
+    #region ReInitialize
+    public override void Initialize()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<PlayerAnimator>();
@@ -49,12 +42,16 @@ public class Boss : Creature
         bossStat = new BossStat(soOriginBoss);
         bossLayer = 1 << LayerMask.NameToLayer("Player");
         PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); // 초반 한번 설정 이것도 씬에서
+        isDead = false;
+        rb.isKinematic = false;
+        SetHaveTiming(false);
+
     }
 
-    public void Init()
+    public override void ReStart()
     {
         gameObject.SetActive(true);
-        
+        agent.isStopped = false;
         isDead = false;
         rb.isKinematic = false;
         gameObject.transform.position = GameManager.Instance.player.transform.position + new Vector3(3, 0, 3);
@@ -66,6 +63,26 @@ public class Boss : Creature
         agent.isStopped = false;
         GetComponent<BehaviorTree>().SetInit();
     }
+
+    public override void Deactivate()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void DontUse()
+    {
+        throw new System.NotImplementedException();
+    }
+    #endregion
+
+    public void CorReset()
+    {
+        StopAllCoroutines();
+        skillcor = null;
+        passiveCor = null;
+        weakCor = null;
+    }
+   
     public void DoPassive()
     {
         if (passiveCor == null)
@@ -87,10 +104,7 @@ public class Boss : Creature
         agent.velocity = Vector3.zero;
         SetMoveAnim(0, agent.velocity.z, agent.velocity.x);
     }
-    public void Clear()
-    {
-        Stop();
-    }
+    
     public void SetAgentDirection(Vector3 targetPosition)
     {
         // 에이전트의 방향을 목표 위치로 설정

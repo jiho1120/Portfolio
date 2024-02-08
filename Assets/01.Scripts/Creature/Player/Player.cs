@@ -39,6 +39,27 @@ public class Player : Creature
     public float Cri { get; private set; }
     public float Att { get; private set; }
 
+    #region ReInitialize
+    public override void Initialize()
+    {
+
+    }
+
+    public override void ReStart()
+    {
+
+    }
+
+    public override void Deactivate()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void DontUse()
+    {
+        throw new System.NotImplementedException();
+    }
+    #endregion
     public void AllCorReset()
     {
         PassiveCorReset();
@@ -72,8 +93,14 @@ public class Player : Creature
     public void FirstStart()
     {
         playerStat = new PlayerStat(soOriginPlayer);
-        playerAnimator = GetComponent<PlayerAnimator>();
-        fist = transform.GetChild(0).GetChild(3);
+        if (playerAnimator == null)
+        {
+            playerAnimator = GetComponent<PlayerAnimator>();
+        }
+        if (fist == null)
+        {
+            fist = transform.GetChild(0).GetChild(3);
+        }
         playerAnimator.Starts();
         playerAnimator.SetAttackSpeed(attackSpeed);
         PlayerLayer = 1 << LayerMask.NameToLayer("Enemy");
@@ -104,7 +131,6 @@ public class Player : Creature
 
     private void Update()
     {
-
         if (GameManager.Instance.stageStart)
         {
             if (Input.GetKeyDown(KeyCode.Z))

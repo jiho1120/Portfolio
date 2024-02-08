@@ -2,8 +2,10 @@ using System.Collections;
 using UnityEngine;
 //넉백 ,죽을때 사라지는거 문제 고치기
 // 파워업 판넬 다시시작시 복제됨 
+// 패시브 고치기
+// 기본초기화, 하고 다시 초기화 할지 나누기 ,
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : Singleton<GameManager>, ReInitialize
 {
     public GameObject pools;
     public GameObject playerPrefab;
@@ -32,13 +34,12 @@ public class GameManager : Singleton<GameManager>
     public int StopNum; // 게임 정지와 커서가 다른 창에 의해서 풀려버리는 걸 방지, 0일떄만 작동되게
 
     #region 초기화 관련
-    public void SetUpOnce() // 처음 설정할것
+    public void Initialize() // 처음 설정할것
     {
         audioSource = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
         SceneLoadController.Instance.GoStartScene();
-
     }
     public void LoadStartScene()
     {
@@ -47,7 +48,6 @@ public class GameManager : Singleton<GameManager>
         player.gameObject.SetActive(false);
         UiManager.Instance.canvas.SetActive(true);
         pools.SetActive(false);
-        SetIsNew(true);
         SetIsRunTime(false);
         SetStageStart(false);
         SetGameOver(false);
@@ -65,7 +65,7 @@ public class GameManager : Singleton<GameManager>
         UiManager.Instance.canvas.transform.GetChild(0).gameObject.SetActive(true);
         UiManager.Instance.startScene.SetActive(true);
     }
-    public void Recycle() // 재사용할때 
+    public void ReStart() // 재사용할때 
     {
         //audioSource.Play();
 
@@ -76,7 +76,7 @@ public class GameManager : Singleton<GameManager>
     }
     public void DontUse() // 안쓰게 될때
     {
-
+       
     }
     #endregion
 
@@ -84,7 +84,6 @@ public class GameManager : Singleton<GameManager>
     public void SetIsNew(bool _bool)
     {
         isNew = _bool;
-        
     }
     
     public void SetIsRunTime(bool _bool)
@@ -141,7 +140,9 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        SetUpOnce();
+        Initialize();
+        DoItOnceMain();
+
     }
 
     private void Update()
@@ -163,13 +164,14 @@ public class GameManager : Singleton<GameManager>
         boss.gameObject.SetActive(false);
         pools.SetActive(true);
         UiManager.Instance.canvas.SetActive(true);
-        if (isNew)
-        {
-            DoItOnceMain();
-            SetIsNew(false);
-        }
+        //SetIsNew(true);
+        //if (isNew)
+        //{
+        //    DoItOnceMain();
+        //    SetIsNew(false);
+        //}
         player.Init();
-        UiManager.Instance.Init();
+        UiManager.Instance.ReStart();
         UiManager.Instance.playerConditionUI.SetUI();
 
         GoWatingRoom();
@@ -180,14 +182,14 @@ public class GameManager : Singleton<GameManager>
     {
         ResourceManager.Instance.LoadResources();
         player.FirstStart();
-        SkillManager.Instance.Init();
+        SkillManager.Instance.Initialize(); // 스킬생성
         MonsterManager.Instance.MakeMonster(); // 오브젝트 풀만 생성
-        ItemManager.Instance.Init(); // 드랍될아이템 오브젝트풀생성
-        InventoryManager.Instance.Init(); // 인벤토리 아이템 칸 생성
+        ItemManager.Instance.Initialize(); // 드랍될아이템 오브젝트풀생성
+        InventoryManager.Instance.Initialize(); // 인벤토리 아이템 칸 생성
         player.CalcPlayerStat();
-        UiManager.Instance.FirstSet();
+        UiManager.Instance.Initialize();
         stageStart = false;
-        boss.FirstStart();
+        boss.Initialize();
         boss.gameObject.SetActive(false);
     }
 
@@ -257,7 +259,7 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            boss.Init();
+            boss.ReStart();
             boss.StartWeakCor();
             monsterGoal = 1;
         }

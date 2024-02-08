@@ -2,10 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Creature : MonoBehaviour, IAttack, IDead, ILevelUp
+public abstract class Creature : MonoBehaviour, IAttack, IDead, ILevelUp, ReInitialize
 {
     protected bool isDead = false;
 
+    #region initialize
+    public abstract void Initialize();
+
+
+    public abstract void ReStart();
+
+
+    public abstract void Deactivate();
+
+
+    public abstract void DontUse();
+    
+    #endregion
 
     public abstract void Attack(Vector3 Tr, float Range);
 
@@ -32,6 +45,7 @@ public abstract class Creature : MonoBehaviour, IAttack, IDead, ILevelUp
 
         return criticalDamage;
     }
+    public abstract void TakeDamage(float critical, float attack);
 
     public abstract void Dead(bool force);
 
@@ -52,6 +66,7 @@ public abstract class Creature : MonoBehaviour, IAttack, IDead, ILevelUp
     public abstract void StatUp();
 
 
-    public abstract void TakeDamage(float critical, float attack);
+
+
     
 }

@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillManager : Singleton<SkillManager>
+public class SkillManager : Singleton<SkillManager>, ReInitialize
 {
     public Skill passiveSkill { get; private set; }
     public Dictionary<AllEnum.SkillName, Skill> skillDict { get; private set; } // ��ų ���鶧 �̰� ���
     public Dictionary<AllEnum.SkillName, Skill> bossSkillDict { get; private set; }
     public Transform playerSKillPool;
     public Transform bossSKillPool;
-    public void Init()
+    public void Initialize()
     {
         skillDict = new Dictionary<AllEnum.SkillName, Skill>();
         bossSkillDict = new Dictionary<AllEnum.SkillName, Skill>();
@@ -37,6 +37,21 @@ public class SkillManager : Singleton<SkillManager>
             }
         }
     }
+    public void ReStart()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Deactivate()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void DontUse()
+    {
+        throw new System.NotImplementedException();
+    }
+    
     
 
     public PassiveSkill CallPassiveSkill(bool isPlayer)
@@ -222,4 +237,6 @@ public class SkillManager : Singleton<SkillManager>
         yield return new WaitForSeconds(cool);
         skill.skillStat.SetInUse(false);
     }
+
+   
 }

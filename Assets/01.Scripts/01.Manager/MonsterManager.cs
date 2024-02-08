@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterManager : Singleton<MonsterManager>
 {
     ObjectPool<Monster> monsterPool = new ObjectPool<Monster>();
     public Transform monsterPoolPos;
-    int monsterRange = 10;//20; //###############
+    int monsterRange = 10;
     Coroutine monCor = null;
     public void CorReset()
     {
@@ -21,11 +20,15 @@ public class MonsterManager : Singleton<MonsterManager>
 
     public void MakeMonster()
     {
-        // 몬스터 풀 초기화
-        for (int i = 0; i < monsterRange; i++)
+        if (monsterPool.objectPool.Count == 0)
         {
-            monsterPool.RandomInitializeObjectPool(ResourceManager.Instance.monsterAll, monsterPoolPos);
+            // 몬스터 풀 초기화
+            for (int i = 0; i < monsterRange; i++)
+            {
+                monsterPool.RandomInitializeObjectPool(ResourceManager.Instance.monsterAll, monsterPoolPos);
+            }
         }
+        
     }
 
     public void SpawnMonster()
@@ -52,12 +55,11 @@ public class MonsterManager : Singleton<MonsterManager>
             Monster monster = monsterPool.GetObjectFromPool(ResourceManager.Instance.monsterAll, monsterPoolPos);
             if (monster!=null)
             {
-                monster.Init();
+                monster.ReStart();
             }            
             yield return new WaitForSeconds(1f);
         }
     }
-   
    
     public void CleanMonster()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class UiManager : Singleton<UiManager>
+public class UiManager : Singleton<UiManager>, ReInitialize
 {
     public GameObject startScene;
     public PlayerConditionUI playerConditionUI;
@@ -30,9 +30,9 @@ public class UiManager : Singleton<UiManager>
     public SpriteRenderer innerNote { get; private set; }
     public SpriteRenderer outterNote { get; private set; }
 
-    public void FirstSet()
+    public void Initialize()
     {
-        Init();
+        //ReStart();
         stopBtnText = stopTime.transform.GetComponentInChildren<Text>();
         playerConditionUI.Init();
         powerUpUI.Init();
@@ -42,7 +42,7 @@ public class UiManager : Singleton<UiManager>
         warningText = warning.transform.GetChild(0).GetComponent<Text>();
     }
 
-    public void Init() // Wating °¬À»¶§
+    public void ReStart() // Wating °¬À»¶§
     {
         startScene.gameObject.SetActive(false);
         playerConditionUI.gameObject.SetActive(true);
@@ -56,6 +56,16 @@ public class UiManager : Singleton<UiManager>
         goalCount.gameObject.SetActive(true);
         note.gameObject.SetActive(false);
     }
+
+    public void Deactivate()
+    {
+
+    }
+
+    public void DontUse()
+    {
+    }
+   
     public void SetGameUI()
     {
         playerConditionUI.SetUI();
@@ -250,4 +260,5 @@ public class UiManager : Singleton<UiManager>
             Time.timeScale = 1f;
         }
     }
+
 }

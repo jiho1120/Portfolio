@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : MonoBehaviour 를 안쓰면 MonoBehaviour의 기능을 못씀
+public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour, ReInitialize //where T : MonoBehaviour 를 안쓰면 MonoBehaviour의 기능을 못씀
+
 {
     //T tInfo;
     public Queue<T> objectPool = new Queue<T>();
@@ -38,8 +39,8 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
     {
         num = prefabArray.Length;
         ranNum = Random.Range(0, num);
-        //ranNum = 0;//########################
         T tInfo = Instantiate(prefabArray[ranNum]).GetComponent<T>();
+        Initialize(tInfo);
         tInfo.transform.parent = pos;
         objectPool.Enqueue(tInfo);
         InfoList.Add(tInfo);
@@ -54,7 +55,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
     {
         if (objectPool.Count == 0)
         {
-            //RandomInitializeObjectPool(prefabArray, pos); //################
+            RandomInitializeObjectPool(prefabArray, pos);
             return null;
         }
 
@@ -87,6 +88,15 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour //where T : M
                 dead.Dead(true);                
             }
         }
+    }
+    public void Initialize(T tInfo)
+    {
+        ReInitialize reInitialize;
+            reInitialize = tInfo.GetComponent<ReInitialize>();
+            if (reInitialize != null)
+            {
+                reInitialize.Initialize();
+            }
     }
 
 }

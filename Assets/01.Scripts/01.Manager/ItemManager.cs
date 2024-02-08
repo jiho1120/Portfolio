@@ -3,21 +3,38 @@ using UnityEngine;
 
 
 
-public class ItemManager : Singleton<ItemManager>
+public class ItemManager : Singleton<ItemManager>, ReInitialize
 {
     public Transform dropItemParent;
     public Queue<Item> itemPool = new Queue<Item>();
     public List<Item> infoList = new List<Item>();
     public Item itemDrop;
     int maxDropItemLength = 20;
-    public void Init()
+
+    public void Initialize()
     {
         for (int i = 0; i < maxDropItemLength; i++)
         {
             MakeItem();
         }
     }
-    
+
+    public void ReStart()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Deactivate()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void DontUse()
+    {
+        throw new System.NotImplementedException();
+    }
+
+
     public void MakeItem()
     {
         Item obj = Instantiate(itemDrop, dropItemParent);
@@ -68,6 +85,6 @@ public class ItemManager : Singleton<ItemManager>
                 ReturnObjectToPool(infoList[i]);
             }
         }
-       
+
     }
 }

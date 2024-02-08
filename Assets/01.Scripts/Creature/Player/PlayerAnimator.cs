@@ -9,7 +9,10 @@ public class PlayerAnimator : MonoBehaviour
     // Start is called before the first frame update
     public void Starts()
     {
-        anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            anim = GetComponent<Animator>();
+        }
     }
 
     public void MoveAnim(float z, float x)

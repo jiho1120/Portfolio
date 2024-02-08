@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class InventoryManager : Singleton<InventoryManager>
+public class InventoryManager : Singleton<InventoryManager>,ReInitialize
 {
     public List<ItemSlot> itemList = new List<ItemSlot>();
     public List<ItemSlot> playerItemList = new List<ItemSlot>();
@@ -21,13 +21,28 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public GameObject inven;
     public bool invenOn = false;
-    public void Init()
+    public void Initialize()
     {
         SetItemListCount();
         for (int i = 0; i < equipList.Length; i++)
         {
             equipList[i].Init();
         }
+    }
+
+    public void ReStart()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Deactivate()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void DontUse()
+    {
+        throw new System.NotImplementedException();
     }
 
 
@@ -98,15 +113,6 @@ public class InventoryManager : Singleton<InventoryManager>
             }
         }
         return false;
-        //if (item.count > 0)
-        //{
-        //    return false;
-        //}
-        //else
-        //{
-        //    return true;
-        //}
-
     }
     public void DataAdd(SOItem item)
     {
@@ -251,4 +257,6 @@ public class InventoryManager : Singleton<InventoryManager>
         }
 
     }
+
+    
 }
