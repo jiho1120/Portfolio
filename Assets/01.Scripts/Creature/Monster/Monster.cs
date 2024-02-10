@@ -28,7 +28,7 @@ public class Monster : Creature, ReInitialize
     public bool force { get; private set; }
 
     #region ReInitialize
-    public override void Initialize()
+    public override void Init()
     {
         anim = GetComponent<MonsterAnimation>();
         anim.SetInit();
@@ -46,7 +46,7 @@ public class Monster : Creature, ReInitialize
         dieCor = null;
     }
 
-    public override void ReStart()
+    public override void ReInit()
     {
         if (anim == null)
         {
@@ -94,10 +94,6 @@ public class Monster : Creature, ReInitialize
         throw new System.NotImplementedException();
     }
 
-    public override void DontUse()
-    {
-        throw new System.NotImplementedException();
-    }
     #endregion
 
     public void SetStopAndMove()

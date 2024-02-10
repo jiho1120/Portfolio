@@ -95,7 +95,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour, ReInitialize
             reInitialize = tInfo.GetComponent<ReInitialize>();
             if (reInitialize != null)
             {
-                reInitialize.Initialize();
+                reInitialize.Init();
             }
     }
 

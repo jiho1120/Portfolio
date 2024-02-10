@@ -11,7 +11,7 @@ public class ItemManager : Singleton<ItemManager>, ReInitialize
     public Item itemDrop;
     int maxDropItemLength = 20;
 
-    public void Initialize()
+    public void Init()
     {
         for (int i = 0; i < maxDropItemLength; i++)
         {
@@ -19,7 +19,7 @@ public class ItemManager : Singleton<ItemManager>, ReInitialize
         }
     }
 
-    public void ReStart()
+    public void ReInit()
     {
         throw new System.NotImplementedException();
     }
@@ -28,12 +28,6 @@ public class ItemManager : Singleton<ItemManager>, ReInitialize
     {
         throw new System.NotImplementedException();
     }
-
-    public void DontUse()
-    {
-        throw new System.NotImplementedException();
-    }
-
 
     public void MakeItem()
     {

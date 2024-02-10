@@ -7,16 +7,13 @@ public abstract class Creature : MonoBehaviour, IAttack, IDead, ILevelUp, ReInit
     protected bool isDead = false;
 
     #region initialize
-    public abstract void Initialize();
+    public abstract void Init();
 
 
-    public abstract void ReStart();
+    public abstract void ReInit();
 
 
     public abstract void Deactivate();
-
-
-    public abstract void DontUse();
     
     #endregion
 

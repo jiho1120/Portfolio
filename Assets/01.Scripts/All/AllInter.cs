@@ -23,14 +23,12 @@ public interface ILevelUp
 
 public interface ReInitialize
 {
-    public void Initialize(); // 처음 설정할것
+    public void Init(); // 처음 설정할것
 
-    public void ReStart(); // 재사용할때 
+    public void ReInit(); // 재사용할때 
 
     public void Deactivate(); //비활성화 할때
 
-    public void DontUse(); // 안쓰게 될때
-    
 }
 
 

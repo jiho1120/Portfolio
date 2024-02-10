@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager : Singleton<ResourceManager>
+public class ResourceManager : Singleton<ResourceManager>, ReInitialize
 {
     public Monster[] monsterAll;
 
@@ -12,7 +12,7 @@ public class ResourceManager : Singleton<ResourceManager>
     public SOItem[] itemDataAll;
     public XMLAccess XMLAccess {  get; private set; }
 
-    public void LoadResources()
+    public void Init()
     {
         monsterAll = Resources.LoadAll<Monster>("Object/Monster");
         objectAll = Resources.LoadAll<GameObject>("Skill");
@@ -21,6 +21,15 @@ public class ResourceManager : Singleton<ResourceManager>
         XMLAccess = GetComponent<XMLAccess>();
         XMLAccess.Init();
     }
+    public void ReInit()
+    {
+        throw new System.NotImplementedException();
+    }
+    public void Deactivate()
+    {
+        throw new System.NotImplementedException();
+    }
+   
 
     public SOSkill GetSkillData(int index)
     {
@@ -31,9 +40,6 @@ public class ResourceManager : Singleton<ResourceManager>
                 return skillDataAll[i];
             }            
         }
-
         return null;
     }
-
-    
 }

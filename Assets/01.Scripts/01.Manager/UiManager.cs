@@ -30,7 +30,7 @@ public class UiManager : Singleton<UiManager>, ReInitialize
     public SpriteRenderer innerNote { get; private set; }
     public SpriteRenderer outterNote { get; private set; }
 
-    public void Initialize()
+    public void Init()
     {
         //ReStart();
         stopBtnText = stopTime.transform.GetComponentInChildren<Text>();
@@ -42,7 +42,7 @@ public class UiManager : Singleton<UiManager>, ReInitialize
         warningText = warning.transform.GetChild(0).GetComponent<Text>();
     }
 
-    public void ReStart() // Wating °¬À»¶§
+    public void ReInit() // Wating °¬À»¶§
     {
         startScene.gameObject.SetActive(false);
         playerConditionUI.gameObject.SetActive(true);
@@ -62,9 +62,6 @@ public class UiManager : Singleton<UiManager>, ReInitialize
 
     }
 
-    public void DontUse()
-    {
-    }
    
     public void SetGameUI()
     {

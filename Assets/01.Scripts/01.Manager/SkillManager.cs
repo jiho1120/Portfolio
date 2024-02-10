@@ -9,7 +9,7 @@ public class SkillManager : Singleton<SkillManager>, ReInitialize
     public Dictionary<AllEnum.SkillName, Skill> bossSkillDict { get; private set; }
     public Transform playerSKillPool;
     public Transform bossSKillPool;
-    public void Initialize()
+    public void Init()
     {
         skillDict = new Dictionary<AllEnum.SkillName, Skill>();
         bossSkillDict = new Dictionary<AllEnum.SkillName, Skill>();
@@ -37,7 +37,7 @@ public class SkillManager : Singleton<SkillManager>, ReInitialize
             }
         }
     }
-    public void ReStart()
+    public void ReInit()
     {
         throw new System.NotImplementedException();
     }
@@ -47,10 +47,6 @@ public class SkillManager : Singleton<SkillManager>, ReInitialize
         throw new System.NotImplementedException();
     }
 
-    public void DontUse()
-    {
-        throw new System.NotImplementedException();
-    }
     
     
 

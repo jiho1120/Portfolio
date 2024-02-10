@@ -31,7 +31,7 @@ public class Boss : Creature
     public float distance { get; private set; }
 
     #region ReInitialize
-    public override void Initialize()
+    public override void Init()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<PlayerAnimator>();
@@ -48,7 +48,7 @@ public class Boss : Creature
 
     }
 
-    public override void ReStart()
+    public override void ReInit()
     {
         gameObject.SetActive(true);
         agent.isStopped = false;
@@ -69,10 +69,6 @@ public class Boss : Creature
         throw new System.NotImplementedException();
     }
 
-    public override void DontUse()
-    {
-        throw new System.NotImplementedException();
-    }
     #endregion
 
     public void CorReset()

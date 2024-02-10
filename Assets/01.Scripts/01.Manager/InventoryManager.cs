@@ -21,7 +21,7 @@ public class InventoryManager : Singleton<InventoryManager>,ReInitialize
 
     public GameObject inven;
     public bool invenOn = false;
-    public void Initialize()
+    public void Init()
     {
         SetItemListCount();
         for (int i = 0; i < equipList.Length; i++)
@@ -30,7 +30,7 @@ public class InventoryManager : Singleton<InventoryManager>,ReInitialize
         }
     }
 
-    public void ReStart()
+    public void ReInit()
     {
         throw new System.NotImplementedException();
     }
@@ -40,10 +40,6 @@ public class InventoryManager : Singleton<InventoryManager>,ReInitialize
         throw new System.NotImplementedException();
     }
 
-    public void DontUse()
-    {
-        throw new System.NotImplementedException();
-    }
 
 
     public void SetItemListCount()

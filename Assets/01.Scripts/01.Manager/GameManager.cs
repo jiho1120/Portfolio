@@ -3,12 +3,14 @@ using UnityEngine;
 //넉백 ,죽을때 사라지는거 문제 고치기
 // 파워업 판넬 다시시작시 복제됨 
 // 패시브 고치기
-// 기본초기화, 하고 다시 초기화 할지 나누기 ,
+// 죽었을 시 보스 초기화
 
 public class GameManager : Singleton<GameManager>, ReInitialize
 {
     public GameObject pools;
     public GameObject playerPrefab;
+    public GameObject bossPrefab;
+
     public Player player { get; private set; }
     public Boss boss { get; private set; }
     public bool isNew { get; private set; } // 저장한거 불러오는지, 처음인지
@@ -26,20 +28,42 @@ public class GameManager : Singleton<GameManager>, ReInitialize
     Coroutine runTimeCor = null; // 5초에서 줄어듬
     Coroutine stageTimeCor = null; // 0초에서 늘어남
     public AudioSource audioSource { get; private set; }
-
     public float gameTime { get; private set; }
     public float countTime { get; private set; }
-
-    public GameObject bossObj;
     public int StopNum; // 게임 정지와 커서가 다른 창에 의해서 풀려버리는 걸 방지, 0일떄만 작동되게
+    private void Start()
+    {
+        Init();
+    }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            AddKillMonster(10);
+        }
+    }
     #region 초기화 관련
-    public void Initialize() // 처음 설정할것
+    public void Init() // 처음 설정할것
     {
         audioSource = GetComponent<AudioSource>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
-        SceneLoadController.Instance.GoStartScene();
+        player = Instantiate(playerPrefab,transform).GetComponent<Player>();
+        boss = Instantiate(bossPrefab,transform).GetComponent<Boss>();
+        ResourceManager.Instance.Init();
+        SkillManager.Instance.Init(); // 스킬생성
+        MonsterManager.Instance.Init(); // 오브젝트 풀만 생성
+        ItemManager.Instance.Init(); // 드랍될아이템 오브젝트풀생성
+        InventoryManager.Instance.Init(); // 인벤토리 아이템 칸 생성
+        UiManager.Instance.Init();
+        player.Init();
+        stageStart = false;
+        boss.Init();
+        boss.gameObject.SetActive(false);
+        LoadStartScene();
     }
     public void LoadStartScene()
     {
@@ -65,7 +89,7 @@ public class GameManager : Singleton<GameManager>, ReInitialize
         UiManager.Instance.canvas.transform.GetChild(0).gameObject.SetActive(true);
         UiManager.Instance.startScene.SetActive(true);
     }
-    public void ReStart() // 재사용할때 
+    public void ReInit() // 재사용할때 
     {
         //audioSource.Play();
 
@@ -73,10 +97,6 @@ public class GameManager : Singleton<GameManager>, ReInitialize
     public void Deactivate() //비활성화 할때
     {
 
-    }
-    public void DontUse() // 안쓰게 될때
-    {
-       
     }
     #endregion
 
@@ -137,63 +157,18 @@ public class GameManager : Singleton<GameManager>, ReInitialize
             runTimeCor = null;
         }
     }
-
-    private void Start()
-    {
-        Initialize();
-        DoItOnceMain();
-
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
-        if (Input.GetKeyDown(KeyCode.KeypadPlus))
-        {
-            AddKillMonster(10);
-        }
-    }
-    
-
     public void LoadMain()
     {
         player.gameObject.SetActive(true);
         boss.gameObject.SetActive(false);
         pools.SetActive(true);
         UiManager.Instance.canvas.SetActive(true);
-        //SetIsNew(true);
-        //if (isNew)
-        //{
-        //    DoItOnceMain();
-        //    SetIsNew(false);
-        //}
         player.Init();
-        UiManager.Instance.ReStart();
+        UiManager.Instance.ReInit();
         UiManager.Instance.playerConditionUI.SetUI();
 
         GoWatingRoom();
     }
-    
-
-    public void DoItOnceMain()
-    {
-        ResourceManager.Instance.LoadResources();
-        player.FirstStart();
-        SkillManager.Instance.Initialize(); // 스킬생성
-        MonsterManager.Instance.MakeMonster(); // 오브젝트 풀만 생성
-        ItemManager.Instance.Initialize(); // 드랍될아이템 오브젝트풀생성
-        InventoryManager.Instance.Initialize(); // 인벤토리 아이템 칸 생성
-        player.CalcPlayerStat();
-        UiManager.Instance.Initialize();
-        stageStart = false;
-        boss.Initialize();
-        boss.gameObject.SetActive(false);
-    }
-
-    
 
     public void GoWatingRoom() // 숫자 카운팅 되는 웨이팅룸 들어갈때
     {
@@ -259,7 +234,7 @@ public class GameManager : Singleton<GameManager>, ReInitialize
         }
         else
         {
-            boss.ReStart();
+            boss.ReInit();
             boss.StartWeakCor();
             monsterGoal = 1;
         }
@@ -336,9 +311,6 @@ public class GameManager : Singleton<GameManager>, ReInitialize
             Cursor.visible = true;
         }
     }
-
-   
-
 
     public void StopBGM()
     {

@@ -40,12 +40,31 @@ public class Player : Creature
     public float Att { get; private set; }
 
     #region ReInitialize
-    public override void Initialize()
+    public override void Init()
     {
-
+        isDead = false;
+        isLeft = false;
+        run = false;
+        attackSpeed = 1;
+        lastClickTime = 0f;
+        attackCooldown = 1.5f;
+        playerStat = new PlayerStat(soOriginPlayer); //플레이어 데이터 세팅
+        CalcPlayerStat();
+        UiManager.Instance.SetGameUI(); //데이터에 따라 ui세팅
+        if (playerAnimator == null)
+        {
+            playerAnimator = GetComponent<PlayerAnimator>();
+        }
+        if (fist == null)
+        {
+            fist = transform.GetChild(0).GetChild(3);
+        }
+        playerAnimator.Starts();
+        playerAnimator.SetAttackSpeed(attackSpeed);
+        PlayerLayer = 1 << LayerMask.NameToLayer("Enemy");
     }
 
-    public override void ReStart()
+    public override void ReInit()
     {
 
     }
@@ -55,10 +74,6 @@ public class Player : Creature
         throw new System.NotImplementedException();
     }
 
-    public override void DontUse()
-    {
-        throw new System.NotImplementedException();
-    }
     #endregion
     public void AllCorReset()
     {
@@ -90,34 +105,7 @@ public class Player : Creature
         }
     }
 
-    public void FirstStart()
-    {
-        playerStat = new PlayerStat(soOriginPlayer);
-        if (playerAnimator == null)
-        {
-            playerAnimator = GetComponent<PlayerAnimator>();
-        }
-        if (fist == null)
-        {
-            fist = transform.GetChild(0).GetChild(3);
-        }
-        playerAnimator.Starts();
-        playerAnimator.SetAttackSpeed(attackSpeed);
-        PlayerLayer = 1 << LayerMask.NameToLayer("Enemy");
-    }
-
-    public void Init()
-    {
-        isDead = false;
-        isLeft = false;
-        run = false;
-        attackSpeed = 1;
-        lastClickTime = 0f;
-        attackCooldown = 1.5f;
-        playerStat = new PlayerStat(soOriginPlayer); //플레이어 데이터 세팅
-        CalcPlayerStat();
-        UiManager.Instance.SetGameUI(); //데이터에 따라 ui세팅
-    }
+ 
     public void StageStartInit()
     {
         PassiveCurrentNum = Random.Range((int)AllEnum.SkillName.Fire, (int)AllEnum.SkillName.End); 
