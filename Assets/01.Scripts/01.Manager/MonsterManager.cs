@@ -14,7 +14,12 @@ public class MonsterManager : Singleton<MonsterManager>, ReInitialize
 
     public void ReInit()
     {
-        throw new System.NotImplementedException();
+        // 상태초기화
+        foreach (var item in monsterPool.objectPool)
+        {
+            item.ReInit();
+        }
+
     }
 
     public void Deactivate()

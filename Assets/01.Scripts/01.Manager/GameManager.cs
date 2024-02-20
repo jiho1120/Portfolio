@@ -65,6 +65,7 @@ public class GameManager : Singleton<GameManager>, ReInitialize
         boss.gameObject.SetActive(false);
         LoadStartScene();
     }
+
     public void LoadStartScene()
     {
         //audioSource.Play();
@@ -92,6 +93,11 @@ public class GameManager : Singleton<GameManager>, ReInitialize
     public void ReInit() // 재사용할때 
     {
         //audioSource.Play();
+        SkillManager.Instance.ReInit();
+        MonsterManager.Instance.ReInit();
+        ItemManager.Instance.ReInit();
+        InventoryManager.Instance.ReInit();
+        UiManager.Instance.ReInit();
 
     }
     public void Deactivate() //비활성화 할때

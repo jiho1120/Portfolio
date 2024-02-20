@@ -39,7 +39,14 @@ public class SkillManager : Singleton<SkillManager>, ReInitialize
     }
     public void ReInit()
     {
-        throw new System.NotImplementedException();
+        foreach(var item in skillDict)
+        {
+            item.Value.Init(item.Value.orgInfo);
+        }
+        foreach (var item in bossSkillDict)
+        {
+            item.Value.Init(item.Value.orgInfo);
+        }
     }
 
     public void Deactivate()

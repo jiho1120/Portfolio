@@ -322,5 +322,4 @@ public class Monster : Creature, ReInitialize
     }
 
     #endregion
-    ///////////////////
 }
