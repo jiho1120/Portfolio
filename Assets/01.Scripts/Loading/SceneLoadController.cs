@@ -8,7 +8,7 @@ public class SceneLoadController : Singleton<SceneLoadController>
     {
         GameManager.Instance.AllScriptsCorReset();
         LoadingSceneController.LoadScene("Start");
-        GameManager.Instance.LoadStartScene();
+        GameManager.Instance.StartMenu();
     }
     public void GoMainScene()
     {

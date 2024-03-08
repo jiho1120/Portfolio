@@ -9,11 +9,11 @@ public class SkillManager : Singleton<SkillManager>, ReInitialize
     public Dictionary<AllEnum.SkillName, Skill> bossSkillDict { get; private set; }
     public Transform playerSKillPool;
     public Transform bossSKillPool;
+    
     public void Init()
     {
         skillDict = new Dictionary<AllEnum.SkillName, Skill>();
         bossSkillDict = new Dictionary<AllEnum.SkillName, Skill>();
-
         Skill skilltmp;
 
         foreach (var item in ResourceManager.Instance.objectAll)
@@ -25,7 +25,7 @@ public class SkillManager : Singleton<SkillManager>, ReInitialize
             skilltmp.gameObject.SetActive(false);
             skilltmp.isPlayer = true;
             skillDict.Add(IntToEnum(skilltmp.Index), skilltmp);
-            if (skilltmp.skillStat.skillName != AllEnum.SkillName.Gravity) // �ñر�� �ȳ���
+            if (skilltmp.skillStat.skillName != AllEnum.SkillName.Gravity)
             {
                 skilltmp = Instantiate(item, bossSKillPool).GetComponent<Skill>();
                 skilltmp.gameObject.layer = LayerMask.NameToLayer("BossSkill");

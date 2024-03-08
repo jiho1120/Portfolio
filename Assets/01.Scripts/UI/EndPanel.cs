@@ -41,7 +41,7 @@ public class EndPanel : MonoBehaviour
             // 저장 후 게임 이어하기
             Time.timeScale = 1f;
             GameManager.Instance.SetGameClear(false);
-            GameManager.Instance.GoWatingRoom();
+            GameManager.Instance.GoWating();
         }
         GameManager.Instance.StopNum--;
         GameManager.Instance.pools.SetActive(true);

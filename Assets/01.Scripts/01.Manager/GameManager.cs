@@ -5,6 +5,7 @@ using UnityEngine;
 // 패시브 고치기
 // 죽었을 시 보스 초기화
 
+
 public class GameManager : Singleton<GameManager>, ReInitialize
 {
     public GameObject pools;
@@ -33,8 +34,19 @@ public class GameManager : Singleton<GameManager>, ReInitialize
     public int StopNum; // 게임 정지와 커서가 다른 창에 의해서 풀려버리는 걸 방지, 0일떄만 작동되게
     private void Start()
     {
-        Init();
+        audioSource = GetComponent<AudioSource>();
+        //audioSource.Play();
+        player = Instantiate(playerPrefab, transform).GetComponent<Player>();
+        boss = Instantiate(bossPrefab, transform).GetComponent<Boss>();
+        ResourceManager.Instance.Init();
+        SkillManager.Instance.Init(); // 스킬생성
+        MonsterManager.Instance.Init(); // 오브젝트 풀만 생성
+        ItemManager.Instance.Init(); // 드랍될아이템 오브젝트풀생성
+        InventoryManager.Instance.Init(); // 인벤토리 아이템 칸 생성
+        UiManager.Instance.Init();
+        StartMenu();
     }
+    
 
     private void Update()
     {
@@ -48,29 +60,17 @@ public class GameManager : Singleton<GameManager>, ReInitialize
         }
     }
     #region 초기화 관련
-    public void Init() // 처음 설정할것
+    // 게임 흐름 :
+    // 새로 시작 : StartMenu -> init -> goWaiting -> GoStage
+    // 이어하기 :             -> 데이터 불러오는 함수
+    public void StartMenu()
     {
-        audioSource = GetComponent<AudioSource>();
-        player = Instantiate(playerPrefab,transform).GetComponent<Player>();
-        boss = Instantiate(bossPrefab,transform).GetComponent<Boss>();
-        ResourceManager.Instance.Init();
-        SkillManager.Instance.Init(); // 스킬생성
-        MonsterManager.Instance.Init(); // 오브젝트 풀만 생성
-        ItemManager.Instance.Init(); // 드랍될아이템 오브젝트풀생성
-        InventoryManager.Instance.Init(); // 인벤토리 아이템 칸 생성
-        UiManager.Instance.Init();
         player.Init();
-        stageStart = false;
         boss.Init();
-        boss.gameObject.SetActive(false);
-        LoadStartScene();
-    }
-
-    public void LoadStartScene()
-    {
-        //audioSource.Play();
-        Time.timeScale = 1f;
         player.gameObject.SetActive(false);
+        boss.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        stageStart = false;
         UiManager.Instance.canvas.SetActive(true);
         pools.SetActive(false);
         SetIsRunTime(false);
@@ -82,15 +82,20 @@ public class GameManager : Singleton<GameManager>, ReInitialize
         SetKillMonster(0);
         SetCountGame(1);
         player.PassiveCorReset();
-
         for (int i = 1; i < UiManager.Instance.canvas.transform.childCount; i++) // 0은 eventSystem
         {
             UiManager.Instance.canvas.transform.GetChild(i).gameObject.SetActive(false);
         }
         UiManager.Instance.canvas.transform.GetChild(0).gameObject.SetActive(true);
         UiManager.Instance.startScene.SetActive(true);
+
     }
-    public void ReInit() // 재사용할때 
+    public void Init() // 처음시작
+    {
+    }
+
+    
+    public void ReInit() // 이어하기일때
     {
         //audioSource.Play();
         SkillManager.Instance.ReInit();
@@ -169,14 +174,13 @@ public class GameManager : Singleton<GameManager>, ReInitialize
         boss.gameObject.SetActive(false);
         pools.SetActive(true);
         UiManager.Instance.canvas.SetActive(true);
-        player.Init();
         UiManager.Instance.ReInit();
         UiManager.Instance.playerConditionUI.SetUI();
 
-        GoWatingRoom();
+        GoWating();
     }
 
-    public void GoWatingRoom() // 숫자 카운팅 되는 웨이팅룸 들어갈때
+    public void GoWating() // 숫자 카운팅 되는 웨이팅룸 들어갈때
     {
         ItemManager.Instance.ReturnAllObjectToPool();
         MonsterManager.Instance.StopSpawnMonster();
@@ -298,7 +302,7 @@ public class GameManager : Singleton<GameManager>, ReInitialize
         {
             if (!gameClear)
             {
-                GoWatingRoom();
+                GoWating();
                 countGame++;
             }
         }
