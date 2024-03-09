@@ -120,7 +120,7 @@ public class Boss : Creature
             AllEnum.SkillName skillname = (AllEnum.SkillName)i;
             if (SkillManager.Instance.UseableSkill(skillname, false))
             {
-                SkillManager.Instance.UseSKill(skillname, false);
+                SkillManager.Instance.UseActiveSKill(skillname, false);
                 useableSKill = false;
                 break;
             }

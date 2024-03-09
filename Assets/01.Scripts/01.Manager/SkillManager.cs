@@ -124,7 +124,7 @@ public class SkillManager : Singleton<SkillManager>, ReInitialize
             default: return AllEnum.SkillName.End;
         }
     }
-    public void UseSKill(AllEnum.SkillName name, bool isPlayer)
+    public void UseActiveSKill(AllEnum.SkillName name, bool isPlayer)
     {
         Skill skill = GetSKillFromDict(name, isPlayer);
         Vector3 pos = Vector3.zero;

@@ -153,21 +153,21 @@ public class Player : Creature
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                SkillManager.Instance.UseSKill(AllEnum.SkillName.AirSlash, true);
+                SkillManager.Instance.UseActiveSKill(AllEnum.SkillName.AirSlash, true);
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                SkillManager.Instance.UseSKill(AllEnum.SkillName.AirCircle, true);
+                SkillManager.Instance.UseActiveSKill(AllEnum.SkillName.AirCircle, true);
             }
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                SkillManager.Instance.UseSKill(AllEnum.SkillName.Ground, true);
+                SkillManager.Instance.UseActiveSKill(AllEnum.SkillName.Ground, true);
             }
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 if (playerStat.ultimateGauge >= playerStat.maxUltimateGauge)
                 {
-                    SkillManager.Instance.UseSKill(AllEnum.SkillName.Gravity, true);
+                    SkillManager.Instance.UseActiveSKill(AllEnum.SkillName.Gravity, true);
                 }
                 else
                 {
