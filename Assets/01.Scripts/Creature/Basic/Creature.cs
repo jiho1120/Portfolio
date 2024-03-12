@@ -61,9 +61,5 @@ public abstract class Creature : MonoBehaviour, IAttack, IDead, ILevelUp, ReInit
 
 
     public abstract void StatUp();
-
-
-
-
     
 }

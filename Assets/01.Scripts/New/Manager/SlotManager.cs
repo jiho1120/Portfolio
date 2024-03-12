@@ -6,8 +6,7 @@ public class SlotManager : Singleton<SlotManager>
     public int slotCount { get; private set; } = 3;
     public Slot[] slots;
     public SlotData[] slotDatas { get; private set; }
-    public GameObject inputNamePanel;
-    public InputField inputField;
+    
 
     public void Init()
     {
@@ -32,8 +31,8 @@ public class SlotManager : Singleton<SlotManager>
         {
             // 데이터가 없는 경우
             // 이름 입력 UI를 띄우고 이름을 입력 받은 후 SaveData 함수를 호출하세요.
-            inputNamePanel.SetActive(true);
-            NewGameManager.Instance.nowGameIdx = slotIndex;
+            NewUIManager.Instance.inputNamePanel.SetActive(true);
+            NewGameManager.Instance.SetNowGameIdx(slotIndex);
         }
         else
         {

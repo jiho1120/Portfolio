@@ -1,8 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-
-//Time.timeScale = 0f; 시간의 흐름이 멈춤 , //픽스드, 코루틴 안되고, 업데이트되고 , 드래그도 가능
 public class Player : Creature
 {
     public SOPlayer soOriginPlayer;
@@ -24,8 +22,6 @@ public class Player : Creature
     public int PlayerLayer;
     public int PassiveCurrentNum;
     public Coroutine passiveCor { get; private set; }
-
-
 
     public float Luck { get; private set; }
     public float MaxHp { get; private set; }

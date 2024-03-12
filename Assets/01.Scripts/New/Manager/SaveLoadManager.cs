@@ -14,8 +14,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         string saveData = JsonUtility.ToJson(gameData, true);
         File.WriteAllText(path, saveData);
         Debug.Log("File saved: " + path);
-        SceneLoadController.Instance.GoGameScene();
-
     }
 
     public void Load(int idx)

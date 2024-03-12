@@ -60,9 +60,7 @@ public class GameManager : Singleton<GameManager>, ReInitialize
         }
     }
     #region 초기화 관련
-    // 게임 흐름 :
-    // 새로 시작 : StartMenu -> init -> goWaiting -> GoStage
-    // 이어하기 :             -> 데이터 불러오는 함수
+    
     public void StartMenu()
     {
         player.Init();

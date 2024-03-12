@@ -26,7 +26,7 @@ public class GameData
             playerData = new PlayerData();
         }
         
-        slotData.SetSlotData(SlotManager.Instance.inputField.text);
+        slotData.SetSlotData(NewUIManager.Instance.inputField.text);
 
         playerData.SetPlayerData();
     }
@@ -57,7 +57,6 @@ public class SlotData
 [System.Serializable]
 public class PlayerData
 {
-
     public void SetPlayerData()
     {
 
