@@ -16,5 +16,9 @@ public class SceneLoadController : Singleton<SceneLoadController>
         GameManager.Instance.LoadMain();
     }
 
-    
+    public void GoGameScene()
+    {
+        LoadingSceneController.LoadScene("Game");
+    }
+
 }
