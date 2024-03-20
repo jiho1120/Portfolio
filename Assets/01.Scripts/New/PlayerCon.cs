@@ -5,5 +5,4 @@ using UnityEngine;
 public class PlayerCon : MonoBehaviour
 {
     public Transform characterBody;
-
 }

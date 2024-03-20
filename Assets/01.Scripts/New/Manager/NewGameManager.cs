@@ -27,7 +27,6 @@ public class NewGameManager : Singleton<NewGameManager>
     void Start()
     {
         NewUIManager.Instance.OnStartUI();
-        SlotManager.Instance.Init();
         player = Instantiate(playerPrefab).GetComponent<PlayerCon>();
         player.gameObject.SetActive(false);
 
@@ -57,7 +56,6 @@ public class NewGameManager : Singleton<NewGameManager>
     /// </summary>
     public void GameStartButton()
     {
-        SaveLoadManager.Instance.Save();
         SceneLoadController.Instance.GoGameScene();
     }
     #endregion

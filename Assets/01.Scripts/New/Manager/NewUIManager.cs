@@ -35,7 +35,7 @@ public class NewUIManager : Singleton<NewUIManager>
 
     public void SetStopTimer()
     {
-        if (NewGameManager.instance.isCountTime)
+        if (NewGameManager.Instance.isCountTime)
         {
             Stop.text = "≈∏¿Ã∏” ∏ÿ√„";
         }

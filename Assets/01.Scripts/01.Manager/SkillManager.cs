@@ -61,23 +61,23 @@ public class SkillManager : Singleton<SkillManager>, ReInitialize
     {
         if (isPlayer)
         {
-            GameManager.instance.player.PassiveCurrentNum++;
-            if (GameManager.instance.player.PassiveCurrentNum >= (int)AllEnum.SkillName.End)
+            GameManager.Instance.player.PassiveCurrentNum++;
+            if (GameManager.Instance.player.PassiveCurrentNum >= (int)AllEnum.SkillName.End)
             {
-                GameManager.instance.player.PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
+                GameManager.Instance.player.PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
             }
 
-            passiveSkill = skillDict[(AllEnum.SkillName)GameManager.instance.player.PassiveCurrentNum];
+            passiveSkill = skillDict[(AllEnum.SkillName)GameManager.Instance.player.PassiveCurrentNum];
         }
         else
         {
-            GameManager.instance.boss.PassiveCurrentNum++;
-            if (GameManager.instance.boss.PassiveCurrentNum >= (int)AllEnum.SkillName.End)
+            GameManager.Instance.boss.PassiveCurrentNum++;
+            if (GameManager.Instance.boss.PassiveCurrentNum >= (int)AllEnum.SkillName.End)
             {
-                GameManager.instance.boss.PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
+                GameManager.Instance.boss.PassiveCurrentNum = (int)AllEnum.SkillName.Fire;
             }
 
-            passiveSkill = bossSkillDict[(AllEnum.SkillName)GameManager.instance.boss.PassiveCurrentNum];
+            passiveSkill = bossSkillDict[(AllEnum.SkillName)GameManager.Instance.boss.PassiveCurrentNum];
         }
 
         passiveSkill.DoSkill(isPlayer);

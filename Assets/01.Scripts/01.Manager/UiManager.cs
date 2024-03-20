@@ -74,7 +74,7 @@ public class UiManager : Singleton<UiManager>, ReInitialize
     }
     public void SetStopTimer()
     {
-        if (GameManager.instance.isRunTime)
+        if (GameManager.Instance.isRunTime)
         {
             stopBtnText.text = "≈∏¿Ã∏” ∏ÿ√„";
         }
