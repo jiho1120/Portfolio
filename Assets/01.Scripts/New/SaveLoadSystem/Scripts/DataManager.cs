@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
@@ -7,23 +5,22 @@ public class DataManager : Singleton<DataManager>
 {
     public GameData gameData = new GameData();
 
-    public SOPlayer SO;
+    public SOStat SOPlayerStat;
+    public SOStat SOMonsterStat;
+    public SOStat SOBossStat;
+
+    public bool[] savefile { get; private set; }   // 세이브파일 존재유무 저장
     public string path; // 경로
     public int nowSlot; // 현재 슬롯번호
 
     protected override void Awake()
     {
         base.Awake();
+        savefile = new bool[3];
         path = Application.persistentDataPath + "/save";    // 경로 지정
         Debug.Log(path);
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SaveData();
-        }
-    }
+    
 
     public void SaveData()
     {

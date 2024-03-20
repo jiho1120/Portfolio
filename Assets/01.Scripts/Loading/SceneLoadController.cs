@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneLoadController : Singleton<SceneLoadController>
 {
@@ -31,6 +29,16 @@ public class SceneLoadController : Singleton<SceneLoadController>
         NewUIManager.Instance.WaitingUI.gameObject.SetActive(true);
         NewGameManager.Instance.Wating();
         LoadingSceneController.LoadScene("Game");
+    }
+    public void GoGame()    // 게임씬으로 이동
+    {
+        if (!DataManager.Instance.savefile[DataManager.Instance.nowSlot])    // 현재 슬롯번호의 데이터가 없다면
+        {
+            DataManager.Instance.gameData.SetGameData();
+            DataManager.Instance.SaveData(); // 현재 정보를 저장함.
+
+        }
+        SceneManager.LoadScene("Game"); // 게임씬으로 이동
     }
 
 }

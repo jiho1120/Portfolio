@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NewGameManager : Singleton<NewGameManager>
@@ -42,22 +41,14 @@ public class NewGameManager : Singleton<NewGameManager>
         {
             onMenu = !onMenu;
                 NewUIManager.Instance.MenuUI.SetActive(onMenu);
-
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            DataManager.Instance.SaveData();
         }
     }
     #region Start화면
-    public void SetNowGameIdx(int idx)
-    {
-        nowGameIdx = idx;
-    }
-
-    /// <summary>
-    /// 데이터 없는 슬롯에 확인 누르면 새로 만들고 저장
-    /// </summary>
-    public void GameStartButton()
-    {
-        SceneLoadController.Instance.GoGameScene();
-    }
+   
     #endregion
 
 

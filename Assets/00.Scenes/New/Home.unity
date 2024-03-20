@@ -420,8 +420,46 @@ MonoBehaviour:
         ultimateGauge: 0
         maxUltimateGauge: 0
     monsterData:
-      level: 0
-  SO: {fileID: 11400000, guid: ed2d64a66b073e346a0e7aad3f513379, type: 2}
+      monsterStat:
+        name: 
+        objectType: 0
+        level: 0
+        health: 0
+        maxHealth: 0
+        attack: 0
+        defense: 0
+        criticalChance: 0
+        movementSpeed: 0
+        experience: 0
+        money: 0
+        mana: 0
+        maxMana: 0
+        luck: 0
+        maxExperience: 0
+        ultimateGauge: 0
+        maxUltimateGauge: 0
+    bossData:
+      bossStat:
+        name: 
+        objectType: 0
+        level: 0
+        health: 0
+        maxHealth: 0
+        attack: 0
+        defense: 0
+        criticalChance: 0
+        movementSpeed: 0
+        experience: 0
+        money: 0
+        mana: 0
+        maxMana: 0
+        luck: 0
+        maxExperience: 0
+        ultimateGauge: 0
+        maxUltimateGauge: 0
+  SOPlayerStat: {fileID: 11400000, guid: 909e5d46f87b8074f82b9758b32362fa, type: 2}
+  SOMonsterStat: {fileID: 11400000, guid: e1ce992c0775c3b46bdbebb1049c0c22, type: 2}
+  SOBossStat: {fileID: 11400000, guid: 09c15fbfd60c30746a8c75092466d312, type: 2}
   path: 
   nowSlot: 0
 --- !u!1001 &2553145239335318192
@@ -568,6 +606,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1987439110631098698, guid: 3cea4510a3226d64aa1689f4e8fd8338, type: 3}
+      propertyPath: create
+      value: 
+      objectReference: {fileID: 2553145239335318197}
+    - target: {fileID: 1987439110631098698, guid: 3cea4510a3226d64aa1689f4e8fd8338, type: 3}
+      propertyPath: newPlayerName
+      value: 
+      objectReference: {fileID: 2553145239335318196}
+    - target: {fileID: 1987439110631098698, guid: 3cea4510a3226d64aa1689f4e8fd8338, type: 3}
+      propertyPath: slotText.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1987439110631098698, guid: 3cea4510a3226d64aa1689f4e8fd8338, type: 3}
+      propertyPath: slotText.Array.data[0]
+      value: 
+      objectReference: {fileID: 2553145239335318195}
+    - target: {fileID: 1987439110631098698, guid: 3cea4510a3226d64aa1689f4e8fd8338, type: 3}
+      propertyPath: slotText.Array.data[1]
+      value: 
+      objectReference: {fileID: 2553145239335318194}
+    - target: {fileID: 1987439110631098698, guid: 3cea4510a3226d64aa1689f4e8fd8338, type: 3}
+      propertyPath: slotText.Array.data[2]
+      value: 
+      objectReference: {fileID: 2553145239335318193}
     - target: {fileID: 3020958089088318167, guid: 3cea4510a3226d64aa1689f4e8fd8338, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -623,14 +685,14 @@ PrefabInstance:
     - target: {fileID: 3815142986538516748, guid: 3cea4510a3226d64aa1689f4e8fd8338, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2553145239335318199}
+      objectReference: {fileID: 1996734190}
     - target: {fileID: 3815142986538516748, guid: 3cea4510a3226d64aa1689f4e8fd8338, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: GoGame
       objectReference: {fileID: 0}
     - target: {fileID: 3815142986538516748, guid: 3cea4510a3226d64aa1689f4e8fd8338, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Select, Assembly-CSharp
+      value: SceneLoadController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5147056509292355699, guid: 3cea4510a3226d64aa1689f4e8fd8338, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -773,12 +835,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a0caac2d703a04419e5376b423ac132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  create: {fileID: 2553145239335318197}
-  slotText:
-  - {fileID: 2553145239335318195}
-  - {fileID: 2553145239335318194}
-  - {fileID: 2553145239335318193}
-  newPlayerName: {fileID: 2553145239335318196}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

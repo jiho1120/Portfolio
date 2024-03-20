@@ -1,12 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 [System.Serializable]
 public class GameData
 {
     public PlayerData playerData = new PlayerData();
     public MonsterData monsterData = new MonsterData();
+    public BossData bossData = new BossData();
+
+    public void SetGameData()
+    {
+        playerData.playerStat.name = NewUIManager.Instance.newPlayerName.text; // 입력한 이름을 복사해옴
+        playerData.playerStat.SetStat(DataManager.Instance.SOPlayerStat);
+        monsterData.monsterStat.SetStat(DataManager.Instance.SOMonsterStat);
+        bossData.bossStat.SetStat(DataManager.Instance.SOBossStat);
+    }
+
 }
 
 [System.Serializable]
@@ -31,7 +37,7 @@ public class StatData
     public float ultimateGauge;
     public float maxUltimateGauge;
 
-    public void SetStat(SOPlayer SO)
+    public void SetStat(SOStat SO)
     {
         objectType = SO.objectType;
         level = SO.level;
@@ -51,7 +57,7 @@ public class StatData
         maxUltimateGauge = SO.ultimateGauge;
     }
 }
-    [System.Serializable]
+[System.Serializable]
 public class PlayerData
 {
     public StatData playerStat = new StatData();
@@ -60,10 +66,11 @@ public class PlayerData
 [System.Serializable]
 public class MonsterData
 {
-    public int level;
+    public StatData monsterStat = new StatData();
+}
 
-    public void SetStat(SOPlayer SO)
-    {
-        level = SO.level;
-    }
+[System.Serializable]
+public class BossData
+{
+    public StatData bossStat = new StatData();
 }
