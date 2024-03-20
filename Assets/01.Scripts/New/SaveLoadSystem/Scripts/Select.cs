@@ -3,7 +3,7 @@ using System.IO;
 
 public class Select : MonoBehaviour
 {
-    void Start()
+    public void Init()
     {
         // 슬롯별로 저장된 데이터가 존재하는지 판단.
         for (int i = 0; i < 3; i++)
@@ -36,7 +36,7 @@ public class Select : MonoBehaviour
         }
         else    // bool 배열에서 현재 슬롯번호가 false라면 데이터가 없다는 뜻
         {
-            NewUIManager.Instance.Create();    // 플레이어 닉네임 입력 UI 활성화
+            NewUIManager.Instance.OnNamePanel();    // 플레이어 닉네임 입력 UI 활성화
         }
     }
 }

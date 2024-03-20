@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NewGameManager : Singleton<NewGameManager>
 {
-    public int nowGameIdx { get; private set; } // 저장된 인덱스 번호
     public bool onMenu = false;
     public GameObject playerPrefab;
     public PlayerCon player { get; private set; }
@@ -25,11 +24,10 @@ public class NewGameManager : Singleton<NewGameManager>
 
     void Start()
     {
+        DataManager.Instance.select.Init();
         NewUIManager.Instance.OnStartUI();
         player = Instantiate(playerPrefab).GetComponent<PlayerCon>();
         player.gameObject.SetActive(false);
-
-
     }
     private void Update()
     {

@@ -12,7 +12,6 @@ public class GameData
         monsterData.monsterStat.SetStat(DataManager.Instance.SOMonsterStat);
         bossData.bossStat.SetStat(DataManager.Instance.SOBossStat);
     }
-
 }
 
 [System.Serializable]

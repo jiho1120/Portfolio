@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: FirstMonsterStatData
   m_EditorClassIdentifier: 
   objectType: 0
-  level: 0
-  health: 0
-  maxHealth: 0
-  attack: 0
-  defense: 0
-  criticalChance: 0
-  movementSpeed: 0
-  experience: 0
-  money: 0
+  level: 1
+  health: 20
+  maxHealth: 20
+  attack: 1
+  defense: 1
+  criticalChance: 0.1
+  movementSpeed: 1
+  experience: 10
+  money: 100
   mana: 0
   maxMana: 0
   luck: 0

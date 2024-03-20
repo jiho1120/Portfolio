@@ -3,6 +3,7 @@ using System.IO;
 
 public class DataManager : Singleton<DataManager>
 {
+    public Select select { get; private set; }
     public GameData gameData = new GameData();
 
     public SOStat SOPlayerStat;
@@ -19,6 +20,7 @@ public class DataManager : Singleton<DataManager>
         savefile = new bool[3];
         path = Application.persistentDataPath + "/save";    // 경로 지정
         Debug.Log(path);
+        select= GetComponent<Select>();
     }
     
 
@@ -27,14 +29,14 @@ public class DataManager : Singleton<DataManager>
         string data = JsonUtility.ToJson(gameData);
         File.WriteAllText(path + nowSlot.ToString(), data);
         Debug.Log("저장되었습니다.");
-        Debug.Log(gameData.playerData.playerStat.name);
-        Debug.Log(gameData.playerData.playerStat.level);
     }
 
     public void LoadData()
     {
         string data = File.ReadAllText(path + nowSlot.ToString());
         gameData = JsonUtility.FromJson<GameData>(data);
+        Debug.Log("파일을 불러왔습니다.");
+
     }
 
     public void DataClear()
