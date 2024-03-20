@@ -37,7 +37,7 @@ public class Boss : Creature
         animator = GetComponent<PlayerAnimator>();
         agent = GetComponent<NavMeshAgent>();
         fist = transform.GetChild(0).GetChild(3);
-        animator.Starts();
+        animator.Init();
         animator.SetAttackSpeed(attackSpeed);
         bossStat = new BossStat(soOriginBoss);
         bossLayer = 1 << LayerMask.NameToLayer("Player");

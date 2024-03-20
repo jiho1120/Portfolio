@@ -13,13 +13,13 @@ public class Player : Creature
     public Transform fist;
 
     private bool run;
-    float speed;
+    float speed; // 데이터의 스피드로 대체
 
     private float attackSpeed = 1;
     private float lastClickTime = 0f;
     private float attackCooldown = 1.5f;
     bool isLeft = false;
-    public int PlayerLayer;
+    public int PlayerLayer { get; private set; }
     public int PassiveCurrentNum;
     public Coroutine passiveCor { get; private set; }
 
@@ -55,7 +55,7 @@ public class Player : Creature
         {
             fist = transform.GetChild(0).GetChild(3);
         }
-        playerAnimator.Starts();
+        playerAnimator.Init();
         playerAnimator.SetAttackSpeed(attackSpeed);
         PlayerLayer = 1 << LayerMask.NameToLayer("Enemy");
     }

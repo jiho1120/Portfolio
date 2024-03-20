@@ -26,7 +26,7 @@ public class NewGameManager : Singleton<NewGameManager>
     {
         DataManager.Instance.select.Init();
         NewUIManager.Instance.OnStartUI();
-        player = Instantiate(playerPrefab).GetComponent<PlayerCon>();
+        player = Instantiate(playerPrefab,transform).GetComponent<PlayerCon>();
         player.gameObject.SetActive(false);
     }
     private void Update()
@@ -51,7 +51,7 @@ public class NewGameManager : Singleton<NewGameManager>
 
 
     #region Waiting
-    public void Wating()
+    public void InitWating()
     {
         isCountTime = true;
         countTime = 5;
@@ -59,6 +59,17 @@ public class NewGameManager : Singleton<NewGameManager>
         if (runTimeCor == null)
         {
             runTimeCor = StartCoroutine(RunTime());
+        }
+    }
+    public void DeactivateWating()
+    {
+        isCountTime = false;
+        countTime = 5;
+        NewUIManager.Instance.SetWaitingUI();
+        if (runTimeCor != null)
+        {
+            StopCoroutine(runTimeCor);
+            runTimeCor = null;
         }
     }
     IEnumerator RunTime()
@@ -74,7 +85,7 @@ public class NewGameManager : Singleton<NewGameManager>
                 {
                     stageStart = true;
                     NewUIManager.Instance.WaitingUI.SetActive(false );
-                    //startGame();
+                    InGame();
                 }
             }
             else
@@ -99,7 +110,7 @@ public class NewGameManager : Singleton<NewGameManager>
     #region InGame
     public void InGame()
     {
-        
+        player.gameObject.SetActive(true);
     }
 
     IEnumerator GameTime()
