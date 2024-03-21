@@ -6,16 +6,16 @@ public class ResourceManager : Singleton<ResourceManager>, ReInitialize
 {
     public Monster[] monsterAll;
 
-    public GameObject[] objectAll;
+    public GameObject[] SkillObjectAll;
     public SOSkill[] skillDataAll;
 
     public SOItem[] itemDataAll;
-    public XMLAccess XMLAccess {  get; private set; }
+    public XMLAccess XMLAccess {get; private set; }
 
     public void Init()
     {
         monsterAll = Resources.LoadAll<Monster>("Object/Monster");
-        objectAll = Resources.LoadAll<GameObject>("Skill");
+        SkillObjectAll = Resources.LoadAll<GameObject>("Skill");
         skillDataAll = Resources.LoadAll<SOSkill>("SOData/SkillData");
         itemDataAll = Resources.LoadAll<SOItem>("SOData/ItemData");
         XMLAccess = GetComponent<XMLAccess>();

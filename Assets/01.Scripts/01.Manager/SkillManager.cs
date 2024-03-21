@@ -16,7 +16,7 @@ public class SkillManager : Singleton<SkillManager>, ReInitialize
         bossSkillDict = new Dictionary<AllEnum.SkillName, Skill>();
         Skill skilltmp;
 
-        foreach (var item in ResourceManager.Instance.objectAll)
+        foreach (var item in ResourceManager.Instance.SkillObjectAll)
         {
             skilltmp = Instantiate(item, playerSKillPool).GetComponent<Skill>();
             skilltmp.gameObject.layer = LayerMask.NameToLayer("PlayerSkill");

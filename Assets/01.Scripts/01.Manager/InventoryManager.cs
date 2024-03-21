@@ -223,14 +223,14 @@ public class InventoryManager : Singleton<InventoryManager>,ReInitialize
         {
             if (playerItemList[num].item.itemType == AllEnum.ItemType.HpPosion)
             {
-                GameManager.Instance.player.SetHp(GameManager.Instance.player.Hp+playerItemList[num].item.health);
+                GameManager.Instance.player.SetHp(GameManager.Instance.player.Hp+playerItemList[num].item.hp);
 
                 Debug.Log(GameManager.Instance.player.playerStat.health);
 
             }
             else if (playerItemList[num].item.itemType == AllEnum.ItemType.MpPosion)
             {
-                GameManager.Instance.player.SetMp(GameManager.Instance.player.Mp + (playerItemList[num].item.mana));
+                GameManager.Instance.player.SetMp(GameManager.Instance.player.Mp + (playerItemList[num].item.mp));
                 Debug.Log(GameManager.Instance.player.playerStat.mana);
 
             }

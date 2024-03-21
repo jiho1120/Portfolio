@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: abb0c601b3de60b42b1fd52daf0ce87a
 ModelImporter:
-  serializedVersion: 21300
+  serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: 416870459326255563
@@ -95,7 +95,7 @@ ModelImporter:
       - time: 0.50056833
         functionName: AttackRange
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 88d5101f4fc8c7e4da3583b24ce5dbd7, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 7004e941a412816498e40cd09bdeaaf5, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
@@ -111,6 +111,7 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -138,6 +139,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -1045,6 +1047,7 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
   remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 

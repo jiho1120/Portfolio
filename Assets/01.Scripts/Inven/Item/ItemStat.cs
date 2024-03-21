@@ -32,16 +32,16 @@ public class ItemStat
         count = SOItem.count;
         icon = SOItem.icon;
         itemType = SOItem.itemType;
-        health = SOItem.health;
-        mana = SOItem.mana;
+        health = SOItem.hp;
+        mana = SOItem.mp;
         ultimateGauge = SOItem.ultimateGauge;
         luck = SOItem.luck;
-        maxHealth = SOItem.maxHealth;
-        critical = SOItem.criticalChance;
+        maxHealth = SOItem.maxHp;
+        critical = SOItem.critical;
         attack = SOItem.attack;
-        maxMana = SOItem.maxMana;
+        maxMana = SOItem.maxMp;
         defence = SOItem.defense;
-        speed = SOItem.movementSpeed;
+        speed = SOItem.speed;
     }
     public void AddStat(AllEnum.ItemType propertyName, float effect)
     {

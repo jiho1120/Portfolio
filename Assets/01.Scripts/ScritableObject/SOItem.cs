@@ -10,14 +10,14 @@ public class SOItem: ScriptableObject
     public int count = 1;
     public AllEnum.ItemType itemType;
     public Sprite icon; 
-    public float health;
-    public float mana;
+    public float hp;
+    public float mp;
     public float ultimateGauge;
     public float defense;
-    public float maxHealth;
+    public float maxHp;
     public float luck;
     public float attack;
-    public float criticalChance;
-    public float maxMana;
-    public float movementSpeed;
+    public float critical;
+    public float maxMp;
+    public float speed;
 }
