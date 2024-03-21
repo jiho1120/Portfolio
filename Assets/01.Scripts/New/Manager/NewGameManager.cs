@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using UnityEngine;
+/*인베토리 복붙
 
+몬스터 소환
+보스 소환
+스킬 수정*/
 public class NewGameManager : Singleton<NewGameManager>
 {
     public bool onMenu = false;

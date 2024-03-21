@@ -339,58 +339,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Manager
       objectReference: {fileID: 0}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Posion.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Equipment.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Posion.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: dfe764143cf81384996eaa19f07fd27e, type: 2}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Posion.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: c40df34375e257448a418ac065024512, type: 2}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Posion.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: f7ad8b9bd6d9ed5428ed24bbfa41cb78, type: 2}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Equipment.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: dfb25c9838ab48e49a7ae1b0ba5663ac, type: 2}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Equipment.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 28f942f2b240f974091197b2e17a9d8e, type: 2}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Equipment.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: ca771909e0317fb44864e37adbc6a437, type: 2}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Equipment.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 93aa7694fc556914cbeb455cb1643da6, type: 2}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Equipment.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 419997f327bf04349a16f125c3bef34b, type: 2}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Equipment.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5f8368d1cdf1e8241ade9729df05354b, type: 2}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: Equipment.Array.data[6]
-      value: 
-      objectReference: {fileID: 11400000, guid: f13898d7d143e1b41a0547b8c0e05b57, type: 2}
-    - target: {fileID: 5850304579129057807, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
-      propertyPath: gameData.posionData.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8883509050091387731, guid: 3d7895dbf9f1b8441a9570ddee25ddcb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

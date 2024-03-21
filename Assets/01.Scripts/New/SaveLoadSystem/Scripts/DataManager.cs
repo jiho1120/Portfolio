@@ -11,6 +11,10 @@ public class DataManager : Singleton<DataManager>
     public SOStat SOBossStat;
     public SOItem[] Posion;
     public SOItem[] Equipment;
+    public NewSOSkill[] activeSkill;
+    public NewSOSkill[] passiveSkill;
+
+
 
     public bool[] savefile { get; private set; }   // 세이브파일 존재유무 저장
     public string path; // 경로

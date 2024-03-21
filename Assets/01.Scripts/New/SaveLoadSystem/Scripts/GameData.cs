@@ -9,6 +9,8 @@ public class GameData
     public BossData bossData = new BossData();
     public List<ItemData> posionData = new List<ItemData>();
     public List<ItemData> equipmentData = new List<ItemData>();
+    public List<SkillData> activeSkillData = new List<SkillData>();
+    public List<SkillData> passiveSkillData = new List<SkillData>();
 
     public void SetGameData()
     {
@@ -27,6 +29,18 @@ public class GameData
             ItemData item = new ItemData();
             item.SetItemData(DataManager.Instance.Equipment[i]);
             equipmentData.Add(item);
+        }
+        for (int i = 0; i < DataManager.Instance.activeSkill.Length; i++)
+        {
+            SkillData skill = new SkillData();
+            skill.SetSkillData(DataManager.Instance.activeSkill[i]);
+            activeSkillData.Add(skill);
+        }
+        for (int i = 0; i < DataManager.Instance.passiveSkill.Length; i++)
+        {
+            SkillData skill = new SkillData();
+            skill.SetSkillData(DataManager.Instance.passiveSkill[i]);
+            passiveSkillData.Add(skill);
         }
     }
 }

@@ -79,16 +79,16 @@ MonoBehaviour:
         name: 
         objectType: 0
         level: 0
-        health: 0
-        maxHealth: 0
+        hp: 0
+        maxHp: 0
         attack: 0
         defense: 0
-        criticalChance: 0
-        movementSpeed: 0
+        critical: 0
+        speed: 0
         experience: 0
         money: 0
-        mana: 0
-        maxMana: 0
+        mp: 0
+        maxMp: 0
         luck: 0
         maxExperience: 0
         ultimateGauge: 0
@@ -98,16 +98,16 @@ MonoBehaviour:
         name: 
         objectType: 0
         level: 0
-        health: 0
-        maxHealth: 0
+        hp: 0
+        maxHp: 0
         attack: 0
         defense: 0
-        criticalChance: 0
-        movementSpeed: 0
+        critical: 0
+        speed: 0
         experience: 0
         money: 0
-        mana: 0
-        maxMana: 0
+        mp: 0
+        maxMp: 0
         luck: 0
         maxExperience: 0
         ultimateGauge: 0
@@ -117,23 +117,49 @@ MonoBehaviour:
         name: 
         objectType: 0
         level: 0
-        health: 0
-        maxHealth: 0
+        hp: 0
+        maxHp: 0
         attack: 0
         defense: 0
-        criticalChance: 0
-        movementSpeed: 0
+        critical: 0
+        speed: 0
         experience: 0
         money: 0
-        mana: 0
-        maxMana: 0
+        mp: 0
+        maxMp: 0
         luck: 0
         maxExperience: 0
         ultimateGauge: 0
         maxUltimateGauge: 0
+    posionData: []
+    equipmentData: []
+    activeSkillData: []
+    passiveSkillData: []
   SOPlayerStat: {fileID: 11400000, guid: 909e5d46f87b8074f82b9758b32362fa, type: 2}
   SOMonsterStat: {fileID: 11400000, guid: e1ce992c0775c3b46bdbebb1049c0c22, type: 2}
   SOBossStat: {fileID: 11400000, guid: 09c15fbfd60c30746a8c75092466d312, type: 2}
+  Posion:
+  - {fileID: 11400000, guid: dfe764143cf81384996eaa19f07fd27e, type: 2}
+  - {fileID: 11400000, guid: c40df34375e257448a418ac065024512, type: 2}
+  - {fileID: 11400000, guid: f7ad8b9bd6d9ed5428ed24bbfa41cb78, type: 2}
+  Equipment:
+  - {fileID: 11400000, guid: dfb25c9838ab48e49a7ae1b0ba5663ac, type: 2}
+  - {fileID: 11400000, guid: 28f942f2b240f974091197b2e17a9d8e, type: 2}
+  - {fileID: 11400000, guid: ca771909e0317fb44864e37adbc6a437, type: 2}
+  - {fileID: 11400000, guid: 93aa7694fc556914cbeb455cb1643da6, type: 2}
+  - {fileID: 11400000, guid: 419997f327bf04349a16f125c3bef34b, type: 2}
+  - {fileID: 11400000, guid: 5f8368d1cdf1e8241ade9729df05354b, type: 2}
+  - {fileID: 11400000, guid: f13898d7d143e1b41a0547b8c0e05b57, type: 2}
+  activeSkill:
+  - {fileID: 11400000, guid: bc2e368317f994a44953d362ddf2d5dd, type: 2}
+  - {fileID: 11400000, guid: dae139fb7d06dc941a3d68d451fa522a, type: 2}
+  - {fileID: 11400000, guid: d967a3d784294544e9e7821878b845c0, type: 2}
+  - {fileID: 11400000, guid: 2b6cf91b49984f644a2778d445ecbcb6, type: 2}
+  passiveSkill:
+  - {fileID: 11400000, guid: 4e0e0ea0ae09c6a4cbb37511367af734, type: 2}
+  - {fileID: 11400000, guid: e31b5da22b7829d4ab49a21d4cd937c5, type: 2}
+  - {fileID: 11400000, guid: 7ffd82268b92d8846924f6c0640c96b3, type: 2}
+  - {fileID: 11400000, guid: b46d9622746cca5438248471150933d5, type: 2}
   path: 
   nowSlot: 0
 --- !u!114 &3092386204634921786
