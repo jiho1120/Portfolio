@@ -130,4 +130,32 @@ public class ItemData
     }
 }
 
+[System.Serializable]
+public class SkillData
+{
+    public int index; // 고유번호
+    public AllEnum.NewSkillType newSkillType; // 스킬 타입
+    public AllEnum.SkillName skillName; // 스킬 이름
+    public Sprite icon; // 그림
+    public float effect; // 효과 공격이면 공격력 힐이면 힐하는양 ... 
+    public float duration; // 스킬 지속 시간
+    public float cool; // 쿨타임
+    public float mana; // 소모 마나
+    public bool setParent; // 스킬이 플레이어를 따라다닐지
+    public bool inUse; //false일시 스킬나감 
+
+    public void SetSkillData(NewSOSkill SO)
+    {
+        index = SO.index;
+        newSkillType = SO.newSkillType;
+        skillName = SO.skillName;
+        icon = SO.icon;
+        effect = SO.effect;
+        duration = SO.duration;
+        cool = SO.cool;
+        mana = SO.mana;
+        setParent = SO.setParent;
+        inUse = SO.inUse;
+    }
+}
 

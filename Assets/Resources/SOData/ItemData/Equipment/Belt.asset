@@ -17,13 +17,13 @@ MonoBehaviour:
   count: 1
   itemType: 7
   icon: {fileID: 21300000, guid: 6b11b3095215bac4190dee61f7cb70a7, type: 3}
-  health: 0
-  mana: 0
+  hp: 0
+  mp: 0
   ultimateGauge: 0
   defense: 0
-  maxHealth: 0
+  maxHp: 0
   luck: 0
   attack: 0
-  criticalChance: 0
-  maxMana: 100
-  movementSpeed: 0
+  critical: 0
+  maxMp: 100
+  speed: 0

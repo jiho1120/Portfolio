@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class SOSkill : ScriptableObject
+public class NewSOSkill : ScriptableObject
 {
     public int index; // 고유번호
-    public AllEnum.SkillType skillType; // 스킬 타입
-    public AllEnum.PassiveSkillType passiveSkillType; // 스킬 종류
+    public AllEnum.NewSkillType newSkillType; // 스킬 타입
     public AllEnum.SkillName skillName; // 스킬 이름
     public Sprite icon; // 그림
     public float effect; // 효과 공격이면 공격력 힐이면 힐하는양 ... 

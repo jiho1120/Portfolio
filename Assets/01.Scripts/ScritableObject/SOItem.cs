@@ -21,3 +21,4 @@ public class SOItem: ScriptableObject
     public float maxMp;
     public float speed;
 }
+

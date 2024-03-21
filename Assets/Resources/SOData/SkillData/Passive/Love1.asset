@@ -9,17 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09b8defadc5ee4b478f3e0837976ca7d, type: 3}
-  m_Name: Heal
+  m_Script: {fileID: 11500000, guid: 514d4f5b7477ff74399382e965574278, type: 3}
+  m_Name: Love1
   m_EditorClassIdentifier: 
-  index: 102
-  skillType: 0
-  passiveSkillType: 1
-  skillName: 5
-  icon: {fileID: 21300000, guid: b9c61c6896eff5b43ae44d047f49b31d, type: 3}
+  index: 103
+  newSkillType: 3
+  skillName: 6
+  icon: {fileID: 21300000, guid: 9f922002032136c4687b8dced9bc624c, type: 3}
   effect: 10
   duration: 10
   cool: 3
   mana: 0
-  setParent: 1
+  setParent: 0
   inUse: 0
