@@ -14,7 +14,7 @@ public class GameData
 
     public void SetGameData()
     {
-        playerData.playerStat.name = NewUIManager.Instance.newPlayerName.text; // 입력한 이름을 복사해옴
+        playerData.playerStat.name = UIManager.Instance.newPlayerName.text; // 입력한 이름을 복사해옴
         playerData.playerStat.SetStat(DataManager.Instance.SOPlayerStat);
         monsterData.monsterStat.SetStat(DataManager.Instance.SOMonsterStat);
         bossData.bossStat.SetStat(DataManager.Instance.SOBossStat);

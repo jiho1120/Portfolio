@@ -13,11 +13,11 @@ public class Select : MonoBehaviour
                 DataManager.Instance.savefile[i] = true;            // 해당 슬롯 번호의 bool배열 true로 변환
                 DataManager.Instance.nowSlot = i;    // 선택한 슬롯 번호 저장
                 DataManager.Instance.LoadData();    // 해당 슬롯 데이터 불러옴
-                NewUIManager.Instance.slotText[i].text = DataManager.Instance.gameData.playerData.playerStat.name;    // 버튼에 닉네임 표시
+                UIManager.Instance.slotText[i].text = DataManager.Instance.gameData.playerData.playerStat.name;    // 버튼에 닉네임 표시
             }
             else    // 데이터가 없는 경우
             {
-                NewUIManager.Instance.slotText[i].text = "비어있음";
+                UIManager.Instance.slotText[i].text = "비어있음";
             }
         }
         // 불러온 데이터를 초기화시킴.(버튼에 닉네임을 표현하기위함이었기 때문)
@@ -36,7 +36,7 @@ public class Select : MonoBehaviour
         }
         else    // bool 배열에서 현재 슬롯번호가 false라면 데이터가 없다는 뜻
         {
-            NewUIManager.Instance.OnNamePanel();    // 플레이어 닉네임 입력 UI 활성화
+            UIManager.Instance.OnNamePanel();    // 플레이어 닉네임 입력 UI 활성화
         }
     }
 }

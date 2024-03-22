@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using UnityEngine;
 /*인베토리 복붙
-
 몬스터 소환
 보스 소환
 스킬 수정*/
-public class NewGameManager : Singleton<NewGameManager>
+public class GameManager : Singleton<GameManager>
 {
     public bool onMenu = false;
     public GameObject playerPrefab;
@@ -29,7 +28,7 @@ public class NewGameManager : Singleton<NewGameManager>
     void Start()
     {
         DataManager.Instance.select.Init();
-        NewUIManager.Instance.OnStartUI();
+        UIManager.Instance.OnStartUI();
         player = Instantiate(playerPrefab,transform).GetComponent<PlayerCon>();
         player.gameObject.SetActive(false);
     }
@@ -42,7 +41,7 @@ public class NewGameManager : Singleton<NewGameManager>
         if (Input.GetKeyDown(KeyCode.M))
         {
             onMenu = !onMenu;
-                NewUIManager.Instance.MenuUI.SetActive(onMenu);
+                UIManager.Instance.MenuUI.SetActive(onMenu);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -59,7 +58,7 @@ public class NewGameManager : Singleton<NewGameManager>
     {
         isCountTime = true;
         countTime = 5;
-        NewUIManager.Instance.SetWaitingUI();
+        UIManager.Instance.SetWaitingUI();
         if (runTimeCor == null)
         {
             runTimeCor = StartCoroutine(RunTime());
@@ -69,7 +68,7 @@ public class NewGameManager : Singleton<NewGameManager>
     {
         isCountTime = false;
         countTime = 5;
-        NewUIManager.Instance.SetWaitingUI();
+        UIManager.Instance.SetWaitingUI();
         if (runTimeCor != null)
         {
             StopCoroutine(runTimeCor);
@@ -84,11 +83,11 @@ public class NewGameManager : Singleton<NewGameManager>
             {
                 yield return new WaitForSeconds(1f);
                 countTime -= 1;
-                NewUIManager.Instance.SetWaitingUI();
+                UIManager.Instance.SetWaitingUI();
                 if (countTime <= 0)
                 {
                     stageStart = true;
-                    NewUIManager.Instance.WaitingUI.SetActive(false );
+                    UIManager.Instance.WaitingUI.SetActive(false );
                     InGame();
                 }
             }
@@ -101,14 +100,14 @@ public class NewGameManager : Singleton<NewGameManager>
     public void OnOffTime()
     {
         isCountTime = !isCountTime;
-        NewUIManager.Instance.SetStopTimer();
+        UIManager.Instance.SetOnOffTimer();
     }
     public void SkipTime()
     {
         countTime = 0;
         stageStart = true;
         runTime = 0;
-        NewUIManager.Instance.SetWaitingUI();
+        UIManager.Instance.SetWaitingUI();
     }
     #endregion
     #region InGame
@@ -122,7 +121,7 @@ public class NewGameManager : Singleton<NewGameManager>
         while (stageStart)
         {
             runTime += 1;
-            NewUIManager.Instance.RunTime.text = string.Format("{0:N2}", runTime.ToString());
+            UIManager.Instance.RunTime.text = string.Format("{0:N2}", runTime.ToString());
             yield return new WaitForSeconds(1f);
         }
     }

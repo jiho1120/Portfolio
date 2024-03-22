@@ -145,7 +145,7 @@ public class PlayerCon : MonoBehaviour
     public void Attack(Vector3 Tr, float Range)
     {
         
-        Collider[] colliders = Physics.OverlapSphere(NewGameManager.Instance.player.transform.position, Range, PlayerLayer);
+        Collider[] colliders = Physics.OverlapSphere(GameManager.Instance.player.transform.position, Range, PlayerLayer);
 
         //for (int i = 0; i < colliders.Length; i++)
         //{

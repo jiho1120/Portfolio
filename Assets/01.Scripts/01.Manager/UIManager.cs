@@ -4,7 +4,7 @@ using System.Reflection.Emit;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewUIManager : Singleton<NewUIManager>
+public class UIManager : Singleton<UIManager>
 {
     [Header("StartUI")]
     public GameObject StartUI;
@@ -44,17 +44,17 @@ public class NewUIManager : Singleton<NewUIManager>
     #region Waiting
     public void SetWaitingUI()
     {
-        SetStopTimer();
+        SetOnOffTimer();
         Skip.text = "°Ç³Ê ¶Ù±â";
-        Count.text = NewGameManager.Instance.countTime.ToString();
-        if (NewGameManager.Instance.countTime <= 1)
+        Count.text = GameManager.Instance.countTime.ToString();
+        if (GameManager.Instance.countTime <= 1)
         {
             Count.text = "°ÔÀÓ ½ÃÀÛ";
         }
     }
-    public void SetStopTimer()
+    public void SetOnOffTimer()
     {
-        if (NewGameManager.Instance.isCountTime)
+        if (GameManager.Instance.isCountTime)
         {
             Stop.text = "Å¸ÀÌ¸Ó ¸ØÃã";
         }

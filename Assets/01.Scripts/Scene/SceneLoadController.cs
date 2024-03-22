@@ -4,11 +4,11 @@ public class SceneLoadController : Singleton<SceneLoadController>
 {
     public void GoHomeScene()
     {
-        NewGameManager.Instance.player.gameObject.SetActive(false);
-        NewGameManager.Instance.DeactivateWating();
-        NewUIManager.Instance.OnStartUI();
-        NewUIManager.Instance.WaitingUI.gameObject.SetActive(false);
-        NewUIManager.Instance.MenuUI.gameObject.SetActive(false);
+        GameManager.Instance.player.gameObject.SetActive(false);
+        GameManager.Instance.DeactivateWating();
+        UIManager.Instance.OnStartUI();
+        UIManager.Instance.WaitingUI.gameObject.SetActive(false);
+        UIManager.Instance.MenuUI.gameObject.SetActive(false);
         DataManager.Instance.select.Init();
         LoadingSceneController.LoadScene("Home");
 
@@ -21,11 +21,11 @@ public class SceneLoadController : Singleton<SceneLoadController>
             DataManager.Instance.gameData.SetGameData();
             DataManager.Instance.SaveData(); // 현재 정보를 저장함.
         }
-        NewUIManager.Instance.OffStartUI();
-        NewUIManager.Instance.WaitingUI.gameObject.SetActive(true);
-        NewGameManager.Instance.InitWating();
+        UIManager.Instance.OffStartUI();
+        UIManager.Instance.WaitingUI.gameObject.SetActive(true);
+        GameManager.Instance.InitWating();
         LoadingSceneController.LoadScene("Game"); // 게임씬으로 이동
-        NewGameManager.Instance.player.Init();
+        GameManager.Instance.player.Init();
     }
 
 }
