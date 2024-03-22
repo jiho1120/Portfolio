@@ -25,23 +25,7 @@ public class AllEnum
 
         End
     }
-
-    public enum SkillType
-    {
-        PassiveSkill,
-        ActiveSkill,
-
-        End
-    }
-    public enum PassiveSkillType
-    {
-        Damage,
-        Heal,
-        Buff,
-        DeBuff,
-
-        End
-    }
+    
     public enum NewSkillType
     {
         Damage,
@@ -87,20 +71,6 @@ public class AllEnum
         Belt,
         Bottom,
         Shoes,
-
-        End
-    }
-    public enum PlyerStat
-    {
-        maxHealth,
-        attack,
-        defense,
-        criticalChance,
-        movementSpeed,
-        experience,
-        maxMana,
-        luck,
-        maxUltimateGauge,
 
         End
     }

@@ -147,21 +147,21 @@ public class PlayerCon : MonoBehaviour
         
         Collider[] colliders = Physics.OverlapSphere(NewGameManager.Instance.player.transform.position, Range, PlayerLayer);
 
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].CompareTag("Monster"))
-            {
-                colliders[i].GetComponent<Monster>().TakeDamage(Cri, Att);
-            }
-            else if (colliders[i].CompareTag("Boss"))
-            {
-                colliders[i].GetComponent<Boss>().TakeDamage(Cri, Att);
-            }
-            else
-            {
-                Debug.Log("아무도 없음");
-            }
-        }
+        //for (int i = 0; i < colliders.Length; i++)
+        //{
+        //    if (colliders[i].CompareTag("Monster"))
+        //    {
+        //        colliders[i].GetComponent<Monster>().TakeDamage(Cri, Att);
+        //    }
+        //    else if (colliders[i].CompareTag("Boss"))
+        //    {
+        //        colliders[i].GetComponent<Boss>().TakeDamage(Cri, Att);
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("아무도 없음");
+        //    }
+        //}
     }
 
     public void AttackRange() // 애니메이션에 넣음

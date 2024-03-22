@@ -2,18 +2,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoadController : Singleton<SceneLoadController>
 {
-    public void GoStartScene()
-    {
-        GameManager.Instance.AllScriptsCorReset();
-        LoadingSceneController.LoadScene("Start");
-        GameManager.Instance.StartMenu();
-    }
-    public void GoMainScene()
-    {
-        LoadingSceneController.LoadScene("Main");
-        GameManager.Instance.LoadMain();
-    }
-
     public void GoHomeScene()
     {
         NewGameManager.Instance.player.gameObject.SetActive(false);
