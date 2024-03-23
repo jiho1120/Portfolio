@@ -690,7 +690,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterPre:
   - {fileID: 2046536872623287970, guid: 884fb28ea07d6c847ab18e2be203490b, type: 3}
-  - {fileID: 8419561574278638327, guid: 698817419cc4fa74d9627dbb85522456, type: 3}
+  - {fileID: 418094899781074610, guid: 698817419cc4fa74d9627dbb85522456, type: 3}
   SkillObject: []
 --- !u!114 &8464306563503177645
 MonoBehaviour:

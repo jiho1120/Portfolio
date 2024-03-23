@@ -11,7 +11,6 @@ public class Monster : MonoBehaviour
     NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
     public Vector3 dir;
-    public GameObject explosionEffect;
     Rigidbody rb;
     public Transform attackPos;
     

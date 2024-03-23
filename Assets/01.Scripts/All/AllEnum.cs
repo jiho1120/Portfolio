@@ -22,6 +22,7 @@ public class AllEnum
         Attack,
         Hit,
         Die,
+        DeActivate,
 
         End
     }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
+public class ObjectPool<T> where T : MonoBehaviour
 {
     private Queue<T> pool = new Queue<T>();
     private Transform tr;
@@ -22,7 +22,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
     }
     public void Init()
     {
-        int num = prefabList.Count;
+            int num = prefabList.Count;
         for (int i = 0; i < initialSize; i++)
         {
             int ranNum = Random.Range(0, num);
@@ -31,7 +31,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
     }
     public void GeneratePool(T prefab)
     {
-        T obj = Instantiate(prefab, tr).GetComponent<T>();
+        T obj = Object.Instantiate(prefab, tr).GetComponent<T>();
         obj.gameObject.SetActive(false);
         pool.Enqueue(obj);
     }
@@ -57,7 +57,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
         {
             int num = prefabList.Count;
             int ranNum = Random.Range(0, num);
-            T newObj = Instantiate(prefabList[ranNum], tr).GetComponent<T>();
+            T newObj = Object.Instantiate(prefabList[ranNum], tr).GetComponent<T>();
             return newObj;
         }
         else
