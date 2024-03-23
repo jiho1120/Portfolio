@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerCon : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public Transform characterBody;
     public Transform cameraArm;
@@ -66,7 +66,7 @@ public class PlayerCon : MonoBehaviour
 
     void FixedUpdate()
     {
-        Move(Speed);
+        Move();
     }
 
     #region ´É·ÂÄ¡
@@ -86,9 +86,9 @@ public class PlayerCon : MonoBehaviour
 }
     #endregion
 
-    private void Move(float speed)
+    private void Move()
     {
-        speed = (isRun) ? (Speed * 1.5f) : Speed;
+        float speed = (isRun) ? (Speed * 1.5f) : Speed;
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         float percent = ((isRun) ? 1 : 0.5f) * moveInput.magnitude;
         playerAnimator.WalkOrRun(percent);

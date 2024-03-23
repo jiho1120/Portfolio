@@ -1,0 +1,78 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
+{
+    private Queue<T> pool = new Queue<T>();
+    private Transform tr;
+    private List<T> prefabList = new List<T>();
+    public int spawnTime { get; private set; }
+    int initialSize;
+
+    public ObjectPool(T[] prefab, int _initialSize, Transform _tr, int _spawnTime)
+    {
+        for (int i = 0; i < prefab.Length; i++)
+        {
+            prefabList.Add(prefab[i]);
+        }
+        initialSize = _initialSize;
+        tr = _tr;
+        spawnTime = _spawnTime;
+
+    }
+    public void Init()
+    {
+        int num = prefabList.Count;
+        for (int i = 0; i < initialSize; i++)
+        {
+            int ranNum = Random.Range(0, num);
+            GeneratePool(prefabList[ranNum]);
+        }
+    }
+    public void GeneratePool(T prefab)
+    {
+        T obj = Instantiate(prefab, tr).GetComponent<T>();
+        obj.gameObject.SetActive(false);
+        pool.Enqueue(obj);
+    }
+
+    public void SpawnObject(int x, int z)
+    {
+        T obj = GetObjectFromPool();
+        obj.gameObject.SetActive(true);
+        SetPosition(obj, x, z);
+    }
+
+    public void SetPosition(T obj, int x, int z)
+    {
+        Vector3 spawnPos = new Vector3(x, 0, z);
+        obj.transform.position = spawnPos;
+        obj.transform.rotation = Quaternion.identity;
+    }
+
+
+    public T GetObjectFromPool()
+    {
+        if (pool.Count == 0)
+        {
+            int num = prefabList.Count;
+            int ranNum = Random.Range(0, num);
+            T newObj = Instantiate(prefabList[ranNum], tr).GetComponent<T>();
+            return newObj;
+        }
+        else
+        {
+            T obj = pool.Dequeue();
+            obj.gameObject.SetActive(true);
+            return obj;
+        }
+    }
+
+    public void ReturnObjectToPool(T obj)
+    {
+        obj.gameObject.SetActive(false);
+        pool.Enqueue(obj);
+    }
+
+
+}

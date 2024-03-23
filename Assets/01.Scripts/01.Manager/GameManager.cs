@@ -9,7 +9,7 @@ public class GameManager : Singleton<GameManager>
 {
     public bool onMenu = false;
     public GameObject playerPrefab;
-    public PlayerCon player { get; private set; }
+    public Player player { get; private set; }
 
     #region Wating
     Coroutine runTimeCor = null; // 5초에서 줄어듬
@@ -29,8 +29,9 @@ public class GameManager : Singleton<GameManager>
     {
         DataManager.Instance.select.Init();
         UIManager.Instance.OnStartUI();
-        player = Instantiate(playerPrefab,transform).GetComponent<PlayerCon>();
+        player = Instantiate(playerPrefab,transform).GetComponent<Player>();
         player.gameObject.SetActive(false);
+        ResourceManager.Instance.Init();
     }
     private void Update()
     {
@@ -113,7 +114,11 @@ public class GameManager : Singleton<GameManager>
     #region InGame
     public void InGame()
     {
+        DeactivateWating();
         player.gameObject.SetActive(true);
+        ObjectPoolManager.Instance.Init();
+        ObjectPoolManager.Instance.SpawnObject();
+
     }
 
     IEnumerator GameTime()
