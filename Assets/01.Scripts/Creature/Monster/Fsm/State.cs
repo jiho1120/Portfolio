@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public abstract class State
 {
     //소유주 에 대한 정보도 가지고 있어야 함.

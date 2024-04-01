@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour,IAttack
+public class Player : MonoBehaviour, IAttack
 {
     public Transform characterBody;
     public Transform cameraArm;
@@ -42,7 +42,7 @@ public class Player : MonoBehaviour,IAttack
         ApplyEquipmentStat();
         playerAnimator.SetAttackSpeed(attackSpeed);
         PlayerLayer = 1 << LayerMask.NameToLayer("Enemy");
-        
+
     }
     private void Update()
     {
@@ -68,17 +68,17 @@ public class Player : MonoBehaviour,IAttack
     #region 능력치
     void ApplyEquipmentStat() // 장비 능력 추가해야함
     {
-    Luck = DataManager.Instance.gameData.playerData.playerStat.luck;
+        Luck = DataManager.Instance.gameData.playerData.playerStat.luck;
         MaxHp = DataManager.Instance.gameData.playerData.playerStat.maxHp;
         Hp = DataManager.Instance.gameData.playerData.playerStat.hp;
 
         MaxMp = DataManager.Instance.gameData.playerData.playerStat.maxMp;
         Mp = DataManager.Instance.gameData.playerData.playerStat.mp;
 
-    Def = DataManager.Instance.gameData.playerData.playerStat.defense;
+        Def = DataManager.Instance.gameData.playerData.playerStat.defense;
         Speed = DataManager.Instance.gameData.playerData.playerStat.speed;
         Cri = DataManager.Instance.gameData.playerData.playerStat.critical;
-    Att = DataManager.Instance.gameData.playerData.playerStat.attack;
+        Att = DataManager.Instance.gameData.playerData.playerStat.attack;
     }
 
 
@@ -142,24 +142,24 @@ public class Player : MonoBehaviour,IAttack
     }
     public void Attack(Vector3 Tr, float Range)
     {
-        
+
         Collider[] colliders = Physics.OverlapSphere(GameManager.Instance.player.transform.position, Range, PlayerLayer);
 
-        //for (int i = 0; i < colliders.Length; i++)
-        //{
-        //    if (colliders[i].CompareTag("Monster"))
-        //    {
-        //        colliders[i].GetComponent<Monster>().TakeDamage(Cri, Att);
-        //    }
-        //    else if (colliders[i].CompareTag("Boss"))
-        //    {
-        //        colliders[i].GetComponent<Boss>().TakeDamage(Cri, Att);
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("아무도 없음");
-        //    }
-        //}
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].CompareTag("Monster"))
+            {
+                colliders[i].GetComponent<Monster>().TakeDamage(Cri, Att);
+            }
+            //else if (colliders[i].CompareTag("Boss"))
+            //{
+            //    colliders[i].GetComponent<Boss>().TakeDamage(Cri, Att);
+            //}
+            else
+            {
+                Debug.Log("아무도 없음");
+            }
+        }
     }
 
     public void AttackRange() // 애니메이션에 넣음
@@ -193,7 +193,7 @@ public class Player : MonoBehaviour,IAttack
 
     public float CriticalDamage(float critical, float attack)
     {
-        float criticalDamage = 0;
+        float criticalDamage;
         if (CheckCritical(critical))
         {
             criticalDamage = attack * 2;

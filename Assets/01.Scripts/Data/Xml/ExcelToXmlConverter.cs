@@ -1,10 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
-using System.IO;
 using ExcelDataReader;
 using System.Data;
-using System.Collections.Generic;
+using System.IO;
 using System.Xml;
+using UnityEngine;
 
 public class ExcelToXmlConverter : MonoBehaviour
 {
@@ -32,24 +30,24 @@ public class ExcelToXmlConverter : MonoBehaviour
             {
                 for (int j = 1; j < table.Rows.Count; j++)
                 {
-                        string statName = table.Rows[0][i].ToString();
-                        string ratingName = table.Rows[j][0].ToString();
-                        string value = table.Rows[j][i].ToString();
+                    string statName = table.Rows[0][i].ToString();
+                    string ratingName = table.Rows[j][0].ToString();
+                    string value = table.Rows[j][i].ToString();
 
-                        var xmlElement = xmlDocument.CreateElement("Stat");
-                        xmlRoot.AppendChild(xmlElement);
+                    var xmlElement = xmlDocument.CreateElement("Stat");
+                    xmlRoot.AppendChild(xmlElement);
 
-                        var xmlAttributeStat = xmlDocument.CreateAttribute("Name");
-                        xmlAttributeStat.Value = statName;
-                        xmlElement.Attributes.Append(xmlAttributeStat);
+                    var xmlAttributeStat = xmlDocument.CreateAttribute("Name");
+                    xmlAttributeStat.Value = statName;
+                    xmlElement.Attributes.Append(xmlAttributeStat);
 
-                        var xmlAttributeRating = xmlDocument.CreateAttribute("Rating");
-                        xmlAttributeRating.Value = ratingName;
-                        xmlElement.Attributes.Append(xmlAttributeRating);
+                    var xmlAttributeRating = xmlDocument.CreateAttribute("Rating");
+                    xmlAttributeRating.Value = ratingName;
+                    xmlElement.Attributes.Append(xmlAttributeRating);
 
-                        var xmlAttributeValue = xmlDocument.CreateAttribute("Value");
-                        xmlAttributeValue.Value = value;
-                        xmlElement.Attributes.Append(xmlAttributeValue);
+                    var xmlAttributeValue = xmlDocument.CreateAttribute("Value");
+                    xmlAttributeValue.Value = value;
+                    xmlElement.Attributes.Append(xmlAttributeValue);
                 }
             }
 

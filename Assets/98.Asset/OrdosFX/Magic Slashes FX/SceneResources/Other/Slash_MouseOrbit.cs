@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 
 public class Slash_MouseOrbit : MonoBehaviour
 {
@@ -28,26 +27,26 @@ public class Slash_MouseOrbit : MonoBehaviour
     void LateUpdate()
     {
         if (distance < 2) distance = 2;
-        distance -= Input.GetAxis("Mouse ScrollWheel")*2;
+        distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
         if (target && (Input.GetMouseButton(0) || Input.GetMouseButton(1)))
         {
             var pos = Input.mousePosition;
             var dpiScale = 1f;
             if (Screen.dpi < 1) dpiScale = 1;
             if (Screen.dpi < 200) dpiScale = 1;
-            else dpiScale = Screen.dpi/200f;
+            else dpiScale = Screen.dpi / 200f;
 
-            if (pos.x < 380*dpiScale && Screen.height - pos.y < 250*dpiScale) return;
+            if (pos.x < 380 * dpiScale && Screen.height - pos.y < 250 * dpiScale) return;
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
 
-            x += Input.GetAxis("Mouse X")*xSpeed*0.02f;
-            y -= Input.GetAxis("Mouse Y")*ySpeed*0.02f;
+            x += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
+            y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
 
             y = ClampAngle(y, yMinLimit, yMaxLimit);
             var rotation = Quaternion.Euler(y, x, 0);
-            var position = rotation* new Vector3(0.0f, 0.0f, -distance) + target.transform.position;
+            var position = rotation * new Vector3(0.0f, 0.0f, -distance) + target.transform.position;
             transform.rotation = rotation;
             transform.position = position;
 
@@ -64,7 +63,7 @@ public class Slash_MouseOrbit : MonoBehaviour
         {
             prevDistance = distance;
             var rot = Quaternion.Euler(y, x, 0);
-            var po = rot*new Vector3(0.0f, 0.0f, -distance) + target.transform.position;
+            var po = rot * new Vector3(0.0f, 0.0f, -distance) + target.transform.position;
             transform.rotation = rot;
             transform.position = po;
         }

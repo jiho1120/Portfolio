@@ -1,8 +1,9 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Monster : MonoBehaviour
+public class Monster : MonoBehaviour, Initialize
 {
     public AllEnum.MonsterType monType;
     MonsterAnimation anim;//얘는 진짜 단순히 애니메이션 출력...    
@@ -11,8 +12,9 @@ public class Monster : MonoBehaviour
     public bool isDeActive { get; private set; } = false;
     public bool isDead { get; private set; } = false;
 
-    public Coroutine dieCor = null;
-
+    public Coroutine deActiveCor = null;
+    MonsterData monsterData;
+    StatData monStat;
 
     #region FSM
     public AllEnum.States NowState = AllEnum.States.End;//현재상태   
@@ -31,7 +33,7 @@ public class Monster : MonoBehaviour
     Coroutine AttackCor = null;
     #endregion
 
-    void Start()
+    public void Init()
     {
         if (anim == null)
         {
@@ -51,16 +53,27 @@ public class Monster : MonoBehaviour
         {
             rb = GetComponent<Rigidbody>();
         }
-        Init();
-    }
-    public void Init()
-    {
+        monsterData = DataManager.Instance.gameData.monsterData;
+        monStat = monsterData.monsterStat;
         isAttack = true;
         isHit = false;
         isDead = false;
         isDeActive = false;
         monStateMachine.SetState(AllEnum.States.Idle);
+        //monStat.PrintStatData();
     }
+    public void Deactivate()
+    {
+        rb.isKinematic = true;
+        Agent.isStopped = true;
+        isAttack = false;
+        isHit = false;
+        isDead = true; // 이게 죽음보다 먼저 걸림 그래서 true여도 상관없음
+        isDeActive = true;
+        MonsterManager.Instance.ReturnToPool(this);
+    }
+
+
     #region Set
     public void SetIsAttack(bool on)
     {
@@ -81,7 +94,7 @@ public class Monster : MonoBehaviour
     #endregion
 
 
-    #region 공격
+    #region 공격 & 피격
     public void Attack() // 애니메이션에 넣음
     {
         Collider[] cols = AttackRange(attackPos.position, 0.5f);
@@ -113,6 +126,41 @@ public class Monster : MonoBehaviour
             yield return new WaitForSeconds(attackCoolTime);
             isAttack = true;
             AttackCor = null;
+        }
+    }
+    public bool CheckCritical(float critical)
+    {
+        bool isCritical = Random.Range(0f, 100f) < critical;
+        return isCritical;
+    }
+    public float CriticalDamage(float critical, float attack)
+    {
+        float criticalDamage;
+        if (CheckCritical(critical))
+        {
+            criticalDamage = attack * 2;
+        }
+        else
+        {
+            criticalDamage = attack;
+
+        }
+
+        return criticalDamage;
+    }
+    public void TakeDamage(float critical, float attack)
+    {
+        if (isDead)
+        {
+            return;
+        }
+        isHit = true;
+        float damage = CriticalDamage(critical, attack) - (monStat.defense * 0.5f); // 몬스터 스탯 추가
+        monStat.hp -= damage;
+        if (monStat.hp <= 0)
+        {
+            monStat.hp = 0;
+            isDead = true;
         }
     }
     #endregion
@@ -153,30 +201,29 @@ public class Monster : MonoBehaviour
         agent.isStopped = true;
     }
 
-    protected IEnumerator DeletObject()
+    IEnumerator DeActiveTime()
     {
-        float time = 0;
-        // 죽고 2초 지나거나 죽고 2초전에 게임이 끝남
-        while (GameManager.Instance.stageStart && time < 2)
+        yield return new WaitForSeconds(2f);
+        isDeActive = true;
+        if (deActiveCor != null)
         {
-            time += Time.deltaTime;
-            yield return null;
+            deActiveCor = null;
         }
-        MonsterManager.Instance.ReturnToPool(this);
-        dieCor = null;
     }
+     
     public virtual void Die()
     {
+        Agent.isStopped = true;
+        rb.isKinematic = true;
         isDead = true;
         SetDeadAnim();
-        dieCor = StartCoroutine(DeletObject());
+        if (deActiveCor == null)
+        {
+            deActiveCor = StartCoroutine(DeActiveTime());
+        }
     }
 
-    // 안죽고 pool에 들어감(비활성화)
-    public void DeActive() // 이거는 나중에 변수로 처리
-    {
-        MonsterManager.Instance.ReturnToPool(this);
-    }
+    
 
     #endregion
 
@@ -193,7 +240,7 @@ public class Monster : MonoBehaviour
     {
         anim.AttackAnim(isAttack);
     }
-    
+
     public void SetHitAnim()
     {
         anim.Hit();
@@ -202,6 +249,8 @@ public class Monster : MonoBehaviour
     {
         anim.Die();
     }
+
+
 
     #endregion
 }

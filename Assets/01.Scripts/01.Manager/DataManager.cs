@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.IO;
+using UnityEngine;
 
 public class DataManager : Singleton<DataManager>
 {
@@ -26,9 +26,9 @@ public class DataManager : Singleton<DataManager>
         savefile = new bool[3];
         path = Application.persistentDataPath + "/save";    // 경로 지정
         Debug.Log(path);
-        select= GetComponent<Select>();
+        select = GetComponent<Select>();
     }
-    
+
 
     public void SaveData()
     {
@@ -50,5 +50,5 @@ public class DataManager : Singleton<DataManager>
         nowSlot = -1;
         gameData = new GameData();
     }
-    
+
 }

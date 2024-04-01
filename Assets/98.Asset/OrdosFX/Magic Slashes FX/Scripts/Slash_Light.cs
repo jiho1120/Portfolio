@@ -45,14 +45,16 @@ public class Slash_Light : MonoBehaviour
 
     private void Update()
     {
-        
+
         var time = Time.time - startTime;
-        if (canUpdate) {
+        if (canUpdate)
+        {
             var eval = LightCurve.Evaluate(time / GraphTimeMultiplier) * GraphIntensityMultiplier;
             lightSource.intensity = eval;
             lightSource.color = startColor * LightColor.Evaluate(time / GraphTimeMultiplier);
         }
-        if (time >= GraphTimeMultiplier) {
+        if (time >= GraphTimeMultiplier)
+        {
             if (IsLoop) startTime = Time.time;
             else canUpdate = false;
         }

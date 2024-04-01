@@ -194,6 +194,7 @@ MonoBehaviour:
   dir: {x: 0, y: 0, z: 0}
   NowState: 5
   attackPos: {fileID: 4266421415024666938}
+  isAttack: 1
   ExplosionEffect: {fileID: 7083310395561718288}
 --- !u!114 &5813752623407884365
 MonoBehaviour:
@@ -1794,6 +1795,10 @@ PrefabInstance:
     - target: {fileID: 4977646799359860, guid: 674e8bce7f9782a4087bb4165c1b84a9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114566962382578006, guid: 674e8bce7f9782a4087bb4165c1b84a9, type: 3}
+      propertyPath: OnlyDeactivate
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

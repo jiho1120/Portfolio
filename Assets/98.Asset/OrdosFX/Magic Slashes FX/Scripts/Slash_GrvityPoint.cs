@@ -39,7 +39,7 @@ public class Slash_GrvityPoint : MonoBehaviour
         for (int i = 0; i < particleCount; i++)
         {
             var distanceToParticle = targetTransformedPosition - particles[i].position;
-           
+
             if (StopDistance > 0.001f && distanceToParticle.magnitude < StopDistance)
             {
                 particles[i].velocity = Vector3.zero;
@@ -47,7 +47,7 @@ public class Slash_GrvityPoint : MonoBehaviour
             else
             {
                 var directionToTarget = Vector3.Normalize(distanceToParticle);
-                var seekForce = directionToTarget*forceDeltaTime;
+                var seekForce = directionToTarget * forceDeltaTime;
 
                 particles[i].velocity += seekForce;
             }

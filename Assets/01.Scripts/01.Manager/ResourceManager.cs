@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ResourceManager : Singleton<ResourceManager>
@@ -7,7 +5,7 @@ public class ResourceManager : Singleton<ResourceManager>
     public Monster[] monsterPre; // 인스펙터에서 등록
 
     public GameObject[] SkillObject;
-    public XMLAccess XMLAccess {get; private set; }
+    public XMLAccess XMLAccess { get; private set; }
 
     public void Init()
     {
@@ -15,6 +13,6 @@ public class ResourceManager : Singleton<ResourceManager>
         XMLAccess = GetComponent<XMLAccess>();
         XMLAccess.Init();
     }
-    
-   
+
+
 }

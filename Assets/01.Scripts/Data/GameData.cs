@@ -86,6 +86,14 @@ public class StatData
         ultimateGauge = SO.ultimateGauge;
         maxUltimateGauge = SO.ultimateGauge;
     }
+    public void PrintStatData()
+    {
+        System.Reflection.FieldInfo[] fields = typeof(StatData).GetFields();
+        foreach (var field in fields)
+        {
+            Debug.Log(field.Name + ": " + field.GetValue(this));
+        }
+    }
 }
 [System.Serializable]
 public class PlayerData

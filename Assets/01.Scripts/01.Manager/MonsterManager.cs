@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterManager : Singleton<MonsterManager>
@@ -8,12 +7,12 @@ public class MonsterManager : Singleton<MonsterManager>
     public Transform monsterPoolPos;
 
     Coroutine monCor = null;
-    int monsterCount = 1;
-    float monsterTime = 10;
+    int monsterCount = 10;
+    float monsterTime = 1;
 
     public void Init()
     {
-        if (monsterPool ==null)
+        if (monsterPool == null)
         {
             monsterPool = new ObjectPool<Monster>(ResourceManager.instance.monsterPre, monsterCount, monsterPoolPos, monsterTime);
             monsterPool.Init();

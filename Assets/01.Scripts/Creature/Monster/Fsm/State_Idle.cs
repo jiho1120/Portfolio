@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class State_Idle : State
 {
     public State_Idle(Monster monster, SetStateDel StateDel) : base(monster, StateDel)
@@ -27,14 +23,14 @@ public class State_Idle : State
             StateDel(AllEnum.States.DeActivate);
             return;
         }
-        else if(monster.isDead)
+        else if (monster.isDead)
         {
             StateDel(AllEnum.States.Die);
             return;
         }
         else
         {
-            if (dis <= monster.attackDistance && monster.isAttack) 
+            if (dis <= monster.attackDistance && monster.isAttack)
             {
                 StateDel(AllEnum.States.Attack);
                 return;

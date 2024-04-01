@@ -6,8 +6,8 @@ public class ObjectPool<T> where T : MonoBehaviour
     private Queue<T> pool = new Queue<T>();
     private Transform tr;
     private List<T> prefabList = new List<T>();
-    public float spawnTime { get; private set; }
     int initialSize;
+    public float spawnTime { get; private set; }
 
     public ObjectPool(T[] prefab, int _initialSize, Transform _tr, float _spawnTime)
     {
@@ -41,6 +41,7 @@ public class ObjectPool<T> where T : MonoBehaviour
         T obj = GetObjectFromPool();
         obj.gameObject.SetActive(true);
         SetPosition(obj, x, z);
+        ObjInitialize(obj);
     }
 
     public void SetPosition(T obj, int x, int z)
@@ -73,6 +74,23 @@ public class ObjectPool<T> where T : MonoBehaviour
         obj.gameObject.SetActive(false);
         pool.Enqueue(obj);
     }
-
-
+    public void ObjInitialize(T tInfo)
+    {
+        if (tInfo.GetComponent<Initialize>() == null)
+        {
+            Debug.Log("Initialize ¾øÀ½");
+        }
+        else
+        {
+            Initialize Initialize;
+            Initialize = tInfo.GetComponent<Initialize>();
+            if (Initialize != null)
+            {
+                Initialize.Init();
+            }
+        }
+        
+        
+        
+    }
 }

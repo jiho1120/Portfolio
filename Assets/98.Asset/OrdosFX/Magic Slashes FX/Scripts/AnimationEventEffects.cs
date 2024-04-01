@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class AnimationEventEffects : MonoBehaviour {
+public class AnimationEventEffects : MonoBehaviour
+{
     //public GameObject EffectPrefab;
     //public Transform EffectStartPosition;
     //public float DestroyAfter = 10;
@@ -36,12 +35,13 @@ public class AnimationEventEffects : MonoBehaviour {
 
     //       Destroy(effectOBJ, DestroyAfterWorld);
     //   }
-    void Start() {
+    void Start()
+    {
     }
-            
+
     void InstantiateEffect(int EffectNumber)
     {
-        if(Effects == null || Effects.Length <= EffectNumber)
+        if (Effects == null || Effects.Length <= EffectNumber)
         {
             Debug.LogError("Incorrect effect number or effect is null");
         }

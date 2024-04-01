@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 /*인베토리 복붙
@@ -21,7 +20,7 @@ public class GameManager : Singleton<GameManager>
     #region InGame
     public bool stageStart { get; private set; } // 몬스터 나오는게 스테이지 스타트
     public float runTime { get; private set; } // 플레이 시간
-    
+
     #endregion
 
 
@@ -29,7 +28,7 @@ public class GameManager : Singleton<GameManager>
     {
         DataManager.Instance.select.Init();
         UIManager.Instance.OnStartUI();
-        player = Instantiate(playerPrefab,transform).GetComponent<Player>();
+        player = Instantiate(playerPrefab, transform).GetComponent<Player>();
         player.gameObject.SetActive(false);
         ResourceManager.Instance.Init();
     }
@@ -42,7 +41,7 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyDown(KeyCode.M))
         {
             onMenu = !onMenu;
-                UIManager.Instance.MenuUI.SetActive(onMenu);
+            UIManager.Instance.MenuUI.SetActive(onMenu);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -50,7 +49,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
     #region Start화면
-   
+
     #endregion
 
 
@@ -88,7 +87,7 @@ public class GameManager : Singleton<GameManager>
                 if (countTime <= 0)
                 {
                     stageStart = true;
-                    UIManager.Instance.WaitingUI.SetActive(false );
+                    UIManager.Instance.WaitingUI.SetActive(false);
                     InGame();
                 }
             }

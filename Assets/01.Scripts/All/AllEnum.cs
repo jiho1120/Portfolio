@@ -26,7 +26,7 @@ public class AllEnum
 
         End
     }
-    
+
     public enum NewSkillType
     {
         Damage,

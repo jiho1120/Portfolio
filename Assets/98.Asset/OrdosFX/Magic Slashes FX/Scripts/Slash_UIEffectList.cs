@@ -1,22 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Slash_UIEffectList : MonoBehaviour {
+public class Slash_UIEffectList : MonoBehaviour
+{
 
     public GameObject[] Prefabs;
     private int currentNomber;
     private GameObject currentInstance;
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public void ChangeCurrent(int delta)
     {

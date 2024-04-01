@@ -9,7 +9,7 @@ public class State_Attack : State
         monster.transform.LookAt(GameManager.Instance.player.transform.position);
         monster.Agent.isStopped = true;
         monster.SetAttackAnim();
-        
+
 
     }
 
@@ -26,7 +26,7 @@ public class State_Attack : State
             StateDel(AllEnum.States.DeActivate);
             return;
         }
-        else if(monster.isDead)
+        else if (monster.isDead)
         {
             StateDel(AllEnum.States.Die);
             return;

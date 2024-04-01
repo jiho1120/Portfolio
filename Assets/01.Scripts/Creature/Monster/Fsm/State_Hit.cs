@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class State_Hit : State
 {
     public State_Hit(Monster monster, SetStateDel StateDel) : base(monster, StateDel)

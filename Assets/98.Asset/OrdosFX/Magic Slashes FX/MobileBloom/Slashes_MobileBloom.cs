@@ -66,7 +66,7 @@ public class Slashes_MobileBloom : MonoBehaviour
         else return RenderTextureFormat.DefaultHDR;
     }
 
-  
+
 
     private void UpdateBloom(RenderTexture source, RenderTexture dest)
     {
@@ -76,10 +76,10 @@ public class Slashes_MobileBloom : MonoBehaviour
 
         var rtFormat = RenderTextureFormat.Default;
 
-        
-        tw  = (int) (tw * RenderTextureResolutoinFactor);
-        th = (int) (th * RenderTextureResolutoinFactor);
-          
+
+        tw = (int)(tw * RenderTextureResolutoinFactor);
+        th = (int)(th * RenderTextureResolutoinFactor);
+
         // determine the iteration count
         var logh = Mathf.Log(th, 2) - 1;
         var logh_i = (int)logh;
@@ -89,14 +89,14 @@ public class Slashes_MobileBloom : MonoBehaviour
         var threshold = Mathf.GammaToLinearSpace(Threshold);
 
         bloomMaterial.SetFloat("_Threshold", threshold);
-      
+
         var sampleScale = 0.5f + logh - logh_i;
-     
-        bloomMaterial.SetFloat("_SampleScale",  sampleScale * 0.5f);
+
+        bloomMaterial.SetFloat("_SampleScale", sampleScale * 0.5f);
         bloomMaterial.SetFloat("_Intensity", Mathf.Max(0.0f, Intensity));
 
         var prefiltered = RenderTexture.GetTemporary(tw, th, 0, rtFormat);
- 
+
         Graphics.Blit(source, prefiltered, bloomMaterial, 0);
 
         //02457
