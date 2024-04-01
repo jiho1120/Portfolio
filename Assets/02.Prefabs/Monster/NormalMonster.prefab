@@ -451,6 +451,7 @@ GameObject:
   - component: {fileID: 5330672456836251369}
   - component: {fileID: 8521788766259869778}
   - component: {fileID: 2046536872623287970}
+  - component: {fileID: -8511748467779619007}
   m_Layer: 6
   m_Name: NormalMonster
   m_TagString: Monster
@@ -596,8 +597,20 @@ MonoBehaviour:
   monType: 0
   NowState: 5
   dir: {x: 0, y: 0, z: 0}
-  explosionEffect: {fileID: 1892078723244562, guid: 674e8bce7f9782a4087bb4165c1b84a9, type: 3}
   attackPos: {fileID: 3067066142191201259}
+--- !u!114 &-8511748467779619007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878744742175446561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a065aef0be2004b4fabb19b3f3d48b3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 2046536872623287970}
 --- !u!1 &5143234030831929504
 GameObject:
   m_ObjectHideFlags: 0

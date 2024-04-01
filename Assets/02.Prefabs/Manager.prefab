@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 6816395195843194264}
   - component: {fileID: 8017189894058047524}
   - component: {fileID: 5744134351758013121}
+  - component: {fileID: 835091731292489790}
+  - component: {fileID: 3171912328092529614}
+  - component: {fileID: 1721551649186066554}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -32,7 +35,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 9106703326479901484}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &51498186367006098
@@ -174,3 +178,80 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onMenu: 0
   playerPrefab: {fileID: 3368545074454069596, guid: 2e27c9bdefc0fb14097d19dfda3a8897, type: 3}
+--- !u!114 &835091731292489790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964155153475370490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55195aa625d2ad449aa652bd39411959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterPre:
+  - {fileID: 6617036426176144792, guid: d230ed386ffa32c4b83e6d79b2d9544a, type: 3}
+  - {fileID: 827233696460406868, guid: 09a99861852ed924cb71a652f0e76491, type: 3}
+  SkillObject: []
+--- !u!114 &3171912328092529614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964155153475370490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d84ee3bf46db7542b7032589ba68080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dataList:
+  - grade
+  - PowerUpPlayer
+  - PowerUpItem
+  - PowerUpSkill
+--- !u!114 &1721551649186066554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964155153475370490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0d99b700c35dc74a8f97c95fe3ed8df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterPoolPos: {fileID: 9106703326479901484}
+--- !u!1 &5455222839336892148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9106703326479901484}
+  m_Layer: 0
+  m_Name: MonsterPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9106703326479901484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5455222839336892148}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2333946365486312185}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

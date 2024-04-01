@@ -25,8 +25,7 @@ public class MonStateMachine : MonoBehaviour
         StateDic.Add(AllEnum.States.Attack, new State_Attack(owner, SetState));
         StateDic.Add(AllEnum.States.Hit, new State_Hit(owner, SetState));
         StateDic.Add(AllEnum.States.Die, new State_Die(owner, SetState));
-        StateDic.Add(AllEnum.States.Die, new State_DeActivate(owner, SetState));
-
+        StateDic.Add(AllEnum.States.DeActivate, new State_DeActivate(owner, SetState));
     }
     public void StopNowState()
     {

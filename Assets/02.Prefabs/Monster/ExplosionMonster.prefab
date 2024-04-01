@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 6217287353530375677}
   - component: {fileID: 8371960216663133260}
   - component: {fileID: 418094899781074610}
+  - component: {fileID: 5373681369645815149}
   m_Layer: 6
   m_Name: ExplosionMonster
   m_TagString: Monster
@@ -261,6 +262,19 @@ MonoBehaviour:
   dir: {x: 0, y: 0, z: 0}
   attackPos: {fileID: 8704252245755428527}
   ExplosionEffect: {fileID: 4024525302610470975}
+--- !u!114 &5373681369645815149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664361161776394588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a065aef0be2004b4fabb19b3f3d48b3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 418094899781074610}
 --- !u!1 &1959028873010088492
 GameObject:
   m_ObjectHideFlags: 0

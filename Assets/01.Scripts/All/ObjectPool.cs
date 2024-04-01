@@ -6,10 +6,10 @@ public class ObjectPool<T> where T : MonoBehaviour
     private Queue<T> pool = new Queue<T>();
     private Transform tr;
     private List<T> prefabList = new List<T>();
-    public int spawnTime { get; private set; }
+    public float spawnTime { get; private set; }
     int initialSize;
 
-    public ObjectPool(T[] prefab, int _initialSize, Transform _tr, int _spawnTime)
+    public ObjectPool(T[] prefab, int _initialSize, Transform _tr, float _spawnTime)
     {
         for (int i = 0; i < prefab.Length; i++)
         {
@@ -22,7 +22,7 @@ public class ObjectPool<T> where T : MonoBehaviour
     }
     public void Init()
     {
-            int num = prefabList.Count;
+        int num = prefabList.Count;
         for (int i = 0; i < initialSize; i++)
         {
             int ranNum = Random.Range(0, num);
@@ -53,19 +53,19 @@ public class ObjectPool<T> where T : MonoBehaviour
 
     public T GetObjectFromPool()
     {
+        T obj;
         if (pool.Count == 0)
         {
             int num = prefabList.Count;
             int ranNum = Random.Range(0, num);
-            T newObj = Object.Instantiate(prefabList[ranNum], tr).GetComponent<T>();
-            return newObj;
+            obj = Object.Instantiate(prefabList[ranNum], tr).GetComponent<T>();
         }
         else
         {
-            T obj = pool.Dequeue();
+            obj = pool.Dequeue();
             obj.gameObject.SetActive(true);
-            return obj;
         }
+        return obj;
     }
 
     public void ReturnObjectToPool(T obj)

@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour,IAttack
 {
     public Transform characterBody;
     public Transform cameraArm;
@@ -83,7 +79,9 @@ public class Player : MonoBehaviour
         Speed = DataManager.Instance.gameData.playerData.playerStat.speed;
         Cri = DataManager.Instance.gameData.playerData.playerStat.critical;
     Att = DataManager.Instance.gameData.playerData.playerStat.attack;
-}
+    }
+
+
     #endregion
 
     private void Move()
@@ -102,7 +100,7 @@ public class Player : MonoBehaviour
         transform.position += moveDir * speed * Time.deltaTime;
     }
 
-    #region 공격
+    #region 공격 & 피격
     void BasicAttack()
     {
         //클릭할때마다 이전시간과 비교해서 연속공격상태면 다음 주먹으로 변경하고
@@ -168,5 +166,48 @@ public class Player : MonoBehaviour
     {
         Attack(fist.position, 1f);
     }
+
+    public void TakeDamage(float critical, float attack) // 플레이어피가 다는거
+    {
+        if (!isDead)
+        {
+            playerAnimator.SetHit();
+            float damage = Mathf.Max(CriticalDamage(critical, attack) - (Def * 0.5f), 1f); // 최소 데미지 1
+            Hp -= damage;
+            if (Hp < 0)
+            {
+                Hp = 0;
+            }
+        }
+        else
+        {
+            Debug.Log("player 이미 죽었어");
+        }
+    }
+
+    public bool CheckCritical(float critical)
+    {
+        bool isCritical = Random.Range(0f, 100f) < critical;
+        return isCritical;
+    }
+
+    public float CriticalDamage(float critical, float attack)
+    {
+        float criticalDamage = 0;
+        if (CheckCritical(critical))
+        {
+            criticalDamage = attack * 2;
+            Debug.Log("치명타 터짐");
+        }
+        else
+        {
+            criticalDamage = attack;
+            Debug.Log("치명타 안 터짐");
+
+        }
+
+        return criticalDamage;
+    }
+
     #endregion
 }

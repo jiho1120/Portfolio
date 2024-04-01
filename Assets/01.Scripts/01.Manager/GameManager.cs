@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 /*인베토리 복붙
-몬스터 소환
+몬스터 소환 -> 무한 공격 해결
 보스 소환
 스킬 수정*/
 public class GameManager : Singleton<GameManager>
@@ -16,10 +16,10 @@ public class GameManager : Singleton<GameManager>
 
     public bool isCountTime { get; private set; } // 버튼 글자 바꾸기 위해 선언
     public float countTime { get; private set; } // 카운트 세는거
-    public bool stageStart { get; private set; } // 몬스터 나오는게 스테이지 스타트
     #endregion
 
     #region InGame
+    public bool stageStart { get; private set; } // 몬스터 나오는게 스테이지 스타트
     public float runTime { get; private set; } // 플레이 시간
     
     #endregion
@@ -116,9 +116,7 @@ public class GameManager : Singleton<GameManager>
     {
         DeactivateWating();
         player.gameObject.SetActive(true);
-        ObjectPoolManager.Instance.Init();
-        ObjectPoolManager.Instance.SpawnObject();
-
+        MonsterManager.Instance.Init();
     }
 
     IEnumerator GameTime()

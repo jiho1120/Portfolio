@@ -19,9 +19,15 @@ public class MonsterAnimation : MonoBehaviour
         anim.SetBool("isMove", true);
     }
 
-    public void Attack()
+    public void AttackAnim(bool b)
     {
-        anim.SetTrigger("Attack");
+        //anim.SetTrigger("Attack");
+        anim.SetBool("Attack", b);
+
+    }
+    public void StopAttack()
+    {
+        anim.ResetTrigger("Attack");
     }
     public void Hit()
     {
@@ -30,6 +36,5 @@ public class MonsterAnimation : MonoBehaviour
     public void Die()
     {
         anim.SetTrigger("isDead");
-
     }
 }
