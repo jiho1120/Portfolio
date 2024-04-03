@@ -18,7 +18,7 @@ public class State_Hit : State
     {
         float dis = monster.CheckDir().sqrMagnitude;
 
-        if (monster.isDeActive)
+        if (monster.isDeActive || !GameManager.Instance.stageStart)
         {
             StateDel(AllEnum.States.DeActivate);
             return;

@@ -57,6 +57,14 @@ public class AllEnum
 
     public enum ItemType
     {
+        Useable,
+        Equip,
+
+        End
+    }
+
+    public enum ItemList
+    {
         HpPosion,
         MpPosion,
         UltimatePosion,

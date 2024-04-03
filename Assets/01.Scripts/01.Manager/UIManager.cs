@@ -21,6 +21,8 @@ public class UIManager : Singleton<UIManager>
     [Header("InGame")]
     public GameObject InGameUI;
     public Text RunTime;
+    public Text monsterCountText;
+    public Text monsterGoalText;
 
     #region StartUI
     public void OnStartUI()
@@ -63,7 +65,22 @@ public class UIManager : Singleton<UIManager>
     #endregion
 
     #region InGame
-
+    public void InitInGame()
+    {
+        InGameUI.gameObject.SetActive(true);
+        UpdateMonsterGoalCount(GameManager.Instance.killGoal);
+        UpdateMonsterCount(GameManager.Instance.killMon);
+    }
+    public void UpdateMonsterCount(int count)
+    {
+        // 몬스터 카운트를 UI에 반영
+        monsterCountText.text = count.ToString();
+    }
+    public void UpdateMonsterGoalCount(int count)
+    {
+        // 몬스터 카운트를 UI에 반영
+        monsterGoalText.text = count.ToString();
+    }
     #endregion
 
     #region

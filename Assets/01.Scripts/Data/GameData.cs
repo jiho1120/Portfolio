@@ -11,6 +11,7 @@ public class GameData
     public List<ItemData> equipmentData = new List<ItemData>();
     public List<SkillData> activeSkillData = new List<SkillData>();
     public List<SkillData> passiveSkillData = new List<SkillData>();
+    public InvenData invenDatas = new InvenData(); // 나중에 딕셔너리
 
     public void SetGameData()
     {
@@ -42,6 +43,7 @@ public class GameData
             skill.SetSkillData(DataManager.Instance.passiveSkill[i]);
             passiveSkillData.Add(skill);
         }
+        InvenData inven = new InvenData();
     }
 }
 
@@ -119,7 +121,7 @@ public class ItemData
     public int index;
     public int level; // 을 올려서 능력치 올리는 함수 만들꺼임
     public int count;
-    public AllEnum.ItemType itemType;
+    public AllEnum.ItemList ItemList;
     public Sprite icon;
     public float hp;
     public float mp;
@@ -137,7 +139,7 @@ public class ItemData
         index = SO.index;
         level = SO.level;
         count = SO.count;
-        itemType = SO.itemType;
+        ItemList = SO.itemType;
         icon = SO.icon;
         hp = SO.hp;
         mp = SO.mp;
@@ -178,6 +180,24 @@ public class SkillData
         mana = SO.mana;
         setParent = SO.setParent;
         inUse = SO.inUse;
+    }
+}
+
+[System.Serializable]
+public class InvenData
+{
+    public List<ItemData> itemDatas = new List<ItemData>();
+
+    public ItemData GetItemData(int index) // 나중에 
+    {
+        foreach (ItemData item in itemDatas)
+        {
+            if (item.index == index)
+            {
+                return item;
+            }
+        }
+        return null;
     }
 }
 

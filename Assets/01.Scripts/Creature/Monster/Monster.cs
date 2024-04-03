@@ -5,22 +5,28 @@ using UnityEngine.AI;
 
 public class Monster : MonoBehaviour, Initialize
 {
+    #region 기본
     public AllEnum.MonsterType monType;
     MonsterAnimation anim;//얘는 진짜 단순히 애니메이션 출력...    
-    public Vector3 dir;
     public Rigidbody rb { get; private set; }
-    public bool isDeActive { get; private set; } = false;
-    public bool isDead { get; private set; } = false;
-
-    public Coroutine deActiveCor = null;
     MonsterData monsterData;
     StatData monStat;
+    #endregion
+
+
+    #region die, deAct
+    public bool isDeActive { get; private set; } = false;
+    public bool isDead { get; private set; } = false;
+    Coroutine deActiveCor = null;
+    Vector3 itempos = new Vector3(0, 1, 0);
+    #endregion
 
     #region FSM
     public AllEnum.States NowState = AllEnum.States.End;//현재상태   
     public NavMeshAgent Agent => agent;
     NavMeshAgent agent;
     MonStateMachine monStateMachine;
+    public Vector3 dir;
 
     #endregion
 
@@ -31,6 +37,25 @@ public class Monster : MonoBehaviour, Initialize
     public bool isAttack;
     public bool isHit { get; private set; } = false;
     Coroutine AttackCor = null;
+    #endregion
+
+    #region Set
+    public void SetIsAttack(bool on)
+    {
+        isAttack = on;
+    }
+    public void SetIsHit(bool on)
+    {
+        isHit = on;
+    }
+    public void SetIsDead(bool on)
+    {
+        isDead = on;
+    }
+    public void SetIsDeActive(bool on)
+    {
+        isDeActive = on;
+    }
     #endregion
 
     public void Init()
@@ -64,6 +89,8 @@ public class Monster : MonoBehaviour, Initialize
     }
     public void Deactivate()
     {
+        isDeActive = true;
+        deActiveCor = null;
         rb.isKinematic = true;
         Agent.isStopped = true;
         isAttack = false;
@@ -72,26 +99,7 @@ public class Monster : MonoBehaviour, Initialize
         isDeActive = true;
         MonsterManager.Instance.ReturnToPool(this);
     }
-
-
-    #region Set
-    public void SetIsAttack(bool on)
-    {
-        isAttack = on;
-    }
-    public void SetIsHit(bool on)
-    {
-        isHit = on;
-    }
-    public void SetIsDead(bool on)
-    {
-        isDead = on;
-    }
-    public void SetIsDeActive(bool on)
-    {
-        isDeActive = on;
-    }
-    #endregion
+    
 
 
     #region 공격 & 피격
@@ -163,9 +171,14 @@ public class Monster : MonoBehaviour, Initialize
             isDead = true;
         }
     }
+    public void Hit()
+    {
+        SetHitAnim();
+        agent.isStopped = true;
+    }
     #endregion
 
-    #region  State 상태 관련
+    #region 시야
     public Vector3 CheckDir()
     {
         dir = GameManager.Instance.player.transform.position - transform.position;
@@ -173,6 +186,9 @@ public class Monster : MonoBehaviour, Initialize
 
         return dir;
     }
+    #endregion
+
+    #region 움직임
     public void Idle()
     {
         if (agent != null)
@@ -193,38 +209,57 @@ public class Monster : MonoBehaviour, Initialize
         agent.SetDestination(vec);
         SetMoveAnim();
     }
+    #endregion
 
-
-    public void Hit()
-    {
-        SetHitAnim();
-        agent.isStopped = true;
-    }
-
-    IEnumerator DeActiveTime()
-    {
-        yield return new WaitForSeconds(2f);
-        isDeActive = true;
-        if (deActiveCor != null)
-        {
-            deActiveCor = null;
-        }
-    }
-     
+    #region Die , DeActive
     public virtual void Die()
     {
+        GameManager.Instance.SetKillMon(GameManager.Instance.killMon + 1);
+        UIManager.Instance.UpdateMonsterCount(GameManager.Instance.killMon);
         Agent.isStopped = true;
         rb.isKinematic = true;
-        isDead = true;
         SetDeadAnim();
         if (deActiveCor == null)
         {
             deActiveCor = StartCoroutine(DeActiveTime());
         }
+        GameManager.Instance.CheakStageClear();
+    }
+    IEnumerator DeActiveTime()
+    {
+        yield return new WaitForSeconds(2f);
+        isDeActive = true;
+        deActiveCor = null;
+    }
+    public void DropRandomItem()
+    {
+        int itemIndex = Random.Range(0, 3);
+        if (itemIndex == 0)
+        {
+            DataManager.Instance.gameData.playerData.playerStat.money += monStat.money;
+        }
+        else
+        {
+            if (itemIndex == 1) // 장비
+            {
+                itemIndex = Random.Range(0, 7);
+            }
+            else if (itemIndex == 2) // 물약
+            {
+                itemIndex = Random.Range(101, 104);
+
+            }
+            ItemManager.Instance.DropItem(itemIndex, transform.position + itempos);
+        }
     }
 
-    
+    #endregion
 
+    #region 
+
+    #endregion
+
+    #region 
     #endregion
 
     #region anim 볼 필요없음
@@ -249,8 +284,5 @@ public class Monster : MonoBehaviour, Initialize
     {
         anim.Die();
     }
-
-
-
     #endregion
 }

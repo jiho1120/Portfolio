@@ -15,10 +15,7 @@ public class State_Walk : State
     public override void OnStateStay()
     {
         float dis = monster.CheckDir().sqrMagnitude;
-
-        monster.Move(GameManager.Instance.player.transform.position);
-
-        if (monster.isDeActive)
+        if (monster.isDeActive || !GameManager.Instance.stageStart)
         {
             StateDel(AllEnum.States.DeActivate);
             return;
@@ -41,5 +38,6 @@ public class State_Walk : State
                 return;
             }
         }
+        monster.Move(GameManager.Instance.player.transform.position);
     }
 }

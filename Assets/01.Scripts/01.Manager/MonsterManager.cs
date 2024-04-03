@@ -1,9 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterManager : Singleton<MonsterManager>
 {
-    public ObjectPool<Monster> monsterPool;
+    public ObjectPool<Monster> monsterPool { get; private set; }
     public Transform monsterPoolPos;
 
     Coroutine monCor = null;
@@ -26,6 +27,14 @@ public class MonsterManager : Singleton<MonsterManager>
             monCor = StartCoroutine(CorSpawnObject());
         }
     }
+    public void StopSpawnObject()
+    {
+        if (monCor != null)
+        {
+            StopCoroutine(monCor);
+            monCor = null;
+        }
+    }
 
     public IEnumerator CorSpawnObject()
     {
@@ -33,13 +42,21 @@ public class MonsterManager : Singleton<MonsterManager>
         {
             int x = Random.Range(0, 5);
             int z = Random.Range(0, 5);
-            monsterPool.SpawnObject(x, z);
+            //monsterPool.SpawnObject(x, z);
+            monsterPool.SpawnObject(x, z,GameManager.Instance.player.transform.position);
             yield return new WaitForSeconds(monsterPool.spawnTime);
         }
     }
     public void ReturnToPool(Monster mon)
     {
         monsterPool.ReturnObjectToPool(mon);
+    }
+    public void SetMonsterDeactive()
+    {
+            foreach (var obj in monsterPool.GetPool())
+            {
+                obj.GetComponent<Monster>().SetIsDeActive(true);
+            }
     }
 
 }

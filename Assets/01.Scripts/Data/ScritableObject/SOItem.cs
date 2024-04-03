@@ -6,7 +6,7 @@ public class SOItem : ScriptableObject
     public int index;
     public int level = 1;
     public int count = 1;
-    public AllEnum.ItemType itemType;
+    public AllEnum.ItemList itemType;
     public Sprite icon;
     public float hp;
     public float mp;
