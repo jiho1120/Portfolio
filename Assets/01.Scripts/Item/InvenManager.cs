@@ -30,7 +30,7 @@ public class InvenManager : Singleton<InvenManager>
     //}
     public void Additem(ItemData itemData)
     {
-        ItemData _itemdata = DataManager.Instance.gameData.invenDatas.invenItemDatas.Find(x => x.index == itemData.index && x.count == itemData.count);
+        ItemData _itemdata = DataManager.Instance.gameData.invenDatas.invenItemDatas.Find(x => x.index == itemData.index && x.level == itemData.level);
 
         if (itemData == null)
         {
