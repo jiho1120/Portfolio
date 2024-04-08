@@ -23,13 +23,13 @@ public class UIPopUpItemDetail : MonoBehaviour
     public UIPopUpItemDetail Init(int id)
     {
         this.id = id;
-        var data = DataManager.Instance.gameData.invenDatas.GetItemData(id);
-        var type = data.ItemList;
+        var data = DataManager.Instance.gameData.invenDatas.GetItemDataForIndex(id);
+        var type = data.itemList;
         txtItemType.text = type.ToString();// 나중에 타입으로 바꾸기
         var sprite = data.icon;
         imgItemIcon.sprite = sprite;
-        txtItemName.text = data.ItemList.ToString();
-        
+        txtItemName.text = data.itemList.ToString();
+
         //txtSellPrice.text = string.Format(data.price); //나중에 추가
         txtSellCount.text = data.count.ToString();
 
@@ -40,8 +40,8 @@ public class UIPopUpItemDetail : MonoBehaviour
     }
     void OnSellActionHandler()
     {
-            // 이벤트 발송
-            onSell(this.id);
+        // 이벤트 발송
+        onSell(this.id);
     }
 
     public void Open() //나중에 많아지면 베이스를 만들고 UI들을 상속시키면 한개만 만들어도됨

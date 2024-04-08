@@ -37,4 +37,6 @@ public class ItemManager : Singleton<ItemManager>
             itemObject.transform.position = tr;
         }
     }
+
+
 }

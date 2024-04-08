@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,31 +20,31 @@ public class UIGridScrollViewDic : MonoBehaviour
             popupDetail.Init(index).Open();
         };
 
-        btnTestGetItem.onClick.AddListener(() =>
-        {
-            //·£´ý ¾ÆÀÌÅÛ È¹µæ
-           var data = DataManager.Instance.GetRandomItemData();
+        //btnTestGetItem.onClick.AddListener(() =>
+        //{
+        //    //·£´ý ¾ÆÀÌÅÛ È¹µæ
+        //   var data = DataManager.Instance.GetRandomItemData();
 
-            InvenManager.Instance.Additem(data);
+        //    InvenManager.Instance.Additem(data);
 
-            //ÀúÀå
-            DataManager.Instance.SaveInvenInfo(DataManager.Instance.gameData.invenDatas);
+        //    //ÀúÀå
+        //    DataManager.Instance.SaveInvenInfo(DataManager.Instance.gameData.invenDatas);
 
-            scrollView.Refresh();
-        });
+        //    scrollView.Refresh();
+        //});
         scrollView.Init();
     }
 
     void SellItem(int id)
     {
-        var info = DataManager.Instance.gameData.invenDatas.itemDatas.Find(x => x.index == id);
+        var info = DataManager.Instance.gameData.invenDatas.invenItemDatas.Find(x => x.index == id);
 
         if (info.count > 1)
         {
             --info.count;
         }else 
         {
-            DataManager.Instance.gameData.invenDatas.itemDatas.Remove(info);
+            DataManager.Instance.gameData.invenDatas.invenItemDatas.Remove(info);
 
             popupDetail.Close();
         }

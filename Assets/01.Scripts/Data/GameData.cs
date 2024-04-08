@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -121,7 +122,8 @@ public class ItemData
     public int index;
     public int level; // 을 올려서 능력치 올리는 함수 만들꺼임
     public int count;
-    public AllEnum.ItemList ItemList;
+    public AllEnum.ItemType itemType;
+    public AllEnum.ItemList itemList;
     public Sprite icon;
     public float hp;
     public float mp;
@@ -139,7 +141,8 @@ public class ItemData
         index = SO.index;
         level = SO.level;
         count = SO.count;
-        ItemList = SO.itemType;
+        itemType = SO.itemType;
+        itemList = SO.itemList;
         icon = SO.icon;
         hp = SO.hp;
         mp = SO.mp;
@@ -186,11 +189,11 @@ public class SkillData
 [System.Serializable]
 public class InvenData
 {
-    public List<ItemData> itemDatas = new List<ItemData>();
+    public List<ItemData> invenItemDatas = new List<ItemData>();
 
-    public ItemData GetItemData(int index) // 나중에 
+    public ItemData GetItemDataForIndex(int index)
     {
-        foreach (ItemData item in itemDatas)
+        foreach (ItemData item in invenItemDatas)
         {
             if (item.index == index)
             {
@@ -199,5 +202,19 @@ public class InvenData
         }
         return null;
     }
+
+    public ItemData GetItemDataForLevel(ItemData itemData)
+    {
+        ItemData _item = GetItemDataForIndex(itemData.index);
+        if (_item == null)
+        {
+            return null;
+        }
+        else
+        {
+            return _item.level == itemData.level ? itemData : null;
+        }
+    }
+
 }
 

@@ -15,7 +15,8 @@ MonoBehaviour:
   index: 4
   level: 1
   count: 1
-  itemType: 7
+  itemType: 1
+  itemList: 7
   icon: {fileID: 21300000, guid: 6b11b3095215bac4190dee61f7cb70a7, type: 3}
   hp: 0
   mp: 0

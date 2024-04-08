@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -20,9 +21,13 @@ public class UIManager : Singleton<UIManager>
 
     [Header("InGame")]
     public GameObject InGameUI;
+    public GameObject UIGridScrollView;
+    public UIGridScrollViewDic uIGridScrollViewDic;
+    bool scrollview = false;
     public Text RunTime;
     public Text monsterCountText;
     public Text monsterGoalText;
+
 
     #region StartUI
     public void OnStartUI()
@@ -80,6 +85,16 @@ public class UIManager : Singleton<UIManager>
     {
         // 몬스터 카운트를 UI에 반영
         monsterGoalText.text = count.ToString();
+    }
+
+    public void OnOffScrollView()
+    {
+        scrollview = !scrollview;
+        if (scrollview == true)
+        {
+            uIGridScrollViewDic.scrollView.Refresh();
+        }
+        UIGridScrollView.gameObject.SetActive(scrollview);
     }
     #endregion
 

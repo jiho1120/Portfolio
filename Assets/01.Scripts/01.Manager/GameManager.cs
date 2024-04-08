@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
-/*인베토리 복붙
- * 아이템 없애기
+/* 아이템 없애기
 보스 소환
 스킬 수정*/
 public class GameManager : Singleton<GameManager>
@@ -54,6 +53,10 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyDown(KeyCode.Space))
         {
             DataManager.Instance.SaveData();
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            UIManager.Instance.OnOffScrollView();
         }
     }
     #region Start화면
