@@ -10,8 +10,9 @@ public class UIManager : Singleton<UIManager>
     public GameObject namePanel;    // 플레이어 닉네임 입력UI
     public Text[] slotText;        // 슬롯버튼 아래에 존재하는 Text들
 
-    [Header("MenuUI")]
+    [Header("BasicUI")]
     public GameObject MenuUI;
+    public GameObject PopUp;
 
     [Header("Waiting")]
     public GameObject WaitingUI;
@@ -29,7 +30,7 @@ public class UIManager : Singleton<UIManager>
     public Text monsterGoalText;
 
 
-    #region StartUI
+    #region BasicUI
     public void OnStartUI()
     {
         StartUI.gameObject.SetActive(true);
@@ -39,8 +40,14 @@ public class UIManager : Singleton<UIManager>
         StartUI.gameObject.SetActive(false);
         namePanel.gameObject.SetActive(false);
     }
+    public void StartPopCor(string text, float time)
+    {
+        PopUp.gameObject.SetActive(true);
+        PopUp.GetComponent<BasicPopUp>().PopCor(text, time);
+    }
     public void OnNamePanel()    // 플레이어 닉네임 입력 UI를 활성화하는 메소드
     {
+        newPlayerName.text = "";
         namePanel.gameObject.SetActive(true);
     }
     #endregion MenuUI
@@ -73,7 +80,8 @@ public class UIManager : Singleton<UIManager>
     public void InitInGame()
     {
         InGameUI.gameObject.SetActive(true);
-        UpdateMonsterGoalCount(GameManager.Instance.killGoal);
+        UpdateMonsterGoalCount(
+DataManager.Instance.gameData.killGoal);
         UpdateMonsterCount(GameManager.Instance.killMon);
     }
     public void UpdateMonsterCount(int count)

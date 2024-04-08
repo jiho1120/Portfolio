@@ -5,6 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    public int killGoal = 10;
+    public float gameRound = 1;
+    public float gameStage = 1;
     public PlayerData playerData = new PlayerData();
     public MonsterData monsterData = new MonsterData();
     public BossData bossData = new BossData();

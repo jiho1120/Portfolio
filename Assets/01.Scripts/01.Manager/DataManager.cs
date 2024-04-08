@@ -95,5 +95,4 @@ public class DataManager : Singleton<DataManager>
         GameData newGameData = JsonUtility.FromJson<GameData>(data);
         gameData.invenDatas = newGameData.invenDatas;
     }
-
 }

@@ -17,11 +17,9 @@ public class GameManager : Singleton<GameManager>
 
     #region InGame
     public bool stageStart { get; private set; } // 몬스터 나오는게 스테이지 스타트
-    public float runTime { get; private set; } = 0;// 플레이 시간
-    public int killGoal { get; private set; } = 10;// 목표 몬스터 수
+    public float runTime { get; private set; } = 0; // 플레이 시간
     public int killMon { get; private set; } = 0;// 잡은 몬스터 수
-    public float gameRound { get; private set; } = 1;// 라운드
-    public float gameStage { get; private set; } = 1;// 스테이지
+   
     Coroutine stageClearCor = null;
     Coroutine gameTimeCor = null;
 
@@ -38,6 +36,8 @@ public class GameManager : Singleton<GameManager>
         ResourceManager.Instance.Init();
         ItemManager.Instance.Init();
         GridScrollViewMain.Instance.Init();
+        
+
     }
     private void Update()
     {
@@ -59,8 +59,9 @@ public class GameManager : Singleton<GameManager>
             UIManager.Instance.OnOffScrollView();
         }
     }
-    #region Start화면
 
+    #region Start화면
+    
     #endregion
 
 
@@ -125,12 +126,13 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
     #region InGame
+    
     public void InGame()
     {
         DeactivateWating();
         player.gameObject.SetActive(true);
         UIManager.Instance.InitInGame();
-        if (gameStage != 5)
+        if (DataManager.Instance.gameData.gameStage != 5)
         {
             MonsterManager.Instance.Init();
             if (gameTimeCor == null)
@@ -162,7 +164,7 @@ public class GameManager : Singleton<GameManager>
 
     public void CheakStageClear()
     {
-        if (killMon >= killGoal)
+        if (killMon >= DataManager.Instance.gameData.killGoal)
         {
             if (stageClearCor == null)
             {
@@ -175,11 +177,11 @@ public class GameManager : Singleton<GameManager>
         stageStart = false;
         gameTimeCor = null;
         killMon = 0;
-        killGoal += 10;
-        gameStage += 1;
-        if (gameStage % 5 == 1)
+        DataManager.Instance.gameData.killGoal += 10;
+        DataManager.Instance.gameData.gameStage += 1;
+        if (DataManager.Instance.gameData.gameStage % 5 == 1)
         {
-            gameRound += 1;
+            DataManager.Instance.gameData.gameRound += 1;
         }
         MonsterManager.Instance.StopSpawnObject();
         MonsterManager.Instance.SetMonsterDeactive();
@@ -187,6 +189,7 @@ public class GameManager : Singleton<GameManager>
         ItemManager.Instance.AllItemDeActive();
         InitWating();
         stageClearCor = null;
+        DataManager.Instance.SaveData();///// 클리어시 저장
     }
 
     #endregion
