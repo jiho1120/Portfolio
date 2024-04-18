@@ -1,5 +1,10 @@
+ï»¿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.IO;
 using UnityEngine;
+using System;
+using Random = UnityEngine.Random;
+using UnityEngine.UIElements;
 
 public class DataManager : Singleton<DataManager>
 {
@@ -9,17 +14,17 @@ public class DataManager : Singleton<DataManager>
     public SOStat SOPlayerStat;
     public SOStat SOMonsterStat;
     public SOStat SOBossStat;
-    public SOItem[] Posion;
-    public SOItem[] Equipment;
-    public NewSOSkill[] activeSkill;
-    public NewSOSkill[] passiveSkill;
+    public SOItem[] soItem;
+
+    //public NewSOSkill[] activeSkill;
+    //public NewSOSkill[] passiveSkill;
 
 
 
-    public bool[] savefile { get; private set; }   // ¼¼ÀÌºêÆÄÀÏ Á¸ÀçÀ¯¹« ÀúÀå
-    public string path; // °æ·Î
-    public string nowPath; // °æ·Î
-    public int nowSlot; // ÇöÀç ½½·Ô¹øÈ£
+    public bool[] savefile { get; private set; }   // ì„¸ì´ë¸ŒíŒŒì¼ ì¡´ì¬ìœ ë¬´ ì €ì¥
+    public string path; // ê²½ë¡œ
+    public string nowPath; // ê²½ë¡œ
+    public int nowSlot; // í˜„ì¬ ìŠ¬ë¡¯ë²ˆí˜¸
 
     protected override void Awake()
     {
@@ -31,21 +36,68 @@ public class DataManager : Singleton<DataManager>
     }
 
 
-    public void SaveData()
+    public void Save()
     {
-        string data = JsonUtility.ToJson(gameData);
         nowPath = path + nowSlot.ToString();
-        File.WriteAllText(nowPath, data);
-        Debug.Log("ÀúÀåµÇ¾ú½À´Ï´Ù.");
+
+        // JSON ì§ë ¬í™”ë¥¼ ìœ„í•œ ì„¤ì • ìƒì„±
+        var settings = new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
+
+        // GameData ê°ì²´ë¥¼ JSON ë¬¸ìì—´ë¡œ ë³€í™˜
+        string jsondata = JsonConvert.SerializeObject(gameData, Formatting.Indented, settings);
+
+        // íŒŒì¼ì— ì“°ê¸°
+        File.WriteAllText(nowPath, jsondata);
+
+        Debug.Log("ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
 
-    public void LoadData()
+
+
+    public void Load()
+    {
+        nowPath = path + nowSlot.ToString();
+        string jsonData = File.ReadAllText(nowPath);
+
+        // JSON ë°ì´í„°ë¥¼ ê²Œì„ ë°ì´í„° ê°ì²´ë¡œ deserialize
+        gameData = JsonConvert.DeserializeObject<GameData>(jsonData);
+        Debug.Log("íŒŒì¼ì„ ë¶ˆëŸ¬ì™”ìŠµë‹ˆë‹¤.");
+    }
+
+    public void SaveInvenInfo(InvenData newData)
+    {
+        // JSON íŒŒì¼ ì½ê¸°
+        string json = File.ReadAllText(nowPath);
+
+        // JSON ë¬¸ìì—´ì„ ê°ì²´ë¡œ ë³€í™˜
+        GameData data = JsonConvert.DeserializeObject<GameData>(json);
+
+        // ì›í•˜ëŠ” ê°ì²´ ìˆ˜ì •
+        data.invenDatas = newData;
+
+        // JSON ì§ë ¬í™”ë¥¼ ìœ„í•œ ì„¤ì • ìƒì„±
+        var settings = new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
+
+        // GameData ê°ì²´ë¥¼ JSON ë¬¸ìì—´ë¡œ ë³€í™˜
+        string jsondata = JsonConvert.SerializeObject(gameData, Formatting.Indented, settings);
+
+        // íŒŒì¼ì— ì“°ê¸°
+        File.WriteAllText(nowPath, jsondata);
+        Debug.Log("ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.");
+
+    }
+    public void LoadInvenInfo()
     {
         nowPath = path + nowSlot.ToString();
         string data = File.ReadAllText(nowPath);
-        gameData = JsonUtility.FromJson<GameData>(data);
-        Debug.Log("ÆÄÀÏÀ» ºÒ·¯¿Ô½À´Ï´Ù.");
-
+        GameData newGameData = JsonConvert.DeserializeObject<GameData>(data);
+        gameData.invenDatas = newGameData.invenDatas;
     }
 
     public void DataClear()
@@ -54,45 +106,40 @@ public class DataManager : Singleton<DataManager>
         gameData = new GameData();
     }
 
-    public SOItem GetRandomItemData()
+    public ItemData GetRandomItemData()
     {
-        int randamItemType = Random.Range(0, (int)AllEnum.ItemType.End);
         int randamId;
-        switch (randamItemType)
-        {
-            case 0:
-                randamId = Random.Range(0, Posion.Length);
-                return Posion[randamId];
-            case 1:
-                randamId = Random.Range(0, Equipment.Length); // °­È­µÈ ¾ÆÀÌÅÛÀ» ÁÖ¸é ¾ÈµÊ
-                return Equipment[randamId];
-            default:
-                return null;
-        }
-    }
-    
-    public void SaveInvenInfo(InvenData newData)
-    {
-        // JSON ÆÄÀÏ ÀĞ±â
-        string json = File.ReadAllText(nowPath);
-
-        // JSON ¹®ÀÚ¿­À» °´Ã¼·Î º¯È¯
-        GameData data = JsonUtility.FromJson<GameData>(json);
-
-        // ¿øÇÏ´Â °´Ã¼ ¼öÁ¤
-        data.invenDatas = newData;
-
-        // °´Ã¼¸¦ JSON ¹®ÀÚ¿­·Î ´Ù½Ã ÀÎÄÚµù
-        string updatedJson = JsonUtility.ToJson(data);
-
-        // ÆÄÀÏ¿¡ ¾²±â
-        File.WriteAllText(nowPath, updatedJson);
-    }
-    public void LoadInvenInfo()
-    {
-        nowPath = path + nowSlot.ToString();
-        string data = File.ReadAllText(nowPath);
-        GameData newGameData = JsonUtility.FromJson<GameData>(data);
-        gameData.invenDatas = newGameData.invenDatas;
+        ItemData item = new ItemData();
+        randamId = Random.Range(0, (int)AllEnum.ItemList.End);
+        item.SetItemData(soItem[randamId]);
+        return item;
     }
 }
+
+public class SpriteConverter : JsonConverter<Sprite>
+{
+    public override Sprite ReadJson(JsonReader reader, System.Type objectType, Sprite existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        string textureName = reader.Value as string;
+        if (!string.IsNullOrEmpty(textureName))
+        {
+            Sprite sprite = Resources.Load<Sprite>(textureName);
+            return sprite;
+        }
+        return null;
+    }
+
+    public override void WriteJson(JsonWriter writer, Sprite value, JsonSerializer serializer)
+    {
+        if (value != null && value.texture != null)
+        {
+            writer.WriteValue(value.texture.name);
+        }
+        else
+        {
+            writer.WriteNull();
+        }
+    }
+
+}
+

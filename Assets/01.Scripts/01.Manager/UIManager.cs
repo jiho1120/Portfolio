@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -13,6 +12,14 @@ public class UIManager : Singleton<UIManager>
     [Header("BasicUI")]
     public GameObject MenuUI;
     public GameObject PopUp;
+    public UIUserInfo UserInfo;
+
+    [Header("InvenUI")]
+    public GameObject Inventory;
+    public UIGridScrollViewDic uIGridScrollViewDic;
+    bool scrollview = false;
+    public EquipSlot[] equipSlots;
+
 
     [Header("Waiting")]
     public GameObject WaitingUI;
@@ -22,9 +29,6 @@ public class UIManager : Singleton<UIManager>
 
     [Header("InGame")]
     public GameObject InGameUI;
-    public GameObject UIGridScrollView;
-    public UIGridScrollViewDic uIGridScrollViewDic;
-    bool scrollview = false;
     public Text RunTime;
     public Text monsterCountText;
     public Text monsterGoalText;
@@ -43,7 +47,7 @@ public class UIManager : Singleton<UIManager>
     public void StartPopCor(string text, float time)
     {
         PopUp.gameObject.SetActive(true);
-        PopUp.GetComponent<BasicPopUp>().PopCor(text, time);
+        PopUp.GetComponent<CorPopUp>().PopCor(text, time);
     }
     public void OnNamePanel()    // 플레이어 닉네임 입력 UI를 활성화하는 메소드
     {
@@ -95,20 +99,31 @@ DataManager.Instance.gameData.killGoal);
         monsterGoalText.text = count.ToString();
     }
 
-    public void OnOffScrollView()
+
+    #endregion
+
+    #region Inventory
+    public void setequip()
+    {
+        for (int i = 0; i < equipSlots.Length; i++)
+        {
+            equipSlots[i].SetEquipSlot();
+        }
+    }
+
+    public void OnOffInventory()
     {
         scrollview = !scrollview;
+        
+        Inventory.gameObject.SetActive(scrollview);
         if (scrollview == true)
         {
+            setequip();
             uIGridScrollViewDic.scrollView.Refresh();
         }
-        UIGridScrollView.gameObject.SetActive(scrollview);
+
     }
-    #endregion
-
-    #region
-
-    #endregion
+    #endregion 
 
     #region
 

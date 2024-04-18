@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,11 +12,10 @@ public class GameData
     public PlayerData playerData = new PlayerData();
     public MonsterData monsterData = new MonsterData();
     public BossData bossData = new BossData();
-    public List<ItemData> posionData = new List<ItemData>();
-    public List<ItemData> equipmentData = new List<ItemData>();
     public List<SkillData> activeSkillData = new List<SkillData>();
     public List<SkillData> passiveSkillData = new List<SkillData>();
-    public InvenData invenDatas = new InvenData(); // 나중에 딕셔너리
+    public InvenData invenDatas = new InvenData();
+
 
     public void SetGameData()
     {
@@ -23,31 +23,23 @@ public class GameData
         playerData.playerStat.SetStat(DataManager.Instance.SOPlayerStat);
         monsterData.monsterStat.SetStat(DataManager.Instance.SOMonsterStat);
         bossData.bossStat.SetStat(DataManager.Instance.SOBossStat);
-        for (int i = 0; i < DataManager.Instance.Posion.Length; i++)
+        for (int i = (int)AllEnum.ItemList.Head; i < (int)AllEnum.ItemList.End; i++)
         {
             ItemData item = new ItemData();
-            item.SetItemData(DataManager.Instance.Posion[i]);
-            posionData.Add(item);
+            invenDatas.EquipItemDatas.Add((AllEnum.ItemList)i, item);
         }
-        for (int i = 0; i < DataManager.Instance.Equipment.Length; i++)
-        {
-            ItemData item = new ItemData();
-            item.SetItemData(DataManager.Instance.Equipment[i]);
-            equipmentData.Add(item);
-        }
-        for (int i = 0; i < DataManager.Instance.activeSkill.Length; i++)
-        {
-            SkillData skill = new SkillData();
-            skill.SetSkillData(DataManager.Instance.activeSkill[i]);
-            activeSkillData.Add(skill);
-        }
-        for (int i = 0; i < DataManager.Instance.passiveSkill.Length; i++)
-        {
-            SkillData skill = new SkillData();
-            skill.SetSkillData(DataManager.Instance.passiveSkill[i]);
-            passiveSkillData.Add(skill);
-        }
-        InvenData inven = new InvenData();
+        //for (int i = 0; i < DataManager.Instance.activeSkill.Length; i++)
+        //{
+        //    SkillData skill = new SkillData();
+        //    skill.SetSkillData(DataManager.Instance.activeSkill[i]);
+        //    activeSkillData.Add(skill);
+        //}
+        //for (int i = 0; i < DataManager.Instance.passiveSkill.Length; i++)
+        //{
+        //    SkillData skill = new SkillData();
+        //    skill.SetSkillData(DataManager.Instance.passiveSkill[i]);
+        //    passiveSkillData.Add(skill);
+        //}
     }
 }
 
@@ -122,22 +114,45 @@ public class BossData
 [System.Serializable]
 public class ItemData
 {
-    public int index;
-    public int level; // 을 올려서 능력치 올리는 함수 만들꺼임
-    public int count;
-    public AllEnum.ItemType itemType;
-    public AllEnum.ItemList itemList;
+    public int index = -1;
+    public int level = 0; // 을 올려서 능력치 올리는 함수 만들꺼임
+    public int count = 0;
+    public AllEnum.ItemType itemType = AllEnum.ItemType.End;
+    public AllEnum.ItemList itemList = AllEnum.ItemList.End;
+
+    [JsonConverter(typeof(SpriteConverter))]
     public Sprite icon;
-    public float hp;
-    public float mp;
-    public float ultimateGauge;
-    public float defense;
-    public float maxHp;
-    public float luck;
-    public float attack;
-    public float critical;
-    public float maxMp;
-    public float speed;
+
+    public float hp = 0;
+    public float mp = 0;
+    public float ultimateGauge = 0;
+    public float defense = 0;
+    public float maxHp = 0;
+    public float luck = 0;
+    public float attack = 0;
+    public float critical = 0;
+    public float maxMp = 0;
+    public float speed = 0;
+
+    public ItemData()
+    {
+        index = -1;
+        level = 0;
+        count = 0;
+        itemType = AllEnum.ItemType.End;
+        itemList = AllEnum.ItemList.End;
+        icon = null;
+        hp = 0;
+        mp = 0;
+        ultimateGauge = 0;
+        defense = 0;
+        maxHp = 0;
+        luck = 0;
+        attack = 0;
+        critical = 0;
+        maxMp = 0;
+        speed = 0;
+    }
 
     public void SetItemData(SOItem SO)
     {
@@ -193,6 +208,7 @@ public class SkillData
 public class InvenData
 {
     public List<ItemData> invenItemDatas = new List<ItemData>();
+    public Dictionary<AllEnum.ItemList, ItemData> EquipItemDatas = new Dictionary<AllEnum.ItemList, ItemData>();
 
     public ItemData GetItemDataForIndex(int index)
     {
@@ -206,18 +222,15 @@ public class InvenData
         return null;
     }
 
-    public ItemData GetItemDataForLevel(ItemData itemData)
+    public void ShowDIc()
     {
-        ItemData _item = GetItemDataForIndex(itemData.index);
-        if (_item == null)
+        foreach (var item in EquipItemDatas)
         {
-            return null;
-        }
-        else
-        {
-            return _item.level == itemData.level ? itemData : null;
+            Debug.Log(item.Key);
+            Debug.Log(item.Value);
         }
     }
-
 }
+
+
 

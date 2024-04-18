@@ -52,11 +52,15 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            DataManager.Instance.SaveData();
+            DataManager.Instance.gameData.invenDatas.ShowDIc();
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            UIManager.Instance.OnOffScrollView();
+            UIManager.Instance.OnOffInventory();
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            UIManager.Instance.UserInfo.onoff();
         }
     }
 
@@ -189,7 +193,7 @@ public class GameManager : Singleton<GameManager>
         ItemManager.Instance.AllItemDeActive();
         InitWating();
         stageClearCor = null;
-        DataManager.Instance.SaveData();///// 클리어시 저장
+        DataManager.Instance.Save();///// 클리어시 저장
     }
 
     #endregion

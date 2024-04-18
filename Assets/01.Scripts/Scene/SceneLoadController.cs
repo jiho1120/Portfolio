@@ -23,7 +23,9 @@ public class SceneLoadController : Singleton<SceneLoadController>
         if (!DataManager.Instance.savefile[DataManager.Instance.nowSlot])    // 현재 슬롯번호의 데이터가 없다면
         {
             DataManager.Instance.gameData.SetGameData();
-            DataManager.Instance.SaveData(); // 현재 정보를 저장함.
+            DataManager.Instance.Save();
+
+            //DataManager.Instance.SaveData(); // 현재 정보를 저장함.
         }
         UIManager.Instance.OffStartUI();
         UIManager.Instance.WaitingUI.gameObject.SetActive(true);

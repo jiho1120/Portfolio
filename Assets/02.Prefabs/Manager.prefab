@@ -16,6 +16,9 @@ GameObject:
   - component: {fileID: 835091731292489790}
   - component: {fileID: 3171912328092529614}
   - component: {fileID: 1721551649186066554}
+  - component: {fileID: 288778717848328832}
+  - component: {fileID: 9050668617612624967}
+  - component: {fileID: 4002650179575760778}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -65,6 +68,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData:
+    killGoal: 0
+    gameRound: 0
+    gameStage: 0
     playerData:
       playerStat:
         name: 
@@ -126,6 +132,8 @@ MonoBehaviour:
     equipmentData: []
     activeSkillData: []
     passiveSkillData: []
+    invenDatas:
+      invenItemDatas: []
   SOPlayerStat: {fileID: 11400000, guid: 909e5d46f87b8074f82b9758b32362fa, type: 2}
   SOMonsterStat: {fileID: 11400000, guid: e1ce992c0775c3b46bdbebb1049c0c22, type: 2}
   SOBossStat: {fileID: 11400000, guid: 09c15fbfd60c30746a8c75092466d312, type: 2}
@@ -141,17 +149,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 419997f327bf04349a16f125c3bef34b, type: 2}
   - {fileID: 11400000, guid: 5f8368d1cdf1e8241ade9729df05354b, type: 2}
   - {fileID: 11400000, guid: f13898d7d143e1b41a0547b8c0e05b57, type: 2}
-  activeSkill:
-  - {fileID: 11400000, guid: bc2e368317f994a44953d362ddf2d5dd, type: 2}
-  - {fileID: 11400000, guid: dae139fb7d06dc941a3d68d451fa522a, type: 2}
-  - {fileID: 11400000, guid: d967a3d784294544e9e7821878b845c0, type: 2}
-  - {fileID: 11400000, guid: 2b6cf91b49984f644a2778d445ecbcb6, type: 2}
-  passiveSkill:
-  - {fileID: 11400000, guid: 4e0e0ea0ae09c6a4cbb37511367af734, type: 2}
-  - {fileID: 11400000, guid: e31b5da22b7829d4ab49a21d4cd937c5, type: 2}
-  - {fileID: 11400000, guid: 7ffd82268b92d8846924f6c0640c96b3, type: 2}
-  - {fileID: 11400000, guid: b46d9622746cca5438248471150933d5, type: 2}
   path: 
+  nowPath: 
   nowSlot: 0
 --- !u!114 &8017189894058047524
 MonoBehaviour:
@@ -194,6 +193,7 @@ MonoBehaviour:
   monsterPre:
   - {fileID: 6617036426176144792, guid: d230ed386ffa32c4b83e6d79b2d9544a, type: 3}
   - {fileID: 827233696460406868, guid: 09a99861852ed924cb71a652f0e76491, type: 3}
+  nullEquipSprite: {fileID: 21300000, guid: 35ac832b69b35457cb25a7f05c8fdead, type: 3}
   SkillObject: []
 --- !u!114 &3171912328092529614
 MonoBehaviour:
@@ -225,6 +225,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterPoolPos: {fileID: 9106703326479901484}
+--- !u!114 &288778717848328832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964155153475370490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcf768d100be08741a57e74332b60777, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPre: {fileID: 9118110405116937029, guid: 5d53cc964dface641b108130bfccbfe6, type: 3}
+  dropItemParent: {fileID: 3219151080642319941}
+--- !u!114 &9050668617612624967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964155153475370490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 998a32523e6682347acd677e5649101c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4002650179575760778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964155153475370490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e38743361854a54db7519e7e5462ce6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  director: {fileID: 0}
 --- !u!1 &2942875428489271351
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,21 +17,23 @@ public class UIGridScrollViewDic : MonoBehaviour
         };
         scrollView.onFocus = (index) =>
         {
-            popupDetail.Init(index).Open();
+            //popupDetail.Init(index).Open();
+            popupDetail.Init(index);
+
         };
 
-        //btnTestGetItem.onClick.AddListener(() =>
-        //{
-        //    //·£´ý ¾ÆÀÌÅÛ È¹µæ
-        //   var data = DataManager.Instance.GetRandomItemData();
+        btnTestGetItem.onClick.AddListener(() =>
+        {
+            //·£´ý ¾ÆÀÌÅÛ È¹µæ
+            var data = DataManager.Instance.GetRandomItemData();
 
-        //    InvenManager.Instance.Additem(data);
+            InvenManager.Instance.Additem(data);
 
-        //    //ÀúÀå
-        //    DataManager.Instance.SaveInvenInfo(DataManager.Instance.gameData.invenDatas);
+            //ÀúÀå
+            DataManager.Instance.SaveInvenInfo(DataManager.Instance.gameData.invenDatas);
 
-        //    scrollView.Refresh();
-        //});
+            scrollView.Refresh();
+        });
         scrollView.Init();
     }
 
@@ -42,7 +44,9 @@ public class UIGridScrollViewDic : MonoBehaviour
         if (info.count > 1)
         {
             --info.count;
-        }else 
+            popupDetail.Refresh();
+        }
+        else
         {
             DataManager.Instance.gameData.invenDatas.invenItemDatas.Remove(info);
 
@@ -51,6 +55,5 @@ public class UIGridScrollViewDic : MonoBehaviour
         DataManager.Instance.SaveInvenInfo(DataManager.Instance.gameData.invenDatas);
 
         scrollView.Refresh();
-
     }
 }
