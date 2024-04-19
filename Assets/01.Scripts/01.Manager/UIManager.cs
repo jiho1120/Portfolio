@@ -18,8 +18,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject Inventory;
     public UIGridScrollViewDic uIGridScrollViewDic;
     bool scrollview = false;
-    public EquipSlot[] equipSlots;
-
+    public UIEquipmentView equipmentView;
 
     [Header("Waiting")]
     public GameObject WaitingUI;
@@ -103,14 +102,6 @@ DataManager.Instance.gameData.killGoal);
     #endregion
 
     #region Inventory
-    public void setequip()
-    {
-        for (int i = 0; i < equipSlots.Length; i++)
-        {
-            equipSlots[i].SetEquipSlot();
-        }
-    }
-
     public void OnOffInventory()
     {
         scrollview = !scrollview;
@@ -118,7 +109,7 @@ DataManager.Instance.gameData.killGoal);
         Inventory.gameObject.SetActive(scrollview);
         if (scrollview == true)
         {
-            setequip();
+            equipmentView.Init();
             uIGridScrollViewDic.scrollView.Refresh();
         }
 

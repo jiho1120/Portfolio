@@ -2,6 +2,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 [System.Serializable]
 public class GameData
@@ -153,6 +155,26 @@ public class ItemData
         maxMp = 0;
         speed = 0;
     }
+    public ItemData(ItemData Item)
+    {
+        index = Item.index;
+        level = Item.level;
+        count = Item.count;
+        itemType = Item.itemType;
+        itemList = Item.itemList;
+        icon = Item.icon;
+        hp = Item.hp;
+        mp = Item.mp;
+        ultimateGauge = Item.ultimateGauge;
+        defense = Item.defense;
+        maxHp = Item.maxHp;
+        luck = Item.luck;
+        attack = Item.attack;
+        critical = Item.critical;
+        maxMp = Item.maxMp;
+        speed = Item.speed;
+    }
+
 
     public void SetItemData(SOItem SO)
     {
@@ -172,6 +194,14 @@ public class ItemData
         critical = SO.critical;
         maxMp = SO.maxMp;
         speed = SO.speed;
+    }
+    public ItemData GetRandomItemData()
+    {
+        int randamId;
+        ItemData item = new ItemData();
+        randamId = Random.Range(0, (int)AllEnum.ItemList.End);
+        item.SetItemData(DataManager.Instance.soItem[randamId]);
+        return item;
     }
 }
 
@@ -224,10 +254,15 @@ public class InvenData
 
     public void ShowDIc()
     {
-        foreach (var item in EquipItemDatas)
+        foreach (KeyValuePair<AllEnum.ItemList, ItemData> pair in EquipItemDatas)
         {
-            Debug.Log(item.Key);
-            Debug.Log(item.Value);
+            Debug.Log("Item List: " + pair.Key);
+            ItemData itemData = pair.Value;
+
+            foreach (System.Reflection.FieldInfo fieldInfo in typeof(ItemData).GetFields())
+            {
+                Debug.Log(fieldInfo.Name + ": " + fieldInfo.GetValue(itemData));
+            }
         }
     }
 }

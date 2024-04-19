@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.IO;
 using UnityEngine;
-using System;
-using Random = UnityEngine.Random;
-using UnityEngine.UIElements;
 
 public class DataManager : Singleton<DataManager>
 {
@@ -50,7 +46,7 @@ public class DataManager : Singleton<DataManager>
         string jsondata = JsonConvert.SerializeObject(gameData, Formatting.Indented, settings);
 
         // 파일에 쓰기
-        File.WriteAllText(nowPath, jsondata);
+        File.WriteAllText(nowPath, jsondata );
 
         Debug.Log("저장되었습니다.");
     }
@@ -67,8 +63,9 @@ public class DataManager : Singleton<DataManager>
         Debug.Log("파일을 불러왔습니다.");
     }
 
-    public void SaveInvenInfo(InvenData newData)
+    public void SaveInvenInfo()
     {
+        nowPath = path + nowSlot.ToString();
         // JSON 파일 읽기
         string json = File.ReadAllText(nowPath);
 
@@ -76,7 +73,7 @@ public class DataManager : Singleton<DataManager>
         GameData data = JsonConvert.DeserializeObject<GameData>(json);
 
         // 원하는 객체 수정
-        data.invenDatas = newData;
+        data.invenDatas = gameData.invenDatas;
 
         // JSON 직렬화를 위한 설정 생성
         var settings = new JsonSerializerSettings
@@ -106,14 +103,7 @@ public class DataManager : Singleton<DataManager>
         gameData = new GameData();
     }
 
-    public ItemData GetRandomItemData()
-    {
-        int randamId;
-        ItemData item = new ItemData();
-        randamId = Random.Range(0, (int)AllEnum.ItemList.End);
-        item.SetItemData(soItem[randamId]);
-        return item;
-    }
+    
 }
 
 public class SpriteConverter : JsonConverter<Sprite>

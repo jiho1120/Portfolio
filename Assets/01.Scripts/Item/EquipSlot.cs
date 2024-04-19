@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class EquipSlot : MonoBehaviour
@@ -14,29 +13,22 @@ public class EquipSlot : MonoBehaviour
         icon = transform.GetChild(0).GetComponent<Image>();
         lv = GetComponentInChildren<TMP_Text>();
     }
-    public void SetEquipSlot()
+    
+    public void SetEquipSlotData()
     {
-        int _lv;
+        DataManager.Instance.LoadInvenInfo();
         ItemData item = DataManager.Instance.gameData.invenDatas.EquipItemDatas[itemlist];
 
-        if (item.icon == null)
+        if (item.level == 0) // 아이콘은 어차피 널임 레벨이 있으면 null이 아니란뜻
         {
             icon.sprite = ResourceManager.Instance.nullEquipSprite;
         }
         else
         {
-            icon.sprite = item.icon;
+            icon.sprite = ResourceManager.Instance.ItemSprite[(int)itemlist];
         }
 
-        if (lv.text == null)
-        {
-            _lv = 0;
-        }
-        else
-        {
-            _lv = item.level;
-        }
-        lv.text = $"LV : {_lv}";
+        lv.text = $"LV : {item.level}";
     }
-    
+
 }

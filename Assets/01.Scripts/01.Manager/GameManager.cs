@@ -52,6 +52,7 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            UIManager.Instance.equipmentView.Init();
             DataManager.Instance.gameData.invenDatas.ShowDIc();
         }
         if (Input.GetKeyDown(KeyCode.I))

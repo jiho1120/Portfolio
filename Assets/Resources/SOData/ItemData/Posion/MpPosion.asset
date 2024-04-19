@@ -17,7 +17,7 @@ MonoBehaviour:
   count: 1
   itemType: 0
   itemList: 1
-  icon: {fileID: 21300000, guid: 62817848ec096cc4fb7444f0a5944eee, type: 3}
+  icon: {fileID: 21300000, guid: 7adcf2dfdeec74a7fae35765b992e7e1, type: 3}
   hp: 0
   mp: 10
   ultimateGauge: 0

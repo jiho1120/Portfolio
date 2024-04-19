@@ -12,7 +12,6 @@ public class ResourceManager : Singleton<ResourceManager>
 
     public void Init()
     {
-        ItemSprite = Resources.LoadAll<Sprite>("Object/Item");
         SkillObject = Resources.LoadAll<GameObject>("Skill");
         XMLAccess = GetComponent<XMLAccess>();
         XMLAccess.Init();

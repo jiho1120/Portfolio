@@ -24,14 +24,18 @@ public class UIPopUpItemDetail : BasicPopUp
 
 
     public Action<int> onSell;
+    public Action<ItemData> onEquip;
+
     int id;
+    ItemData data;
     /// <summary>
     /// 오픈전에 반드시 부르기
     /// </summary>
     public UIPopUpItemDetail Init(int id)
     {
         this.id = id;
-        ItemData data = DataManager.Instance.gameData.invenDatas.GetItemDataForIndex(id);
+        //ItemData data = DataManager.Instance.gameData.invenDatas.GetItemDataForIndex(id);
+        data = DataManager.Instance.gameData.invenDatas.GetItemDataForIndex(id);
         var type = data.itemList;
         txtItemType.text = type.ToString();// 나중에 타입으로 바꾸기
         var sprite = data.icon;
@@ -43,6 +47,8 @@ public class UIPopUpItemDetail : BasicPopUp
 
         btnSell.onClick.AddListener(OnSellActionHandler);
         btnSell.gameObject.SetActive(true);
+        btnEquip.onClick.AddListener(OnEquipActionHandler);
+        btnEquip.gameObject.SetActive(true);
 
         if (data.index < 100) // 장비
         {
@@ -67,10 +73,16 @@ public class UIPopUpItemDetail : BasicPopUp
         // 이벤트 발송
         onSell(this.id);
     }
+    void OnEquipActionHandler()
+    {
+        // 이벤트 발송
+        onEquip(data);
+    }
 
     public override void Close()
     {
         base.Close();
         btnSell.onClick.RemoveListener(OnSellActionHandler);
+        btnEquip.onClick.RemoveListener(OnEquipActionHandler);
     }
 }
