@@ -126,7 +126,12 @@ public class GameManager : Singleton<GameManager>
         countTime = 0;
         stageStart = true;
         runTime = 0;
+        StopCoroutine(runTimeCor);
+        runTimeCor = null;
         UIManager.Instance.SetWaitingUI();
+        UIManager.Instance.WaitingUI.SetActive(false);
+        InGame();
+        
     }
     #endregion
 

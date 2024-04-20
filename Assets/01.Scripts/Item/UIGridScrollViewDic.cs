@@ -114,6 +114,7 @@ public class UIGridScrollViewDic : MonoBehaviour
         // ScrollView ¹× EquipmentView °»½Å
         scrollView.Refresh();
         equipmentView.Init();
+        GameManager.Instance.player.ApplyEquipmentStat();
     }
 
 }

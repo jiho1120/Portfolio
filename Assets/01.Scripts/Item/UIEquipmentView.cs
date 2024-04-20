@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,6 @@ using UnityEngine;
 public class UIEquipmentView : MonoBehaviour
 {
     public EquipSlot[] equipSlots;
-
     public void Init()
     {
         for (int i = 0; i < equipSlots.Length; i++)
@@ -13,5 +13,5 @@ public class UIEquipmentView : MonoBehaviour
             equipSlots[i].SetEquipSlotData();
         }
     }
-    
+
 }

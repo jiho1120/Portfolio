@@ -39,7 +39,7 @@ public class Player : MonoBehaviour, IAttack
             playerAnimator = GetComponent<PlayerAnimator>();
         }
         playerAnimator.Init();
-        ApplyEquipmentStat();
+        SetPlayerStat();
         playerAnimator.SetAttackSpeed(attackSpeed);
         PlayerLayer = 1 << LayerMask.NameToLayer("Enemy");
 
@@ -66,21 +66,67 @@ public class Player : MonoBehaviour, IAttack
     }
 
     #region 능력치
-    void ApplyEquipmentStat() // 장비 능력 추가해야함
+    void SetPlayerStat() // 장비 능력 추가해야함
     {
-        Luck = DataManager.Instance.gameData.playerData.playerStat.luck;
-        MaxHp = DataManager.Instance.gameData.playerData.playerStat.maxHp;
         Hp = DataManager.Instance.gameData.playerData.playerStat.hp;
-
-        MaxMp = DataManager.Instance.gameData.playerData.playerStat.maxMp;
         Mp = DataManager.Instance.gameData.playerData.playerStat.mp;
-
-        Def = DataManager.Instance.gameData.playerData.playerStat.defense;
-        Speed = DataManager.Instance.gameData.playerData.playerStat.speed;
-        Cri = DataManager.Instance.gameData.playerData.playerStat.critical;
-        Att = DataManager.Instance.gameData.playerData.playerStat.attack;
+        ApplyEquipmentStat();
     }
 
+    public void ApplyEquipmentStat() //플레이어 능력은 기본 + 장비  -> HP랑 MP가 변하면 안되서 없음 // 장착할때 부르면 됨
+    {
+        Luck = DataManager.Instance.gameData.playerData.playerStat.luck + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Head].luck;
+        MaxHp = DataManager.Instance.gameData.playerData.playerStat.maxHp + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Top].maxHp;
+        MaxMp = DataManager.Instance.gameData.playerData.playerStat.maxMp + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Belt].maxMp;
+        Def = DataManager.Instance.gameData.playerData.playerStat.defense + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Bottom].defense;
+        Speed = DataManager.Instance.gameData.playerData.playerStat.speed + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Shoes].speed;
+        Cri = DataManager.Instance.gameData.playerData.playerStat.critical + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Gloves].critical;
+        Att = DataManager.Instance.gameData.playerData.playerStat.attack + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Weapon].attack;
+    }
+    public void SetLuck(float value)
+    {
+        Luck = value;
+    }
+
+    public void SetMaxHp(float value)
+    {
+        MaxHp = value;
+    }
+
+    public void SetHp(float value)
+    {
+        Hp = value;
+    }
+
+    public void SetMaxMp(float value)
+    {
+        MaxMp = value;
+    }
+
+    public void SetMp(float value)
+    {
+        Mp = value;
+    }
+
+    public void SetDef(float value)
+    {
+        Def = value;
+    }
+
+    public void SetSpeed(float value)
+    {
+        Speed = value;
+    }
+
+    public void SetCri(float value)
+    {
+        Cri = value;
+    }
+
+    public void SetAtt(float value)
+    {
+        Att = value;
+    }
 
     #endregion
 

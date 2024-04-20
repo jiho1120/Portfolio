@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static AllEnum;
 
 public class UIPopUpItemDetail : BasicPopUp
 {
@@ -34,11 +35,11 @@ public class UIPopUpItemDetail : BasicPopUp
     public UIPopUpItemDetail Init(int id)
     {
         this.id = id;
-        //ItemData data = DataManager.Instance.gameData.invenDatas.GetItemDataForIndex(id);
+        
         data = DataManager.Instance.gameData.invenDatas.GetItemDataForIndex(id);
         var type = data.itemList;
         txtItemType.text = type.ToString();// 나중에 타입으로 바꾸기
-        var sprite = data.icon;
+        var sprite = ResourceManager.Instance.ItemSprite[(int)data.itemList];
         imgItemIcon.sprite = sprite;
         txtItemName.text = data.itemList.ToString();
 
