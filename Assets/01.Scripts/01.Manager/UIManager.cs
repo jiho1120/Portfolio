@@ -13,6 +13,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject MenuUI;
     public GameObject PopUp;
     public UIUserInfo UserInfo;
+    public bool onMenu = false;
+
 
     [Header("InvenUI")]
     public GameObject Inventory;
@@ -31,6 +33,10 @@ public class UIManager : Singleton<UIManager>
     public Text RunTime;
     public Text monsterCountText;
     public Text monsterGoalText;
+
+    [Header("PlayerUI")]
+    public UIPlayer uIPlayer;
+
 
 
     #region BasicUI
@@ -52,6 +58,11 @@ public class UIManager : Singleton<UIManager>
     {
         newPlayerName.text = "";
         namePanel.gameObject.SetActive(true);
+    }
+    public void OnOffMenu()
+    {
+        onMenu = !onMenu;
+        MenuUI.SetActive(onMenu);
     }
     #endregion MenuUI
 
@@ -116,8 +127,23 @@ DataManager.Instance.gameData.killGoal);
     }
     #endregion 
 
-    #region
-
+    #region PlayerUI
+    public void SetPlayerUI()
+    {
+        uIPlayer.SetUI();
+    }
+    public void SetPlayerHPUI()
+    {
+        uIPlayer.SetHPUI();
+    }
+    public void SetPlayerMPUI()
+    {
+        uIPlayer.SetMPUI();
+    }
+    public void SetPlayerUltimateUI()
+    {
+        uIPlayer.SetUltimateUI();
+    }
     #endregion
 
     #region

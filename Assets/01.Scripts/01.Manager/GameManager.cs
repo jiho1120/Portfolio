@@ -1,13 +1,14 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
-/* 아이템 없애기
+/* ai 강의 듣고 밀리는 현상 고치기
 보스 소환
 스킬 수정*/
 public class GameManager : Singleton<GameManager>
 {
-    public bool onMenu = false;
     public GameObject playerPrefab;
     public Player player { get; private set; }
+
 
     #region Wating
     Coroutine runTimeCor = null; // 5초에서 줄어듬
@@ -36,7 +37,11 @@ public class GameManager : Singleton<GameManager>
         ResourceManager.Instance.Init();
         ItemManager.Instance.Init();
         GridScrollViewMain.Instance.Init();
-        
+        for (int i = 0; i < UIManager.Instance.uIPlayer.uIPosionSlots.Length; i++)
+        {
+            UIManager.Instance.uIPlayer.uIPosionSlots[i].SetUseSlotChar($"{i +1}");
+        }
+
 
     }
     private void Update()
@@ -47,8 +52,7 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyDown(KeyCode.M))
         {
-            onMenu = !onMenu;
-            UIManager.Instance.MenuUI.SetActive(onMenu);
+            UIManager.instance.OnOffMenu();
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -63,10 +67,22 @@ public class GameManager : Singleton<GameManager>
         {
             UIManager.Instance.UserInfo.onoff();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            UIManager.Instance.uIPlayer.uIPosionSlots[0].UsePosion();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            UIManager.Instance.uIPlayer.uIPosionSlots[1].UsePosion();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            UIManager.Instance.uIPlayer.uIPosionSlots[2].UsePosion();
+        }
     }
 
     #region Start화면
-    
+
     #endregion
 
 

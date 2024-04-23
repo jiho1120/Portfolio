@@ -32,6 +32,8 @@ public class SceneLoadController : Singleton<SceneLoadController>
         GameManager.Instance.InitWating();
         LoadingSceneController.LoadScene("Game"); // 게임씬으로 이동
         GameManager.Instance.player.Init();
+        
+        UIManager.Instance.SetPlayerUI();
     }
 
 }

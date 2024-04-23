@@ -25,10 +25,18 @@ public class GameData
         playerData.playerStat.SetStat(DataManager.Instance.SOPlayerStat);
         monsterData.monsterStat.SetStat(DataManager.Instance.SOMonsterStat);
         bossData.bossStat.SetStat(DataManager.Instance.SOBossStat);
-        for (int i = (int)AllEnum.ItemList.Head; i < (int)AllEnum.ItemList.End; i++)
+        for (int i = 0; i < (int)AllEnum.ItemList.End; i++)
         {
             ItemData item = new ItemData();
-            invenDatas.EquipItemDatas.Add((AllEnum.ItemList)i, item);
+            if (i < (int)AllEnum.ItemList.Head)
+            {
+                invenDatas.PosionItemDatas.Add((AllEnum.ItemList)i, item);
+            }
+            else if (i >= (int)AllEnum.ItemList.Head)
+            {
+                invenDatas.EquipItemDatas.Add((AllEnum.ItemList)i, item);
+            }
+            
         }
         //for (int i = 0; i < DataManager.Instance.activeSkill.Length; i++)
         //{
@@ -195,6 +203,25 @@ public class ItemData
         maxMp = SO.maxMp;
         speed = SO.speed;
     }
+    public void SetItemData(ItemData SO)
+    {
+        index = SO.index;
+        level = SO.level;
+        count = SO.count;
+        itemType = SO.itemType;
+        itemList = SO.itemList;
+        icon = SO.icon;
+        hp = SO.hp;
+        mp = SO.mp;
+        ultimateGauge = SO.ultimateGauge;
+        defense = SO.defense;
+        maxHp = SO.maxHp;
+        luck = SO.luck;
+        attack = SO.attack;
+        critical = SO.critical;
+        maxMp = SO.maxMp;
+        speed = SO.speed;
+    }
     public ItemData GetRandomItemData()
     {
         int randamId;
@@ -239,6 +266,7 @@ public class InvenData
 {
     public List<ItemData> invenItemDatas = new List<ItemData>();
     public Dictionary<AllEnum.ItemList, ItemData> EquipItemDatas = new Dictionary<AllEnum.ItemList, ItemData>();
+    public Dictionary<AllEnum.ItemList, ItemData> PosionItemDatas = new Dictionary<AllEnum.ItemList, ItemData>();
 
     public ItemData GetItemDataForIndex(int index)
     {

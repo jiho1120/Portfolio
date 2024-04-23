@@ -26,7 +26,7 @@ public class Item : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            InvenManager.Instance.Additem(itemData);
+            InvenManager.Instance.AdditemToInven(itemData);
             DataManager.Instance.SaveInvenInfo();
             gameObject.SetActive(false);
         }

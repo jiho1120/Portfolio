@@ -35,7 +35,7 @@ public class UIGridScrollViewDic : MonoBehaviour
             //랜덤 아이템 획득
             ItemData data = new ItemData();
 
-            InvenManager.Instance.Additem(data.GetRandomItemData());
+            InvenManager.Instance.AdditemToInven(data.GetRandomItemData());
 
             //저장
             DataManager.Instance.SaveInvenInfo();
@@ -67,46 +67,60 @@ public class UIGridScrollViewDic : MonoBehaviour
 
     public void EquipItem(ItemData item)
     {
-        // 장착할 아이템을 찾습니다.
-        ItemData equippedItem = DataManager.Instance.gameData.invenDatas.EquipItemDatas[item.itemList];
-
-        ItemData cloneItem = new ItemData(item);
-        cloneItem.count = 1;
-
-        //장착 아이템 인덱스가 -1
-        if (equippedItem.index == -1)
+        if (item.index == -1) // 이건 안전용으로 둔거임 필요없긴함
         {
-            DataManager.Instance.gameData.invenDatas.EquipItemDatas[item.itemList] = cloneItem;
-            --item.count;
+            return;
         }
-        // 인덱스 -1 아닐때
-        else if (equippedItem.index != -1)
+        else if (item.index <= 100)
         {
-            if (equippedItem.index == item.index && equippedItem.level == item.level)
+            ItemData equippedItem = DataManager.Instance.gameData.invenDatas.EquipItemDatas[item.itemList];
+
+            ItemData cloneItem = new ItemData(item);
+            cloneItem.count = 1;
+
+            //장착 아이템 인덱스가 -1
+            if (equippedItem.index == -1)
             {
-                return;
-            }
-            else if (equippedItem.index != item.index && equippedItem.level != item.level)
-            {
-                InvenManager.Instance.Additem(equippedItem);
                 DataManager.Instance.gameData.invenDatas.EquipItemDatas[item.itemList] = cloneItem;
                 --item.count;
             }
-        }
+            // 인덱스 -1 아닐때
+            else if (equippedItem.index != -1)
+            {
+                if (equippedItem.index == item.index && equippedItem.level == item.level)
+                {
+                    return;
+                }
+                else if (equippedItem.index != item.index && equippedItem.level != item.level)
+                {
+                    InvenManager.Instance.AdditemToInven(equippedItem);
+                    DataManager.Instance.gameData.invenDatas.EquipItemDatas[item.itemList] = cloneItem;
+                    --item.count;
+                }
+            }
 
-        if (item.count <= 0)
+            if (item.count <= 0)
+            {
+                DataManager.Instance.gameData.invenDatas.invenItemDatas.Remove(item);
+                popupDetail.Close();
+
+            }
+            // 장착한 아이템의 카운트가 0이 아닌 경우에만 인벤을 갱신합니다.
+            if (item.count > 0)
+            {
+                // 인벤 갱신
+                popupDetail.Refresh();
+            }
+        }
+        else if (item.index > 100) // 101부터 물약
         {
-            DataManager.Instance.gameData.invenDatas.invenItemDatas.Remove(item);
+            Debug.Log("더하기 직전 인덱스 : "+item.index);
+
+            InvenManager.Instance.AddToPosionInven(item);
+            
             popupDetail.Close();
-
         }
-
-        // 장착한 아이템의 카운트가 0이 아닌 경우에만 인벤을 갱신합니다.
-        if (item.count > 0)
-        {
-            // 인벤 갱신
-            popupDetail.Refresh();
-        }
+        // 장착할 아이템을 찾습니다.
 
         // 저장
         DataManager.Instance.SaveInvenInfo();
@@ -115,6 +129,7 @@ public class UIGridScrollViewDic : MonoBehaviour
         scrollView.Refresh();
         equipmentView.Init();
         GameManager.Instance.player.ApplyEquipmentStat();
+        UIManager.Instance.SetPlayerUI();
     }
 
 }

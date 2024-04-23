@@ -1,4 +1,5 @@
 using UnityEngine;
+using static AllEnum;
 
 public class Player : MonoBehaviour, IAttack
 {
@@ -96,6 +97,12 @@ public class Player : MonoBehaviour, IAttack
     public void SetHp(float value)
     {
         Hp = value;
+        if (Hp > MaxHp)
+        {
+            Hp = MaxHp;
+        }
+        Debug.Log(Hp);
+        UIManager.Instance.SetPlayerHPUI();
     }
 
     public void SetMaxMp(float value)
@@ -106,6 +113,12 @@ public class Player : MonoBehaviour, IAttack
     public void SetMp(float value)
     {
         Mp = value;
+        if (Mp > MaxMp)
+        {
+            Mp = MaxMp;
+        }
+        UIManager.Instance.SetPlayerMPUI();
+
     }
 
     public void SetDef(float value)
@@ -126,6 +139,18 @@ public class Player : MonoBehaviour, IAttack
     public void SetAtt(float value)
     {
         Att = value;
+    }
+
+    public void SetUltimate(float value)
+    {
+        float ult = DataManager.Instance.gameData.playerData.playerStat.ultimateGauge;
+        float maxUlt = DataManager.Instance.gameData.playerData.playerStat.maxUltimateGauge;
+
+        ult += value;
+        if (ult > maxUlt)
+        {
+            ult = maxUlt;
+        }
     }
 
     #endregion
@@ -220,6 +245,7 @@ public class Player : MonoBehaviour, IAttack
             playerAnimator.SetHit();
             float damage = Mathf.Max(CriticalDamage(critical, attack) - (Def * 0.5f), 1f); // 최소 데미지 1
             Hp -= damage;
+            UIManager.Instance.SetPlayerHPUI();
             if (Hp < 0)
             {
                 Hp = 0;
