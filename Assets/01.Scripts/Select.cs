@@ -15,7 +15,7 @@ public class Select : MonoBehaviour
                 //DataManager.Instance.LoadData();    // 해당 슬롯 데이터 불러옴
                 DataManager.Instance.Load();
 
-                UIManager.Instance.slotText[i].text = DataManager.Instance.gameData.playerData.playerStat.name;    // 버튼에 닉네임 표시
+                UIManager.Instance.slotText[i].text = DataManager.Instance.gameData.playerData.name;    // 버튼에 닉네임 표시
             }
             else    // 데이터가 없는 경우
             {

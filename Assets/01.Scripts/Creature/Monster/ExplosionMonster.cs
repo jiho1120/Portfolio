@@ -7,7 +7,7 @@ public class ExplosionMonster : Monster
     public override void Die()
     {
         ExplosionEffect.gameObject.SetActive(true);
-        AttackRange(transform.position, 2f);
+        GetAttackRange();
         base.Die();
     }
     

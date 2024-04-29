@@ -2021,9 +2021,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7004e941a412816498e40cd09bdeaaf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackPos: {fileID: 883127269056912963}
   characterBody: {fileID: 2542681554455931876}
   cameraArm: {fileID: 6125777943616589330}
-  fist: {fileID: 883127269056912963}
 --- !u!114 &2599191110375899251
 MonoBehaviour:
   m_ObjectHideFlags: 0

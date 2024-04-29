@@ -50,10 +50,10 @@ public class UIPosionSlot : MonoBehaviour
         switch (ItemList)
         {
             case AllEnum.ItemList.HpPosion:
-                GameManager.Instance.player.SetHp(GameManager.Instance.player.Hp + item.hp);
+                GameManager.Instance.player.SetHp(GameManager.Instance.player.Stat.hp + item.hp);
                 break;
             case AllEnum.ItemList.MpPosion:
-                GameManager.Instance.player.SetMp(GameManager.Instance.player.Mp + item.mp);
+                GameManager.Instance.player.SetMp(GameManager.Instance.player.Stat.hp + item.mp);
                 break;
             case AllEnum.ItemList.UltimatePosion:
                 GameManager.Instance.player.SetUltimate(item.ultimateGauge);

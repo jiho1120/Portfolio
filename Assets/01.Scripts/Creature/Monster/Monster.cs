@@ -8,8 +8,7 @@ public class Monster : Creature, Initialize
     public AllEnum.MonsterType monType;
     MonsterAnimation anim;//얘는 진짜 단순히 애니메이션 출력...    
     public Rigidbody rb { get; private set; }
-    MonsterData monsterData;
-    StatData monStat;
+
     #endregion
 
 
@@ -29,7 +28,6 @@ public class Monster : Creature, Initialize
     #endregion
 
     #region 공격
-    public Transform attackPos;
     public float attackDistance { get; private set; } = 4;
     float attackCoolTime = 5;
     public bool isAttack;
@@ -53,7 +51,7 @@ public class Monster : Creature, Initialize
     }
     #endregion
 
-    public void Init()
+    public override void Init()
     {
         if (anim == null)
         {
@@ -73,16 +71,17 @@ public class Monster : Creature, Initialize
         {
             rb = GetComponent<Rigidbody>();
         }
-        monsterData = DataManager.Instance.gameData.monsterData;
-        monStat = monsterData.monsterStat;
+        Stat = new StatData(DataManager.Instance.gameData.monsterData.monsterStat);
+        EnemyLayerMask = 1 << LayerMask.NameToLayer("Player");
         isAttack = true;
         isHit = false;
         isDead = false;
         isDeActive = false;
         monStateMachine.SetState(AllEnum.States.Idle);
-        //monStat.PrintStatData();
     }
-    public void Deactivate()
+    public override void Activate()
+    { }
+    public override void Deactivate()
     {
         isDeActive = true;
         deActiveCor = null;
@@ -94,29 +93,16 @@ public class Monster : Creature, Initialize
         isDeActive = true;
         MonsterManager.Instance.ReturnToPool(this);
     }
-    
-
-
     #region 공격 & 피격
-    public void Attack() // 애니메이션에 넣음
+    public override void Attack() // 애니메이션에 넣음
     {
-        Collider[] cols = AttackRange(attackPos.position, 0.5f);
-        for (int i = 0; i < cols.Length; i++)
-        {
-            if (cols[i].CompareTag("Player"))
-            {
-                cols[i].GetComponent<Player>().TakeDamage(DataManager.Instance.gameData.monsterData.monsterStat.critical, DataManager.Instance.gameData.monsterData.monsterStat.attack);
-            }
-        }
+        base.Attack();
         if (AttackCor == null)
         {
             AttackCor = StartCoroutine(SetAttackCoolTime());
         }
     }
-    public Collider[] AttackRange(Vector3 Tr, float Range)
-    {
-        return Physics.OverlapSphere(Tr, Range);
-    }
+    
 
     IEnumerator SetAttackCoolTime()
     {
@@ -131,38 +117,20 @@ public class Monster : Creature, Initialize
             AttackCor = null;
         }
     }
-    public bool CheckCritical(float critical)
-    {
-        bool isCritical = Random.Range(0f, 100f) < critical;
-        return isCritical;
-    }
-    public float CriticalDamage(float critical, float attack)
-    {
-        float criticalDamage;
-        if (CheckCritical(critical))
-        {
-            criticalDamage = attack * 2;
-        }
-        else
-        {
-            criticalDamage = attack;
-
-        }
-
-        return criticalDamage;
-    }
-    public void TakeDamage(float critical, float attack)
+    
+    
+    public override void TakeDamage()
     {
         if (isDead)
         {
             return;
         }
         isHit = true;
-        float damage = CriticalDamage(critical, attack) - (monStat.defense * 0.5f); // 몬스터 스탯 추가
-        monStat.hp -= damage;
-        if (monStat.hp <= 0)
+        float damage = CriticalDamage() - (Stat.defense * 0.5f); // 몬스터 스탯 추가
+        Stat.hp -= damage;
+        if (Stat.hp <= 0)
         {
-            monStat.hp = 0;
+            Stat.hp = 0;
             isDead = true;
         }
     }
@@ -207,7 +175,7 @@ public class Monster : Creature, Initialize
     #endregion
 
     #region Die , DeActive
-    public virtual void Die()
+    public override void Die()
     {
         GameManager.Instance.SetKillMon(GameManager.Instance.killMon + 1);
         UIManager.Instance.UpdateMonsterCount(GameManager.Instance.killMon);
@@ -231,7 +199,7 @@ public class Monster : Creature, Initialize
         int itemIndex = Random.Range(0, 3);
         if (itemIndex == 0)
         {
-            DataManager.Instance.gameData.playerData.playerStat.money += monStat.money;
+            DataManager.Instance.gameData.playerData.playerStat.money += Stat.money;
         }
         else
         {

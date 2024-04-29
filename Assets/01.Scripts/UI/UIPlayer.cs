@@ -20,19 +20,19 @@ public class UIPlayer : MonoBehaviour
     }
     public void SetHPUI()
     {
-        hp.maxValue = GameManager.Instance.player.MaxHp;
-        hp.value = GameManager.Instance.player.Hp;
+        hp.maxValue = GameManager.Instance.player.Stat.maxHp;
+        hp.value = GameManager.Instance.player.Stat.hp;
     }
     public void SetMPUI()
     {
-        mp.maxValue = GameManager.Instance.player.MaxMp;
-        mp.value = GameManager.Instance.player.Mp;
+        mp.maxValue = GameManager.Instance.player.Stat.maxMp;
+        mp.value = GameManager.Instance.player.Stat.mp;
     }
     public void SetEXPUI()
     {
-        float nowExp = DataManager.Instance.gameData.playerData.playerStat.experience;
+        float nowExp = GameManager.Instance.player.Stat.experience;
 
-        exp.fillAmount = nowExp == 0 ? 0 : nowExp % DataManager.Instance.gameData.playerData.playerStat.maxExperience; ;
+        exp.fillAmount = nowExp == 0 ? 0 : nowExp % GameManager.Instance.player.Stat.maxExperience; ;
     }
     public void SetUltimateUI()
     {
@@ -42,7 +42,6 @@ public class UIPlayer : MonoBehaviour
     {
         for (int i = 0; i < uIPosionSlots.Length; i++)
         {
-            //DataManager.Instance.LoadInvenInfo();
             uIPosionSlots[i].Init(DataManager.Instance.gameData.invenDatas.PosionItemDatas[(AllEnum.ItemList)i]);
         }
     }

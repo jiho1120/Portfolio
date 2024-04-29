@@ -1,13 +1,13 @@
+using System;
 using UnityEngine;
-using static AllEnum;
+using static UnityEditor.Progress;
 
-public class Player : Creature, Initialize, IAttack
+public class Player : Creature, Initialize
 {
     public Transform characterBody;
     public Transform cameraArm;
-    public Transform fist;
     PlayerAnimator playerAnimator;
-    public int PlayerLayer { get; private set; }
+
 
     private bool isRun = false;
 
@@ -18,33 +18,23 @@ public class Player : Creature, Initialize, IAttack
     bool isLeft = false;
     #endregion
 
-    #region 플레이어 능력치 + 아이템 
-    public float Luck { get; private set; }
-    public float MaxHp { get; private set; }
-    public float Hp { get; private set; }
 
-    public float MaxMp { get; private set; }
-    public float Mp { get; private set; }
-
-    public float Def { get; private set; }
-    public float Speed { get; private set; } // 진짜 이동속도
-    public float Cri { get; private set; }
-    public float Att { get; private set; }
-    #endregion
-
-    public void Init()
+    public override void Init()
     {
         if (playerAnimator == null)
         {
             playerAnimator = GetComponent<PlayerAnimator>();
         }
         playerAnimator.Init();
-        SetPlayerStat();
+        Stat = new StatData(DataManager.Instance.gameData.playerData.playerStat);
         playerAnimator.SetAttackSpeed(attackSpeed);
-        PlayerLayer = 1 << LayerMask.NameToLayer("Enemy");
+        AttackRange = 1f;
+        EnemyLayerMask = 1 << LayerMask.NameToLayer("Enemy");
 
     }
-    public void Deactivate()
+    public override void Activate()
+    { }
+    public override void Deactivate()
     {
         throw new System.NotImplementedException();
     }
@@ -70,55 +60,39 @@ public class Player : Creature, Initialize, IAttack
     }
 
     #region 능력치
-    void SetPlayerStat() // 장비 능력 추가해야함
-    {
-        Hp = DataManager.Instance.gameData.playerData.playerStat.hp;
-        Mp = DataManager.Instance.gameData.playerData.playerStat.mp;
-        ApplyEquipmentStat();
-    }
 
-    public void ApplyEquipmentStat() //플레이어 능력은 기본 + 장비  -> HP랑 MP가 변하면 안되서 없음 // 장착할때 부르면 됨
-    {
-        Luck = DataManager.Instance.gameData.playerData.playerStat.luck + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Head].luck;
-        MaxHp = DataManager.Instance.gameData.playerData.playerStat.maxHp + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Top].maxHp;
-        MaxMp = DataManager.Instance.gameData.playerData.playerStat.maxMp + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Belt].maxMp;
-        Def = DataManager.Instance.gameData.playerData.playerStat.defense + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Bottom].defense;
-        Speed = DataManager.Instance.gameData.playerData.playerStat.speed + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Shoes].speed;
-        Cri = DataManager.Instance.gameData.playerData.playerStat.critical + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Gloves].critical;
-        Att = DataManager.Instance.gameData.playerData.playerStat.attack + DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Weapon].attack;
-    }
     public void SetLuck(float value)
     {
-        Luck = value;
+        Stat.luck = value;
     }
 
     public void SetMaxHp(float value)
     {
-        MaxHp = value;
+        Stat.maxHp = value;
     }
 
     public void SetHp(float value)
     {
-        Hp = value;
-        if (Hp > MaxHp)
+        Stat.hp = value;
+        if (Stat.hp > Stat.maxHp)
         {
-            Hp = MaxHp;
+            Stat.hp = Stat.maxHp;
         }
-        Debug.Log(Hp);
+        Debug.Log(Stat.hp);
         UIManager.Instance.SetPlayerHPUI();
     }
 
     public void SetMaxMp(float value)
     {
-        MaxMp = value;
+        Stat.maxMp = value;
     }
 
     public void SetMp(float value)
     {
-        Mp = value;
-        if (Mp > MaxMp)
+        Stat.mp = value;
+        if (Stat.mp > Stat.maxMp)
         {
-            Mp = MaxMp;
+            Stat.mp = Stat.maxMp;
         }
         UIManager.Instance.SetPlayerMPUI();
 
@@ -126,41 +100,48 @@ public class Player : Creature, Initialize, IAttack
 
     public void SetDef(float value)
     {
-        Def = value;
+        Stat.defense = value;
     }
 
     public void SetSpeed(float value)
     {
-        Speed = value;
+        Stat.speed = value;
     }
 
     public void SetCri(float value)
     {
-        Cri = value;
+        Stat.critical = value;
     }
 
     public void SetAtt(float value)
     {
-        Att = value;
+        Stat.attack = value;
     }
 
     public void SetUltimate(float value)
     {
-        float ult = DataManager.Instance.gameData.playerData.playerStat.ultimateGauge;
-        float maxUlt = DataManager.Instance.gameData.playerData.playerStat.maxUltimateGauge;
-
-        ult += value;
-        if (ult > maxUlt)
+        Stat.ultimateGauge += value;
+        if (Stat.ultimateGauge > Stat.maxUltimateGauge)
         {
-            ult = maxUlt;
+            Stat.ultimateGauge = Stat.maxUltimateGauge;
         }
     }
 
     #endregion
-
+    public void ApplyEquipmentStat() //플레이어 능력은 기본 + 장비  -> HP랑 MP가 변하면 안되서 없음 // 장착할때 부르면 됨
+                                     // 해제를 해도 어차피 0일테니 사용가능
+    {
+        DataManager.Instance.gameData.playerData.playerStat.luck += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Head].luck;
+        DataManager.Instance.gameData.playerData.playerStat.maxHp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Top].maxHp;
+        DataManager.Instance.gameData.playerData.playerStat.maxMp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Belt].maxMp;
+        DataManager.Instance.gameData.playerData.playerStat.defense += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Bottom].defense;
+        DataManager.Instance.gameData.playerData.playerStat.speed += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Shoes].speed;
+        DataManager.Instance.gameData.playerData.playerStat.critical += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Gloves].critical;
+        DataManager.Instance.gameData.playerData.playerStat.attack += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Weapon].attack;
+    }
     private void Move()
     {
-        float speed = (isRun) ? (Speed * 1.5f) : Speed;
+        float speed = (isRun) ? (Stat.speed * 1.5f) : Stat.speed;
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         float percent = ((isRun) ? 1 : 0.5f) * moveInput.magnitude;
         playerAnimator.WalkOrRun(percent);
@@ -214,44 +195,17 @@ public class Player : Creature, Initialize, IAttack
 
         }
     }
-    public void Attack(Vector3 Tr, float Range)
-    {
-
-        Collider[] colliders = Physics.OverlapSphere(GameManager.Instance.player.transform.position, Range, PlayerLayer);
-
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].CompareTag("Monster"))
-            {
-                colliders[i].GetComponent<Monster>().TakeDamage(Cri, Att);
-            }
-            //else if (colliders[i].CompareTag("Boss"))
-            //{
-            //    colliders[i].GetComponent<Boss>().TakeDamage(Cri, Att);
-            //}
-            else
-            {
-                Debug.Log("아무도 없음");
-            }
-        }
-    }
-
-    public void AttackRange() // 애니메이션에 넣음
-    {
-        Attack(fist.position, 1f);
-    }
-
-    public void TakeDamage(float critical, float attack) // 플레이어피가 다는거
+    public override void TakeDamage() // 플레이어피가 다는거
     {
         if (!isDead)
         {
             playerAnimator.SetHit();
-            float damage = Mathf.Max(CriticalDamage(critical, attack) - (Def * 0.5f), 1f); // 최소 데미지 1
-            Hp -= damage;
+            float damage = Mathf.Max(CriticalDamage() - (Stat.defense * 0.5f), 1f); // 최소 데미지 1
+            Stat.hp -= damage;
             UIManager.Instance.SetPlayerHPUI();
-            if (Hp < 0)
+            if (Stat.hp < 0)
             {
-                Hp = 0;
+                Stat.hp = 0;
             }
         }
         else
@@ -260,31 +214,16 @@ public class Player : Creature, Initialize, IAttack
         }
     }
 
-    public bool CheckCritical(float critical)
-    {
-        bool isCritical = Random.Range(0f, 100f) < critical;
-        return isCritical;
-    }
-
-    public float CriticalDamage(float critical, float attack)
-    {
-        float criticalDamage;
-        if (CheckCritical(critical))
-        {
-            criticalDamage = attack * 2;
-            Debug.Log("치명타 터짐");
-        }
-        else
-        {
-            criticalDamage = attack;
-            Debug.Log("치명타 안 터짐");
-
-        }
-
-        return criticalDamage;
-    }
-
-    
-
     #endregion
+
+
+
+    #region 죽음
+    public override void Die()
+    {
+
+    }
+    #endregion
+
+
 }

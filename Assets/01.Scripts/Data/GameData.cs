@@ -1,7 +1,5 @@
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -20,7 +18,7 @@ public class GameData
 
     public void SetGameData()
     {
-        playerData.playerStat.name = UIManager.Instance.newPlayerName.text; // 입력한 이름을 복사해옴
+        playerData.name = UIManager.Instance.newPlayerName.text; // 입력한 이름을 복사해옴
         playerData.playerStat.SetStat(DataManager.Instance.SOPlayerStat);
         monsterData.monsterStat.SetStat(DataManager.Instance.SOMonsterStat);
         bossData.bossStat.SetStat(DataManager.Instance.SOBossStat);
@@ -56,7 +54,6 @@ public class GameData
 public class StatData
 {
     // 이름, 레벨, 코인, 착용중인 무기
-    public string name;
     public AllEnum.ObjectType objectType;
     public int level;
     public float hp;
@@ -73,6 +70,29 @@ public class StatData
     public float maxExperience;
     public float ultimateGauge;
     public float maxUltimateGauge;
+
+    public StatData()
+    {
+    }
+    public StatData(StatData SO)
+    {
+        objectType = SO.objectType;
+        level = SO.level;
+        hp = SO.hp;
+        maxHp = SO.maxHp;
+        attack = SO.attack;
+        defense = SO.defense;
+        critical = SO.critical;
+        speed = SO.speed;
+        experience = SO.experience;
+        money = SO.money;
+        mp = SO.mp;
+        maxMp = SO.maxMp;
+        luck = SO.luck;
+        maxExperience = SO.maxExperience;
+        ultimateGauge = SO.ultimateGauge;
+        maxUltimateGauge = SO.ultimateGauge;
+    }
 
     public void SetStat(SOStat SO)
     {
@@ -93,6 +113,7 @@ public class StatData
         ultimateGauge = SO.ultimateGauge;
         maxUltimateGauge = SO.ultimateGauge;
     }
+    
     public void PrintStatData()
     {
         System.Reflection.FieldInfo[] fields = typeof(StatData).GetFields();
@@ -105,6 +126,7 @@ public class StatData
 [System.Serializable]
 public class PlayerData
 {
+    public string name;
     public StatData playerStat = new StatData();
     public List<SkillData> activeSkill = new List<SkillData>();
     public List<SkillData> passiveSkill = new List<SkillData>();
@@ -114,7 +136,6 @@ public class PlayerData
 public class MonsterData
 {
     public StatData monsterStat = new StatData();
-    
 }
 
 [System.Serializable]
