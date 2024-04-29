@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Monster : MonoBehaviour, Initialize
+public class Monster : Creature, Initialize
 {
     #region ±âº»
     public AllEnum.MonsterType monType;
@@ -16,7 +15,6 @@ public class Monster : MonoBehaviour, Initialize
 
     #region die, deAct
     public bool isDeActive { get; private set; } = false;
-    public bool isDead { get; private set; } = false;
     Coroutine deActiveCor = null;
     Vector3 itempos = new Vector3(0, 1, 0);
     #endregion
@@ -48,10 +46,7 @@ public class Monster : MonoBehaviour, Initialize
     {
         isHit = on;
     }
-    public void SetIsDead(bool on)
-    {
-        isDead = on;
-    }
+    
     public void SetIsDeActive(bool on)
     {
         isDeActive = on;

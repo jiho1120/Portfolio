@@ -554,6 +554,46 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f7ad8b9bd6d9ed5428ed24bbfa41cb78, type: 2}
     - target: {fileID: 6816395195843194264, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+      propertyPath: activeSkill.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6816395195843194264, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+      propertyPath: passiveSkill.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6816395195843194264, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+      propertyPath: activeSkill.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: bc2e368317f994a44953d362ddf2d5dd, type: 2}
+    - target: {fileID: 6816395195843194264, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+      propertyPath: activeSkill.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: dae139fb7d06dc941a3d68d451fa522a, type: 2}
+    - target: {fileID: 6816395195843194264, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+      propertyPath: activeSkill.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: d967a3d784294544e9e7821878b845c0, type: 2}
+    - target: {fileID: 6816395195843194264, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+      propertyPath: activeSkill.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b6cf91b49984f644a2778d445ecbcb6, type: 2}
+    - target: {fileID: 6816395195843194264, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+      propertyPath: passiveSkill.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e0e0ea0ae09c6a4cbb37511367af734, type: 2}
+    - target: {fileID: 6816395195843194264, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+      propertyPath: passiveSkill.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: e31b5da22b7829d4ab49a21d4cd937c5, type: 2}
+    - target: {fileID: 6816395195843194264, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+      propertyPath: passiveSkill.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7ffd82268b92d8846924f6c0640c96b3, type: 2}
+    - target: {fileID: 6816395195843194264, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+      propertyPath: passiveSkill.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: b46d9622746cca5438248471150933d5, type: 2}
+    - target: {fileID: 6816395195843194264, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
       propertyPath: gameData.invenDatas.invenItemDatas.Array.size
       value: 0
       objectReference: {fileID: 0}

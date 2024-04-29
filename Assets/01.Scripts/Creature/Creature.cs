@@ -2,15 +2,9 @@ using UnityEngine;
 
 public class Creature : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public bool isDead { get; protected set; } = false;
+    public void SetIsDead(bool on)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        isDead = on;
     }
 }

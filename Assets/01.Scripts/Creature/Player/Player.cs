@@ -1,7 +1,7 @@
 using UnityEngine;
 using static AllEnum;
 
-public class Player : MonoBehaviour, IAttack
+public class Player : Creature, Initialize, IAttack
 {
     public Transform characterBody;
     public Transform cameraArm;
@@ -10,7 +10,6 @@ public class Player : MonoBehaviour, IAttack
     public int PlayerLayer { get; private set; }
 
     private bool isRun = false;
-    protected bool isDead = false;
 
     #region АјАн
     float attackSpeed = 1;
@@ -44,6 +43,10 @@ public class Player : MonoBehaviour, IAttack
         playerAnimator.SetAttackSpeed(attackSpeed);
         PlayerLayer = 1 << LayerMask.NameToLayer("Enemy");
 
+    }
+    public void Deactivate()
+    {
+        throw new System.NotImplementedException();
     }
     private void Update()
     {
@@ -280,6 +283,8 @@ public class Player : MonoBehaviour, IAttack
 
         return criticalDamage;
     }
+
+    
 
     #endregion
 }

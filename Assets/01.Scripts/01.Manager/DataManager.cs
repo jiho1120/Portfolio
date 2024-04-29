@@ -11,9 +11,8 @@ public class DataManager : Singleton<DataManager>
     public SOStat SOMonsterStat;
     public SOStat SOBossStat;
     public SOItem[] soItem;
-
-    //public NewSOSkill[] activeSkill;
-    //public NewSOSkill[] passiveSkill;
+    public NewSOSkill[] activeSkill;
+    public NewSOSkill[] passiveSkill;
 
 
 

@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,8 +15,6 @@ public class GameData
     public PlayerData playerData = new PlayerData();
     public MonsterData monsterData = new MonsterData();
     public BossData bossData = new BossData();
-    public List<SkillData> activeSkillData = new List<SkillData>();
-    public List<SkillData> passiveSkillData = new List<SkillData>();
     public InvenData invenDatas = new InvenData();
 
 
@@ -107,18 +106,23 @@ public class StatData
 public class PlayerData
 {
     public StatData playerStat = new StatData();
+    public List<SkillData> activeSkill = new List<SkillData>();
+    public List<SkillData> passiveSkill = new List<SkillData>();
 }
 
 [System.Serializable]
 public class MonsterData
 {
     public StatData monsterStat = new StatData();
+    
 }
 
 [System.Serializable]
 public class BossData
 {
     public StatData bossStat = new StatData();
+    public List<SkillData> activeSkill = new List<SkillData>();
+    public List<SkillData> passiveSkill = new List<SkillData>();
 }
 
 [System.Serializable]
