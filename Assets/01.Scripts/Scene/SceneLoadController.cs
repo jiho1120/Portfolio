@@ -24,15 +24,13 @@ public class SceneLoadController : Singleton<SceneLoadController>
         {
             DataManager.Instance.gameData.SetGameData();
             DataManager.Instance.Save();
-
-            //DataManager.Instance.SaveData(); // 현재 정보를 저장함.
         }
         UIManager.Instance.OffStartUI();
         UIManager.Instance.WaitingUI.gameObject.SetActive(true);
         GameManager.Instance.InitWating();
         LoadingSceneController.LoadScene("Game"); // 게임씬으로 이동
         GameManager.Instance.player.Init();
-        
+
         UIManager.Instance.SetPlayerUI();
     }
 

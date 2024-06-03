@@ -114,10 +114,10 @@ public class UIGridScrollViewDic : MonoBehaviour
         }
         else if (item.index > 100) // 101부터 물약
         {
-            Debug.Log("더하기 직전 인덱스 : "+item.index);
+            Debug.Log("더하기 직전 인덱스 : " + item.index);
 
             InvenManager.Instance.AddToPosionInven(item);
-            
+
             popupDetail.Close();
         }
         // 장착할 아이템을 찾습니다.

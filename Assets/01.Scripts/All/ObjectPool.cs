@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class ObjectPool<T> where T : MonoBehaviour
@@ -109,7 +107,7 @@ public class ObjectPool<T> where T : MonoBehaviour
         if (pool.Contains(obj) == false)
         {
             pool.Enqueue(obj);
-        } 
+        }
     }
     public void ObjInitialize(T tInfo)
     {
@@ -127,5 +125,5 @@ public class ObjectPool<T> where T : MonoBehaviour
             }
         }
     }
-    
+
 }

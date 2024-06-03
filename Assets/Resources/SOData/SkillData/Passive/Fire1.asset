@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Fire1
   m_EditorClassIdentifier: 
   index: 101
+  lv: 1
   newSkillType: 2
   skillName: 4
-  icon: {fileID: 21300000, guid: 954cdace6e17b3d4890cbbbfe98ef2fe, type: 3}
   effect: 10
   duration: 10
   cool: 3

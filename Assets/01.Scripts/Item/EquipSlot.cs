@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +13,7 @@ public class EquipSlot : MonoBehaviour
         icon = transform.GetChild(0).GetComponent<Image>();
         lv = GetComponentInChildren<TMP_Text>();
     }
-    
+
     public void SetEquipSlotData()
     {
         DataManager.Instance.LoadInvenInfo();
@@ -31,7 +30,7 @@ public class EquipSlot : MonoBehaviour
 
         lv.text = $"LV : {item.level}";
     }
-    
+
     public void ApplyItemStat()
     {
         DataManager.Instance.LoadInvenInfo();

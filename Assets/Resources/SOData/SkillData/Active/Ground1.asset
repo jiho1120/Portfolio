@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Ground1
   m_EditorClassIdentifier: 
   index: 3
+  lv: 1
   newSkillType: 0
   skillName: 0
-  icon: {fileID: 0}
   effect: 100
   duration: 3
   cool: 5

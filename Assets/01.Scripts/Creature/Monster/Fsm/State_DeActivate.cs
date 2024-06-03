@@ -16,7 +16,7 @@ public class State_DeActivate : State
         monster.Agent.isStopped = false;
         monster.SetIsAttack(true);
         monster.SetIsHit(false);
-        
+
     }
 
     public override void OnStateStay()

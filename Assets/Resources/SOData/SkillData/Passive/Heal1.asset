@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Heal1
   m_EditorClassIdentifier: 
   index: 102
+  lv: 1
   newSkillType: 1
   skillName: 5
-  icon: {fileID: 21300000, guid: b9c61c6896eff5b43ae44d047f49b31d, type: 3}
   effect: 10
   duration: 10
   cool: 3

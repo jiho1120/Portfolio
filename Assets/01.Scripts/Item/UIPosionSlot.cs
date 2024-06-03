@@ -58,7 +58,7 @@ public class UIPosionSlot : MonoBehaviour
             case AllEnum.ItemList.UltimatePosion:
                 GameManager.Instance.player.SetUltimate(item.ultimateGauge);
                 break;
-            
+
             default:
                 break;
         }

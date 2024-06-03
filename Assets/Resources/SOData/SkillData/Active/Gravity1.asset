@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Gravity1
   m_EditorClassIdentifier: 
   index: 4
+  lv: 1
   newSkillType: 0
   skillName: 3
-  icon: {fileID: 21300000, guid: b3199ae29bf246642875fc68fab4595b, type: 3}
   effect: 10
   duration: 5
   cool: 0

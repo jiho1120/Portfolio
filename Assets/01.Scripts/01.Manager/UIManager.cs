@@ -116,7 +116,7 @@ DataManager.Instance.gameData.killGoal);
     public void OnOffInventory()
     {
         scrollview = !scrollview;
-        
+
         Inventory.gameObject.SetActive(scrollview);
         if (scrollview == true)
         {

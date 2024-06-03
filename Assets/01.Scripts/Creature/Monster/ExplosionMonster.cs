@@ -10,5 +10,5 @@ public class ExplosionMonster : Monster
         GetAttackRange();
         base.Die();
     }
-    
+
 }

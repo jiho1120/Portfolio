@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 public class BasicPopUp : MonoBehaviour
@@ -14,7 +12,7 @@ public class BasicPopUp : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    
+
     public void onoff()
     {
         active = !active;

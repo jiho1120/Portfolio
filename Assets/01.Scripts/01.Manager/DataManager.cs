@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using UnityEngine;
 
@@ -11,8 +12,7 @@ public class DataManager : Singleton<DataManager>
     public SOStat SOMonsterStat;
     public SOStat SOBossStat;
     public SOItem[] soItem;
-    public NewSOSkill[] activeSkill;
-    public NewSOSkill[] passiveSkill;
+    public NewSOSkill[] skillArr;
 
 
 
@@ -45,7 +45,7 @@ public class DataManager : Singleton<DataManager>
         string jsondata = JsonConvert.SerializeObject(gameData, Formatting.Indented, settings);
 
         // 파일에 쓰기
-        File.WriteAllText(nowPath, jsondata );
+        File.WriteAllText(nowPath, jsondata);
 
         Debug.Log("저장되었습니다.");
     }
@@ -54,12 +54,39 @@ public class DataManager : Singleton<DataManager>
 
     public void Load()
     {
-        nowPath = path + nowSlot.ToString();
-        string jsonData = File.ReadAllText(nowPath);
+        try
+        {
+            nowPath = path + nowSlot.ToString();
+            if (File.Exists(nowPath))
+            {
+                string jsonData = File.ReadAllText(nowPath);
 
-        // JSON 데이터를 게임 데이터 객체로 deserialize
-        gameData = JsonConvert.DeserializeObject<GameData>(jsonData);
-        Debug.Log("파일을 불러왔습니다.");
+                // JSON 데이터를 게임 데이터 객체로 deserialize
+                gameData = JsonConvert.DeserializeObject<GameData>(jsonData);
+                Debug.Log("파일을 불러왔습니다.");
+
+                // 로드된 데이터의 유효성 확인
+                if (gameData == null)
+                {
+                    Debug.LogError("로드된 데이터가 null입니다.");
+                    return;
+                }
+                if (gameData.invenDatas == null)
+                {
+                    Debug.LogError("로드된 인벤토리 데이터가 null입니다.");
+                    return;
+                }
+                // 이하 필요한 필드 및 객체의 유효성을 확인하는 코드 추가
+            }
+            else
+            {
+                Debug.LogWarning("로드할 파일이 존재하지 않습니다.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("로드 중 오류 발생: " + ex.Message);
+        }
     }
 
     public void SaveInvenInfo()
@@ -102,7 +129,19 @@ public class DataManager : Singleton<DataManager>
         gameData = new GameData();
     }
 
-    
+    #region get 함수들
+    public NewSOSkill GetSkillData(AllEnum.SkillName name)
+    {
+        for (int i = 0; i < skillArr.Length; i++)
+        {
+            if (skillArr[i].skillName == name)
+            {
+                return skillArr[i];
+            }
+        }
+        return null;
+    }
+    #endregion
 }
 
 public class SpriteConverter : JsonConverter<Sprite>
@@ -131,4 +170,5 @@ public class SpriteConverter : JsonConverter<Sprite>
     }
 
 }
+
 

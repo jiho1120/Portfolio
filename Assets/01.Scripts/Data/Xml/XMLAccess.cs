@@ -85,7 +85,7 @@ public class XMLAccess : MonoBehaviour
         if (gradeList != null)
         {
             int num = Random.Range(0, 101);
-            int luck = num + (int)GameManager.Instance.player.Stat.luck ; // 수 내림 적용
+            int luck = num + (int)GameManager.Instance.player.Stat.luck; // 수 내림 적용
             int Range = gradeList[0].percentage;
             if (luck <= Range)
             {

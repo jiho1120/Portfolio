@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : Singleton<ItemManager>
@@ -26,7 +24,7 @@ public class ItemManager : Singleton<ItemManager>
                 itemPool.ReturnObjectToPool(itemPool.objList[i]);
             }
         }
-        
+
     }
     public void DropItem(int idx, Vector3 tr)
     {

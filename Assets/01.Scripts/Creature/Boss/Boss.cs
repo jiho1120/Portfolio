@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Boss : Creature
+public class Boss : UseSKillCharacter
 {
     public override void Activate()
     {
@@ -24,7 +20,7 @@ public class Boss : Creature
         throw new System.NotImplementedException();
     }
 
-    public override void TakeDamage()
+    public override void TakeDamage(float att)
     {
         throw new System.NotImplementedException();
     }

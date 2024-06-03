@@ -1,55 +1,62 @@
 using UnityEngine;
 using static AllEnum;
 
-public class Skill : MonoBehaviour
+public abstract class Skill : MonoBehaviour
 {
-    public SkillName skillName { get; private set; }
-
-    // 스킬을 사용하는 객체 (캐릭인지 보스인지) 인스펙터에서 설정
-    public ObjectType objectType;
+    protected SkillData data;
+    protected ObjectType caster;
 
 
-
-    public void Init()
+    protected Skill(SkillData skillData, ObjectType caster)
     {
-
+        data = skillData;
+        this.caster = caster;
     }
 
 
 
-    public void GetDamage()
-    {
-    }
+    public abstract void ApplyEffect();
+    public abstract void RemoveEffect();
 
-    public virtual void ActiveSkill()
+    public float GetDuration() { return data.duration; }
+    public float GetIndex() { return data.index; }
+
+
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        this.gameObject.SetActive(false);
 
     }
-    public virtual void DeActiveSkill()
+    protected virtual void OnCollisionEnter(Collision collision)
     {
-        this.gameObject.SetActive(false);
-    }
-    protected void OnTriggerEnter(Collider other)
-    {
-        if (objectType == ObjectType.Player)
-        {
-            
-        }
-        else if (objectType == ObjectType.Boss)
-        {
 
-        }
     }
-    protected void OnCollisionEnter(Collision collision)
-    {
-        if (objectType == ObjectType.Player)
-        {
+    //    // 스킬의 시전자 판별 // 사용할때 정보를 받아오자
 
-        }
-        else if (objectType == ObjectType.Boss)
-        {
+    //    // 스킬의 상태 판별(딜인지 힐인지)
+    //    // 시전자가 플레이어면 에니미에 레이어랑 비교해서 딜
 
-        }
-    }
+
+    //    string hitLayerName;
+    //    int hitObjLayerIndex;
+    //    int idx = collision.gameObject.layer;
+
+    //    switch (caster)
+    //    {
+    //        case ObjectType.Boss:
+    //            hitLayerName = "Player";
+    //            break;
+    //        case ObjectType.Player:
+    //            hitLayerName = "Enemy";
+    //            break;
+    //        default:
+    //            break;
+    //    }
+
+    //    //hitObjLayerIndex = LayerMask.NameToLayer(hitLayerName);
+
+    //    //if (idx == hitObjLayerIndex)
+    //    //{
+
+    //    //}
+
 }

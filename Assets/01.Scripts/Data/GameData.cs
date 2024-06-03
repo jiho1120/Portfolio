@@ -1,7 +1,9 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
+using static AllEnum;
 using Random = UnityEngine.Random;
+
 
 
 [System.Serializable]
@@ -18,35 +20,23 @@ public class GameData
 
     public void SetGameData()
     {
-        playerData.name = UIManager.Instance.newPlayerName.text; // 입력한 이름을 복사해옴
-        playerData.playerStat.SetStat(DataManager.Instance.SOPlayerStat);
+        playerData.SetPlayerData();
         monsterData.monsterStat.SetStat(DataManager.Instance.SOMonsterStat);
         bossData.bossStat.SetStat(DataManager.Instance.SOBossStat);
-        for (int i = 0; i < (int)AllEnum.ItemList.End; i++)
+        for (int i = 0; i < (int)ItemList.End; i++)
         {
             ItemData item = new ItemData();
-            if (i < (int)AllEnum.ItemList.Head)
+            if (i < (int)ItemList.Head)
             {
-                invenDatas.PosionItemDatas.Add((AllEnum.ItemList)i, item);
+                invenDatas.PosionItemDatas.Add((ItemList)i, item);
             }
-            else if (i >= (int)AllEnum.ItemList.Head)
+            else if (i >= (int)ItemList.Head)
             {
-                invenDatas.EquipItemDatas.Add((AllEnum.ItemList)i, item);
+                invenDatas.EquipItemDatas.Add((ItemList)i, item);
             }
-            
+
         }
-        //for (int i = 0; i < DataManager.Instance.activeSkill.Length; i++)
-        //{
-        //    SkillData skill = new SkillData();
-        //    skill.SetSkillData(DataManager.Instance.activeSkill[i]);
-        //    activeSkillData.Add(skill);
-        //}
-        //for (int i = 0; i < DataManager.Instance.passiveSkill.Length; i++)
-        //{
-        //    SkillData skill = new SkillData();
-        //    skill.SetSkillData(DataManager.Instance.passiveSkill[i]);
-        //    passiveSkillData.Add(skill);
-        //}
+
     }
 }
 
@@ -54,7 +44,7 @@ public class GameData
 public class StatData
 {
     // 이름, 레벨, 코인, 착용중인 무기
-    public AllEnum.ObjectType objectType;
+    public ObjectType objectType;
     public int level;
     public float hp;
     public float maxHp;
@@ -113,7 +103,7 @@ public class StatData
         ultimateGauge = SO.ultimateGauge;
         maxUltimateGauge = SO.ultimateGauge;
     }
-    
+
     public void PrintStatData()
     {
         System.Reflection.FieldInfo[] fields = typeof(StatData).GetFields();
@@ -128,8 +118,21 @@ public class PlayerData
 {
     public string name;
     public StatData playerStat = new StatData();
-    public List<SkillData> activeSkill = new List<SkillData>();
-    public List<SkillData> passiveSkill = new List<SkillData>();
+    public Dictionary<SkillName, SkillData> skillDict = new Dictionary<SkillName, SkillData>();
+
+
+    public void SetPlayerData()
+    {
+        name = UIManager.Instance.newPlayerName.text; // 입력한 이름을 복사해옴
+        playerStat.SetStat(DataManager.Instance.SOPlayerStat);
+        // 여기서 만들고 스킬매니저에서는저장된 데이터 받아쓰기
+        SkillData Data;
+        for (int i = 0; i < (int)SkillName.End; i++)
+        {
+            Data = new SkillData(DataManager.Instance.GetSkillData((SkillName)i));
+            skillDict.Add((SkillName)i, Data);
+        }
+    }
 }
 
 [System.Serializable]
@@ -142,8 +145,8 @@ public class MonsterData
 public class BossData
 {
     public StatData bossStat = new StatData();
-    public List<SkillData> activeSkill = new List<SkillData>();
-    public List<SkillData> passiveSkill = new List<SkillData>();
+    public Dictionary<SkillName, ActiveSkill> activeSkill = new Dictionary<SkillName, ActiveSkill>();
+    public Dictionary<SkillName, PassiveSkill> passiveSkill = new Dictionary<SkillName, PassiveSkill>();
 }
 
 [System.Serializable]
@@ -152,8 +155,8 @@ public class ItemData
     public int index = -1;
     public int level = 0; // 을 올려서 능력치 올리는 함수 만들꺼임
     public int count = 0;
-    public AllEnum.ItemType itemType = AllEnum.ItemType.End;
-    public AllEnum.ItemList itemList = AllEnum.ItemList.End;
+    public ItemType itemType = ItemType.End;
+    public ItemList itemList = ItemList.End;
 
     [JsonConverter(typeof(SpriteConverter))]
     public Sprite icon;
@@ -174,8 +177,8 @@ public class ItemData
         index = -1;
         level = 0;
         count = 0;
-        itemType = AllEnum.ItemType.End;
-        itemList = AllEnum.ItemList.End;
+        itemType = ItemType.End;
+        itemList = ItemList.End;
         icon = null;
         hp = 0;
         mp = 0;
@@ -251,7 +254,7 @@ public class ItemData
     {
         int randamId;
         ItemData item = new ItemData();
-        randamId = Random.Range(0, (int)AllEnum.ItemList.End);
+        randamId = Random.Range(0, (int)ItemList.End);
         item.SetItemData(DataManager.Instance.soItem[randamId]);
         return item;
     }
@@ -261,22 +264,24 @@ public class ItemData
 public class SkillData
 {
     public int index; // 고유번호
-    public AllEnum.NewSkillType newSkillType; // 스킬 타입
-    public AllEnum.SkillName skillName; // 스킬 이름
-    public Sprite icon; // 그림
-    public float effect; // 효과 공격이면 공격력 힐이면 힐하는양 ... 
+    public int lv; // 스킬 레벨
+    public NewSkillType skillType; // 스킬 타입
+    public SkillName skillName; // 스킬 이름
+    public float effect; // 효과, 공격이면 공격력 힐이면 힐하는양 ... 
     public float duration; // 스킬 지속 시간
     public float cool; // 쿨타임
     public float mana; // 소모 마나
     public bool setParent; // 스킬이 플레이어를 따라다닐지
-    public bool inUse; //false일시 스킬나감 
+    public bool inUse; //false일시 스킬나감 //사용중이라는 뜻
 
-    public void SetSkillData(NewSOSkill SO)
+    public SkillData() { }
+
+    public SkillData(NewSOSkill SO)
     {
         index = SO.index;
-        newSkillType = SO.newSkillType;
+        lv = SO.lv;
+        skillType = SO.newSkillType;
         skillName = SO.skillName;
-        icon = SO.icon;
         effect = SO.effect;
         duration = SO.duration;
         cool = SO.cool;
@@ -290,8 +295,8 @@ public class SkillData
 public class InvenData
 {
     public List<ItemData> invenItemDatas = new List<ItemData>();
-    public Dictionary<AllEnum.ItemList, ItemData> EquipItemDatas = new Dictionary<AllEnum.ItemList, ItemData>();
-    public Dictionary<AllEnum.ItemList, ItemData> PosionItemDatas = new Dictionary<AllEnum.ItemList, ItemData>();
+    public Dictionary<ItemList, ItemData> EquipItemDatas = new Dictionary<ItemList, ItemData>();
+    public Dictionary<ItemList, ItemData> PosionItemDatas = new Dictionary<ItemList, ItemData>();
 
     public ItemData GetItemDataForIndex(int index)
     {
@@ -307,7 +312,7 @@ public class InvenData
 
     public void ShowDIc()
     {
-        foreach (KeyValuePair<AllEnum.ItemList, ItemData> pair in EquipItemDatas)
+        foreach (KeyValuePair<ItemList, ItemData> pair in EquipItemDatas)
         {
             Debug.Log("Item List: " + pair.Key);
             ItemData itemData = pair.Value;

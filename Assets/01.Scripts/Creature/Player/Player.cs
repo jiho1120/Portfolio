@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
-using static UnityEditor.Progress;
 
-public class Player : Creature, Initialize
+public class Player : UseSKillCharacter, Initialize
 {
     public Transform characterBody;
     public Transform cameraArm;
@@ -195,12 +193,12 @@ public class Player : Creature, Initialize
 
         }
     }
-    public override void TakeDamage() // 플레이어피가 다는거
+    public override void TakeDamage(float att) // 플레이어피가 다는거
     {
         if (!isDead)
         {
             playerAnimator.SetHit();
-            float damage = Mathf.Max(CriticalDamage() - (Stat.defense * 0.5f), 1f); // 최소 데미지 1
+            float damage = Mathf.Max(CriticalDamage(att) - (Stat.defense * 0.5f), 1f); // 최소 데미지 1
             Stat.hp -= damage;
             UIManager.Instance.SetPlayerHPUI();
             if (Stat.hp < 0)
@@ -215,7 +213,6 @@ public class Player : Creature, Initialize
     }
 
     #endregion
-
 
 
     #region 죽음

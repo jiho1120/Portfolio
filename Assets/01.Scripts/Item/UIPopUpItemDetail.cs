@@ -34,7 +34,7 @@ public class UIPopUpItemDetail : BasicPopUp
     public UIPopUpItemDetail Init(int id)
     {
         this.id = id;
-        
+
         data = DataManager.Instance.gameData.invenDatas.GetItemDataForIndex(id);
         var type = data.itemList;
         txtItemType.text = type.ToString();// 나중에 타입으로 바꾸기
@@ -59,8 +59,8 @@ public class UIPopUpItemDetail : BasicPopUp
         {
             groupStats.SetActive(false);
         }
-        
-            Open();
+
+        Open();
         return this;
     }
     public void Refresh()

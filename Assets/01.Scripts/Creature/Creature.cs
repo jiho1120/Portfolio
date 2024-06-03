@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -34,24 +33,15 @@ public abstract class Creature : MonoBehaviour, Initialize
     #region 공격
     public bool CheckCritical()
     {
-        Debug.Log(Stat.critical);
         bool isCritical = Random.Range(0f, 100f) < Stat.critical;
         return isCritical;
     }
-    public float CriticalDamage()
+    public float CriticalDamage(float att)
     {
-        float criticalDamage;
+        float criticalDamage = att;
         if (CheckCritical())
         {
-            Debug.Log(Stat.attack);
-            criticalDamage = Stat.attack * 1.5f;
-            Debug.Log("치명타 터짐");
-        }
-        else
-        {
-            criticalDamage = Stat.attack;
-            Debug.Log("치명타 안 터짐");
-
+            criticalDamage = att * 1.5f;
         }
 
         return criticalDamage;
@@ -59,21 +49,25 @@ public abstract class Creature : MonoBehaviour, Initialize
     public virtual void Attack()
     {
         Collider[] colliders = GetAttackRange();
+        if (colliders.Length <= 0)
+        {
+            return;
+        }
+
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].CompareTag("Player"))
             {
-                colliders[i].GetComponent<Player>().TakeDamage();
+                colliders[i].GetComponent<Player>().TakeDamage(Stat.attack);
             }
             else if (colliders[i].CompareTag("Monster"))
             {
-                colliders[i].GetComponent<Monster>().TakeDamage();
+                colliders[i].GetComponent<Monster>().TakeDamage(Stat.attack);
             }
             else if (colliders[i].CompareTag("Boss"))
             {
-                colliders[i].GetComponent<Boss>().TakeDamage();
+                colliders[i].GetComponent<Boss>().TakeDamage(Stat.attack);
             }
-            
             else
             {
                 Debug.Log("아무도 없음");
@@ -84,11 +78,11 @@ public abstract class Creature : MonoBehaviour, Initialize
     {
         return Physics.OverlapSphere(attackPos.position, AttackRange, EnemyLayerMask);
     }
-    public abstract void TakeDamage();
+    public abstract void TakeDamage(float att);
     #endregion
 
 
-    #region
+    #region 스킬
 
     #endregion
 
@@ -100,14 +94,4 @@ public abstract class Creature : MonoBehaviour, Initialize
         isDead = on;
     }
     #endregion
-
-
-
-
-
-
-
-
-
-
 }

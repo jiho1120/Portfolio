@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterManager : Singleton<MonsterManager>
@@ -43,7 +42,7 @@ public class MonsterManager : Singleton<MonsterManager>
             int x = Random.Range(0, 5);
             int z = Random.Range(0, 5);
             //monsterPool.SpawnObject(x, z);
-            monsterPool.SpawnObject(x, z,GameManager.Instance.player.transform.position);
+            monsterPool.SpawnObject(x, z, GameManager.Instance.player.transform.position);
             yield return new WaitForSeconds(monsterPool.spawnTime);
         }
     }
@@ -53,10 +52,10 @@ public class MonsterManager : Singleton<MonsterManager>
     }
     public void SetMonsterDeactive()
     {
-            foreach (var obj in monsterPool.GetPool())
-            {
-                obj.GetComponent<Monster>().SetIsDeActive(true);
-            }
+        foreach (var obj in monsterPool.GetPool())
+        {
+            obj.GetComponent<Monster>().SetIsDeActive(true);
+        }
     }
 
 }

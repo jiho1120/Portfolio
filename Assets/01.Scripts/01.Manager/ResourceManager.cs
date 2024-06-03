@@ -6,13 +6,13 @@ public class ResourceManager : Singleton<ResourceManager>
     public Sprite nullEquipSprite;
     public Sprite[] ItemSprite;
 
-    public GameObject[] SkillObject;
+    public Skill[] SkillObject;
 
     public XMLAccess XMLAccess { get; private set; }
 
     public void Init()
     {
-        SkillObject = Resources.LoadAll<GameObject>("Skill");
+        SkillObject = Resources.LoadAll<Skill>("Skill");
         XMLAccess = GetComponent<XMLAccess>();
         XMLAccess.Init();
     }

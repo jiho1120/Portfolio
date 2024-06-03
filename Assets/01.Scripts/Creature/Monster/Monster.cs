@@ -44,7 +44,7 @@ public class Monster : Creature, Initialize
     {
         isHit = on;
     }
-    
+
     public void SetIsDeActive(bool on)
     {
         isDeActive = on;
@@ -89,7 +89,7 @@ public class Monster : Creature, Initialize
         Agent.isStopped = true;
         isAttack = false;
         isHit = false;
-        isDead = true; // 이게 죽음보다 먼저 걸림 그래서 true여도 상관없음
+        isDead = true;
         isDeActive = true;
         MonsterManager.Instance.ReturnToPool(this);
     }
@@ -102,7 +102,7 @@ public class Monster : Creature, Initialize
             AttackCor = StartCoroutine(SetAttackCoolTime());
         }
     }
-    
+
 
     IEnumerator SetAttackCoolTime()
     {
@@ -117,17 +117,18 @@ public class Monster : Creature, Initialize
             AttackCor = null;
         }
     }
-    
-    
-    public override void TakeDamage()
+
+
+    public override void TakeDamage(float att)
     {
         if (isDead)
         {
             return;
         }
         isHit = true;
-        float damage = CriticalDamage() - (Stat.defense * 0.5f); // 몬스터 스탯 추가
+        float damage = CriticalDamage(att) - (Stat.defense * 0.5f); // 몬스터 스탯 추가
         Stat.hp -= damage;
+
         if (Stat.hp <= 0)
         {
             Stat.hp = 0;

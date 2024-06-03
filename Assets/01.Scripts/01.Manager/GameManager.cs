@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 /* ai 강의 듣고 밀리는 현상 고치기
 보스 소환
@@ -20,7 +19,7 @@ public class GameManager : Singleton<GameManager>
     public bool stageStart { get; private set; } // 몬스터 나오는게 스테이지 스타트
     public float runTime { get; private set; } = 0; // 플레이 시간
     public int killMon { get; private set; } = 0;// 잡은 몬스터 수
-   
+
     Coroutine stageClearCor = null;
     Coroutine gameTimeCor = null;
 
@@ -39,9 +38,9 @@ public class GameManager : Singleton<GameManager>
         GridScrollViewMain.Instance.Init();
         for (int i = 0; i < UIManager.Instance.uIPlayer.uIPosionSlots.Length; i++)
         {
-            UIManager.Instance.uIPlayer.uIPosionSlots[i].SetUseSlotChar($"{i +1}");
+            UIManager.Instance.uIPlayer.uIPosionSlots[i].SetUseSlotChar($"{i + 1}");
         }
-
+        SkillManager.Instance.Init();
 
     }
     private void Update()
@@ -147,12 +146,12 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.SetWaitingUI();
         UIManager.Instance.WaitingUI.SetActive(false);
         InGame();
-        
+
     }
     #endregion
 
     #region InGame
-    
+
     public void InGame()
     {
         DeactivateWating();
@@ -163,7 +162,7 @@ public class GameManager : Singleton<GameManager>
             MonsterManager.Instance.Init();
             if (gameTimeCor == null)
             {
-                gameTimeCor= StartCoroutine(GameTime());
+                gameTimeCor = StartCoroutine(GameTime());
 
             }
         }

@@ -9,7 +9,7 @@ public class UIGridCellView : MonoBehaviour
     public Image imgIcon;
     public TMP_Text txtAmount;
     public GameObject focusGo;
-    
+
     public void Init(ItemData item)
     {
         index = item.index;
@@ -30,5 +30,5 @@ public class UIGridCellView : MonoBehaviour
     {
         focusGo.SetActive(active);
     }
-    
+
 }

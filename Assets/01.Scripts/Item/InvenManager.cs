@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class InvenManager : Singleton<InvenManager>
 {
@@ -53,7 +50,7 @@ public class InvenManager : Singleton<InvenManager>
         {
             return;
         }
-        ItemData _itemData =  GetPosionInvenItemData(itemData);
+        ItemData _itemData = GetPosionInvenItemData(itemData);
         if (_itemData.count >= 99)
         {
             return; // 99 이상 못넣음
