@@ -1,5 +1,16 @@
 public class AllEnum
 {
+    // enum이랑 프리팹 이름이랑 맞추기
+
+    // 리소스 매니저 딕셔너리모음 키값
+    public enum DictName
+    {
+        MonsterDict,
+        ItemDict,
+        SkillDict,
+
+        End
+    }
     public enum ObjectType
     {
         Monster,
@@ -10,8 +21,8 @@ public class AllEnum
     }
     public enum MonsterType
     {
-        Normal,
-        Explosion,
+        NormalMonster,
+        ExplosionMonster,
 
         End
     }
@@ -39,9 +50,9 @@ public class AllEnum
 
     public enum SkillName // 직접 숫자를 지정하면 나중에 끝의 수가 갯수의 수랑 다르면 엔드도 이상하게나옴
     {
-        Ground,
         AirSlash,
         AirCircle,
+        Ground,
         Gravity,
 
 
@@ -58,16 +69,16 @@ public class AllEnum
     public enum ItemType
     {
         Useable,
-        Equip,
+        Equipable,
 
         End
     }
 
     public enum ItemList
     {
-        HpPosion,
-        MpPosion,
-        UltimatePosion,
+        HpPotion,
+        MpPotion,
+        UltimatePotion,
 
 
 
@@ -84,13 +95,6 @@ public class AllEnum
         End
     }
 
-    public enum ItemListType
-    {
-        Inventory,
-        PlayerUI,
-
-        End
-    }
 
     public enum NodeState
     {

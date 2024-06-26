@@ -1,7 +1,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public abstract class Creature : MonoBehaviour, Initialize
+public abstract class Creature : MonoBehaviour,Initialize
 {
     public Transform attackPos;
     protected float AttackRange;
@@ -9,15 +9,11 @@ public abstract class Creature : MonoBehaviour, Initialize
     public StatData Stat { get; protected set; }
     public bool isDead { get; protected set; } = false;
 
-
-    #region 초기화 활성비활성
-    public abstract void Init();
+    #region 초기화
     public abstract void Activate();
 
     public abstract void Deactivate();
     #endregion
-
-
 
     #region 레벨 관련
     public void LevelUp()
@@ -93,5 +89,7 @@ public abstract class Creature : MonoBehaviour, Initialize
     {
         isDead = on;
     }
+
+    
     #endregion
 }

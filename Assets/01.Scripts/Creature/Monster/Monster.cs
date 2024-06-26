@@ -1,21 +1,30 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Pool;
 
-public class Monster : Creature, Initialize
+public class Monster : Creature, IProduct
 {
     #region 기본
     public AllEnum.MonsterType monType;
     MonsterAnimation anim;//얘는 진짜 단순히 애니메이션 출력...    
     public Rigidbody rb { get; private set; }
-
     #endregion
 
+    #region 팩토리
+    [SerializeField] private string productName = "Monster";
+    public string ProductName { get => productName; set => productName = value; }
+    #endregion
+
+    #region 오브젝트 풀
+    private IObjectPool<Monster> objectPool;
+    public IObjectPool<Monster> ObjectPool { set => objectPool = value; }
+    
+    #endregion
 
     #region die, deAct
     public bool isDeActive { get; private set; } = false;
     Coroutine deActiveCor = null;
-    Vector3 itempos = new Vector3(0, 1, 0);
     #endregion
 
     #region FSM
@@ -32,6 +41,8 @@ public class Monster : Creature, Initialize
     float attackCoolTime = 5;
     public bool isAttack;
     public bool isHit { get; private set; } = false;
+
+
     Coroutine AttackCor = null;
     #endregion
 
@@ -51,48 +62,74 @@ public class Monster : Creature, Initialize
     }
     #endregion
 
-    public override void Init()
+    
+    public virtual void Init()
     {
-        if (anim == null)
-        {
-            anim = GetComponent<MonsterAnimation>();
-            anim.SetInit();
-        }
-        if (agent == null)
-        {
-            agent = GetComponent<NavMeshAgent>();
-        }
-        if (monStateMachine == null)
-        {
-            monStateMachine = GetComponent<MonStateMachine>();
-            monStateMachine.Init();
-        }
-        if (rb == null)
-        {
-            rb = GetComponent<Rigidbody>();
-        }
+        gameObject.name = productName;
+        anim = GetComponent<MonsterAnimation>();
+        anim?.SetInit();
+        agent=GetComponent<NavMeshAgent>();
+        monStateMachine=GetComponent<MonStateMachine>();
+        monStateMachine?.Init();
+        rb = GetComponent<Rigidbody>();
         Stat = new StatData(DataManager.Instance.gameData.monsterData.monsterStat);
         EnemyLayerMask = 1 << LayerMask.NameToLayer("Player");
+        Activate();
+    }
+    public override void Activate()
+    {
+        Stat.SetStat(DataManager.Instance.gameData.monsterData.monsterStat);
+        isDeActive = false;
+        deActiveCor = null;
+        // 스킬 쓸때만 false로 바꾸기 그래야 밀림
+        rb.isKinematic = true;
+        Agent.isStopped = false;
         isAttack = true;
         isHit = false;
         isDead = false;
         isDeActive = false;
         monStateMachine.SetState(AllEnum.States.Idle);
     }
-    public override void Activate()
-    { }
+
+    #region Die , DeActive
+    public override void Die()
+    {
+        GameManager.Instance.SetKillMon(GameManager.Instance.killMon + 1);
+        UIManager.Instance.UpdateMonsterCount(GameManager.Instance.killMon);
+        Agent.isStopped = true;
+        rb.isKinematic = true;
+        SetDeadAnim();
+        ItemManager.Instance.DropRandomItem(this);
+
+        if (deActiveCor == null)
+        {
+            deActiveCor = StartCoroutine(DeactivateRoutine(MonsterManager.Instance.timeoutDelay));
+        }
+        GameManager.Instance.CheakStageClear();
+    }
     public override void Deactivate()
     {
+        if (deActiveCor == null)
+        {
+            deActiveCor = StartCoroutine(DeactivateRoutine(MonsterManager.Instance.timeoutDelay));
+        }
+    }
+    IEnumerator DeactivateRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         isDeActive = true;
         deActiveCor = null;
-        rb.isKinematic = true;
-        Agent.isStopped = true;
-        isAttack = false;
-        isHit = false;
-        isDead = true;
-        isDeActive = true;
-        MonsterManager.Instance.ReturnToPool(this);
+        objectPool.Release(this);
     }
+
+    public void AddPlayerMoney()
+    {
+        GameManager.Instance.player.AddMoney(Stat.money);
+    }
+
+    
+
+    #endregion
     #region 공격 & 피격
     public override void Attack() // 애니메이션에 넣음
     {
@@ -175,49 +212,7 @@ public class Monster : Creature, Initialize
     }
     #endregion
 
-    #region Die , DeActive
-    public override void Die()
-    {
-        GameManager.Instance.SetKillMon(GameManager.Instance.killMon + 1);
-        UIManager.Instance.UpdateMonsterCount(GameManager.Instance.killMon);
-        Agent.isStopped = true;
-        rb.isKinematic = true;
-        SetDeadAnim();
-        if (deActiveCor == null)
-        {
-            deActiveCor = StartCoroutine(DeActiveTime());
-        }
-        GameManager.Instance.CheakStageClear();
-    }
-    IEnumerator DeActiveTime()
-    {
-        yield return new WaitForSeconds(2f);
-        isDeActive = true;
-        deActiveCor = null;
-    }
-    public void DropRandomItem()
-    {
-        int itemIndex = Random.Range(0, 3);
-        if (itemIndex == 0)
-        {
-            DataManager.Instance.gameData.playerData.playerStat.money += Stat.money;
-        }
-        else
-        {
-            if (itemIndex == 1) // 장비
-            {
-                itemIndex = Random.Range(0, 7);
-            }
-            else if (itemIndex == 2) // 물약
-            {
-                itemIndex = Random.Range(101, 104);
 
-            }
-            ItemManager.Instance.DropItem(itemIndex, transform.position + itempos);
-        }
-    }
-
-    #endregion
 
     #region 
 
@@ -248,5 +243,7 @@ public class Monster : Creature, Initialize
     {
         anim.Die();
     }
+
+
     #endregion
 }

@@ -130,11 +130,11 @@ public class DataManager : Singleton<DataManager>
     }
 
     #region get 함수들
-    public NewSOSkill GetSkillData(AllEnum.SkillName name)
+    public NewSOSkill GetSkillData(int idx)
     {
         for (int i = 0; i < skillArr.Length; i++)
         {
-            if (skillArr[i].skillName == name)
+            if (skillArr[i].index == idx)
             {
                 return skillArr[i];
             }
@@ -144,31 +144,31 @@ public class DataManager : Singleton<DataManager>
     #endregion
 }
 
-public class SpriteConverter : JsonConverter<Sprite>
-{
-    public override Sprite ReadJson(JsonReader reader, System.Type objectType, Sprite existingValue, bool hasExistingValue, JsonSerializer serializer)
-    {
-        string textureName = reader.Value as string;
-        if (!string.IsNullOrEmpty(textureName))
-        {
-            Sprite sprite = Resources.Load<Sprite>(textureName);
-            return sprite;
-        }
-        return null;
-    }
+//public class SpriteConverter : JsonConverter<Sprite>
+//{
+//    public override Sprite ReadJson(JsonReader reader, System.Type objectType, Sprite existingValue, bool hasExistingValue, JsonSerializer serializer)
+//    {
+//        string textureName = reader.Value as string;
+//        if (!string.IsNullOrEmpty(textureName))
+//        {
+//            Sprite sprite = Resources.Load<Sprite>(textureName);
+//            return sprite;
+//        }
+//        return null;
+//    }
 
-    public override void WriteJson(JsonWriter writer, Sprite value, JsonSerializer serializer)
-    {
-        if (value != null && value.texture != null)
-        {
-            writer.WriteValue(value.texture.name);
-        }
-        else
-        {
-            writer.WriteNull();
-        }
-    }
+//    public override void WriteJson(JsonWriter writer, Sprite value, JsonSerializer serializer)
+//    {
+//        if (value != null && value.texture != null)
+//        {
+//            writer.WriteValue(value.texture.name);
+//        }
+//        else
+//        {
+//            writer.WriteNull();
+//        }
+//    }
 
-}
+//}
 
 

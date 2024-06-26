@@ -40,7 +40,7 @@ public class GameManager : Singleton<GameManager>
         {
             UIManager.Instance.uIPlayer.uIPosionSlots[i].SetUseSlotChar($"{i + 1}");
         }
-        SkillManager.Instance.Init();
+        //SkillManager.Instance.Init();
 
     }
     private void Update()
@@ -208,10 +208,12 @@ public class GameManager : Singleton<GameManager>
         {
             DataManager.Instance.gameData.gameRound += 1;
         }
-        MonsterManager.Instance.StopSpawnObject();
-        MonsterManager.Instance.SetMonsterDeactive();
+
+        // 평소에는 2초후 죽이다가 스테이지 끝나면 바로죽이기위해서
+        MonsterManager.Instance.SetTimeDelay(0f);
+
         yield return new WaitForSeconds(1f);
-        ItemManager.Instance.AllItemDeActive();
+        //ItemManager.Instance.AllItemDeActive();
         InitWating();
         stageClearCor = null;
         DataManager.Instance.Save();///// 클리어시 저장

@@ -104,6 +104,25 @@ public class StatData
         maxUltimateGauge = SO.ultimateGauge;
     }
 
+    public void SetStat(StatData SO)
+    {
+        objectType = SO.objectType;
+        level = SO.level;
+        hp = SO.hp;
+        maxHp = SO.maxHp;
+        attack = SO.attack;
+        defense = SO.defense;
+        critical = SO.critical;
+        speed = SO.speed;
+        experience = SO.experience;
+        money = SO.money;
+        mp = SO.mp;
+        maxMp = SO.maxMp;
+        luck = SO.luck;
+        maxExperience = SO.maxExperience;
+        ultimateGauge = SO.ultimateGauge;
+        maxUltimateGauge = SO.ultimateGauge;
+    }
     public void PrintStatData()
     {
         System.Reflection.FieldInfo[] fields = typeof(StatData).GetFields();
@@ -129,7 +148,7 @@ public class PlayerData
         SkillData Data;
         for (int i = 0; i < (int)SkillName.End; i++)
         {
-            Data = new SkillData(DataManager.Instance.GetSkillData((SkillName)i));
+            Data = new SkillData(DataManager.Instance.GetSkillData(SkillManager.Instance.ChangeNameToIndex((SkillName)i)));
             skillDict.Add((SkillName)i, Data);
         }
     }
@@ -145,8 +164,7 @@ public class MonsterData
 public class BossData
 {
     public StatData bossStat = new StatData();
-    public Dictionary<SkillName, ActiveSkill> activeSkill = new Dictionary<SkillName, ActiveSkill>();
-    public Dictionary<SkillName, PassiveSkill> passiveSkill = new Dictionary<SkillName, PassiveSkill>();
+    public Dictionary<SkillName, SkillData> skillDict = new Dictionary<SkillName, SkillData>();
 }
 
 [System.Serializable]
@@ -158,8 +176,8 @@ public class ItemData
     public ItemType itemType = ItemType.End;
     public ItemList itemList = ItemList.End;
 
-    [JsonConverter(typeof(SpriteConverter))]
-    public Sprite icon;
+    //[JsonConverter(typeof(SpriteConverter))]
+    //public Sprite icon;
 
     public float hp = 0;
     public float mp = 0;
@@ -179,7 +197,6 @@ public class ItemData
         count = 0;
         itemType = ItemType.End;
         itemList = ItemList.End;
-        icon = null;
         hp = 0;
         mp = 0;
         ultimateGauge = 0;
@@ -198,7 +215,6 @@ public class ItemData
         count = Item.count;
         itemType = Item.itemType;
         itemList = Item.itemList;
-        icon = Item.icon;
         hp = Item.hp;
         mp = Item.mp;
         ultimateGauge = Item.ultimateGauge;
@@ -219,7 +235,6 @@ public class ItemData
         count = SO.count;
         itemType = SO.itemType;
         itemList = SO.itemList;
-        icon = SO.icon;
         hp = SO.hp;
         mp = SO.mp;
         ultimateGauge = SO.ultimateGauge;
@@ -238,7 +253,7 @@ public class ItemData
         count = SO.count;
         itemType = SO.itemType;
         itemList = SO.itemList;
-        icon = SO.icon;
+        //icon = SO.icon;
         hp = SO.hp;
         mp = SO.mp;
         ultimateGauge = SO.ultimateGauge;
@@ -265,14 +280,10 @@ public class SkillData
 {
     public int index; // 고유번호
     public int lv; // 스킬 레벨
-    public NewSkillType skillType; // 스킬 타입
-    public SkillName skillName; // 스킬 이름
     public float effect; // 효과, 공격이면 공격력 힐이면 힐하는양 ... 
     public float duration; // 스킬 지속 시간
     public float cool; // 쿨타임
     public float mana; // 소모 마나
-    public bool setParent; // 스킬이 플레이어를 따라다닐지
-    public bool inUse; //false일시 스킬나감 //사용중이라는 뜻
 
     public SkillData() { }
 
@@ -280,14 +291,10 @@ public class SkillData
     {
         index = SO.index;
         lv = SO.lv;
-        skillType = SO.newSkillType;
-        skillName = SO.skillName;
         effect = SO.effect;
         duration = SO.duration;
         cool = SO.cool;
         mana = SO.mana;
-        setParent = SO.setParent;
-        inUse = SO.inUse;
     }
 }
 
@@ -297,6 +304,7 @@ public class InvenData
     public List<ItemData> invenItemDatas = new List<ItemData>();
     public Dictionary<ItemList, ItemData> EquipItemDatas = new Dictionary<ItemList, ItemData>();
     public Dictionary<ItemList, ItemData> PosionItemDatas = new Dictionary<ItemList, ItemData>();
+    
 
     public ItemData GetItemDataForIndex(int index)
     {
@@ -309,6 +317,7 @@ public class InvenData
         }
         return null;
     }
+
 
     public void ShowDIc()
     {

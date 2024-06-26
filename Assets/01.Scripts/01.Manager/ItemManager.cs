@@ -1,40 +1,78 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
+using static AllEnum;
+
+
 
 public class ItemManager : Singleton<ItemManager>
 {
-    public ObjectPool<Item> itemPool { get; private set; }
-    public Item itemPre; // 프리팹
-    public Transform dropItemParent; // 하이어라키에 프리팹 생성 위치
-    int ItemCount = 10;
+    public ItemFactory factory;
 
+    [SerializeField] private IObjectPool<DroppedItem> objectPool;
+
+    // 이미 풀에 있는 기존 항목을 반환하려고 하면 예외를 던집니다.
+    [SerializeField] private bool collectionCheck = true;
+    // 풀 용량 및 최대 크기를 제어하는 추가 옵션
+    [SerializeField] private int defaultCapacity = 20;
+    [SerializeField] private int maxSize = 100;
+    
+    Vector3 itemPos = new Vector3 (0, 0.5f, 0);
+
+    protected override void Awake()
+    {
+        base.Awake();
+        objectPool = new ObjectPool<DroppedItem>
+            (CreateItem,
+               OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
+               collectionCheck, defaultCapacity, maxSize);
+    }
     public void Init()
     {
-        if (itemPool == null)
-        {
-            itemPool = new ObjectPool<Item>(itemPre, ItemCount, dropItemParent);
-            itemPool.Init();
-        }
+
     }
-    public void AllItemDeActive()
+    // 등록하기 위한 함수 만듬(이부분 손봐야할듯)
+    private DroppedItem CreateItem()
     {
-        for (int i = 0; i < itemPool.objList.Count; i++)
-        {
-            if (itemPool.objList[i] != null)
-            {
-                itemPool.ReturnObjectToPool(itemPool.objList[i]);
-            }
-        }
-
+        DroppedItem item;
+        item = (DroppedItem)factory.GetProduct(ItemList.Head.ToString());
+        item.ObjectPool = objectPool;
+        return item;
     }
-    public void DropItem(int idx, Vector3 tr)
+
+    private void OnGetFromPool(DroppedItem item)
     {
-        if (itemPre != null)
-        {
-            Item itemObject = itemPool.GetObjectFromPool();
-            itemObject.SetItemData(idx);
-            itemObject.transform.position = tr;
-        }
+        item.gameObject.SetActive(true);
     }
 
+    private void OnReleaseToPool(DroppedItem item)
+    {
+        item.gameObject.SetActive(false);
+    }
 
+    private void OnDestroyPooledObject(DroppedItem item)
+    {
+        Destroy(item.gameObject);
+    }
+
+    public DroppedItem DropRandomItem(Monster mon)
+    {
+        if (Random.value < 0.5f)
+        {
+            //돈 주기 
+            mon.AddPlayerMoney();
+            return null;
+        }
+
+        DroppedItem item;
+        int itemEnumNum = Random.Range(0, (int)ItemList.End);
+        ItemList itemtype = (ItemList)itemEnumNum;
+        
+        item = (DroppedItem)factory.GetProduct(itemtype.ToString());
+        item.ObjectPool = objectPool;
+
+        item.transform.position = mon.transform.position + itemPos;
+        return item;
+
+    }
 }

@@ -94,6 +94,7 @@ public class UIManager : Singleton<UIManager>
     public void InitInGame()
     {
         InGameUI.gameObject.SetActive(true);
+        uIPlayer.gameObject.SetActive(true);
         UpdateMonsterGoalCount(
 DataManager.Instance.gameData.killGoal);
         UpdateMonsterCount(GameManager.Instance.killMon);

@@ -15,7 +15,7 @@ public class Boss : UseSKillCharacter
         throw new System.NotImplementedException();
     }
 
-    public override void Init()
+    public void Init()
     {
         throw new System.NotImplementedException();
     }

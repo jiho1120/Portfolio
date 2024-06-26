@@ -1,61 +1,116 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
+using static AllEnum;
 
 public class MonsterManager : Singleton<MonsterManager>
 {
-    public ObjectPool<Monster> monsterPool { get; private set; }
-    public Transform monsterPoolPos;
+    [SerializeField] MonsterFactory factory;
 
-    Coroutine monCor = null;
-    int monsterCount = 10;
-    float monsterTime = 1;
+    // stack-based ObjectPool
+    [SerializeField] private IObjectPool<Monster> objectPool;
+
+    // 이미 풀에 있는 기존 항목을 반환하려고 하면 예외를 던집니다.
+    [SerializeField] private bool collectionCheck = true;
+    // 풀 용량 및 최대 크기를 제어하는 추가 옵션
+    [SerializeField] private int defaultCapacity = 20;
+    [SerializeField] private int maxSize = 100;
+
+    [SerializeField] private Vector3 spawnArea = new Vector3(10, 0, 10);
+
+    private float nextTimeToCreate = 1f;
+    // deactivate after delay
+    public float timeoutDelay { get; private set; }
+
+    Coroutine monSpawnCor = null;
+    protected override void Awake()
+    {
+        base.Awake();
+        objectPool = new ObjectPool<Monster>(CreateMonster,
+               OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
+               collectionCheck, defaultCapacity, maxSize);
+    }
 
     public void Init()
     {
-        if (monsterPool == null)
-        {
-            monsterPool = new ObjectPool<Monster>(ResourceManager.instance.monsterPre, monsterCount, monsterPoolPos, monsterTime);
-            monsterPool.Init();
-        }
-        SpawnObject();
+        monSpawnCor = StartCoroutine(SpawnMonster());
+
+        // 클리어 할때 0초로 만든거 다시 2초로 바꿈
+        timeoutDelay = 2f;
     }
-    public void SpawnObject()
+    private Monster CreateMonster()
     {
-        if (monCor == null)
+        Monster monster;
+        if (Random.value < 0.5)
         {
-            monCor = StartCoroutine(CorSpawnObject());
+            monster = (Monster)factory.GetProduct(MonsterType.NormalMonster.ToString());
         }
-    }
-    public void StopSpawnObject()
-    {
-        if (monCor != null)
+        else
         {
-            StopCoroutine(monCor);
-            monCor = null;
+            monster = (Monster)factory.GetProduct(MonsterType.ExplosionMonster.ToString());
         }
+        monster.ObjectPool = objectPool;
+        return monster;
     }
 
-    public IEnumerator CorSpawnObject()
+    // 몬스터 반환 메서드
+    private void OnReleaseToPool(Monster pooledObject)
     {
-        while (true)
+        pooledObject.gameObject.SetActive(false);
+
+    }
+
+    private void OnGetFromPool(Monster pooledObject)
+    {
+        pooledObject.gameObject.SetActive(true);
+        SetMonsterPos(pooledObject);
+        pooledObject.Activate();
+    }
+
+    // invoked when we exceed the maximum number of pooled items (i.e. destroy the pooled object)
+    private void OnDestroyPooledObject(Monster pooledObject)
+    {
+        Destroy(pooledObject.gameObject);
+    }
+
+    public Monster GetMonster()
+    {
+        Monster monster = objectPool.Get();
+        SetMonsterPos(monster);
+
+        return monster;
+    }
+    
+    IEnumerator SpawnMonster()
+    {
+        while (GameManager.Instance.stageStart) 
         {
-            int x = Random.Range(0, 5);
-            int z = Random.Range(0, 5);
-            //monsterPool.SpawnObject(x, z);
-            monsterPool.SpawnObject(x, z, GameManager.Instance.player.transform.position);
-            yield return new WaitForSeconds(monsterPool.spawnTime);
+            GetMonster();
+            yield return new WaitForSeconds(nextTimeToCreate);
         }
+        StopCoroutine(monSpawnCor);
+        monSpawnCor = null;
     }
-    public void ReturnToPool(Monster mon)
+
+    void SetMonsterPos(Monster monster)
     {
-        monsterPool.ReturnObjectToPool(mon);
+        Vector3 playerPos = GameManager.Instance.player.transform.position;
+        // 랜덤 위치 계산
+        Vector3 randomPosition = new Vector3(
+            Random.Range(-spawnArea.x, spawnArea.x),
+            0,
+            Random.Range(-spawnArea.z, spawnArea.z)
+        );
+
+        monster.transform.position = randomPosition + playerPos;
     }
-    public void SetMonsterDeactive()
+
+    
+    public void SetTimeDelay(float time)
     {
-        foreach (var obj in monsterPool.GetPool())
-        {
-            obj.GetComponent<Monster>().SetIsDeActive(true);
-        }
+        timeoutDelay = time;
     }
+
 
 }

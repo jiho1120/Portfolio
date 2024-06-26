@@ -16,7 +16,6 @@ public class State_Idle : State
 
     public override void OnStateStay()
     {
-        float dis = monster.CheckDir().sqrMagnitude;
 
         if (monster.isDeActive || !GameManager.Instance.stageStart)
         {
@@ -30,6 +29,8 @@ public class State_Idle : State
         }
         else
         {
+            float dis = monster.CheckDir().sqrMagnitude;
+
             if (dis <= monster.attackDistance && monster.isAttack)
             {
                 StateDel(AllEnum.States.Attack);

@@ -19,7 +19,6 @@ public class State_Attack : State
 
     public override void OnStateStay()
     {
-        float dis = monster.CheckDir().sqrMagnitude;
 
         if (monster.isDeActive || !GameManager.Instance.stageStart)
         {
@@ -33,6 +32,8 @@ public class State_Attack : State
         }
         else
         {
+            float dis = monster.CheckDir().sqrMagnitude;
+
             if (monster.isHit)
             {
                 StateDel(AllEnum.States.Hit);

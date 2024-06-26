@@ -17,7 +17,7 @@ public class Player : UseSKillCharacter, Initialize
     #endregion
 
 
-    public override void Init()
+    public void Init()
     {
         if (playerAnimator == null)
         {
@@ -123,6 +123,10 @@ public class Player : UseSKillCharacter, Initialize
         {
             Stat.ultimateGauge = Stat.maxUltimateGauge;
         }
+    }
+    public void AddMoney(int value)
+    {
+        Stat.money += value;
     }
 
     #endregion

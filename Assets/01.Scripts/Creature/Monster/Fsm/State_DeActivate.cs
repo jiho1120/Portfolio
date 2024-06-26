@@ -9,13 +9,8 @@ public class State_DeActivate : State
         monster.Deactivate();
     }
 
-    public override void OnStateExit() // 활성화 될때
+    public override void OnStateExit() 
     {
-        monster.gameObject.SetActive(true);
-        monster.rb.isKinematic = false;
-        monster.Agent.isStopped = false;
-        monster.SetIsAttack(true);
-        monster.SetIsHit(false);
 
     }
 

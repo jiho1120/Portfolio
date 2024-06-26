@@ -16,8 +16,29 @@ public class SkillManager : Singleton<SkillManager>
         }
     }
 
-    public void SetAllSKill()
+    public int ChangeNameToIndex(AllEnum.SkillName name)
     {
-
+        switch (name)
+        {
+            case AllEnum.SkillName.AirSlash:
+                return 1;
+            case AllEnum.SkillName.AirCircle:
+                return 2;
+            case AllEnum.SkillName.Ground:
+                return 3;
+            case AllEnum.SkillName.Gravity:
+                return 4;
+            case AllEnum.SkillName.Fire:
+                return 101;
+            case AllEnum.SkillName.Heal:
+                return 101;
+            case AllEnum.SkillName.Love:
+                return 102;
+            case AllEnum.SkillName.Wind:
+                return 103;
+            case AllEnum.SkillName.End:
+                return 104;
+            default: return -1;
+        }
     }
 }

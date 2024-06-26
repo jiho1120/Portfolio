@@ -19,4 +19,11 @@ public class SOItem : ScriptableObject
     public float critical;
     public float maxMp;
     public float speed;
+
+    public ItemData ChangeSOItemToItemData()
+    {
+        ItemData itemData = new ItemData();
+        itemData.SetItemData(this);
+        return itemData;
+    }
 }
