@@ -1281,6 +1281,7 @@ Transform:
   - {fileID: 4606478049532341462}
   - {fileID: 3117958879760766312}
   - {fileID: 883127269056912963}
+  - {fileID: 48485345660546373}
   m_Father: {fileID: 5887806727907432069}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2657936040347680839
@@ -2024,6 +2025,7 @@ MonoBehaviour:
   attackPos: {fileID: 883127269056912963}
   characterBody: {fileID: 2542681554455931876}
   cameraArm: {fileID: 6125777943616589330}
+  skillPos: {fileID: 48485345660546373}
 --- !u!114 &2599191110375899251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3790,6 +3792,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.37839538, y: -0.13670833, z: 0.000000059604645}
     m_Extent: {x: 0.080374345, y: 0.09889519, z: 1.0070145}
   m_DirtyAABB: 0
+--- !u!1 &5640326012950156314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 48485345660546373}
+  m_Layer: 3
+  m_Name: SkillPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &48485345660546373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5640326012950156314}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2542681554455931876}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5694454628550125128
 GameObject:
   m_ObjectHideFlags: 0

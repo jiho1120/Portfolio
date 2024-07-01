@@ -32,6 +32,7 @@ public class SceneLoadController : Singleton<SceneLoadController>
         GameManager.Instance.player.Init();
 
         UIManager.Instance.SetPlayerUI();
+
     }
 
 }

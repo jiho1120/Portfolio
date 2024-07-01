@@ -1,17 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
+using static AllEnum;
 public class UseSKillCharacter : Creature
 {
+    protected Coroutine passiveCor = null;
+    protected SkillName nowPassiveSKillName;
     public override void Activate()
     {
-        throw new System.NotImplementedException();
+        base.Activate();
+        if (passiveCor == null)
+        {
+            passiveCor = StartCoroutine(SkillManager.Instance.StartPassiveCor(this));
+        }
     }
 
     public override void Deactivate()
     {
-        throw new System.NotImplementedException();
+        base.Deactivate();
+        SkillManager.Instance.AllSKillDeactive(this);
     }
 
     public override void Die()
@@ -19,11 +24,17 @@ public class UseSKillCharacter : Creature
         throw new System.NotImplementedException();
     }
 
-    public override void TakeDamage(float att)
+    public override void GetAttToData()
     {
         throw new System.NotImplementedException();
     }
 
+    public override void implementTakeDamage()
+    {
+        throw new System.NotImplementedException();
+    }
 
     
+
+
 }

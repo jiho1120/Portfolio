@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5932276847489268417}
   - component: {fileID: 477596249}
   - component: {fileID: 477596250}
-  - component: {fileID: -6052968340766685741}
+  - component: {fileID: -4844883172649306286}
   m_Layer: 7
   m_Name: AirSlash
   m_TagString: Untagged
@@ -81,7 +81,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 1, z: 1}
---- !u!114 &-6052968340766685741
+--- !u!114 &-4844883172649306286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,12 +90,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 5933639800420268615}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45335ad5a3052724ab5d4fe7495a7487, type: 3}
+  m_Script: {fileID: 11500000, guid: e594f175f223c4b40a8411e30660f1a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skilldata:
+    index: 0
+    lv: 0
+    effect: 0
+    duration: 0
+    cool: 0
+    mana: 0
   skillType: 0
   skillName: 0
-  caster: 0
   setParent: 1
   inUse: 0
 --- !u!1 &5933909291384971575

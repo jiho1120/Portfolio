@@ -10,8 +10,6 @@ public class ResourceManager : Singleton<ResourceManager>
     public Sprite nullEquipSprite;
     public Sprite[] ItemSprite;
 
-    // 이게 기본 스킬 데이터 처음 설정할때 말고는 안씀
-    public Skill[] SkillObject;
 
     public XMLAccess XMLAccess { get; private set; }
 
@@ -45,7 +43,7 @@ public class ResourceManager : Singleton<ResourceManager>
         LoadPrefabs("Prefabs/Monster", DictName.MonsterDict);
         LoadPrefabs("Prefabs/Item", DictName.ItemDict);
         LoadPrefabs("Prefabs/Skill", DictName.SkillDict);
-        PrintDict();
+        //PrintDict();
     }
 
     /// <summary>

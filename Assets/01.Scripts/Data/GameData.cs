@@ -144,12 +144,18 @@ public class PlayerData
     {
         name = UIManager.Instance.newPlayerName.text; // 입력한 이름을 복사해옴
         playerStat.SetStat(DataManager.Instance.SOPlayerStat);
-        // 여기서 만들고 스킬매니저에서는저장된 데이터 받아쓰기
-        SkillData Data;
+
+        SkillData data ;
+        int idx;
+        SkillName skillName;
+
         for (int i = 0; i < (int)SkillName.End; i++)
         {
-            Data = new SkillData(DataManager.Instance.GetSkillData(SkillManager.Instance.ChangeNameToIndex((SkillName)i)));
-            skillDict.Add((SkillName)i, Data);
+            skillName = (SkillName)i;
+            idx = SkillManager.Instance.ChangeNameToIndex(skillName);
+            data = new SkillData(DataManager.Instance.GetSkillData(idx));
+
+            skillDict.Add(skillName, data);
         }
     }
 }
@@ -253,7 +259,6 @@ public class ItemData
         count = SO.count;
         itemType = SO.itemType;
         itemList = SO.itemList;
-        //icon = SO.icon;
         hp = SO.hp;
         mp = SO.mp;
         ultimateGauge = SO.ultimateGauge;
@@ -275,6 +280,7 @@ public class ItemData
     }
 }
 
+
 [System.Serializable]
 public class SkillData
 {
@@ -288,6 +294,15 @@ public class SkillData
     public SkillData() { }
 
     public SkillData(NewSOSkill SO)
+    {
+        index = SO.index;
+        lv = SO.lv;
+        effect = SO.effect;
+        duration = SO.duration;
+        cool = SO.cool;
+        mana = SO.mana;
+    }
+    public void SetData(NewSOSkill SO)
     {
         index = SO.index;
         lv = SO.lv;

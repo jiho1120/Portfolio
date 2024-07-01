@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using UnityEngine;
+using static AllEnum;
 
 public class DataManager : Singleton<DataManager>
 {
@@ -12,6 +13,7 @@ public class DataManager : Singleton<DataManager>
     public SOStat SOMonsterStat;
     public SOStat SOBossStat;
     public SOItem[] soItem;
+
     public NewSOSkill[] skillArr;
 
 
@@ -132,6 +134,7 @@ public class DataManager : Singleton<DataManager>
     #region get 함수들
     public NewSOSkill GetSkillData(int idx)
     {
+
         for (int i = 0; i < skillArr.Length; i++)
         {
             if (skillArr[i].index == idx)
@@ -139,8 +142,11 @@ public class DataManager : Singleton<DataManager>
                 return skillArr[i];
             }
         }
+
         return null;
+
     }
+    
     #endregion
 }
 

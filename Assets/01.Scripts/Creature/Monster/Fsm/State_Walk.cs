@@ -14,7 +14,6 @@ public class State_Walk : State
 
     public override void OnStateStay()
     {
-        float dis = monster.CheckDir().sqrMagnitude;
         if (monster.isDeActive || !GameManager.Instance.stageStart)
         {
             StateDel(AllEnum.States.DeActivate);
@@ -27,12 +26,18 @@ public class State_Walk : State
         }
         else
         {
+            if (monster.IsKnockback)
+            {
+                StateDel(AllEnum.States.Knockback);
+                return;
+            }
             if (monster.isHit)
             {
                 StateDel(AllEnum.States.Hit);
                 return;
             }
-            else if (dis <= monster.attackDistance)
+            float dis = monster.CheckDir().sqrMagnitude;
+            if (dis <= monster.attackDistance)
             {
                 StateDel(AllEnum.States.Idle);
                 return;

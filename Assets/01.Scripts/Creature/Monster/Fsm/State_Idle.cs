@@ -29,19 +29,24 @@ public class State_Idle : State
         }
         else
         {
-            float dis = monster.CheckDir().sqrMagnitude;
+            if (monster.IsKnockback)
+            {
+                StateDel(AllEnum.States.Knockback);
+                return;
+            }
 
+            float dis = monster.CheckDir().sqrMagnitude;
             if (dis <= monster.attackDistance && monster.isAttack)
             {
                 StateDel(AllEnum.States.Attack);
                 return;
             }
-            else if (monster.isHit)
+            if (monster.isHit)
             {
                 StateDel(AllEnum.States.Hit);
                 return;
             }
-            else if (dis > monster.attackDistance)
+            if (dis > monster.attackDistance)
             {
                 StateDel(AllEnum.States.Walk);
                 return;

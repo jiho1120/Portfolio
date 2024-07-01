@@ -14648,7 +14648,7 @@ Transform:
   m_GameObject: {fileID: 1281886523613316747}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1300001, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19481,6 +19481,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5396a2e09fd5664ca64c0a774897b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skilldata:
+    index: 0
+    lv: 0
+    effect: 0
+    duration: 0
+    cool: 0
+    mana: 0
   skillType: 1
   skillName: 5
   setParent: 1

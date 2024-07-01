@@ -9968,8 +9968,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3119343875111025335}
-  - component: {fileID: 7466803607988723139}
   - component: {fileID: 2854930103256903921}
+  - component: {fileID: -68472240067181163}
   m_Layer: 7
   m_Name: Ground
   m_TagString: Untagged
@@ -9993,22 +9993,6 @@ Transform:
   - {fileID: 3122365102191090061}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7466803607988723139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3124628965096199759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45335ad5a3052724ab5d4fe7495a7487, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillType: 0
-  skillName: 2
-  setParent: 0
-  inUse: 0
 --- !u!65 &2854930103256903921
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10030,6 +10014,29 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 12}
   m_Center: {x: 0, y: 0, z: 7}
+--- !u!114 &-68472240067181163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3124628965096199759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa6b7acd483652044b7999d89477acc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skilldata:
+    index: 0
+    lv: 0
+    effect: 0
+    duration: 0
+    cool: 0
+    mana: 0
+  skillType: 0
+  skillName: 2
+  setParent: 0
+  inUse: 0
 --- !u!1 &3124639047739432849
 GameObject:
   m_ObjectHideFlags: 0

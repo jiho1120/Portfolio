@@ -57,13 +57,13 @@ public class MonsterManager : Singleton<MonsterManager>
     // 몬스터 반환 메서드
     private void OnReleaseToPool(Monster pooledObject)
     {
-        pooledObject.gameObject.SetActive(false);
+        pooledObject.Deactivate();
+
 
     }
 
     private void OnGetFromPool(Monster pooledObject)
     {
-        pooledObject.gameObject.SetActive(true);
         SetMonsterPos(pooledObject);
         pooledObject.Activate();
     }

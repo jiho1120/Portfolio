@@ -25,12 +25,9 @@ public class DroppedItem : MonoBehaviour, IProduct
         if (other.CompareTag("Player"))
         {
             InvenManager.Instance.AdditemToInven(itemData.ChangeSOItemToItemData());
-            Debug.Log("확인");
             DataManager.Instance.SaveInvenInfo();
-            Debug.Log("회수전");
 
             objectPool.Release(this);
-            Debug.Log("회수후");
 
         }
     }

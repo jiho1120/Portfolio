@@ -8,7 +8,6 @@ public class Monster : Creature, IProduct
     #region 기본
     public AllEnum.MonsterType monType;
     MonsterAnimation anim;//얘는 진짜 단순히 애니메이션 출력...    
-    public Rigidbody rb { get; private set; }
     #endregion
 
     #region 팩토리
@@ -60,12 +59,20 @@ public class Monster : Creature, IProduct
     {
         isDeActive = on;
     }
+
+    public override void GetAttToData()
+    {
+        Stat.attack = DataManager.Instance.gameData.monsterData.monsterStat.attack;
+    }
+
     #endregion
 
-    
+
     public virtual void Init()
     {
         gameObject.name = productName;
+        id = GameManager.Instance.CreatureId;
+        GameManager.Instance.CreatureId++;
         anim = GetComponent<MonsterAnimation>();
         anim?.SetInit();
         agent=GetComponent<NavMeshAgent>();
@@ -78,6 +85,7 @@ public class Monster : Creature, IProduct
     }
     public override void Activate()
     {
+        base.Activate();
         Stat.SetStat(DataManager.Instance.gameData.monsterData.monsterStat);
         isDeActive = false;
         deActiveCor = null;
@@ -89,6 +97,7 @@ public class Monster : Creature, IProduct
         isDead = false;
         isDeActive = false;
         monStateMachine.SetState(AllEnum.States.Idle);
+
     }
 
     #region Die , DeActive
@@ -109,16 +118,14 @@ public class Monster : Creature, IProduct
     }
     public override void Deactivate()
     {
-        if (deActiveCor == null)
-        {
-            deActiveCor = StartCoroutine(DeactivateRoutine(MonsterManager.Instance.timeoutDelay));
-        }
+        base.Deactivate();
+        isDeActive = true;
+        deActiveCor = null;
+        rb.isKinematic = true;
     }
     IEnumerator DeactivateRoutine(float delay)
     {
         yield return new WaitForSeconds(delay);
-        isDeActive = true;
-        deActiveCor = null;
         objectPool.Release(this);
     }
 
@@ -155,22 +162,9 @@ public class Monster : Creature, IProduct
         }
     }
 
-
-    public override void TakeDamage(float att)
+    public override void implementTakeDamage()
     {
-        if (isDead)
-        {
-            return;
-        }
         isHit = true;
-        float damage = CriticalDamage(att) - (Stat.defense * 0.5f); // 몬스터 스탯 추가
-        Stat.hp -= damage;
-
-        if (Stat.hp <= 0)
-        {
-            Stat.hp = 0;
-            isDead = true;
-        }
     }
     public void Hit()
     {
@@ -210,6 +204,7 @@ public class Monster : Creature, IProduct
         agent.SetDestination(vec);
         SetMoveAnim();
     }
+    
     #endregion
 
 

@@ -7,7 +7,6 @@ public class MonStateMachine : MonoBehaviour
     Dictionary<AllEnum.States, State> StateDic = new Dictionary<AllEnum.States, State>();
     AllEnum.States ExState = AllEnum.States.End; //이전상태 체크위함
 
-    // Update is called once per frame
     void Update()
     {
         if (ExState == owner.NowState && owner.NowState != AllEnum.States.End)
@@ -22,6 +21,7 @@ public class MonStateMachine : MonoBehaviour
         StateDic.Add(AllEnum.States.Walk, new State_Walk(owner, SetState));
         StateDic.Add(AllEnum.States.Attack, new State_Attack(owner, SetState));
         StateDic.Add(AllEnum.States.Hit, new State_Hit(owner, SetState));
+        StateDic.Add(AllEnum.States.Knockback, new State_Knockback(owner, SetState));
         StateDic.Add(AllEnum.States.Die, new State_Die(owner, SetState));
         StateDic.Add(AllEnum.States.DeActivate, new State_DeActivate(owner, SetState));
     }

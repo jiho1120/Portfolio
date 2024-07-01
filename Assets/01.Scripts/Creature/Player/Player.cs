@@ -1,9 +1,11 @@
 using UnityEngine;
+using static AllEnum;
 
-public class Player : UseSKillCharacter, Initialize
+public class Player : UseSKillCharacter
 {
     public Transform characterBody;
     public Transform cameraArm;
+    public Transform skillPos;
     PlayerAnimator playerAnimator;
 
 
@@ -16,26 +18,6 @@ public class Player : UseSKillCharacter, Initialize
     bool isLeft = false;
     #endregion
 
-
-    public void Init()
-    {
-        if (playerAnimator == null)
-        {
-            playerAnimator = GetComponent<PlayerAnimator>();
-        }
-        playerAnimator.Init();
-        Stat = new StatData(DataManager.Instance.gameData.playerData.playerStat);
-        playerAnimator.SetAttackSpeed(attackSpeed);
-        AttackRange = 1f;
-        EnemyLayerMask = 1 << LayerMask.NameToLayer("Enemy");
-
-    }
-    public override void Activate()
-    { }
-    public override void Deactivate()
-    {
-        throw new System.NotImplementedException();
-    }
     private void Update()
     {
         if (Input.GetKey(KeyCode.LeftShift))
@@ -50,96 +32,107 @@ public class Player : UseSKillCharacter, Initialize
         {
             BasicAttack();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            // 스킬 매니저에 스킬 사용 요청
+            SkillManager.Instance.UseSkill(this, SkillName.AirSlash); // 1번 스킬 사용
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            // 스킬 매니저에 스킬 사용 요청
+            SkillManager.Instance.UseSkill(this, SkillName.AirCircle); // 2번 스킬 사용
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            // 스킬 매니저에 스킬 사용 요청
+            SkillManager.Instance.UseSkill(this, SkillName.Ground); // 3번 스킬 사용
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            // 스킬 매니저에 스킬 사용 요청
+            SkillManager.Instance.UseSkill(this, SkillName.Gravity); // 4번 스킬 사용
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            UIManager.Instance.uIPlayer.uIPosionSlots[0].UsePosion();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            UIManager.Instance.uIPlayer.uIPosionSlots[1].UsePosion();
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            UIManager.Instance.uIPlayer.uIPosionSlots[2].UsePosion();
+        }
+
+
+        
     }
 
     void FixedUpdate()
     {
         Move();
     }
+    public void Init()
+    {
+        if (playerAnimator == null)
+        {
+            playerAnimator = GetComponent<PlayerAnimator>();
+        }
+        playerAnimator.Init();
+        Stat = new StatData(DataManager.Instance.gameData.playerData.playerStat);
+        playerAnimator.SetAttackSpeed(attackSpeed);
+        AttackRange = 1f;
+        EnemyLayerMask = 1 << LayerMask.NameToLayer("Enemy");
+        SkillManager.Instance.SetSkillData(ObjectType.Player);
+
+    }
+    public override void Activate()
+    {
+        base.Activate();
+    }
+
+    public override void Deactivate()
+    {
+        base.Deactivate();
+    }
 
     #region 능력치
-
-    public void SetLuck(float value)
+    public override void SetHp(float hp)
     {
-        Stat.luck = value;
-    }
-
-    public void SetMaxHp(float value)
-    {
-        Stat.maxHp = value;
-    }
-
-    public void SetHp(float value)
-    {
-        Stat.hp = value;
-        if (Stat.hp > Stat.maxHp)
-        {
-            Stat.hp = Stat.maxHp;
-        }
-        Debug.Log(Stat.hp);
+        base.SetHp(hp);
         UIManager.Instance.SetPlayerHPUI();
-    }
-
-    public void SetMaxMp(float value)
-    {
-        Stat.maxMp = value;
-    }
-
-    public void SetMp(float value)
-    {
-        Stat.mp = value;
-        if (Stat.mp > Stat.maxMp)
+        if (hp <= 0)
         {
-            Stat.mp = Stat.maxMp;
+            Die();
         }
+    }
+    public override void SetMp(float value)
+    {
+        base.SetMp(value);
         UIManager.Instance.SetPlayerMPUI();
 
     }
-
-    public void SetDef(float value)
-    {
-        Stat.defense = value;
-    }
-
-    public void SetSpeed(float value)
-    {
-        Stat.speed = value;
-    }
-
-    public void SetCri(float value)
-    {
-        Stat.critical = value;
-    }
-
-    public void SetAtt(float value)
-    {
-        Stat.attack = value;
-    }
-
     public void SetUltimate(float value)
     {
-        Stat.ultimateGauge += value;
-        if (Stat.ultimateGauge > Stat.maxUltimateGauge)
-        {
-            Stat.ultimateGauge = Stat.maxUltimateGauge;
-        }
+        Stat.ultimateGauge = Mathf.Clamp(Stat.ultimateGauge + value, 0, Stat.maxUltimateGauge);
     }
-    public void AddMoney(int value)
+    public override void GetAttToData()
     {
-        Stat.money += value;
+        Stat.attack = DataManager.Instance.gameData.playerData.playerStat.attack;
     }
 
     #endregion
     public void ApplyEquipmentStat() //플레이어 능력은 기본 + 장비  -> HP랑 MP가 변하면 안되서 없음 // 장착할때 부르면 됨
                                      // 해제를 해도 어차피 0일테니 사용가능
     {
-        DataManager.Instance.gameData.playerData.playerStat.luck += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Head].luck;
-        DataManager.Instance.gameData.playerData.playerStat.maxHp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Top].maxHp;
-        DataManager.Instance.gameData.playerData.playerStat.maxMp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Belt].maxMp;
-        DataManager.Instance.gameData.playerData.playerStat.defense += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Bottom].defense;
-        DataManager.Instance.gameData.playerData.playerStat.speed += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Shoes].speed;
-        DataManager.Instance.gameData.playerData.playerStat.critical += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Gloves].critical;
-        DataManager.Instance.gameData.playerData.playerStat.attack += DataManager.Instance.gameData.invenDatas.EquipItemDatas[AllEnum.ItemList.Weapon].attack;
+        DataManager.Instance.gameData.playerData.playerStat.luck += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Head].luck;
+        DataManager.Instance.gameData.playerData.playerStat.maxHp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Top].maxHp;
+        DataManager.Instance.gameData.playerData.playerStat.maxMp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Belt].maxMp;
+        DataManager.Instance.gameData.playerData.playerStat.defense += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Bottom].defense;
+        DataManager.Instance.gameData.playerData.playerStat.speed += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Shoes].speed;
+        DataManager.Instance.gameData.playerData.playerStat.critical += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Gloves].critical;
+        DataManager.Instance.gameData.playerData.playerStat.attack += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Weapon].attack;
     }
     private void Move()
     {
@@ -197,25 +190,11 @@ public class Player : UseSKillCharacter, Initialize
 
         }
     }
-    public override void TakeDamage(float att) // 플레이어피가 다는거
+    
+    public override void implementTakeDamage()
     {
-        if (!isDead)
-        {
-            playerAnimator.SetHit();
-            float damage = Mathf.Max(CriticalDamage(att) - (Stat.defense * 0.5f), 1f); // 최소 데미지 1
-            Stat.hp -= damage;
-            UIManager.Instance.SetPlayerHPUI();
-            if (Stat.hp < 0)
-            {
-                Stat.hp = 0;
-            }
-        }
-        else
-        {
-            Debug.Log("player 이미 죽었어");
-        }
+        playerAnimator.SetHit();
     }
-
     #endregion
 
 

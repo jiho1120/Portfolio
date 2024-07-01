@@ -2,12 +2,12 @@ public class Boss : UseSKillCharacter
 {
     public override void Activate()
     {
-        throw new System.NotImplementedException();
+        base.Activate();
     }
 
     public override void Deactivate()
     {
-        throw new System.NotImplementedException();
+        base.Deactivate();
     }
 
     public override void Die()
@@ -20,8 +20,12 @@ public class Boss : UseSKillCharacter
         throw new System.NotImplementedException();
     }
 
-    public override void TakeDamage(float att)
+    public override void implementTakeDamage()
     {
         throw new System.NotImplementedException();
+    }
+    public override void GetAttToData()
+    {
+        Stat.attack = DataManager.Instance.gameData.bossData.bossStat.attack;
     }
 }

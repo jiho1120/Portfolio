@@ -4842,6 +4842,7 @@ GameObject:
   - component: {fileID: 1789550602582774127}
   - component: {fileID: 2849766020281903975}
   - component: {fileID: 7382080378646926779}
+  - component: {fileID: 3182119461959951227}
   m_Layer: 7
   m_Name: Love
   m_TagString: Untagged
@@ -4857,8 +4858,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6935722533447007149}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1700001, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9675,7 +9676,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7374873507b9ab249b0091fb9820a807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skilldata:
+    index: 0
+    lv: 0
+    effect: 0
+    duration: 0
+    cool: 0
+    mana: 0
   skillType: 3
   skillName: 6
   setParent: 1
   inUse: 0
+--- !u!136 &3182119461959951227
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6935722533447007149}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.6010488
+  m_Height: 3.589047
+  m_Direction: 1
+  m_Center: {x: -0.12034845, y: -0.21713662, z: -0.09948528}

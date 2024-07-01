@@ -4928,8 +4928,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2448753753948232973}
-  - component: {fileID: -5439730807740200326}
   - component: {fileID: -5896882337979662348}
+  - component: {fileID: -9154970672423591218}
   m_Layer: 7
   m_Name: AirCircle
   m_TagString: Untagged
@@ -4953,22 +4953,6 @@ Transform:
   - {fileID: 2442392115852024717}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5439730807740200326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2445945209082545909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45335ad5a3052724ab5d4fe7495a7487, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillType: 0
-  skillName: 1
-  setParent: 1
-  inUse: 0
 --- !u!136 &-5896882337979662348
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4984,14 +4968,38 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 8
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-9154970672423591218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2445945209082545909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18a378753e691143b1ab0b7f2024aae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skilldata:
+    index: 0
+    lv: 0
+    effect: 0
+    duration: 0
+    cool: 0
+    mana: 0
+  skillType: 0
+  skillName: 1
+  setParent: 1
+  inUse: 0
+  force: 10
 --- !u!1 &2446102464417035575
 GameObject:
   m_ObjectHideFlags: 0

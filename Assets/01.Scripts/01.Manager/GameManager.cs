@@ -7,6 +7,7 @@ public class GameManager : Singleton<GameManager>
 {
     public GameObject playerPrefab;
     public Player player { get; private set; }
+    public int CreatureId = 0;
 
 
     #region Wating
@@ -40,8 +41,7 @@ public class GameManager : Singleton<GameManager>
         {
             UIManager.Instance.uIPlayer.uIPosionSlots[i].SetUseSlotChar($"{i + 1}");
         }
-        //SkillManager.Instance.Init();
-
+        SkillManager.Instance.Init();
     }
     private void Update()
     {
@@ -66,18 +66,7 @@ public class GameManager : Singleton<GameManager>
         {
             UIManager.Instance.UserInfo.onoff();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            UIManager.Instance.uIPlayer.uIPosionSlots[0].UsePosion();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            UIManager.Instance.uIPlayer.uIPosionSlots[1].UsePosion();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            UIManager.Instance.uIPlayer.uIPosionSlots[2].UsePosion();
-        }
+        
     }
 
     #region Start»≠∏È
@@ -155,7 +144,8 @@ public class GameManager : Singleton<GameManager>
     public void InGame()
     {
         DeactivateWating();
-        player.gameObject.SetActive(true);
+        player.Activate();
+
         UIManager.Instance.InitInGame();
         if (DataManager.Instance.gameData.gameStage != 5)
         {
@@ -200,6 +190,7 @@ public class GameManager : Singleton<GameManager>
     IEnumerator StageClear()
     {
         stageStart = false;
+        SkillManager.Instance.AllSKillDeactive(player);
         gameTimeCor = null;
         killMon = 0;
         DataManager.Instance.gameData.killGoal += 10;

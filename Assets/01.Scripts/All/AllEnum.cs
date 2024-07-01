@@ -32,6 +32,7 @@ public class AllEnum
         Walk,
         Attack,
         Hit,
+        Knockback,
         Die,
         DeActivate,
 
