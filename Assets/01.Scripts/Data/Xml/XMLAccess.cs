@@ -26,6 +26,7 @@ public class XMLAccess : MonoBehaviour
                 Debug.LogError("PowerUpSkills.xml not found in Resources folder.");
             }
         }
+        //ShowListInfo();
     }
 
     private void ParseXml(int i, string xmlData)

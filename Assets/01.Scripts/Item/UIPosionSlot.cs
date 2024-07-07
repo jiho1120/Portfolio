@@ -36,10 +36,7 @@ public class UIPosionSlot : MonoBehaviour
         txtAmount.gameObject.SetActive(item.count > 0);
     }
 
-    public void SetUseSlotChar(string key)
-    {
-        useSlotKey = key;
-    }
+    
     public void UsePosion()
     {
         ItemData item = DataManager.Instance.gameData.invenDatas.PosionItemDatas[ItemList];

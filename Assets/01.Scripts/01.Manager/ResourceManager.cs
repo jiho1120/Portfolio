@@ -6,23 +6,34 @@ using static AllEnum;
 public class ResourceManager : Singleton<ResourceManager>
 {
     private Dictionary<DictName, Dictionary<string, GameObject>> prefabDictionary;
+    public Dictionary<DictName, Dictionary<string, Sprite>> spriteDictionary;
 
     public Sprite nullEquipSprite;
-    public Sprite[] ItemSprite;
-    public Sprite[] SkillSprite;
+    public Sprite playerPowerUpIcon; // 강화창에서 플레이어 강화 아이콘 -> 이거 하나만 쓸꺼임
+
 
 
 
     public XMLAccess XMLAccess { get; private set; }
-
-    
+   
     public void Init()
     {
         prefabDictionary = new Dictionary<DictName, Dictionary<string, GameObject>>();
-        LoadAllPrefabs();
-        
-        //XMLAccess = GetComponent<XMLAccess>();
-        //XMLAccess.Init();
+        spriteDictionary = new Dictionary<DictName, Dictionary<string, Sprite>>();
+        LoadAllResources();
+
+        XMLAccess = GetComponent<XMLAccess>();
+        XMLAccess.Init();
+    }
+    // 모든 리소스를 로드하는 메서드
+    private void LoadAllResources()
+    {
+        LoadPrefabs("Prefabs/Monster", DictName.MonsterDict);
+        LoadPrefabs("Prefabs/Item", DictName.ItemDict);
+        LoadPrefabs("Prefabs/Skill", DictName.SkillDict);
+        LoadSprites("Sprites/Item", DictName.ItemSpriteDict);
+        LoadSprites("Sprites/Skill", DictName.SkillSpriteDict);
+        //PrintDict();
     }
 
     // 특정 경로의 프리팹을 로드하고 딕셔너리에 저장하는 메서드
@@ -39,13 +50,19 @@ public class ResourceManager : Singleton<ResourceManager>
             prefabDictionary[category][prefab.name] = prefab;
         }
     }
-    // 모든 프리팹을 로드하는 메서드
-    private void LoadAllPrefabs()
+    // 특정 경로의 프리팹을 로드하고 딕셔너리에 저장하는 메서드
+    private void LoadSprites(string path, DictName category)
     {
-        LoadPrefabs("Prefabs/Monster", DictName.MonsterDict);
-        LoadPrefabs("Prefabs/Item", DictName.ItemDict);
-        LoadPrefabs("Prefabs/Skill", DictName.SkillDict);
-        //PrintDict();
+        Sprite[] sprites = Resources.LoadAll<Sprite>(path);
+        if (!spriteDictionary.ContainsKey(category))
+        {
+            spriteDictionary[category] = new Dictionary<string, Sprite>();
+        }
+
+        foreach (var sprite in sprites)
+        {
+            spriteDictionary[category][sprite.name] = sprite;
+        }
     }
 
     /// <summary>
@@ -63,6 +80,16 @@ public class ResourceManager : Singleton<ResourceManager>
         Debug.LogWarning($"프리팹 {prefabName}을(를) {category} 카테고리에서 찾을 수 없습니다.");
         return null;
     }
+    public Sprite GetSprite(DictName category, string prefabName)
+    {
+        if (spriteDictionary.ContainsKey(category) && spriteDictionary[category].ContainsKey(prefabName))
+        {
+            return spriteDictionary[category][prefabName];
+        }
+        Debug.LogWarning($"스프라이트 {prefabName}을(를) {category} 카테고리에서 찾을 수 없습니다.");
+        return null;
+    }
+
 
     void PrintDict()
     {

@@ -2,8 +2,8 @@ using System.Collections;
 using UnityEngine;
 /* 
  * 밀리고 나서 맞는 애니메이션 실행
- * 락 거는거 필요한곳  보일때마다 하기
- * 레벨업구현(동기 await)
+ * 락 거는거 필요한곳  보일때마다 하기 = 유저정보
+ * 
  *  게임 클리어시 스타트하는 부분 동기화로 바꾸기
  *   System.Threading.Thread.Sleep(3000); 
 
@@ -49,10 +49,9 @@ public class GameManager : Singleton<GameManager>
         ResourceManager.Instance.Init();
         ItemManager.Instance.Init();
         GridScrollViewMain.Instance.Init();
-        for (int i = 0; i < UIManager.Instance.uIPlayer.uiPosionSlots.Length; i++)
-        {
-            UIManager.Instance.uIPlayer.uiPosionSlots[i].SetUseSlotChar($"{i + 1}");
-        }
+        UIManager.Instance.Init();
+
+        
         SkillManager.Instance.Init();
     }
     private void Update()
@@ -101,6 +100,7 @@ public class GameManager : Singleton<GameManager>
         if (isCount)
         {
             cursorCount++;
+            Time.timeScale = 0f;
         }
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

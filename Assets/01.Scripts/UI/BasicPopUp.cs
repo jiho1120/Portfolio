@@ -19,10 +19,12 @@ public class BasicPopUp : MonoBehaviour
         if (active)
         {
             Open();
+            GameManager.Instance.VisibleCursor();
         }
         else
         {
             Close();
+            GameManager.Instance.LockedCursor();
         }
     }
 }

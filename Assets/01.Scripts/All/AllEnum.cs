@@ -8,6 +8,8 @@ public class AllEnum
         MonsterDict,
         ItemDict,
         SkillDict,
+        ItemSpriteDict,
+        SkillSpriteDict,
 
         End
     }
@@ -118,4 +120,30 @@ public class AllEnum
 
         End
     }
+
+    public enum PanelType
+    {
+        PlayerPower,
+        ItemPower,
+        SkillPower,
+
+        End
+    }
+
+    public enum StatList
+    {
+        maxHealth,
+        attack,
+        defense,
+        criticalChance,
+        movementSpeed,
+        experience,
+        maxMana,
+        luck,
+        maxUltimateGauge,
+
+        End,
+    }
+
+    
 }

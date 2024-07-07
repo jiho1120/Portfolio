@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,8 +38,14 @@ public class UIManager : Singleton<UIManager>
     [Header("PlayerUI")]
     public UIPlayer uIPlayer;
 
+    [Header("PowerUpUI")]
+    public PowerUpUI powerUpUI;
 
+    public void Init()
+    {
+        powerUpUI.Init();
 
+    }
     #region BasicUI
     public void OnStartUI()
     {
@@ -65,7 +72,7 @@ public class UIManager : Singleton<UIManager>
         if (onMenu)
         {
             GameManager.Instance.VisibleCursor();
-            Time.timeScale = 0f;
+            //Time.timeScale = 0f;
         }
         else
         {
@@ -134,7 +141,7 @@ DataManager.Instance.gameData.killGoal);
             equipmentView.Init();
             uIGridScrollViewDic.scrollView.Refresh();
             GameManager.Instance.VisibleCursor();
-            Time.timeScale = 0f;
+            //Time.timeScale = 0f;
         }
         else
         {
@@ -166,14 +173,79 @@ DataManager.Instance.gameData.killGoal);
     {
         uIPlayer.SetUltimateUI();
     }
-    
-    #endregion
-
-    #region
 
     #endregion
 
+    #region 판넬
+    public void PowerUpPanelOn()
+    {
+        powerUpUI.Active();
+    }
+    //public void SetPanelData()
+    //{
+    //    for (int i = 0; i < powerUpUI.panelUIs.Length; i++)
+    //    {
+    //        string accountText = "";
+    //        List<int> pList = new List<int>();
+    //        ItemGrade itemGrade = ResourceManager.Instance.XMLAccess.Randomgrade(); // 등급 뽑아서
+    //        if (i == 0)
+    //        {
+    //            for (int j = 0; j < ResourceManager.Instance.XMLAccess.powerUpPlayerList.Count; j++)
+    //            {
+    //                if (ResourceManager.Instance.XMLAccess.powerUpPlayerList[j].grade == itemGrade.grade) // 같은 등급인것만 넣고
+    //                {
+    //                    pList.Add(j);
+    //                }
+    //            }
+    //            int num = Random.Range(0, pList.Count); //걍 등급 같은 능력치중 아무거나
+    //            num = pList[num];
+    //            PowerUpPlayer p = ResourceManager.Instance.XMLAccess.powerUpPlayerList[num]; //리스트중에 하나 뽑음
+    //            powerUpUI.SetPanelData(i, "player", p.statName, p.powerUpSize, itemGrade.money);
+    //            accountText = $"{p.statName}을{p.powerUpSize}만큼 강화한다";
+
+    //        }
+    //        else if (i == 1)
+    //        {
+    //            for (int j = 0; j < ResourceManager.Instance.XMLAccess.powerUpItemList.Count; j++)
+    //            {
+    //                if (ResourceManager.Instance.XMLAccess.powerUpItemList[j].grade == itemGrade.grade) // 같은 등급인것만 넣고
+    //                {
+    //                    pList.Add(j);
+    //                }
+    //            }
+    //            int num = Random.Range(0, pList.Count); //걍 등급 같은 능력치중 아무거나
+    //            num = pList[num];
+    //            PowerUpItem p = ResourceManager.Instance.XMLAccess.powerUpItemList[num]; //리스트중에 하나 뽑음
+    //            accountText = $"{p.itemName}을{p.powerUpSize}만큼 강화한다";
+    //            powerUpUI.SetPanelData(i, "item", p.itemName, p.powerUpSize, itemGrade.money);
+
+    //        }
+    //        else if (i == 2)
+    //        {
+    //            for (int j = 0; j < ResourceManager.Instance.XMLAccess.powerUpSkillList.Count; j++)
+    //            {
+    //                if (ResourceManager.Instance.XMLAccess.powerUpSkillList[j].grade == itemGrade.grade) // 같은 등급인것만 넣고
+    //                {
+    //                    pList.Add(j);
+    //                }
+    //            }
+    //            int num = Random.Range(0, pList.Count); //걍 등급 같은 능력치중 아무거나
+    //            num = pList[num];
+    //            PowerUpSkill p = ResourceManager.Instance.XMLAccess.powerUpSkillList[num]; //리스트중에 하나 뽑음
+
+    //            accountText = $"{p.skillName}을{p.powerUpSize}만큼 강화한다";
+    //            powerUpUI.SetPanelData(i, "skill", p.skillName, p.powerUpSize, itemGrade.money);
+    //        }
+
+    //        powerUpUI.SetPanelUINoSprite(i, itemGrade.color, accountText, itemGrade.money);
+
+    //    }
+    //}
+    #endregion
 
 
+    #region 
+
+    #endregion
 
 }

@@ -13,7 +13,7 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
     public Transform attackPos;
     protected float AttackRange;
     public int EnemyLayerMask { get; protected set; }
-    public StatData Stat; // { get; protected set; }
+    public StatData Stat { get; protected set; }
     #region die, deAct
     public bool isDead { get; protected set; } = false;
     public bool isDeActive { get; protected set; } = false;

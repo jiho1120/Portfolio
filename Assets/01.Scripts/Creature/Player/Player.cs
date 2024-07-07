@@ -88,7 +88,7 @@ public class Player : HumanCharacter
     public override void LevelUp()
     {
         StatUp();
-
+        UIManager.Instance.PowerUpPanelOn();
     }
     public override void StatUp()
     {
@@ -136,13 +136,13 @@ public class Player : HumanCharacter
     public void ApplyEquipmentStat() //플레이어 능력은 기본 + 장비  -> HP랑 MP가 변하면 안되서 없음 // 장착할때 부르면 됨
                                      // 해제를 해도 어차피 0일테니 사용가능
     {
-        DataManager.Instance.gameData.playerData.playerStat.luck += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Head].luck;
-        DataManager.Instance.gameData.playerData.playerStat.maxHp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Top].maxHp;
-        DataManager.Instance.gameData.playerData.playerStat.maxMp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Belt].maxMp;
-        DataManager.Instance.gameData.playerData.playerStat.defense += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Bottom].defense;
-        DataManager.Instance.gameData.playerData.playerStat.speed += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Shoes].speed;
-        DataManager.Instance.gameData.playerData.playerStat.critical += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Gloves].critical;
-        DataManager.Instance.gameData.playerData.playerStat.attack += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Weapon].attack;
+        Stat.luck += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Head].luck;
+        Stat.maxHp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Top].maxHp;
+        Stat.maxMp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Belt].maxMp;
+        Stat.defense += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Bottom].defense;
+        Stat.speed += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Shoes].speed;
+        Stat.critical += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Gloves].critical;
+        Stat.attack += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Weapon].attack;
     }
     private void Move()
     {

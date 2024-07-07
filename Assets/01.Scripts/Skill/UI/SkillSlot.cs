@@ -25,44 +25,14 @@ public class SkillSlot : MonoBehaviour
 
     void SetSKillImg()
     {
-        int num = -1; // 초기값 설정
-        switch (skillName)
-        {
-            case SkillName.AirSlash:
-                num = 0;
-                break;
-            case SkillName.AirCircle:
-                num = 1;
-                break;
-            case SkillName.Ground:
-                num = 2;
-                break;
-            case SkillName.Gravity:
-                num = 3;
-                break;
-            case SkillName.End:
-                num = -1;
-                break;
-            default:
-                Debug.LogError("Invalid skill name");
-                break;
-        }
-
-        if (num >= 0 && num < ResourceManager.Instance.SkillSprite.Length)
-        {
-            skillImg.sprite = ResourceManager.Instance.SkillSprite[num];
-        }
-        else
-        {
-            Debug.LogError("Invalid sprite index or skill not assigned properly");
-        }
+        skillImg.sprite = ResourceManager.Instance.GetSprite(DictName.SkillSpriteDict, skillName.ToString());
     }
     void SetSKillCool()
     {
         skillCoolTime.text = DataManager.Instance.gameData.playerData.skillDict[skillName].cool.ToString();
-        
+
     }
-    
+
     public void SetUseSKillTime()
     {
         useTime = 0;

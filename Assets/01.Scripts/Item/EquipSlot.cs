@@ -1,10 +1,11 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static AllEnum;
 
 public class EquipSlot : MonoBehaviour
 {
-    public AllEnum.ItemList itemlist;
+    public ItemList itemlist;
     public Image icon;
     public TMP_Text lv;
 
@@ -25,7 +26,7 @@ public class EquipSlot : MonoBehaviour
         }
         else
         {
-            icon.sprite = ResourceManager.Instance.ItemSprite[(int)itemlist];
+            icon.sprite = ResourceManager.Instance.GetSprite(DictName.ItemSpriteDict,itemlist.ToString());
         }
 
         lv.text = $"LV : {item.level}";
