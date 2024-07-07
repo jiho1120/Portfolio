@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,12 +7,17 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
 {
     public Rigidbody rb { get; protected set; }
     public int id;
+    public Vector3 dir;
+
 
     public Transform attackPos;
     protected float AttackRange;
-    protected int EnemyLayerMask;
+    public int EnemyLayerMask { get; protected set; }
     public StatData Stat; // { get; protected set; }
+    #region die, deAct
     public bool isDead { get; protected set; } = false;
+    public bool isDeActive { get; protected set; } = false;
+    #endregion
 
     // Knockback 관련 변수 및 함수
     #region Knockback 관련 함수
@@ -21,30 +27,41 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
     public Vector3 KnockbackDirection { get => knockbackDirection; set => knockbackDirection = value; }
     private float knockbackPower;
     public float KnockbackPower { get => knockbackPower; set => knockbackPower = value; }
-    private Coroutine knockbackCor = null;
     #endregion
 
     #region pull 관련 함수
 
     bool isPull = false;
     public bool IsPull { get => isPull; set => isPull = value; }
-    private Vector3 pullDirection;
-    public Vector3 PullDirection { get => pullDirection; set => pullDirection = value; }
+    private Vector3 pullPosition;
+    public Vector3 PullPosition { get => pullPosition; set => pullPosition = value; }
     private float pullPower;
     public float PullPower { get => pullPower; set => pullPower = value; }
-    Coroutine forceCor = null;
-
-
+    private float startTime;
+    private float journeyLength;
     #endregion
-    #region 패시브 함수 관련 코루틴
+
+    #region 코루틴 모음
+    protected Coroutine deActiveCor = null;
+    protected Coroutine knockbackCor = null;
+    protected Coroutine pullCor = null;
+
     protected Coroutine deCreaseAttCor = null;
     protected Coroutine hpCor = null;
     protected Coroutine hitCor = null;
+    protected Coroutine GravityHitCor = null;
 
     #endregion
 
 
     #region 초기화
+    public virtual void Init()
+    {
+        id = GameManager.Instance.CreatureId;
+        GameManager.Instance.CreatureId++;
+        rb = GetComponent<Rigidbody>();
+
+    }
     public virtual void Activate()
     {
         this.gameObject.SetActive(true);
@@ -113,19 +130,24 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
     }
     #endregion
 
-
     #region 레벨 관련
-    public void LevelUp()
+    public virtual void LevelUp()
     {
-
+        StatUp();
     }
-    public void StatUp()
-    {
-
-    }
+    public abstract void StatUp();
+    
     #endregion
 
+    #region 시야
+    public Vector3 CheckDir()
+    {
+        dir = GameManager.Instance.player.transform.position - transform.position;
+        dir.y = 0;
 
+        return dir;
+    }
+    #endregion
 
     #region 공격
 
@@ -156,15 +178,15 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
     }
     public void TakeDamage(float att)
     {
-        if (isDead) return;
+        if (isDead || isDeActive) return;
 
-        implementTakeDamage();
+        ImplementTakeDamage();
 
         float damage = Mathf.Max(CriticalDamage(att) - (Stat.defense * 0.5f), 1f); // 최소 데미지 1
         SetHp(Stat.hp - damage);
     }
 
-    public abstract void implementTakeDamage();
+    public abstract void ImplementTakeDamage();
     #endregion
 
 
@@ -173,32 +195,58 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
     {
         if (rb != null)
         {
+            rb.isKinematic = false;
             rb.AddForce(knockbackDirection * knockbackPower, ForceMode.Impulse);
         }
-        forceCor = StartCoroutine(StopForceMove(1f));
-    }
-    public void Pull(Vector3 targetPosition)
-    {
-        rb.isKinematic = false;
-        StartCoroutine(PullToPosition(targetPosition));
-    }
-
-    private IEnumerator PullToPosition(Vector3 targetPosition)
-    {
-        while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+        if (knockbackCor == null)
         {
-            Debug.Log("끌려간다");
-            transform.position = Vector3.Lerp(transform.position, targetPosition, pullPower * Time.deltaTime);
-            yield return null;
+            knockbackCor = StartCoroutine(StopForceMove(1f));
         }
-
     }
     public IEnumerator StopForceMove(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         IsKnockback = false;
-        forceCor = null;
+        knockbackCor = null;
     }
+    public void Pull()
+    {
+        if (pullCor == null)
+        {
+            rb.isKinematic = false;
+            pullCor = StartCoroutine(PullToPosition());
+        }
+    }
+
+    private IEnumerator PullToPosition()
+    {
+        startTime = Time.time;
+        journeyLength = Vector3.Distance(pullPosition, transform.position);
+        while (true)
+        {
+            float distCovered = (Time.time - startTime) * 3;
+            float fractionOfJourney = distCovered / journeyLength;
+
+            // Mathf.SmoothStep를 사용하여 부드럽게 이동
+            float smoothFraction = Mathf.SmoothStep(0, 1, fractionOfJourney);
+            transform.position = Vector3.Lerp(transform.position, pullPosition, smoothFraction);
+            yield return null;
+        }
+
+    }
+
+    public void StopPull()
+    {
+        // 외부힘으로 안움직이게함
+        rb.isKinematic = true;
+        IsPull = false;
+        if (pullCor != null)
+        {
+            StopCoroutine(pullCor);
+            pullCor = null;
+        }
+    }
+
 
 
 
@@ -227,7 +275,8 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
         while (true)
         {
             Stat.attack -= effect;
-            Debug.Log(Stat.attack);
+            if (Stat.attack <= 1)
+                Stat.attack = 1;
             yield return new WaitForSeconds(seconds);
         }
 
@@ -262,11 +311,11 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
         }
     }
 
-    public void StartHitAttCor(float effect, float seconds)
+    public void StartHitAttCor(float effect, float seconds, int count = 1000)// 횟수 안넣으면 스킬 끝날때까지 때림 1000정도면 충분함
     {
         if (hitCor == null)
         {
-            hitCor = StartCoroutine(HitPerSeconds(effect, seconds));
+            hitCor = StartCoroutine(HitPerSeconds(effect, seconds, count));
         }
 
     }
@@ -279,21 +328,23 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
         }
 
     }
-    public IEnumerator HitPerSeconds(float effect, float seconds)
+    public IEnumerator HitPerSeconds(float effect, float seconds, int count)
     {
-        while (true)
+        int _count = 0;
+        while (count > _count)
         {
             TakeDamage(effect);
-            Debug.Log(Stat.hp);
+            _count += 1;
             yield return new WaitForSeconds(seconds);
         }
-
+        StopHitCor();
     }
 
     #endregion
 
     #region 죽음
     public abstract void Die();
+
     #endregion
 
 

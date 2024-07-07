@@ -8,7 +8,7 @@ public class UIPosionSlot : MonoBehaviour
     public AllEnum.ItemList ItemList;
     public Image imgIcon;
     public TMP_Text txtAmount;
-    public string useSlotKey { get; private set; } //해당키 누르면 아이템 사용 // 나중에 123이 아니라 a나 ㅁ같은 키로 사용가능하게 만들기
+    public string useSlotKey { get; private set; } //해당키 누르면 아이템 사용
     int index;
     public void Init(ItemData item)
     {
@@ -56,7 +56,7 @@ public class UIPosionSlot : MonoBehaviour
                 GameManager.Instance.player.SetMp(GameManager.Instance.player.Stat.hp + item.mp);
                 break;
             case AllEnum.ItemList.UltimatePotion:
-                GameManager.Instance.player.SetUltimate(item.ultimateGauge);
+                GameManager.Instance.player.AddUltimate(item.ultimateGauge);
                 break;
 
             default:

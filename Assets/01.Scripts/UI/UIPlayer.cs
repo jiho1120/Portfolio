@@ -8,7 +8,9 @@ public class UIPlayer : MonoBehaviour
     public Slider mp;
     public Image ultimate;
     public Image exp;
-    public UIPosionSlot[] uIPosionSlots;
+    public UIPosionSlot[] uiPosionSlots;
+    public SkillSlot[] uiSkillSlots;
+
 
     public void SetUI()
     {
@@ -17,6 +19,7 @@ public class UIPlayer : MonoBehaviour
         SetEXPUI();
         SetUltimateUI();
         SetPosionSlotUI();
+        SetSkillSlotUI();
     }
     public void SetHPUI()
     {
@@ -32,17 +35,27 @@ public class UIPlayer : MonoBehaviour
     {
         float nowExp = GameManager.Instance.player.Stat.experience;
 
-        exp.fillAmount = nowExp == 0 ? 0 : nowExp % GameManager.Instance.player.Stat.maxExperience; ;
+        exp.fillAmount =  nowExp /GameManager.Instance.player.Stat.maxExperience;
     }
     public void SetUltimateUI()
     {
+        float nowUlti = GameManager.Instance.player.Stat.ultimateGauge;
+        ultimate.fillAmount = nowUlti / GameManager.Instance.player.Stat.maxUltimateGauge;
 
     }
     public void SetPosionSlotUI()
     {
-        for (int i = 0; i < uIPosionSlots.Length; i++)
+        for (int i = 0; i < uiPosionSlots.Length; i++)
         {
-            uIPosionSlots[i].Init(DataManager.Instance.gameData.invenDatas.PosionItemDatas[(AllEnum.ItemList)i]);
+            uiPosionSlots[i].Init(DataManager.Instance.gameData.invenDatas.PosionItemDatas[(AllEnum.ItemList)i]);
+        }
+    }
+
+    public void SetSkillSlotUI()
+    {
+        for (int i = 0; i < uiSkillSlots.Length; i++)
+        {
+            uiSkillSlots[i].Init();
         }
     }
 

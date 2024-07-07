@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FirstMonsterStatData
   m_EditorClassIdentifier: 
   objectType: 0
-  level: 1
+  level: 0
   health: 20
   maxHealth: 20
   attack: 1
@@ -26,5 +26,5 @@ MonoBehaviour:
   maxMana: 0
   luck: 0
   maxExperience: 0
-  ultimateGauge: 0
+  ultimateGauge: 5
   maxUltimateGauge: 0

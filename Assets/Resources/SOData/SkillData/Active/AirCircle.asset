@@ -15,6 +15,6 @@ MonoBehaviour:
   index: 2
   lv: 1
   effect: 10
-  duration: 0.1
+  duration: 1
   cool: 6
-  mana: 50
+  mana: 30

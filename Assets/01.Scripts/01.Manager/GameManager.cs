@@ -1,14 +1,22 @@
 using System.Collections;
 using UnityEngine;
-/* ai 강의 듣고 밀리는 현상 고치기
-보스 소환
-스킬 수정*/
+/* 
+ * 밀리고 나서 맞는 애니메이션 실행
+ * 락 거는거 필요한곳  보일때마다 하기
+ * 레벨업구현(동기 await)
+ *  게임 클리어시 스타트하는 부분 동기화로 바꾸기
+ *   System.Threading.Thread.Sleep(3000); 
+
+*/
 public class GameManager : Singleton<GameManager>
 {
     public GameObject playerPrefab;
-    public Player player { get; private set; }
-    public int CreatureId = 0;
+    public GameObject bossPrefab;
 
+    public Player player { get; private set; }
+    public Boss boss { get; private set; }
+    public int CreatureId = 0;
+    int cursorCount = 0; // 0이면 풀림
 
     #region Wating
     Coroutine runTimeCor = null; // 5초에서 줄어듬
@@ -34,12 +42,16 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.OnStartUI();
         player = Instantiate(playerPrefab, transform).GetComponent<Player>();
         player.gameObject.SetActive(false);
+
+        boss = Instantiate(bossPrefab, transform).GetComponent<Boss>();
+        boss.gameObject.SetActive(false);
+
         ResourceManager.Instance.Init();
         ItemManager.Instance.Init();
         GridScrollViewMain.Instance.Init();
-        for (int i = 0; i < UIManager.Instance.uIPlayer.uIPosionSlots.Length; i++)
+        for (int i = 0; i < UIManager.Instance.uIPlayer.uiPosionSlots.Length; i++)
         {
-            UIManager.Instance.uIPlayer.uIPosionSlots[i].SetUseSlotChar($"{i + 1}");
+            UIManager.Instance.uIPlayer.uiPosionSlots[i].SetUseSlotChar($"{i + 1}");
         }
         SkillManager.Instance.Init();
     }
@@ -68,7 +80,36 @@ public class GameManager : Singleton<GameManager>
         }
         
     }
+    public void LockedCursor(bool isCount = true)
+    {
+        if (isCount)
+        {
+            cursorCount--;
+        }
+        Debug.Log(cursorCount);
+        if (cursorCount == 0)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Time.timeScale = 1f;
+        }
 
+    }
+    // 팝업 킬때
+    public void VisibleCursor(bool isCount = true) // 카우트로 시간멈추고 싶으면 true
+    {
+        if (isCount)
+        {
+            cursorCount++;
+        }
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        Debug.Log(cursorCount);
+    }
+    public void SetCursorCount(int val)
+    {
+        cursorCount = val;
+    }
     #region Start화면
 
     #endregion
@@ -86,6 +127,7 @@ public class GameManager : Singleton<GameManager>
         {
             runTimeCor = StartCoroutine(RunTime());
         }
+        VisibleCursor(false);
     }
     public void DeactivateWating()
     {
@@ -112,6 +154,7 @@ public class GameManager : Singleton<GameManager>
                     stageStart = true;
                     UIManager.Instance.WaitingUI.SetActive(false);
                     InGame();
+                    DeactivateWating();
                 }
             }
             else
@@ -145,20 +188,21 @@ public class GameManager : Singleton<GameManager>
     {
         DeactivateWating();
         player.Activate();
+        LockedCursor(false);
 
         UIManager.Instance.InitInGame();
-        if (DataManager.Instance.gameData.gameStage != 5)
+        
+        if (DataManager.Instance.gameData.gameStage % 5 != 0)
         {
             MonsterManager.Instance.Init();
-            if (gameTimeCor == null)
-            {
-                gameTimeCor = StartCoroutine(GameTime());
-
-            }
         }
         else
         {
-
+            boss.Activate();
+        }
+        if (gameTimeCor == null)
+        {
+            gameTimeCor = StartCoroutine(GameTime());
         }
     }
 
@@ -175,6 +219,7 @@ public class GameManager : Singleton<GameManager>
     public void SetKillMon(int count)
     {
         killMon = count;
+        CheakStageClear();
     }
 
     public void CheakStageClear()
@@ -203,7 +248,7 @@ public class GameManager : Singleton<GameManager>
         // 평소에는 2초후 죽이다가 스테이지 끝나면 바로죽이기위해서
         MonsterManager.Instance.SetTimeDelay(0f);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         //ItemManager.Instance.AllItemDeActive();
         InitWating();
         stageClearCor = null;

@@ -22,20 +22,8 @@ public class GameData
     {
         playerData.SetPlayerData();
         monsterData.monsterStat.SetStat(DataManager.Instance.SOMonsterStat);
-        bossData.bossStat.SetStat(DataManager.Instance.SOBossStat);
-        for (int i = 0; i < (int)ItemList.End; i++)
-        {
-            ItemData item = new ItemData();
-            if (i < (int)ItemList.Head)
-            {
-                invenDatas.PosionItemDatas.Add((ItemList)i, item);
-            }
-            else if (i >= (int)ItemList.Head)
-            {
-                invenDatas.EquipItemDatas.Add((ItemList)i, item);
-            }
-
-        }
+        bossData.SetAllData();
+        invenDatas.SetInvenData();
 
     }
 }
@@ -64,6 +52,7 @@ public class StatData
     public StatData()
     {
     }
+    
     public StatData(StatData SO)
     {
         objectType = SO.objectType;
@@ -81,7 +70,7 @@ public class StatData
         luck = SO.luck;
         maxExperience = SO.maxExperience;
         ultimateGauge = SO.ultimateGauge;
-        maxUltimateGauge = SO.ultimateGauge;
+        maxUltimateGauge = SO.maxUltimateGauge;
     }
 
     public void SetStat(SOStat SO)
@@ -101,7 +90,7 @@ public class StatData
         luck = SO.luck;
         maxExperience = SO.maxExperience;
         ultimateGauge = SO.ultimateGauge;
-        maxUltimateGauge = SO.ultimateGauge;
+        maxUltimateGauge = SO.maxUltimateGauge;
     }
 
     public void SetStat(StatData SO)
@@ -121,7 +110,27 @@ public class StatData
         luck = SO.luck;
         maxExperience = SO.maxExperience;
         ultimateGauge = SO.ultimateGauge;
-        maxUltimateGauge = SO.ultimateGauge;
+        maxUltimateGauge = SO.maxUltimateGauge;
+    }
+    public void StatUp(int level, float hp, float maxHp, float attack, float defense, float critical,
+        float speed, float experience, int money, float mp, float maxMp, float luck,
+        float maxExperience, float ultimateGauge, float maxUltimateGauge)
+    {
+        this.level += level;
+        this.hp += hp;
+        this.maxHp += maxHp;
+        this.attack += attack;
+        this.defense += defense;
+        this.critical += critical;
+        this.speed += speed;
+        this.experience += experience;
+        this.money += money;
+        this.mp += mp;
+        this.maxMp += maxMp;
+        this.luck += luck;
+        this.maxExperience += maxExperience;
+        this.ultimateGauge += ultimateGauge;
+        this.maxUltimateGauge += maxUltimateGauge;
     }
     public void PrintStatData()
     {
@@ -171,6 +180,27 @@ public class BossData
 {
     public StatData bossStat = new StatData();
     public Dictionary<SkillName, SkillData> skillDict = new Dictionary<SkillName, SkillData>();
+    public void SetAllData()
+    {
+        bossStat.SetStat(DataManager.Instance.SOBossStat);
+
+        SkillData data;
+        int idx;
+        SkillName skillName;
+
+        for (int i = 0; i < (int)SkillName.End; i++)
+        {
+            skillName = (SkillName)i;
+            if (skillName != SkillName.Gravity)
+            {
+                idx = SkillManager.Instance.ChangeNameToIndex(skillName);
+                data = new SkillData(DataManager.Instance.GetSkillData(idx));
+
+                skillDict.Add(skillName, data);
+            }
+            
+        }
+    }
 }
 
 [System.Serializable]
@@ -320,6 +350,22 @@ public class InvenData
     public Dictionary<ItemList, ItemData> EquipItemDatas = new Dictionary<ItemList, ItemData>();
     public Dictionary<ItemList, ItemData> PosionItemDatas = new Dictionary<ItemList, ItemData>();
     
+    public void SetInvenData()
+    {
+        for (int i = 0; i < (int)ItemList.End; i++)
+        {
+            ItemData item = new ItemData();
+            if (i < (int)ItemList.Head)
+            {
+                PosionItemDatas.Add((ItemList)i, item);
+            }
+            else if (i >= (int)ItemList.Head)
+            {
+                EquipItemDatas.Add((ItemList)i, item);
+            }
+
+        }
+    }
 
     public ItemData GetItemDataForIndex(int index)
     {

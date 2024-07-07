@@ -10,7 +10,6 @@ public class State_Attack : State
         monster.Agent.isStopped = true;
         monster.SetAttackAnim();
 
-
     }
 
     public override void OnStateExit()
@@ -32,6 +31,11 @@ public class State_Attack : State
         }
         else
         {
+            if (monster.IsPull)
+            {
+                StateDel(AllEnum.States.Pull);
+                return;
+            }
             if (monster.IsKnockback)
             {
                 StateDel(AllEnum.States.Knockback);

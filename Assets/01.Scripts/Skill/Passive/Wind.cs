@@ -1,39 +1,52 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class Wind : PassiveSkill
 {
-    List<Creature> debuffedcreatures = new List<Creature>();
+    private Collider[] colliders;
+    float radius = 5f;
+    protected float ReTriggerTime = 2f; // 다시 공격하는시간
 
+    Coroutine attCor = null;
+    
     public override void Deactivate()
     {
+        if (attCor != null)
+        {
+            StopCoroutine(attCor);
+            attCor = null;
+        }
         base.Deactivate();
-        foreach (var creature in debuffedcreatures)
-        {
-            creature.StopHitCor();
-        }
-        debuffedcreatures.Clear();
     }
-
-
-    protected override void OnTriggerEnter(Collider other)
+    protected override void ImplementEffects()
     {
-        base.OnTriggerEnter(other);
-        Creature creature = other.GetComponent<Creature>();
-
-        if (creature != null)
+        base.ImplementEffects();
+        if (attCor == null)
         {
-            debuffedcreatures.Add(creature);
-            creature.StartHitAttCor(skilldata.effect, skilldata.cool);
+            attCor = StartCoroutine(AttackCor());
         }
     }
-
-    void OnTriggerExit(Collider other)
+    IEnumerator AttackCor()
     {
-        base.OnTriggerEnter(other);
-        Creature creature = other.GetComponent<Creature>()
-            ; creature.StopHitCor();
-        debuffedcreatures.Remove(creature);
+        while (true)
+        {
+            DetectEnemies();
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                Creature cre = colliders[i].GetComponent<Creature>();
 
+                cre.TakeDamage(skilldata.effect);
+            }
+            yield return new WaitForSeconds(ReTriggerTime);
+        }
+        
     }
+    private void DetectEnemies()
+    {
+        colliders = Physics.OverlapSphere(transform.position, radius, enemyLayer);
+    }
+
+
+
+
 }

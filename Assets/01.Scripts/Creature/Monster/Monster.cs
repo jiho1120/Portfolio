@@ -18,27 +18,25 @@ public class Monster : Creature, IProduct
     #region 오브젝트 풀
     private IObjectPool<Monster> objectPool;
     public IObjectPool<Monster> ObjectPool { set => objectPool = value; }
-    
+
     #endregion
 
-    #region die, deAct
-    public bool isDeActive { get; private set; } = false;
-    Coroutine deActiveCor = null;
-    #endregion
+
 
     #region FSM
     public AllEnum.States NowState = AllEnum.States.End;//현재상태   
     public NavMeshAgent Agent => agent;
     NavMeshAgent agent;
     MonStateMachine monStateMachine;
-    public Vector3 dir;
 
     #endregion
 
     #region 공격
     public float attackDistance { get; private set; } = 4;
     float attackCoolTime = 5;
-    public bool isAttack;
+
+    // 공격 가능한지 체크
+    public bool isAttackable { get; private set; }
     public bool isHit { get; private set; } = false;
 
 
@@ -46,10 +44,6 @@ public class Monster : Creature, IProduct
     #endregion
 
     #region Set
-    public void SetIsAttack(bool on)
-    {
-        isAttack = on;
-    }
     public void SetIsHit(bool on)
     {
         isHit = on;
@@ -68,17 +62,17 @@ public class Monster : Creature, IProduct
     #endregion
 
 
-    public virtual void Init()
+    public override void Init()
     {
+        base.Init();
         gameObject.name = productName;
         id = GameManager.Instance.CreatureId;
         GameManager.Instance.CreatureId++;
         anim = GetComponent<MonsterAnimation>();
         anim?.SetInit();
-        agent=GetComponent<NavMeshAgent>();
-        monStateMachine=GetComponent<MonStateMachine>();
+        agent = GetComponent<NavMeshAgent>();
+        monStateMachine = GetComponent<MonStateMachine>();
         monStateMachine?.Init();
-        rb = GetComponent<Rigidbody>();
         Stat = new StatData(DataManager.Instance.gameData.monsterData.monsterStat);
         EnemyLayerMask = 1 << LayerMask.NameToLayer("Player");
         Activate();
@@ -91,31 +85,17 @@ public class Monster : Creature, IProduct
         deActiveCor = null;
         // 스킬 쓸때만 false로 바꾸기 그래야 밀림
         rb.isKinematic = true;
+        IsKnockback = false;
         Agent.isStopped = false;
-        isAttack = true;
+        isAttackable = true;
         isHit = false;
         isDead = false;
-        isDeActive = false;
         monStateMachine.SetState(AllEnum.States.Idle);
 
     }
 
     #region Die , DeActive
-    public override void Die()
-    {
-        GameManager.Instance.SetKillMon(GameManager.Instance.killMon + 1);
-        UIManager.Instance.UpdateMonsterCount(GameManager.Instance.killMon);
-        Agent.isStopped = true;
-        rb.isKinematic = true;
-        SetDeadAnim();
-        ItemManager.Instance.DropRandomItem(this);
 
-        if (deActiveCor == null)
-        {
-            deActiveCor = StartCoroutine(DeactivateRoutine(MonsterManager.Instance.timeoutDelay));
-        }
-        GameManager.Instance.CheakStageClear();
-    }
     public override void Deactivate()
     {
         base.Deactivate();
@@ -133,9 +113,33 @@ public class Monster : Creature, IProduct
     {
         GameManager.Instance.player.AddMoney(Stat.money);
     }
+    public override void Die()
+    {
 
+        Agent.isStopped = true;
+        rb.isKinematic = true;
+        SetDeadAnim();
+        ItemManager.Instance.DropRandomItem(this);
+        GameManager.Instance.player.AddExp(Stat.experience);
+        GameManager.Instance.player.AddUltimate(Stat.ultimateGauge);
+
+
+        if (deActiveCor == null)
+        {
+            deActiveCor = StartCoroutine(DeactivateRoutine(MonsterManager.Instance.timeoutDelay));
+        }
+        GameManager.Instance.SetKillMon(GameManager.Instance.killMon + 1);
+        UIManager.Instance.UpdateMonsterCount(GameManager.Instance.killMon);
+    }
+
+    #endregion
+
+    #region 레벨 관련
     
+    public override void StatUp() // 매니저에서 일괄적으로
+    {
 
+    }
     #endregion
     #region 공격 & 피격
     public override void Attack() // 애니메이션에 넣음
@@ -154,15 +158,15 @@ public class Monster : Creature, IProduct
         {
             yield return new WaitForSeconds(
                 1f);
-            isAttack = false;
+            isAttackable = false;
             SetAttackAnim();
             yield return new WaitForSeconds(attackCoolTime);
-            isAttack = true;
+            isAttackable = true;
             AttackCor = null;
         }
     }
 
-    public override void implementTakeDamage()
+    public override void ImplementTakeDamage()
     {
         isHit = true;
     }
@@ -173,15 +177,7 @@ public class Monster : Creature, IProduct
     }
     #endregion
 
-    #region 시야
-    public Vector3 CheckDir()
-    {
-        dir = GameManager.Instance.player.transform.position - transform.position;
-        dir.y = 0;
 
-        return dir;
-    }
-    #endregion
 
     #region 움직임
     public void Idle()
@@ -204,7 +200,7 @@ public class Monster : Creature, IProduct
         agent.SetDestination(vec);
         SetMoveAnim();
     }
-    
+
     #endregion
 
 
@@ -227,7 +223,7 @@ public class Monster : Creature, IProduct
     }
     public void SetAttackAnim()
     {
-        anim.AttackAnim(isAttack);
+        anim.AttackAnim(isAttackable);
     }
 
     public void SetHitAnim()

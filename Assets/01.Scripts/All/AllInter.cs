@@ -43,7 +43,7 @@ public interface IStatusEffect
     bool IsKnockback { get; set; }
     bool IsPull { get; set; }
     void Knockback();
-    void Pull(Vector3 targetPosition);
+    void Pull();
     IEnumerator StopForceMove(float seconds);
 
 }

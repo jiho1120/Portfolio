@@ -1,22 +1,12 @@
+using System;
 using UnityEngine;
 using static AllEnum;
 
-public class Player : UseSKillCharacter
+public class Player : HumanCharacter
 {
     public Transform characterBody;
     public Transform cameraArm;
-    public Transform skillPos;
-    PlayerAnimator playerAnimator;
-
-
     private bool isRun = false;
-
-    #region 공격
-    float attackSpeed = 1;
-    float lastClickTime = 0f;
-    float attackCooldown = 1.5f;
-    bool isLeft = false;
-    #endregion
 
     private void Update()
     {
@@ -41,52 +31,49 @@ public class Player : UseSKillCharacter
         {
             // 스킬 매니저에 스킬 사용 요청
             SkillManager.Instance.UseSkill(this, SkillName.AirCircle); // 2번 스킬 사용
+
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             // 스킬 매니저에 스킬 사용 요청
             SkillManager.Instance.UseSkill(this, SkillName.Ground); // 3번 스킬 사용
+
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             // 스킬 매니저에 스킬 사용 요청
             SkillManager.Instance.UseSkill(this, SkillName.Gravity); // 4번 스킬 사용
+
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            UIManager.Instance.uIPlayer.uIPosionSlots[0].UsePosion();
+            UIManager.Instance.uIPlayer.uiPosionSlots[0].UsePosion();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            UIManager.Instance.uIPlayer.uIPosionSlots[1].UsePosion();
+            UIManager.Instance.uIPlayer.uiPosionSlots[1].UsePosion();
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            UIManager.Instance.uIPlayer.uIPosionSlots[2].UsePosion();
+            UIManager.Instance.uIPlayer.uiPosionSlots[2].UsePosion();
         }
-
-
-        
     }
+
 
     void FixedUpdate()
     {
         Move();
     }
-    public void Init()
+
+    public override void Init()
     {
-        if (playerAnimator == null)
-        {
-            playerAnimator = GetComponent<PlayerAnimator>();
-        }
-        playerAnimator.Init();
+        base.Init();
         Stat = new StatData(DataManager.Instance.gameData.playerData.playerStat);
-        playerAnimator.SetAttackSpeed(attackSpeed);
-        AttackRange = 1f;
         EnemyLayerMask = 1 << LayerMask.NameToLayer("Enemy");
         SkillManager.Instance.SetSkillData(ObjectType.Player);
 
     }
+
     public override void Activate()
     {
         base.Activate();
@@ -97,7 +84,18 @@ public class Player : UseSKillCharacter
         base.Deactivate();
     }
 
-    #region 능력치
+    #region 능력치. 레벨 관련
+    public override void LevelUp()
+    {
+        StatUp();
+
+    }
+    public override void StatUp()
+    {
+        DataManager.Instance.gameData.playerData.playerStat.StatUp(1, 200, 200, 5, 3, 0.5f, 0.2f, 0, 0, 50, 50, 0.5f, 100, 0, 10);
+
+    }
+
     public override void SetHp(float hp)
     {
         base.SetHp(hp);
@@ -113,9 +111,20 @@ public class Player : UseSKillCharacter
         UIManager.Instance.SetPlayerMPUI();
 
     }
-    public void SetUltimate(float value)
+    public void AddUltimate(float value)
     {
         Stat.ultimateGauge = Mathf.Clamp(Stat.ultimateGauge + value, 0, Stat.maxUltimateGauge);
+        UIManager.Instance.SetPlayerUltimateUI();
+    }
+    public void AddExp(float value)
+    {
+        Stat.experience += value;
+        if (Stat.experience >= Stat.maxExperience)
+        {
+            Stat.experience -= Stat.maxExperience;
+            LevelUp();
+        }
+        UIManager.Instance.SetPlayerEXPUI();
     }
     public override void GetAttToData()
     {
@@ -123,6 +132,7 @@ public class Player : UseSKillCharacter
     }
 
     #endregion
+
     public void ApplyEquipmentStat() //플레이어 능력은 기본 + 장비  -> HP랑 MP가 변하면 안되서 없음 // 장착할때 부르면 됨
                                      // 해제를 해도 어차피 0일테니 사용가능
     {
@@ -139,61 +149,21 @@ public class Player : UseSKillCharacter
         float speed = (isRun) ? (Stat.speed * 1.5f) : Stat.speed;
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         float percent = ((isRun) ? 1 : 0.5f) * moveInput.magnitude;
-        playerAnimator.WalkOrRun(percent);
+        animator.WalkOrRun(percent);
 
         Vector3 lookForward = new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized;
         Vector3 lookRight = new Vector3(cameraArm.right.x, 0f, cameraArm.right.z).normalized;
         Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
-        playerAnimator.MoveAnim(moveInput.y, moveInput.x);
+        animator.MoveAnim(moveInput.y, moveInput.x);
 
         characterBody.forward = lookForward;
         transform.position += moveDir * speed * Time.deltaTime;
     }
 
     #region 공격 & 피격
-    void BasicAttack()
+    public override void ImplementTakeDamage()
     {
-        //클릭할때마다 이전시간과 비교해서 연속공격상태면 다음 주먹으로 변경하고
-        //연속공격내의 시간이 아니면 첫주먹으로.
-        float TimeDifference = Time.time - lastClickTime;
-
-        // 1초동안함 근데 스피드가 증가함
-        // 애니메이션 스피드가 올라가서 애니메이션도 빨리 끝남
-        float animTime = 1f / attackSpeed; // 바뀐 애니메이션 시간 = 애니메이션 시간(1초) / 애니메이션 스피드
-
-        //동작하는 동안의 시간이면 되돌려보내고
-        if (TimeDifference <= animTime)
-        {
-            return;
-        }
-        else //그게 아니라면
-        {
-            if (TimeDifference <= attackCooldown) //연속공격
-            {
-                if (isLeft)
-                {
-                    playerAnimator.LeftAttack();
-                }
-                else
-                {
-                    playerAnimator.RightAttack();
-                }
-                isLeft = !isLeft;
-            }
-            else
-            {
-                playerAnimator.RightAttack();
-                isLeft = true;
-
-            }
-            lastClickTime = Time.time;
-
-        }
-    }
-    
-    public override void implementTakeDamage()
-    {
-        playerAnimator.SetHit();
+        animator.SetHit();
     }
     #endregion
 

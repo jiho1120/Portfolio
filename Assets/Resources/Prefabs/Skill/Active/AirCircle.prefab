@@ -4928,7 +4928,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2448753753948232973}
-  - component: {fileID: -5896882337979662348}
   - component: {fileID: -9154970672423591218}
   m_Layer: 7
   m_Name: AirCircle
@@ -4953,29 +4952,6 @@ Transform:
   - {fileID: 2442392115852024717}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &-5896882337979662348
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2445945209082545909}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 8
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-9154970672423591218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4999,7 +4975,7 @@ MonoBehaviour:
   skillName: 1
   setParent: 1
   inUse: 0
-  force: 10
+  radius: 10
 --- !u!1 &2446102464417035575
 GameObject:
   m_ObjectHideFlags: 0

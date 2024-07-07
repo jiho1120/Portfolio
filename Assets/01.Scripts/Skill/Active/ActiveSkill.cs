@@ -1,53 +1,40 @@
 using System.Collections;
 using UnityEngine;
+using static AllEnum;
 
-// 시전하는 회복기같은 스킬 나오면 클래스 나눠서 관리하기 
-// 지금 스킬이 다 딜이라 IDamage여기다 붙임
-public class ActiveSkill : Skill, IHit
+public class ActiveSkill : Skill
 {
-    Coroutine activeCor;
+    [SerializeField] protected bool setParent; // 스킬이 플레이어를 따라다닐지 // 그래비티랑 그라운드만 flase
+    [SerializeField] protected bool isAvailable = true; //true일시 스킬나감
+    public bool IsAvailable { get { return isAvailable; } set { isAvailable = value; } }
+    protected Coroutine actSkillCor = null;
+    protected Coroutine actSkillCoolCor = null;
 
-    public void Attack(Creature cre)
-    {
-        cre.GetComponent<Creature>()?.TakeDamage(skilldata.effect);
-            Debug.Log(cre.id);
-    }
+
     public override void Activate()
     {
         base.Activate();
-        if (activeCor == null)
+        if (actSkillCor == null)
         {
-            activeCor = StartCoroutine(SKillDuration());
-
+            actSkillCor = StartCoroutine(SetSkillOffTime());
         }
     }
 
     public override void Deactivate()
     {
         base.Deactivate();
-        if (activeCor != null)
-        {
-            StopCoroutine(activeCor);
-            activeCor = null;
-        }
-    }
 
-    // 스킬 지속시간만큼 존재하다가 꺼짐
-    IEnumerator SKillDuration()
+    }
+    IEnumerator SetSkillOffTime()
     {
+        isAvailable = false; // 사용했으니 false
         yield return new WaitForSeconds(skilldata.duration);
+        actSkillCor = null;
         Deactivate();
     }
-
-    protected override void OnTriggerEnter(Collider other)
-    {
-
-    }
-
-    protected override void OnCollisionEnter(Collision collision)
-    {
-
-    }
-
     
+    public virtual bool CheckUsableSkill(Creature caster)
+    {
+        return isAvailable && caster.Stat.mp >= skilldata.mana ? true : false;
+    }
 }

@@ -1,11 +1,23 @@
-using System.Runtime.ConstrainedExecution;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
-public class AirCircle : NonTerrainEffectSkill, IKnockback, IHit
+public class AirCircle : ActiveSkill, IKnockback
 {
-    float power = 10f;
+    private Collider[] colliders;
+    public float radius = 5f;
+    float knockbackPower = 5f;
+    public override void Activate()
+    {
+        base.Activate();
+        DetectEnemies();
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            Creature cre = colliders[i].GetComponent<Creature>();
+
+            cre.TakeDamage(skilldata.effect);
+            SetKnockbackCondition(cre);
+        }
+    }
 
     public void SetKnockbackCondition(Creature cre)
     {
@@ -13,24 +25,21 @@ public class AirCircle : NonTerrainEffectSkill, IKnockback, IHit
         vec.y = 0; // 수평 방향으로만 넉백
 
         cre.KnockbackDirection = vec;
-        cre.KnockbackPower = power;
+        cre.KnockbackPower = knockbackPower;
         cre.IsKnockback = true;
-    }
-
-    protected override void OnTriggerEnter(Collider other)
-    {
-        base.OnTriggerEnter(other);
-        Creature cre =  other.GetComponent<Creature>();
-        if (cre != null)
+        if (cre is Player)
         {
-            if (cre.IsKnockback == true)
-            {
-                return;
-            }
-            Debug.Log("컨디션함수 실행");
-            SetKnockbackCondition(cre);
+            cre.KnockbackPower = 10;
+            cre.Knockback();
         }
     }
 
-    
+    private void DetectEnemies()
+    {
+        colliders = Physics.OverlapSphere(transform.position, radius, enemyLayer);
+    }
+
+  
+
+
 }

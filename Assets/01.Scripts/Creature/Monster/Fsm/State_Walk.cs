@@ -26,6 +26,11 @@ public class State_Walk : State
         }
         else
         {
+            if (monster.IsPull)
+            {
+                StateDel(AllEnum.States.Pull);
+                return;
+            }
             if (monster.IsKnockback)
             {
                 StateDel(AllEnum.States.Knockback);

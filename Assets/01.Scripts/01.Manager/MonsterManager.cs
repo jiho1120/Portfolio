@@ -34,6 +34,7 @@ public class MonsterManager : Singleton<MonsterManager>
 
     public void Init()
     {
+        LevelUp();
         monSpawnCor = StartCoroutine(SpawnMonster());
 
         // 클리어 할때 0초로 만든거 다시 2초로 바꿈
@@ -64,7 +65,7 @@ public class MonsterManager : Singleton<MonsterManager>
 
     private void OnGetFromPool(Monster pooledObject)
     {
-        SetMonsterPos(pooledObject);
+        SetEnemyPos(pooledObject);
         pooledObject.Activate();
     }
 
@@ -77,14 +78,14 @@ public class MonsterManager : Singleton<MonsterManager>
     public Monster GetMonster()
     {
         Monster monster = objectPool.Get();
-        SetMonsterPos(monster);
+        SetEnemyPos(monster);
 
         return monster;
     }
-    
+
     IEnumerator SpawnMonster()
     {
-        while (GameManager.Instance.stageStart) 
+        while (GameManager.Instance.stageStart)
         {
             GetMonster();
             yield return new WaitForSeconds(nextTimeToCreate);
@@ -93,7 +94,7 @@ public class MonsterManager : Singleton<MonsterManager>
         monSpawnCor = null;
     }
 
-    void SetMonsterPos(Monster monster)
+    public void SetEnemyPos(Creature monster)
     {
         Vector3 playerPos = GameManager.Instance.player.transform.position;
         // 랜덤 위치 계산
@@ -106,11 +107,19 @@ public class MonsterManager : Singleton<MonsterManager>
         monster.transform.position = randomPosition + playerPos;
     }
 
-    
+
     public void SetTimeDelay(float time)
     {
         timeoutDelay = time;
     }
 
+    public void LevelUp()
+    {
+        StatUp();
+    }
+    public void StatUp()
+    {
+        DataManager.Instance.gameData.monsterData.monsterStat.StatUp(1, 20, 20, 2, 1, 0.5f, 0.1f, 5, 100, 0, 0, 0, 0, 3, 0);
 
+    }
 }

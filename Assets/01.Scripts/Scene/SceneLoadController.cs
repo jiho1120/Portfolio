@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class SceneLoadController : Singleton<SceneLoadController>
 {
     public void GoHomeScene()
@@ -15,6 +17,8 @@ public class SceneLoadController : Singleton<SceneLoadController>
             UIManager.Instance.MenuUI.gameObject.SetActive(false);
             DataManager.Instance.select.Init();
             LoadingSceneController.LoadScene("Home");
+            Cursor.lockState = CursorLockMode.Confined; // 여기서는 뭔짓을 하던 커서가 풀려야해서
+            GameManager.Instance.SetCursorCount(0); // 그다음 무조건 초기화
         }
     }
 
@@ -30,9 +34,8 @@ public class SceneLoadController : Singleton<SceneLoadController>
         GameManager.Instance.InitWating();
         LoadingSceneController.LoadScene("Game"); // 게임씬으로 이동
         GameManager.Instance.player.Init();
+        GameManager.Instance.boss.Init();
 
         UIManager.Instance.SetPlayerUI();
-
     }
-
 }

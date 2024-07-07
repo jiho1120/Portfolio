@@ -1,21 +1,20 @@
+using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static AllEnum;
 
-public abstract class Skill : MonoBehaviour,Initialize
+public class Skill : MonoBehaviour,Initialize
 {
-    //protected LayerMask enemyLayer;
+    protected int enemyLayer;
 
     public SkillData skilldata;
     [SerializeField] protected NewSkillType skillType;// 스킬 타입
     [SerializeField] protected SkillName skillName; // 스킬 이름
-    [SerializeField] protected bool setParent; // 스킬이 플레이어를 따라다닐지 // 그래비티랑 그라운드만 flase
-    [SerializeField] protected bool inUse =false; //false일시 스킬나감
-    public bool InUse {  get { return inUse; } set {  inUse = value; } }
 
-
-    public void Init(SkillData _skillData)
+    public void Init(SkillData _skillData, int enemyLayer)
     {
         skilldata = _skillData;
+        this.enemyLayer = enemyLayer;
     }
 
     // 스킬 레벨업시 이걸로 
@@ -28,35 +27,48 @@ public abstract class Skill : MonoBehaviour,Initialize
         return skilldata;
     }
 
+    // 스킬 지속시간만큼 존재하다가 꺼짐
     public virtual void Activate()
     {
-        this.gameObject.SetActive(true);
-        inUse = true;
+        gameObject.SetActive(true);
+        ImplementEffects();
 
     }
 
     public virtual void Deactivate()
     {
-        this.gameObject.SetActive(false);
-        inUse = false;
-
+        gameObject.SetActive(false);
     }
-    public Skill CheckUsableSkill(Creature caster)
+    
+
+    /// <summary>
+    /// active할때 한번 실행시키는 함수 추가적인 구현
+    /// </summary>
+    protected virtual void ImplementEffects()
     {
+    } 
+    
+    public virtual void SetSKillPos()
+    {
+        Vector3 pos = GameManager.Instance.player.transform.position;
+        Quaternion rot = GameManager.Instance.player.transform.rotation;
         if (skillName == SkillName.Gravity)
         {
-            if (caster.Stat.ultimateGauge < caster.Stat.maxUltimateGauge)
-            {
-                return null;
-            }
+            Vector3 spawnOffset = transform.rotation * new Vector3(0, 0.5f, 1) * 10f;
+            rot = Quaternion.Euler(transform.rotation.eulerAngles);
+            pos += spawnOffset;
         }
-        return !inUse && caster.Stat.mp >= skilldata.mana ? this : null;
     }
-
     //물리적 스킬 구현 x ex) 디버프
-    protected abstract void OnTriggerEnter(Collider other);
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+
+    }
 
 
     //물리적 스킬 구현 ex) 넉백
-    protected abstract void OnCollisionEnter(Collision collision);
+    protected virtual void OnCollisionEnter(Collision collision)
+    {
+
+    }
 }

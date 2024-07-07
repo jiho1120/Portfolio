@@ -14,11 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 4
   lv: 1
-  newSkillType: 0
-  skillName: 3
   effect: 10
   duration: 5
-  cool: 0
+  cool: 10
   mana: 100
-  setParent: 0
-  inUse: 0

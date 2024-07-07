@@ -62,6 +62,16 @@ public class UIManager : Singleton<UIManager>
     public void OnOffMenu()
     {
         onMenu = !onMenu;
+        if (onMenu)
+        {
+            GameManager.Instance.VisibleCursor();
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            GameManager.Instance.LockedCursor();
+        }
+
         MenuUI.SetActive(onMenu);
     }
     #endregion MenuUI
@@ -119,10 +129,17 @@ DataManager.Instance.gameData.killGoal);
         scrollview = !scrollview;
 
         Inventory.gameObject.SetActive(scrollview);
-        if (scrollview == true)
+        if (scrollview)
         {
             equipmentView.Init();
             uIGridScrollViewDic.scrollView.Refresh();
+            GameManager.Instance.VisibleCursor();
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            GameManager.Instance.LockedCursor();
+
         }
 
     }
@@ -141,10 +158,15 @@ DataManager.Instance.gameData.killGoal);
     {
         uIPlayer.SetMPUI();
     }
+    public void SetPlayerEXPUI()
+    {
+        uIPlayer.SetEXPUI();
+    }
     public void SetPlayerUltimateUI()
     {
         uIPlayer.SetUltimateUI();
     }
+    
     #endregion
 
     #region

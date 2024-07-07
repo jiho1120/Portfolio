@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class Love : PassiveSkill
 {
-    List<Creature> debuffedcreatures = new List<Creature>();
+    private HashSet<Creature> hitMonsters = new HashSet<Creature>();
 
     public override void Deactivate()
     {
         base.Deactivate();
-        foreach (var creature in debuffedcreatures)
+        foreach (var creature in hitMonsters)
         {
             creature.StopDecreaseAttCor();
         }
-        debuffedcreatures.Clear();
+        hitMonsters.Clear();
     }
 
 
@@ -23,7 +23,7 @@ public class Love : PassiveSkill
 
         if (creature != null)
         {
-            debuffedcreatures.Add(creature);
+            hitMonsters.Add(creature);
             creature.StartDecreaseAttCor(skilldata.effect, skilldata.cool);
         }
     }
@@ -33,8 +33,7 @@ public class Love : PassiveSkill
         base.OnTriggerEnter(other);
         Creature creature = other.GetComponent<Creature>()
             ; creature.StopDecreaseAttCor();
-        debuffedcreatures.Remove(creature);
-
+        hitMonsters.Remove(creature);
     }
 
 }

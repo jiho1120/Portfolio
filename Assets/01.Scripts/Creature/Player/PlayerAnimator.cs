@@ -4,7 +4,6 @@ public class PlayerAnimator : MonoBehaviour
 {
     Animator anim;
 
-    // Start is called before the first frame update
     public void Init()
     {
         if (anim == null)

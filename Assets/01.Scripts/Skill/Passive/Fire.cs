@@ -1,4 +1,3 @@
-// 공격력 증가 버프
 public class Fire : PassiveSkill
 {
     Creature cre;

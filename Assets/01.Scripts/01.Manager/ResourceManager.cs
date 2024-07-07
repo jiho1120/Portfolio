@@ -9,6 +9,8 @@ public class ResourceManager : Singleton<ResourceManager>
 
     public Sprite nullEquipSprite;
     public Sprite[] ItemSprite;
+    public Sprite[] SkillSprite;
+
 
 
     public XMLAccess XMLAccess { get; private set; }

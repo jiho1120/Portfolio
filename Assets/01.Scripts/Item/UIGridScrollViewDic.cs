@@ -22,6 +22,7 @@ public class UIGridScrollViewDic : MonoBehaviour
         {
             Debug.Log("EquipItem : " + item.index);
             EquipItem(item);
+
         };
         scrollView.onFocus = (index) =>
         {
@@ -119,8 +120,8 @@ public class UIGridScrollViewDic : MonoBehaviour
             InvenManager.Instance.AddToPosionInven(item);
 
             popupDetail.Close();
+
         }
-        // 장착할 아이템을 찾습니다.
 
         // 저장
         DataManager.Instance.SaveInvenInfo();

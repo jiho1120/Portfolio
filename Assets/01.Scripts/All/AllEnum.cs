@@ -33,6 +33,7 @@ public class AllEnum
         Attack,
         Hit,
         Knockback,
+        Pull,
         Die,
         DeActivate,
 
@@ -105,8 +106,10 @@ public class AllEnum
     }
     public enum StateEnum // µð¹ö±ë¿ë
     {
-        DIe,
-        Stun,
+        DeActive,
+        Die,
+        Pull,
+        Knockback,
         Skill,
         BasicAttack,
         Run,
