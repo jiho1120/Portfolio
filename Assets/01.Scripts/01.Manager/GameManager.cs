@@ -2,11 +2,10 @@ using System.Collections;
 using UnityEngine;
 /* 
  * 밀리고 나서 맞는 애니메이션 실행
- * 락 거는거 필요한곳  보일때마다 하기 = 유저정보
- * 
- *  게임 클리어시 스타트하는 부분 동기화로 바꾸기
- *   System.Threading.Thread.Sleep(3000); 
-
+ * 락 거는거 필요한곳  보일때마다 하기
+ * 보스체력바
+ * 오브젝트 풀 복제
+ * 메뉴 가서 다시 시작시 웨이팅 시작이 안됨 
 */
 public class GameManager : Singleton<GameManager>
 {
@@ -15,11 +14,11 @@ public class GameManager : Singleton<GameManager>
 
     public Player player { get; private set; }
     public Boss boss { get; private set; }
-    public int CreatureId = 0;
-    int cursorCount = 0; // 0이면 풀림
+    public int CreatureId;
+    int cursorCount; // 0이면 풀림
 
     #region Wating
-    Coroutine runTimeCor = null; // 5초에서 줄어듬
+    Coroutine runTimeCor; // 5초에서 줄어듬
     public bool isCountTime { get; private set; } // 버튼 글자 바꾸기 위해 선언
     public float countTime { get; private set; } // 카운트 세는거
     #endregion
@@ -32,28 +31,35 @@ public class GameManager : Singleton<GameManager>
     Coroutine stageClearCor = null;
     Coroutine gameTimeCor = null;
 
-
     #endregion
 
 
     void Start()
     {
-        DataManager.Instance.select.Init();
-        UIManager.Instance.OnStartUI();
-        player = Instantiate(playerPrefab, transform).GetComponent<Player>();
-        player.gameObject.SetActive(false);
-
-        boss = Instantiate(bossPrefab, transform).GetComponent<Boss>();
-        boss.gameObject.SetActive(false);
-
         ResourceManager.Instance.Init();
-        ItemManager.Instance.Init();
-        GridScrollViewMain.Instance.Init();
-        UIManager.Instance.Init();
-
-        
-        SkillManager.Instance.Init();
+        DataManager.Instance.Init();
+        if (player == null)
+        {
+            player = Instantiate(playerPrefab, transform).GetComponent<Player>();
+            player.SetEnemyLayer(1 << LayerMask.NameToLayer("Enemy"));
+        }
+        if (boss == null)
+        {
+            boss = Instantiate(bossPrefab, transform).GetComponent<Boss>();
+            boss.SetEnemyLayer(1 << LayerMask.NameToLayer("Player"));
+        }
+        player.gameObject.SetActive(false);
+        boss.gameObject.SetActive(false);
+        SkillManager.Instance.InstanceSkill();
+        Init();
     }
+
+    public void Init()
+    {
+        InitHome();
+    }
+
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -77,90 +83,130 @@ public class GameManager : Singleton<GameManager>
         {
             UIManager.Instance.UserInfo.onoff();
         }
-        
+
     }
+
+    /// <summary>
+    /// 무조건 커서 안 보임 bool 은 isCount의 갯수를 감소시킬지 여부 true면 -1
+    /// </summary>
+    /// <param name="isCount"></param>
     public void LockedCursor(bool isCount = true)
     {
         if (isCount)
         {
             cursorCount--;
         }
-        Debug.Log(cursorCount);
         if (cursorCount == 0)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             Time.timeScale = 1f;
         }
+        Debug.Log(cursorCount);
+
 
     }
-    // 팝업 킬때
-    public void VisibleCursor(bool isCount = true) // 카우트로 시간멈추고 싶으면 true
+    /// <summary>
+    /// 무조건 커서 보임 bool 은 isCount의 갯수를 증가시킬지 여부 true면 +1
+    /// </summary>
+    /// <param name="isCount"></param>
+    public void VisibleCursor(bool isCount = true)
     {
         if (isCount)
         {
             cursorCount++;
+            Debug.Log("멈춤들어옴");
+
             Time.timeScale = 0f;
         }
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Debug.Log(cursorCount);
     }
-    public void SetCursorCount(int val)
-    {
-        cursorCount = val;
-    }
-    #region Start화면
 
+    #region Home화면
+    public void InitHome()
+    {
+        CreatureId = DataManager.Instance.gameData.creatureId;
+        cursorCount = 0;
+        stageStart = false;
+        runTime = 0;
+        if (runTimeCor != null)
+        {
+            StopCoroutine(runTimeCor);
+            runTimeCor = null;
+        }
+        stageClearCor = null;
+        gameTimeCor = null;
+        UIManager.Instance.InitUI(); // 무조건 플레이어 생성후 
+        VisibleCursor(false);
+        GridScrollViewMain.Instance.Init();
+
+    }
+    public void SetstageStart(bool isOn)
+    {
+        stageStart = isOn;
+    }
     #endregion
 
 
     #region Waiting
     public void InitWating()
     {
-        UIManager.Instance.InGameUI.gameObject.SetActive(false);
-        isCountTime = true;
         countTime = 5;
-        UIManager.Instance.WaitingUI.gameObject.SetActive(true);
-        UIManager.Instance.SetWaitingUI();
+        isCountTime = true;
+        killMon = 0;
+        runTime = 0;
+        runTimeCor = null;
+        VisibleCursor(false);
+        UIManager.Instance.InitWaitingUI();
+
+        StartCor();
+    }
+    public void StartCor()
+    {
         if (runTimeCor == null)
         {
-            runTimeCor = StartCoroutine(RunTime());
+            runTimeCor = StartCoroutine(RunCountTime());
         }
-        VisibleCursor(false);
     }
-    public void DeactivateWating()
+    public void DeactiveWating()
     {
         isCountTime = false;
         countTime = 5;
-        UIManager.Instance.SetWaitingUI();
         if (runTimeCor != null)
         {
             StopCoroutine(runTimeCor);
             runTimeCor = null;
         }
     }
-    IEnumerator RunTime()
+    IEnumerator RunCountTime()
     {
         while (true)
         {
+            Debug.Log(isCountTime);
+            Debug.Log(countTime);
             if (isCountTime)
             {
                 yield return new WaitForSeconds(1f);
+                Debug.Log("카운트 코루틴 돈다.");
+
                 countTime -= 1;
-                UIManager.Instance.SetWaitingUI();
+                UIManager.Instance.SetWatingTimeUI();
                 if (countTime <= 0)
                 {
                     stageStart = true;
-                    UIManager.Instance.WaitingUI.SetActive(false);
-                    InGame();
-                    DeactivateWating();
+                    InitGame();
+                    Debug.Log("코루틴 나옴.");
+
                 }
             }
             else
             {
+                Debug.Log("코루틴 예외로 나옴.");
                 yield return null;
             }
+
         }
     }
     public void OnOffTime()
@@ -168,31 +214,33 @@ public class GameManager : Singleton<GameManager>
         isCountTime = !isCountTime;
         UIManager.Instance.SetOnOffTimer();
     }
+
     public void SkipTime()
     {
         countTime = 0;
         stageStart = true;
         runTime = 0;
-        StopCoroutine(runTimeCor);
+        if (runTimeCor != null)
+        {
+            StopCoroutine(runTimeCor);
+        }
         runTimeCor = null;
-        UIManager.Instance.SetWaitingUI();
-        UIManager.Instance.WaitingUI.SetActive(false);
-        InGame();
+        InitGame();
 
     }
     #endregion
 
     #region InGame
 
-    public void InGame()
+    public void InitGame()
     {
-        DeactivateWating();
+        DeactiveWating();
         player.Activate();
+        UIManager.Instance.SetInitGameUI();
         LockedCursor(false);
 
-        UIManager.Instance.InitInGame();
-        
-        if (DataManager.Instance.gameData.gameStage % 5 != 0)
+        /////////////////////////////////////////////
+        if (DataManager.Instance.gameData.gameStage % 2 != 0)
         {
             MonsterManager.Instance.Init();
         }
@@ -208,6 +256,7 @@ public class GameManager : Singleton<GameManager>
 
     IEnumerator GameTime()
     {
+        runTime = 0;
         while (stageStart)
         {
             runTime += 1;
@@ -235,7 +284,7 @@ public class GameManager : Singleton<GameManager>
     IEnumerator StageClear()
     {
         stageStart = false;
-        SkillManager.Instance.AllSKillDeactive(player);
+        SkillManager.Instance.DeactivateAllSkills(player);
         gameTimeCor = null;
         killMon = 0;
         DataManager.Instance.gameData.killGoal += 10;
@@ -256,11 +305,4 @@ public class GameManager : Singleton<GameManager>
     }
 
     #endregion
-
-
-    #region
-
-    #endregion
-
-
 }

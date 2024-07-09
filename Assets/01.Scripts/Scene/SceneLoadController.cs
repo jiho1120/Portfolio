@@ -1,4 +1,5 @@
-using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class SceneLoadController : Singleton<SceneLoadController>
 {
@@ -10,15 +11,19 @@ public class SceneLoadController : Singleton<SceneLoadController>
         }
         else
         {
-            GameManager.Instance.player.gameObject.SetActive(false);
-            GameManager.Instance.DeactivateWating();
-            UIManager.Instance.OnStartUI();
-            UIManager.Instance.WaitingUI.gameObject.SetActive(false);
-            UIManager.Instance.MenuUI.gameObject.SetActive(false);
-            DataManager.Instance.select.Init();
+            if (GameManager.Instance.player != null)
+            {
+                GameManager.Instance.player.Deactivate();
+            }
+            if (GameManager.Instance.boss != null)
+            {
+                GameManager.Instance.boss.Deactivate();
+            }
+            MonsterManager.Instance.ClearObjectPool();
+            //ItemManager.Instance
+            DataManager.Instance.Init();
+            GameManager.Instance.InitHome();
             LoadingSceneController.LoadScene("Home");
-            Cursor.lockState = CursorLockMode.Confined; // 여기서는 뭔짓을 하던 커서가 풀려야해서
-            GameManager.Instance.SetCursorCount(0); // 그다음 무조건 초기화
         }
     }
 
@@ -29,13 +34,12 @@ public class SceneLoadController : Singleton<SceneLoadController>
             DataManager.Instance.gameData.SetGameData();
             DataManager.Instance.Save();
         }
-        UIManager.Instance.OffStartUI();
-        UIManager.Instance.WaitingUI.gameObject.SetActive(true);
         GameManager.Instance.InitWating();
-        LoadingSceneController.LoadScene("Game"); // 게임씬으로 이동
         GameManager.Instance.player.Init();
         GameManager.Instance.boss.Init();
-
-        UIManager.Instance.SetPlayerUI();
+        LoadingSceneController.LoadScene("Game"); // 게임씬으로 이동
+        
     }
+
+
 }

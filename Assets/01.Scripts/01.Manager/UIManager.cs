@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +6,8 @@ public class UIManager : Singleton<UIManager>
     [Header("StartUI")]
     public GameObject StartUI;
     public Text newPlayerName;    // 새로 입력된 플레이어의 닉네임
-    public GameObject namePanel;    // 플레이어 닉네임 입력UI
+    public GameObject inputName;    // 플레이어 닉네임 입력UI
+    public InputField playerName;
     public Text[] slotText;        // 슬롯버튼 아래에 존재하는 Text들
 
     [Header("BasicUI")]
@@ -15,13 +15,6 @@ public class UIManager : Singleton<UIManager>
     public GameObject PopUp;
     public UIUserInfo UserInfo;
     public bool onMenu = false;
-
-
-    [Header("InvenUI")]
-    public GameObject Inventory;
-    public UIGridScrollViewDic uIGridScrollViewDic;
-    bool scrollview = false;
-    public UIEquipmentView equipmentView;
 
     [Header("Waiting")]
     public GameObject WaitingUI;
@@ -35,26 +28,58 @@ public class UIManager : Singleton<UIManager>
     public Text monsterCountText;
     public Text monsterGoalText;
 
+    [Header("InvenUI")]
+    public GameObject Inventory;
+    public UIGridScrollViewDic uIGridScrollViewDic;
+    bool scrollview = false;
+    public UIEquipmentView equipmentView;
+
+    
+
     [Header("PlayerUI")]
     public UIPlayer uIPlayer;
 
     [Header("PowerUpUI")]
     public PowerUpUI powerUpUI;
 
-    public void Init()
-    {
-        powerUpUI.Init();
+    [Header("EndPanelUI")]
+    public EndPanel bossEndPanel;
+    public EndPanel playerEndPanel;
 
-    }
-    #region BasicUI
-    public void OnStartUI()
+
+
+    public void InitUI()
     {
         StartUI.gameObject.SetActive(true);
+        WaitingUI.gameObject.SetActive(false);
+        MenuUI.gameObject.SetActive(false);
+        uIPlayer.gameObject.SetActive(false);
     }
+    public void InitWaitingUI()
+    {
+        OffStartUI();
+        WaitingUI.gameObject.SetActive(true);
+        SetOnOffTimer();
+        Skip.text = "건너 뛰기";
+        SetWatingTimeUI();
+        
+    }
+    public void SetInitGameUI()
+    {
+        WaitingUI.gameObject.SetActive(false);
+        InGameUI.gameObject.SetActive(true);
+        SetPlayerUI();
+        UpdateMonsterGoalCount(
+DataManager.Instance.gameData.killGoal);
+        UpdateMonsterCount(GameManager.Instance.killMon);
+    }
+
+    #region BasicUI
+
     public void OffStartUI()
     {
         StartUI.gameObject.SetActive(false);
-        namePanel.gameObject.SetActive(false);
+        inputName.gameObject.SetActive(false);
     }
     public void StartPopCor(string text, float time)
     {
@@ -64,7 +89,8 @@ public class UIManager : Singleton<UIManager>
     public void OnNamePanel()    // 플레이어 닉네임 입력 UI를 활성화하는 메소드
     {
         newPlayerName.text = "";
-        namePanel.gameObject.SetActive(true);
+        playerName.text = "";
+        inputName.gameObject.SetActive(true);
     }
     public void OnOffMenu()
     {
@@ -72,7 +98,6 @@ public class UIManager : Singleton<UIManager>
         if (onMenu)
         {
             GameManager.Instance.VisibleCursor();
-            //Time.timeScale = 0f;
         }
         else
         {
@@ -84,16 +109,7 @@ public class UIManager : Singleton<UIManager>
     #endregion MenuUI
 
     #region Waiting
-    public void SetWaitingUI()
-    {
-        SetOnOffTimer();
-        Skip.text = "건너 뛰기";
-        Count.text = GameManager.Instance.countTime.ToString();
-        if (GameManager.Instance.countTime <= 1)
-        {
-            Count.text = "게임 시작";
-        }
-    }
+
     public void SetOnOffTimer()
     {
         if (GameManager.Instance.isCountTime)
@@ -105,17 +121,18 @@ public class UIManager : Singleton<UIManager>
             Stop.text = "타이머 시작";
         }
     }
+    public void SetWatingTimeUI()
+    {
+        Count.text = GameManager.Instance.countTime.ToString();
+        if (GameManager.Instance.countTime <= 1)
+        {
+            Count.text = "게임 시작";
+        }
+    }
     #endregion
 
     #region InGame
-    public void InitInGame()
-    {
-        InGameUI.gameObject.SetActive(true);
-        uIPlayer.gameObject.SetActive(true);
-        UpdateMonsterGoalCount(
-DataManager.Instance.gameData.killGoal);
-        UpdateMonsterCount(GameManager.Instance.killMon);
-    }
+    
     public void UpdateMonsterCount(int count)
     {
         // 몬스터 카운트를 UI에 반영
@@ -126,7 +143,6 @@ DataManager.Instance.gameData.killGoal);
         // 몬스터 카운트를 UI에 반영
         monsterGoalText.text = count.ToString();
     }
-
 
     #endregion
 
@@ -141,21 +157,19 @@ DataManager.Instance.gameData.killGoal);
             equipmentView.Init();
             uIGridScrollViewDic.scrollView.Refresh();
             GameManager.Instance.VisibleCursor();
-            //Time.timeScale = 0f;
         }
         else
         {
             GameManager.Instance.LockedCursor();
-
         }
-
     }
     #endregion 
 
     #region PlayerUI
     public void SetPlayerUI()
     {
-        uIPlayer.SetUI();
+        uIPlayer.gameObject.SetActive(true);
+        uIPlayer.SetPlayerUI();
     }
     public void SetPlayerHPUI()
     {
@@ -181,66 +195,14 @@ DataManager.Instance.gameData.killGoal);
     {
         powerUpUI.Active();
     }
-    //public void SetPanelData()
-    //{
-    //    for (int i = 0; i < powerUpUI.panelUIs.Length; i++)
-    //    {
-    //        string accountText = "";
-    //        List<int> pList = new List<int>();
-    //        ItemGrade itemGrade = ResourceManager.Instance.XMLAccess.Randomgrade(); // 등급 뽑아서
-    //        if (i == 0)
-    //        {
-    //            for (int j = 0; j < ResourceManager.Instance.XMLAccess.powerUpPlayerList.Count; j++)
-    //            {
-    //                if (ResourceManager.Instance.XMLAccess.powerUpPlayerList[j].grade == itemGrade.grade) // 같은 등급인것만 넣고
-    //                {
-    //                    pList.Add(j);
-    //                }
-    //            }
-    //            int num = Random.Range(0, pList.Count); //걍 등급 같은 능력치중 아무거나
-    //            num = pList[num];
-    //            PowerUpPlayer p = ResourceManager.Instance.XMLAccess.powerUpPlayerList[num]; //리스트중에 하나 뽑음
-    //            powerUpUI.SetPanelData(i, "player", p.statName, p.powerUpSize, itemGrade.money);
-    //            accountText = $"{p.statName}을{p.powerUpSize}만큼 강화한다";
-
-    //        }
-    //        else if (i == 1)
-    //        {
-    //            for (int j = 0; j < ResourceManager.Instance.XMLAccess.powerUpItemList.Count; j++)
-    //            {
-    //                if (ResourceManager.Instance.XMLAccess.powerUpItemList[j].grade == itemGrade.grade) // 같은 등급인것만 넣고
-    //                {
-    //                    pList.Add(j);
-    //                }
-    //            }
-    //            int num = Random.Range(0, pList.Count); //걍 등급 같은 능력치중 아무거나
-    //            num = pList[num];
-    //            PowerUpItem p = ResourceManager.Instance.XMLAccess.powerUpItemList[num]; //리스트중에 하나 뽑음
-    //            accountText = $"{p.itemName}을{p.powerUpSize}만큼 강화한다";
-    //            powerUpUI.SetPanelData(i, "item", p.itemName, p.powerUpSize, itemGrade.money);
-
-    //        }
-    //        else if (i == 2)
-    //        {
-    //            for (int j = 0; j < ResourceManager.Instance.XMLAccess.powerUpSkillList.Count; j++)
-    //            {
-    //                if (ResourceManager.Instance.XMLAccess.powerUpSkillList[j].grade == itemGrade.grade) // 같은 등급인것만 넣고
-    //                {
-    //                    pList.Add(j);
-    //                }
-    //            }
-    //            int num = Random.Range(0, pList.Count); //걍 등급 같은 능력치중 아무거나
-    //            num = pList[num];
-    //            PowerUpSkill p = ResourceManager.Instance.XMLAccess.powerUpSkillList[num]; //리스트중에 하나 뽑음
-
-    //            accountText = $"{p.skillName}을{p.powerUpSize}만큼 강화한다";
-    //            powerUpUI.SetPanelData(i, "skill", p.skillName, p.powerUpSize, itemGrade.money);
-    //        }
-
-    //        powerUpUI.SetPanelUINoSprite(i, itemGrade.color, accountText, itemGrade.money);
-
-    //    }
-    //}
+    public void ActiveBossEndPanel()
+    {
+        bossEndPanel.Active();
+    }
+    public void ActivePlayerEndPanel()
+    {
+        playerEndPanel.Active();
+    }
     #endregion
 
 

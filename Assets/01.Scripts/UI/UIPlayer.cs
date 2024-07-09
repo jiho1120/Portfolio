@@ -12,7 +12,7 @@ public class UIPlayer : MonoBehaviour
     public SkillSlot[] uiSkillSlots;
 
 
-    public void SetUI()
+    public void SetPlayerUI()
     {
         SetHPUI();
         SetMPUI();

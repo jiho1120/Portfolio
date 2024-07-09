@@ -24,21 +24,30 @@ public class MonsterManager : Singleton<MonsterManager>
     public float timeoutDelay { get; private set; }
 
     Coroutine monSpawnCor = null;
-    protected override void Awake()
+    
+    private void Start()
     {
-        base.Awake();
-        objectPool = new ObjectPool<Monster>(CreateMonster,
+        if (objectPool == null)
+        {
+            objectPool = new ObjectPool<Monster>(CreateMonster,
                OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
                collectionCheck, defaultCapacity, maxSize);
+        }
     }
-
     public void Init()
     {
         LevelUp();
-        monSpawnCor = StartCoroutine(SpawnMonster());
+        if (monSpawnCor == null)
+        {
+            monSpawnCor = StartCoroutine(SpawnMonster());
+        }
 
         // 클리어 할때 0초로 만든거 다시 2초로 바꿈
         timeoutDelay = 2f;
+    }
+    public void ClearObjectPool()
+    {
+        objectPool.Clear();
     }
     private Monster CreateMonster()
     {
@@ -59,17 +68,19 @@ public class MonsterManager : Singleton<MonsterManager>
     private void OnReleaseToPool(Monster pooledObject)
     {
         pooledObject.Deactivate();
-
-
     }
 
     private void OnGetFromPool(Monster pooledObject)
     {
+        if (pooledObject == null)
+        {
+            Debug.LogWarning("pooledObject is null");
+            return;
+        }
         SetEnemyPos(pooledObject);
         pooledObject.Activate();
     }
 
-    // invoked when we exceed the maximum number of pooled items (i.e. destroy the pooled object)
     private void OnDestroyPooledObject(Monster pooledObject)
     {
         Destroy(pooledObject.gameObject);
@@ -78,20 +89,27 @@ public class MonsterManager : Singleton<MonsterManager>
     public Monster GetMonster()
     {
         Monster monster = objectPool.Get();
-        SetEnemyPos(monster);
-
+        if (monster != null)
+        {
+            SetEnemyPos(monster);
+        }
         return monster;
+        
     }
 
     IEnumerator SpawnMonster()
     {
         while (GameManager.Instance.stageStart)
         {
-            GetMonster();
+            Monster monster = GetMonster();
+            if (monster != null)
+            {
+                SetEnemyPos(monster);
+            }
             yield return new WaitForSeconds(nextTimeToCreate);
         }
-        StopCoroutine(monSpawnCor);
         monSpawnCor = null;
+        
     }
 
     public void SetEnemyPos(Creature monster)

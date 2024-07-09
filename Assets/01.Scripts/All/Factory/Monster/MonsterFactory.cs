@@ -4,6 +4,7 @@ using static AllEnum;
 
 public class MonsterFactory : Factory
 {
+    [SerializeField]private Transform Tr;
     private Monster newProduct;
 
     // 항목 유형을 해당 항목 열거형에 매핑하는 사전
@@ -32,7 +33,7 @@ public class MonsterFactory : Factory
 
     private Monster CreateMonster(MonsterType monsterEnum)
     {
-        obj = Instantiate(ResourceManager.Instance.GetPrefab(DictName.MonsterDict, monsterEnum.ToString()));
+        obj = Instantiate(ResourceManager.Instance.GetPrefab(DictName.MonsterDict, monsterEnum.ToString()) , Tr);
         switch (monsterEnum)
         {
             case MonsterType.NormalMonster:

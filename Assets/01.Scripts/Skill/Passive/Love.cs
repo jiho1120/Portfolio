@@ -7,12 +7,12 @@ public class Love : PassiveSkill
 
     public override void Deactivate()
     {
-        base.Deactivate();
         foreach (var creature in hitMonsters)
         {
             creature.StopDecreaseAttCor();
         }
         hitMonsters.Clear();
+        base.Deactivate();
     }
 
 
@@ -30,10 +30,10 @@ public class Love : PassiveSkill
 
     void OnTriggerExit(Collider other)
     {
-        base.OnTriggerEnter(other);
         Creature creature = other.GetComponent<Creature>()
             ; creature.StopDecreaseAttCor();
         hitMonsters.Remove(creature);
+        base.OnTriggerEnter(other);
     }
 
 }

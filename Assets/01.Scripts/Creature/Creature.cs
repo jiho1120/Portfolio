@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffect, IBuffAndDebuff
 {
     public Rigidbody rb { get; protected set; }
-    public int id;
+    public int id = -1; /*{ get; protected set; }*/
     public Vector3 dir;
 
 
@@ -57,9 +57,15 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
     #region √ ±‚»≠
     public virtual void Init()
     {
-        id = GameManager.Instance.CreatureId;
-        GameManager.Instance.CreatureId++;
-        rb = GetComponent<Rigidbody>();
+        if (id == -1)
+        {
+            id = GameManager.Instance.CreatureId;
+            GameManager.Instance.CreatureId++;
+        }
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
 
     }
     public virtual void Activate()

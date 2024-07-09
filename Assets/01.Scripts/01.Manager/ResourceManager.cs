@@ -11,11 +11,8 @@ public class ResourceManager : Singleton<ResourceManager>
     public Sprite nullEquipSprite;
     public Sprite playerPowerUpIcon; // 강화창에서 플레이어 강화 아이콘 -> 이거 하나만 쓸꺼임
 
-
-
-
     public XMLAccess XMLAccess { get; private set; }
-   
+
     public void Init()
     {
         prefabDictionary = new Dictionary<DictName, Dictionary<string, GameObject>>();

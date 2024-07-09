@@ -7,13 +7,13 @@ public class Skill : MonoBehaviour,Initialize
 {
     protected int enemyLayer;
 
+
     public SkillData skilldata;
     [SerializeField] protected NewSkillType skillType;// 스킬 타입
-    [SerializeField] protected SkillName skillName; // 스킬 이름
+    public SkillName skillName { get; private set; } // 스킬 이름
 
-    public void Init(SkillData _skillData, int enemyLayer)
+    public virtual void SetEnemyLayer(int enemyLayer)
     {
-        skilldata = _skillData;
         this.enemyLayer = enemyLayer;
     }
 

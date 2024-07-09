@@ -19,19 +19,14 @@ public class ItemManager : Singleton<ItemManager>
     
     Vector3 itemPos = new Vector3 (0, 0.5f, 0);
 
-    protected override void Awake()
+    
+    private void Start()
     {
-        base.Awake();
         objectPool = new ObjectPool<DroppedItem>
             (CreateItem,
                OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
                collectionCheck, defaultCapacity, maxSize);
     }
-    public void Init()
-    {
-
-    }
-    // 등록하기 위한 함수 만듬(이부분 손봐야할듯)
     private DroppedItem CreateItem()
     {
         DroppedItem item;

@@ -33,7 +33,6 @@ public class Select : MonoBehaviour
 
         if (DataManager.Instance.savefile[number])    // bool 배열에서 현재 슬롯번호가 true라면 = 데이터 존재한다는 뜻
         {
-            //DataManager.Instance.LoadData();    // 데이터를 로드하고
             DataManager.Instance.Load();
             SceneLoadController.Instance.GoGame();    // 게임씬으로 이동
         }

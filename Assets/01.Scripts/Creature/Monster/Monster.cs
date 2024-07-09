@@ -75,6 +75,7 @@ public class Monster : Creature, IProduct
         monStateMachine?.Init();
         Stat = new StatData(DataManager.Instance.gameData.monsterData.monsterStat);
         EnemyLayerMask = 1 << LayerMask.NameToLayer("Player");
+        AttackRange = 1f;
         Activate();
     }
     public override void Activate()
@@ -93,6 +94,7 @@ public class Monster : Creature, IProduct
         monStateMachine.SetState(AllEnum.States.Idle);
 
     }
+    
 
     #region Die , DeActive
 
@@ -107,6 +109,7 @@ public class Monster : Creature, IProduct
     {
         yield return new WaitForSeconds(delay);
         objectPool.Release(this);
+
     }
 
     public void AddPlayerMoney()
@@ -200,16 +203,6 @@ public class Monster : Creature, IProduct
         agent.SetDestination(vec);
         SetMoveAnim();
     }
-
-    #endregion
-
-
-
-    #region 
-
-    #endregion
-
-    #region 
     #endregion
 
     #region anim 볼 필요없음

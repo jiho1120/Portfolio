@@ -15,16 +15,16 @@ public class HumanCharacter : Creature
 
     protected PlayerAnimator animator;
 
-
+   
     public override void Init()
     {
         base.Init();
         if (animator == null)
         {
             animator = GetComponent<PlayerAnimator>();
+            animator.Init();
+            animator.SetAttackSpeed(attackSpeed);
         }
-        animator.Init();
-        animator.SetAttackSpeed(attackSpeed);
         AttackRange = 1f;
     }
 
@@ -39,12 +39,16 @@ public class HumanCharacter : Creature
 
     public override void Deactivate()
     {
+        SkillManager.Instance.DeactivateAllSkills(this);
         base.Deactivate();
-        SkillManager.Instance.AllSKillDeactive(this);
-        
+
+    }
+    public void SetEnemyLayer(int layer)
+    {
+        EnemyLayerMask = layer;
     }
     #region 레벨 관련
-    
+
     public override void StatUp()
     {
     }
@@ -88,7 +92,7 @@ public class HumanCharacter : Creature
             lastClickTime = Time.time;
         }
     }
-    
+
     #endregion
 
     public void SetMoveAnim(float speed, float z, float x)

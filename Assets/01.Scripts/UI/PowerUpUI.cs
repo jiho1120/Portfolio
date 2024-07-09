@@ -12,18 +12,20 @@ public class PowerUpUI : MonoBehaviour
     public Transform PanelParent; //mainPanel
     public PanelUI PanelPrefab;
     public Button closeButton;
-    bool isOn = false;
     int panelCount = 3;
     public string[] panelName = new string[3] { "플레이어 능력치", "아이템", "스킬" };
 
-    public void Init() // 초기 세팅 딱 한번만 하는것
+     void Awake() 
     {
-        SpwanPanel();
+        if (panelUIs.Length == 0)
+        {
+            SpwanPanel();
+        }
         for (int i = 0; i < panelUIs.Length; i++)
         {
             panelUIs[i].Init();
             panelUIs[i].SetPanelTitle(panelName[i]);
-            panelUIs[i].SetPanelType((AllEnum.PanelType)i);
+            panelUIs[i].SetPanelType((PanelType)i);
         }
     }
     public void Active()
@@ -134,21 +136,4 @@ public class PowerUpUI : MonoBehaviour
     }
     
 
-    public void ScreenOnOff()
-    {
-        isOn = !isOn;
-        if (isOn)
-        {
-            GameManager.Instance.VisibleCursor();
-            gameObject.SetActive(true);
-
-        }
-        else
-        {
-            GameManager.Instance.LockedCursor();
-
-            gameObject.SetActive(false);
-        }
-        //UIManager.Instance.SetGameUI(); //선택하고 돈 적용
-    }
 }

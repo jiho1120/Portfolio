@@ -7,29 +7,29 @@ using static AllEnum;
 public class DataManager : Singleton<DataManager>
 {
     public Select select { get; private set; }
-    public GameData gameData = new GameData();
-
+    public GameData gameData;
     public SOStat SOPlayerStat;
     public SOStat SOMonsterStat;
     public SOStat SOBossStat;
     public SOItem[] soItem;
-
     public NewSOSkill[] skillArr;
-
-
 
     public bool[] savefile { get; private set; }   // 세이브파일 존재유무 저장
     public string path; // 경로
     public string nowPath; // 경로
     public int nowSlot; // 현재 슬롯번호
 
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
         savefile = new bool[3];
         path = Application.persistentDataPath + "/save";
         Debug.Log(path);
+    }
+    public void Init()
+    {
+        gameData = new GameData();
         select = GetComponent<Select>();
+        select.Init();
     }
 
 

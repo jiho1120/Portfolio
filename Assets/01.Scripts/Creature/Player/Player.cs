@@ -8,6 +8,7 @@ public class Player : HumanCharacter
     public Transform cameraArm;
     private bool isRun = false;
 
+    
     private void Update()
     {
         if (Input.GetKey(KeyCode.LeftShift))
@@ -65,18 +66,22 @@ public class Player : HumanCharacter
         Move();
     }
 
+    
     public override void Init()
     {
         base.Init();
         Stat = new StatData(DataManager.Instance.gameData.playerData.playerStat);
-        EnemyLayerMask = 1 << LayerMask.NameToLayer("Enemy");
-        SkillManager.Instance.SetSkillData(ObjectType.Player);
+        SkillManager.Instance.UpdateSkillData(this);
 
     }
 
     public override void Activate()
     {
         base.Activate();
+        Stat.SetStat(DataManager.Instance.gameData.playerData.playerStat);
+        ApplyEquipmentStat();
+        SetHp(Stat.maxHp);
+        SetMp(Stat.maxMp);
     }
 
     public override void Deactivate()
@@ -128,6 +133,7 @@ public class Player : HumanCharacter
     }
     public override void GetAttToData()
     {
+        
         Stat.attack = DataManager.Instance.gameData.playerData.playerStat.attack;
     }
 
@@ -171,7 +177,8 @@ public class Player : HumanCharacter
     #region Á×À½
     public override void Die()
     {
-
+        GameManager.Instance.SetstageStart(false);
+        UIManager.Instance.ActivePlayerEndPanel();
     }
     #endregion
 

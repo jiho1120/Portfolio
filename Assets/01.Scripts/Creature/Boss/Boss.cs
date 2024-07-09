@@ -27,8 +27,8 @@ public class Boss : HumanCharacter
             agent=GetComponent<NavMeshAgent>();
         }
         Stat = new StatData(DataManager.Instance.gameData.bossData.bossStat);
-        EnemyLayerMask = 1 << LayerMask.NameToLayer("Player");
-        SkillManager.Instance.SetSkillData(ObjectType.Boss);
+        
+        SkillManager.Instance.UpdateSkillData(this);
         GetComponent<BehaviorTree>().SetInit();
     }
     public override void Activate()
@@ -37,7 +37,6 @@ public class Boss : HumanCharacter
         MonsterManager.Instance.SetEnemyPos(this);
         Stat.SetStat(DataManager.Instance.gameData.bossData.bossStat);
         LevelUp(); // 일부러 다음에 적용시킬려고 뒤에둠 다음에 다시 액티브될때 적용됨
-        SkillManager.Instance.SetSkillData(ObjectType.Boss);
     }
 
     public override void Deactivate()
@@ -77,9 +76,9 @@ public class Boss : HumanCharacter
         GameManager.Instance.player.AddExp(Stat.experience);
         //UIManager.Instance.note.SetActive(false); 약점 구현하면 키기
         StopAllCoroutines();
-        SkillManager.Instance.AllSKillDeactive(this);
+        SkillManager.Instance.DeactivateAllSkills(this);
         GameManager.Instance.SetKillMon(DataManager.Instance.gameData.killGoal); // 바로 클리어
-        //UIManager.Instance.ActiveEndPanel();// 끝나는 패널
+        UIManager.Instance.ActiveBossEndPanel();// 끝나는 패널
     }
 
     public override void ImplementTakeDamage()

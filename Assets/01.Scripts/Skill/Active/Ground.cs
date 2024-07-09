@@ -7,27 +7,27 @@ public class Ground : ActiveSkill
     Transform originTr;
    
 
-    private void Start()
+    public override void SetEnemyLayer(int enemyLayer)
     {
+        base.SetEnemyLayer(enemyLayer);
         if (enemyLayer == GameManager.Instance.player.EnemyLayerMask)
         {
             originTr = GameManager.Instance.player.skillPos;
         }
         else
         {
-            originTr = GameManager.Instance.boss.transform.GetChild(0);
+            originTr = GameManager.Instance.boss.skillPos;
         }
     }
     public override void Activate()
     {
-        base.Activate();
         SetSKillPos();
+        base.Activate();
     }
     public override void Deactivate()
     {
         transform.SetParent(originTr);
         base.Deactivate();
-
     }
     public override void SetSKillPos()
     {

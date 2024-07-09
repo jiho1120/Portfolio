@@ -10,8 +10,8 @@ public class Heal : PassiveSkill
     }
     public override void Deactivate()
     {
-        base.Deactivate();
         cre = GetComponentInParent<Creature>();
-        cre.StopSetHpCor();
+        cre?.StopSetHpCor();
+        base.Deactivate();
     }
 }

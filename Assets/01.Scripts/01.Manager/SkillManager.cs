@@ -2,76 +2,70 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static AllEnum;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class SkillManager : Singleton<SkillManager>
 {
     // 스킬 오브젝트들을 관리하기위해 만듬
-    Dictionary<ObjectType, Dictionary<SkillName, Skill>> SkillDict = new Dictionary<ObjectType, Dictionary<SkillName, Skill>>();
+    Dictionary<ObjectType, Dictionary<SkillName, Skill>> skillDict = new Dictionary<ObjectType, Dictionary<SkillName, Skill>>();
 
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
-        SkillDict[ObjectType.Player] = new Dictionary<SkillName, Skill>();
-        SkillDict[ObjectType.Boss] = new Dictionary<SkillName, Skill>();
+        skillDict[ObjectType.Player] = new Dictionary<SkillName, Skill>();
+        skillDict[ObjectType.Boss] = new Dictionary<SkillName, Skill>();
     }
-    public void Init()
+
+    public void InstanceSkill()
     {
-        Transform skillTr;
-        Skill skillInstance;
         for (int i = 0; i < (int)SkillName.End; i++)
         {
             SkillName skillName = (SkillName)i;
-
-            //Prefab과 인스턴스 구분: Init 메서드에서 Instantiate를 사용하여 스킬 인스턴스를 생성하고 이를 SkillDict에 저장. 이렇게 하면 SkillDict에 저장된 스킬과 실제 사용하는 스킬 인스턴스가 동일하게 됩니다.
             Skill skillPrefab = ResourceManager.Instance.GetPrefab(DictName.SkillDict, skillName.ToString()).GetComponent<Skill>();
 
-            skillTr = GameManager.Instance.player.skillPos;
-            skillInstance = Instantiate(skillPrefab, skillTr);
-            skillInstance.gameObject.layer = LayerMask.NameToLayer("PlayerSkill");
-            skillInstance.gameObject.SetActive(false);
-            SkillDict[ObjectType.Player][skillName] = skillInstance;
+            CreateAndInitializeSkillInstance(ObjectType.Player, skillName, skillPrefab, GameManager.Instance.player.skillPos, "PlayerSkill", GameManager.Instance.player.EnemyLayerMask);
 
             if (skillName != SkillName.Gravity)
             {
-                // Boss용 코드
-                skillTr = GameManager.Instance.boss.skillPos;
-                skillInstance = Instantiate(skillPrefab, skillTr);
-                skillInstance.gameObject.layer = LayerMask.NameToLayer("BossSkill");
-                skillInstance.gameObject.SetActive(false);
-                SkillDict[ObjectType.Boss][skillName] = skillInstance;
+                CreateAndInitializeSkillInstance(ObjectType.Boss, skillName, skillPrefab, GameManager.Instance.boss.skillPos, "BossSkill", GameManager.Instance.boss.EnemyLayerMask);
             }
+
         }
+    }
+
+    private void CreateAndInitializeSkillInstance(ObjectType objectType, SkillName skillName, Skill skillPrefab, Transform skillPosition, string layerName, int layer)
+    {
+        CreateSkillInstance(objectType, skillName, skillPrefab, skillPosition, layerName);
+        skillDict[objectType][skillName].SetEnemyLayer(layer);
+    }
+
+    private void CreateSkillInstance(ObjectType objectType, SkillName skillName, Skill skillPrefab, Transform skillPosition, string layerName)
+    {
+        Skill skillInstance = Instantiate(skillPrefab, skillPosition);
+        skillInstance.gameObject.layer = LayerMask.NameToLayer(layerName);
+        skillInstance.gameObject.SetActive(false);
+        skillDict[objectType][skillName] = skillInstance;
     }
 
     /// <summary>
-    /// 데이터 설정은 게임 시작하고 플레이 하면 한번 넣어주기
+    /// 스킬 데이터 바뀔 때마다 실행
     /// </summary>
-    public void SetSkillData(ObjectType objectType)
+    public void UpdateSkillData(HumanCharacter caster)
     {
-        int layerMask;
-        Dictionary<SkillName, Skill> dict = SkillDict[objectType];
-
-        var skillDataDict = GetSkillDataDict(objectType);
-        if (objectType == ObjectType.Player)
+        ObjectType objectType = GetCasterType(caster);
+        if (objectType == ObjectType.End)
         {
-            layerMask = GameManager.Instance.player.EnemyLayerMask;
-        }
-        else
-        {
-            layerMask = GameManager.Instance.boss.EnemyLayerMask;
+            Debug.LogError("Invalid caster type");
+            return;
         }
 
+        var skillDataDictionary = GetSkillDataDictionary(objectType);
 
-        foreach (var item in dict)
+        foreach (var skill in skillDict[objectType])
         {
-            if (item.Key == SkillName.Gravity && layerMask == GameManager.Instance.boss.EnemyLayerMask)
-            {
-                continue;
-            }
-            item.Value.Init(skillDataDict[item.Key], layerMask);
+            skill.Value.SetSkillData(skillDataDictionary[skill.Key]);
         }
     }
-    private Dictionary<SkillName, SkillData> GetSkillDataDict(ObjectType objectType)
+    private Dictionary<SkillName, SkillData> GetSkillDataDictionary(ObjectType objectType)
     {
         switch (objectType)
         {
@@ -80,8 +74,23 @@ public class SkillManager : Singleton<SkillManager>
             case ObjectType.Boss:
                 return DataManager.Instance.gameData.bossData.skillDict;
             default:
-                return new Dictionary<SkillName, SkillData>();
+                return null;
         }
+    }
+    //private SkillData GetSkillData(ObjectType objectType, SkillName skillName)
+    //{
+    //    return GetSkillDataDictionary(objectType)[skillName];
+    //}
+    public Skill GetSkill(HumanCharacter caster, SkillName skillName)
+    {
+        ObjectType objectType = GetCasterType(caster);
+        if (skillDict.TryGetValue(objectType, out var skills) && skills.TryGetValue(skillName, out var skill))
+        {
+            return skill;
+        }
+
+        Debug.LogError($"Skill {skillName} not found for {objectType}");
+        return null;
     }
 
     public int ChangeNameToIndex(SkillName name)
@@ -102,64 +111,41 @@ public class SkillManager : Singleton<SkillManager>
                 return -1;
         }
     }
-    ObjectType GetCaster(HumanCharacter caster)
-    {
-        ObjectType objType;
 
-        if (caster is Player)
-        {
-            objType = ObjectType.Player;
-        }
-        else if (caster is Boss)
-        {
-            objType = ObjectType.Boss;
-        }
-        else
-        {
-            objType = ObjectType.End;
-        }
-        return objType;
-    }
-    public Skill GetSkill(HumanCharacter caster, SkillName skillName)
+    ObjectType GetCasterType(HumanCharacter caster)
     {
-        ObjectType objType = GetCaster(caster);
-        if (SkillDict.TryGetValue(objType, out var skills) && skills.TryGetValue(skillName, out var skill))
-        {
-            return skill;
-        }
-
-        Debug.LogError($"Skill {skillName} not found for {objType}");
-        return null;
+        if (caster is Player) return ObjectType.Player;
+        if (caster is Boss) return ObjectType.Boss;
+        return ObjectType.End;
     }
+
 
     public void UseSkill(HumanCharacter caster, SkillName skillName)
     {
         ActiveSkill skill = GetSkill(caster, skillName)?.GetComponent<ActiveSkill>();
-        if (skill.CheckUsableSkill(caster))
+        if (skill == null || !skill.CheckUsableSkill(caster))
         {
-            if (caster is Player)
+            Debug.Log("Skill is not usable");
+            return;
+        }
+        if (caster is Player player)
+        {
+            foreach (var skillSlot in UIManager.Instance.uIPlayer.uiSkillSlots)
             {
-                for (int i = 0; i < UIManager.Instance.uIPlayer.uiSkillSlots.Length; i++)
+                if (skillSlot.skillName == skillName)
                 {
-                    if (UIManager.Instance.uIPlayer.uiSkillSlots[i].skillName == skillName)
-                    {
-                        UIManager.Instance.uIPlayer.uiSkillSlots[i].SetUseSKillTime();
-                    }
+                    skillSlot.SetUseSkillTime();
+                    break;
                 }
-
             }
-            
-            skill.Activate();
-            StartCoroutine(SetIsAvailable(skill));
-            caster.SetMp(caster.Stat.mp - skill.skilldata.mana);
         }
-        else
-        {
-            Debug.Log(skill.IsAvailable + "가능한지 변수");
-        }
+
+        skill.Activate();
+        StartCoroutine(ResetSkillAvailability(skill));
+        caster.SetMp(caster.Stat.mp - skill.skilldata.mana);
     }
 
-    IEnumerator SetIsAvailable(ActiveSkill skill)
+    IEnumerator ResetSkillAvailability(ActiveSkill skill)
     {
         yield return new WaitForSeconds(skill.skilldata.cool);
         skill.IsAvailable = true;
@@ -179,46 +165,24 @@ public class SkillManager : Singleton<SkillManager>
         caster.SetPassiveCorNull();
     }
 
-    public SkillName GetRandomPassiveSkillName()
+    private SkillName GetRandomPassiveSkillName()
     {
-        SkillName skillName;
-        if (Random.value < 0.25)
-        {
-            skillName = SkillName.Love;
-        }
-        else if (Random.value < 0.5)
-        {
-            skillName = SkillName.Fire;
-
-        }
-        else if (Random.value < 0.75)
-        {
-            skillName = SkillName.Wind;
-        }
-        else
-        {
-            skillName = SkillName.Heal;
-        }
-
-        return skillName;
-
+        float randomValue = Random.value;
+        if (randomValue < 0.25f) return SkillName.Love;
+        if (randomValue < 0.5f) return SkillName.Fire;
+        if (randomValue < 0.75f) return SkillName.Wind;
+        return SkillName.Heal;
     }
-
-    public void AllSKillDeactive(HumanCharacter caster)
+    public void DeactivateAllSkills(HumanCharacter caster)
     {
-        ObjectType objType = GetCaster(caster);
+        ObjectType objectType = GetCasterType(caster);
 
-        SkillDict.TryGetValue(objType, out var skills);
-        for (int i = 0; i < 10; i++)
+        if (skillDict.TryGetValue(objectType, out var skills))
         {
-            if (skills.TryGetValue((SkillName)i, out var skill))
+            foreach (var skill in skills.Values)
             {
-                if (skill != null)
-                {
-                    skill.Deactivate();
-                }
+                skill.Deactivate();
             }
         }
     }
-
 }

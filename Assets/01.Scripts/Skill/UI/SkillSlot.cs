@@ -33,7 +33,7 @@ public class SkillSlot : MonoBehaviour
 
     }
 
-    public void SetUseSKillTime()
+    public void SetUseSkillTime()
     {
         useTime = 0;
         gaugeImg.fillAmount = 1;
