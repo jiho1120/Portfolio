@@ -6,6 +6,8 @@ using static AllEnum;
 
 public class MonsterManager : Singleton<MonsterManager>
 {
+
+
     [SerializeField] MonsterFactory factory;
 
     // stack-based ObjectPool
@@ -45,10 +47,7 @@ public class MonsterManager : Singleton<MonsterManager>
         // 클리어 할때 0초로 만든거 다시 2초로 바꿈
         timeoutDelay = 2f;
     }
-    public void ClearObjectPool()
-    {
-        objectPool.Clear();
-    }
+    
     private Monster CreateMonster()
     {
         Monster monster;
@@ -67,7 +66,7 @@ public class MonsterManager : Singleton<MonsterManager>
     // 몬스터 반환 메서드
     private void OnReleaseToPool(Monster pooledObject)
     {
-        pooledObject.Deactivate();
+        pooledObject.gameObject.SetActive(false);
     }
 
     private void OnGetFromPool(Monster pooledObject)

@@ -19,8 +19,6 @@ public class SceneLoadController : Singleton<SceneLoadController>
             {
                 GameManager.Instance.boss.Deactivate();
             }
-            MonsterManager.Instance.ClearObjectPool();
-            //ItemManager.Instance
             DataManager.Instance.Init();
             GameManager.Instance.InitHome();
             LoadingSceneController.LoadScene("Home");
@@ -35,10 +33,10 @@ public class SceneLoadController : Singleton<SceneLoadController>
             DataManager.Instance.Save();
         }
         GameManager.Instance.InitWating();
+       
+        LoadingSceneController.LoadScene("Game"); // 게임씬으로 이동
         GameManager.Instance.player.Init();
         GameManager.Instance.boss.Init();
-        LoadingSceneController.LoadScene("Game"); // 게임씬으로 이동
-        
     }
 
 

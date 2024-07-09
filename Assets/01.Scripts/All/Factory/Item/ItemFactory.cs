@@ -4,6 +4,7 @@ using static AllEnum;
 
 public class ItemFactory : Factory
 {
+    [SerializeField]private Transform Tr;
     private DroppedItem newProduct;
 
     // 항목 유형을 해당 항목 열거형에 매핑하는 사전
@@ -31,16 +32,16 @@ public class ItemFactory : Factory
     {
         if (itemEnumMap.TryGetValue(type, out var itemEnum))
         {
-            return CreateEquipItem(itemEnum);
+            return CreateDropItem(itemEnum);
         }
 
         Debug.LogError($"Item type {type} not recognized.");
         return null;
     }
 
-    private IProduct CreateEquipItem(ItemList itemEnum)
+    private IProduct CreateDropItem(ItemList itemEnum)
     {
-        obj = Instantiate(ResourceManager.Instance.GetPrefab(DictName.ItemDict, itemEnum.ToString()));
+        obj = Instantiate(ResourceManager.Instance.GetPrefab(DictName.ItemDict, itemEnum.ToString()), Tr);
         newProduct = obj.GetComponent<DroppedItem>();
         newProduct.Init();
         return newProduct;

@@ -311,6 +311,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1488510172 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3219151080642319941, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+  m_PrefabInstance: {fileID: 5179722906670538018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &718226643905111811 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 51498186367006098, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
@@ -450,6 +455,10 @@ PrefabInstance:
       propertyPath: director
       value: 
       objectReference: {fileID: 1392754366}
+    - target: {fileID: 4342532451123816236, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
+      propertyPath: Tr
+      value: 
+      objectReference: {fileID: 1488510172}
     - target: {fileID: 5744134351758013121, guid: 911f4790b163b9c4a83de0eb3782c8e2, type: 3}
       propertyPath: bossPrefab
       value: 

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
@@ -100,16 +101,19 @@ public class Monster : Creature, IProduct
 
     public override void Deactivate()
     {
-        base.Deactivate();
-        isDeActive = true;
-        deActiveCor = null;
-        rb.isKinematic = true;
+        if (deActiveCor == null)
+        {
+            deActiveCor = StartCoroutine(DeactivateRoutine(MonsterManager.Instance.timeoutDelay));
+        }
     }
+    // 죽음 -> 몇초뒤에 디액티브 부름
     IEnumerator DeactivateRoutine(float delay)
     {
         yield return new WaitForSeconds(delay);
-        objectPool.Release(this);
-
+        isDeActive = true;
+        deActiveCor = null;
+        rb.isKinematic = true;
+        objectPool.Release(this); // 원래 베이스로 오브젝트가 꺼지는걸 받아야하는데 얘는 오브젝트풀에이미 꺼지는게 있음
     }
 
     public void AddPlayerMoney()
@@ -118,21 +122,19 @@ public class Monster : Creature, IProduct
     }
     public override void Die()
     {
-
         Agent.isStopped = true;
         rb.isKinematic = true;
         SetDeadAnim();
         ItemManager.Instance.DropRandomItem(this);
         GameManager.Instance.player.AddExp(Stat.experience);
         GameManager.Instance.player.AddUltimate(Stat.ultimateGauge);
-
+        GameManager.Instance.SetKillMon(GameManager.Instance.killMon + 1);
+        UIManager.Instance.UpdateMonsterCount(GameManager.Instance.killMon);
 
         if (deActiveCor == null)
         {
             deActiveCor = StartCoroutine(DeactivateRoutine(MonsterManager.Instance.timeoutDelay));
         }
-        GameManager.Instance.SetKillMon(GameManager.Instance.killMon + 1);
-        UIManager.Instance.UpdateMonsterCount(GameManager.Instance.killMon);
     }
 
     #endregion

@@ -68,6 +68,7 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
         }
 
     }
+
     public virtual void Activate()
     {
         this.gameObject.SetActive(true);

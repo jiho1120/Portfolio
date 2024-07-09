@@ -1,11 +1,7 @@
 using System.Collections;
 using UnityEngine;
 /* 
- * 밀리고 나서 맞는 애니메이션 실행
- * 락 거는거 필요한곳  보일때마다 하기
  * 보스체력바
- * 오브젝트 풀 복제
- * 메뉴 가서 다시 시작시 웨이팅 시작이 안됨 
 */
 public class GameManager : Singleton<GameManager>
 {
@@ -160,16 +156,13 @@ public class GameManager : Singleton<GameManager>
         runTimeCor = null;
         VisibleCursor(false);
         UIManager.Instance.InitWaitingUI();
-
-        StartCor();
-    }
-    public void StartCor()
-    {
+        Time.timeScale = 1f;
         if (runTimeCor == null)
         {
             runTimeCor = StartCoroutine(RunCountTime());
         }
     }
+    
     public void DeactiveWating()
     {
         isCountTime = false;
@@ -186,6 +179,7 @@ public class GameManager : Singleton<GameManager>
         {
             Debug.Log(isCountTime);
             Debug.Log(countTime);
+
             if (isCountTime)
             {
                 yield return new WaitForSeconds(1f);
@@ -240,7 +234,7 @@ public class GameManager : Singleton<GameManager>
         LockedCursor(false);
 
         /////////////////////////////////////////////
-        if (DataManager.Instance.gameData.gameStage % 2 != 0)
+        if (DataManager.Instance.gameData.gameStage % 5 != 0)
         {
             MonsterManager.Instance.Init();
         }

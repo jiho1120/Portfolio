@@ -54,6 +54,9 @@ public class UIManager : Singleton<UIManager>
         WaitingUI.gameObject.SetActive(false);
         MenuUI.gameObject.SetActive(false);
         uIPlayer.gameObject.SetActive(false);
+        onMenu = false; // 여기서 변수 초기화 하기
+        scrollview = false;
+
     }
     public void InitWaitingUI()
     {
