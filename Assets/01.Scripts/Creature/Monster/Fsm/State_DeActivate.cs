@@ -16,10 +16,6 @@ public class State_DeActivate : State
 
     public override void OnStateStay()
     {
-        //if (!monster.isDeActive && !monster.isDead)
-        //{
-        //    StateDel(AllEnum.States.Idle);
-        //    return;
-        //}
+        
     }
 }

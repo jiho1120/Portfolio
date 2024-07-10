@@ -11,9 +11,7 @@ public class State_Pull : State
 
     public override void OnStateExit()
     {
-        
         monster.StopPull();
-
     }
 
     public override void OnStateStay()

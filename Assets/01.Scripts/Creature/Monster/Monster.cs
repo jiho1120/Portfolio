@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
@@ -122,12 +121,15 @@ public class Monster : Creature, IProduct
     }
     public override void Die()
     {
+        if (((ActiveSkill)SkillManager.Instance.GetSkill(GameManager.Instance.player, AllEnum.SkillName.Gravity)).IsAvailable) // ±Ã±Ø±â »óÅÂ¿¡¼­ Á×À¸¸é ¾ÈÁÜ -> ÁÖ°ÔµÇ¸é °ÅÀÇ ¹«ÇÑÀ¸·Î¾¸
+        {
+            GameManager.Instance.player.SetUltimate(Stat.ultimateGauge);
+        }
         Agent.isStopped = true;
         rb.isKinematic = true;
         SetDeadAnim();
         ItemManager.Instance.DropRandomItem(this);
         GameManager.Instance.player.AddExp(Stat.experience);
-        GameManager.Instance.player.AddUltimate(Stat.ultimateGauge);
         GameManager.Instance.SetKillMon(GameManager.Instance.killMon + 1);
         UIManager.Instance.UpdateMonsterCount(GameManager.Instance.killMon);
 

@@ -30,7 +30,6 @@ public class SkillSlot : MonoBehaviour
     void SetSKillCool()
     {
         skillCoolTime.text = DataManager.Instance.gameData.playerData.skillDict[skillName].cool.ToString();
-
     }
 
     public void SetUseSkillTime()

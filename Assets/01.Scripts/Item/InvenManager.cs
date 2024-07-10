@@ -8,6 +8,7 @@ public class InvenManager : Singleton<InvenManager>
 
         return _itemdata;
     }
+
     public ItemData GetPosionInvenItemData(ItemData itemData)
     {
         ItemData _itemdata = DataManager.Instance.gameData.invenDatas.PosionItemDatas[itemData.itemList];

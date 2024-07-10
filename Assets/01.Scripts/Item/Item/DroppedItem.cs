@@ -17,9 +17,6 @@ public class DroppedItem : MonoBehaviour, IProduct
         productName = itemData.itemList.ToString();
     }
 
-    
-
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

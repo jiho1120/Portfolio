@@ -100,23 +100,13 @@ public class Gravity : ActiveSkill, IPull
         Debug.Log("감지");
         colliders = Physics.OverlapSphere(transform.position, radius, enemyLayer);
     }
-    private void OnDrawGizmosSelected()
-    {
-        // 기즈모 색상을 설정합니다 (적색)
-        Gizmos.color = Color.red;
-        // 구체 형태의 기즈모를 현재 오브젝트 위치에 그립니다.
-        Gizmos.DrawWireSphere(transform.position, radius);
-    }
 
     public override bool CheckUsableSkill(Creature caster)
     {
-        if (skillName == SkillName.Gravity)
+        if (!isAvailable || caster.Stat.ultimateGauge < caster.Stat.maxUltimateGauge)
         {
-            if (caster.Stat.ultimateGauge < caster.Stat.maxUltimateGauge)
-            {
-                return false;
-            }
+            return false;
         }
-        return base.CheckUsableSkill(caster);
+        return true;
     }
 }

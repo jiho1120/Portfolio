@@ -37,6 +37,11 @@ public class Boss : HumanCharacter
         MonsterManager.Instance.SetEnemyPos(this);
         Stat.SetStat(DataManager.Instance.gameData.bossData.bossStat);
         LevelUp(); // 일부러 다음에 적용시킬려고 뒤에둠 다음에 다시 액티브될때 적용됨
+        UIManager.Instance.uIBoss.SetBossUI();
+
+        UIManager.Instance.uIBoss.SetHPUI();
+        UIManager.Instance.uIBoss.SetMPUI();
+
     }
 
     public override void Deactivate()
@@ -47,6 +52,30 @@ public class Boss : HumanCharacter
             StopCoroutine(availableCor);
             availableCor = null;
         }
+    }
+    private void OnEnable()
+    {
+        UIManager.Instance.uIBoss.gameObject.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        UIManager.Instance.uIBoss.gameObject.SetActive(false);
+    }
+
+    public override void SetHp(float hp)
+    {
+        base.SetHp(hp);
+        UIManager.Instance.uIBoss.SetHPUI();
+        if (hp <= 0)
+        {
+            Die();
+        }
+    }
+    public override void SetMp(float value)
+    {
+        base.SetMp(value);
+        UIManager.Instance.uIBoss.SetMPUI();
     }
     #region 레벨 관련
     public override void LevelUp()

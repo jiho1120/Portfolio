@@ -33,9 +33,7 @@ public class UIManager : Singleton<UIManager>
     public UIGridScrollViewDic uIGridScrollViewDic;
     bool scrollview = false;
     public UIEquipmentView equipmentView;
-
     
-
     [Header("PlayerUI")]
     public UIPlayer uIPlayer;
 
@@ -46,6 +44,9 @@ public class UIManager : Singleton<UIManager>
     public EndPanel bossEndPanel;
     public EndPanel playerEndPanel;
 
+    [Header("BossUI")]
+    public UIBoss uIBoss;
+
 
 
     public void InitUI()
@@ -54,6 +55,9 @@ public class UIManager : Singleton<UIManager>
         WaitingUI.gameObject.SetActive(false);
         MenuUI.gameObject.SetActive(false);
         uIPlayer.gameObject.SetActive(false);
+        InGameUI.gameObject.SetActive(false);
+        uIBoss.gameObject.SetActive(false);
+
         onMenu = false; // 여기서 변수 초기화 하기
         scrollview = false;
 
@@ -89,7 +93,7 @@ DataManager.Instance.gameData.killGoal);
         PopUp.gameObject.SetActive(true);
         PopUp.GetComponent<CorPopUp>().PopCor(text, time);
     }
-    public void OnNamePanel()    // 플레이어 닉네임 입력 UI를 활성화하는 메소드
+    public void OnNamePanel() // 플레이어 닉네임 입력 UI를 활성화하는 메소드
     {
         newPlayerName.text = "";
         playerName.text = "";
@@ -206,11 +210,6 @@ DataManager.Instance.gameData.killGoal);
     {
         playerEndPanel.Active();
     }
-    #endregion
-
-
-    #region 
-
     #endregion
 
 }

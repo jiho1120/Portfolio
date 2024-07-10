@@ -40,9 +40,10 @@ public class HumanCharacter : Creature
     public override void Deactivate()
     {
         SkillManager.Instance.DeactivateAllSkills(this);
+        StopPassiveCorNull();
         base.Deactivate();
-
     }
+   
     public void SetEnemyLayer(int layer)
     {
         EnemyLayerMask = layer;
@@ -114,8 +115,12 @@ public class HumanCharacter : Creature
         throw new System.NotImplementedException();
     }
 
-    public void SetPassiveCorNull()
+    public void StopPassiveCorNull()
     {
+        if (passiveCor != null)
+        {
+            StopCoroutine(passiveCor);
+        }
         passiveCor = null;
     }
 

@@ -20,7 +20,6 @@ public class UIGridScrollViewDic : MonoBehaviour
         };
         popupDetail.onEquip = (item) =>
         {
-            Debug.Log("EquipItem : " + item.index);
             EquipItem(item);
 
         };
@@ -132,5 +131,6 @@ public class UIGridScrollViewDic : MonoBehaviour
         GameManager.Instance.player.ApplyEquipmentStat();
         UIManager.Instance.SetPlayerUI();
     }
+
 
 }

@@ -93,7 +93,6 @@ public class MonsterManager : Singleton<MonsterManager>
             SetEnemyPos(monster);
         }
         return monster;
-        
     }
 
     IEnumerator SpawnMonster()

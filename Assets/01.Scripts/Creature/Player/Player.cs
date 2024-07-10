@@ -98,7 +98,6 @@ public class Player : HumanCharacter
     public override void StatUp()
     {
         DataManager.Instance.gameData.playerData.playerStat.StatUp(1, 200, 200, 5, 3, 0.5f, 0.2f, 0, 0, 50, 50, 0.5f, 100, 0, 10);
-
     }
 
     public override void SetHp(float hp)
@@ -114,13 +113,22 @@ public class Player : HumanCharacter
     {
         base.SetMp(value);
         UIManager.Instance.SetPlayerMPUI();
-
     }
-    public void AddUltimate(float value)
+
+    public void SetUltimate(float value)
     {
-        Stat.ultimateGauge = Mathf.Clamp(Stat.ultimateGauge + value, 0, Stat.maxUltimateGauge);
+        if (value == 0)
+        {
+            Stat.ultimateGauge = 0;
+        }
+        else
+        {
+            Stat.ultimateGauge = Mathf.Clamp(Stat.ultimateGauge + value, 0, Stat.maxUltimateGauge);
+        }
+        DataManager.Instance.gameData.playerData.playerStat.ultimateGauge = Stat.ultimateGauge;
         UIManager.Instance.SetPlayerUltimateUI();
     }
+
     public void AddExp(float value)
     {
         Stat.experience += value;
@@ -139,16 +147,15 @@ public class Player : HumanCharacter
 
     #endregion
 
-    public void ApplyEquipmentStat() //플레이어 능력은 기본 + 장비  -> HP랑 MP가 변하면 안되서 없음 // 장착할때 부르면 됨
-                                     // 해제를 해도 어차피 0일테니 사용가능
+    public void ApplyEquipmentStat() //플레이어 능력은 기본 + 장비  -> HP랑 MP가 변하면 안되서 없음 // 장착할때 부르면 됨 // 해제를 해도 어차피 0일테니 사용가능
     {
-        Stat.luck += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Head].luck;
-        Stat.maxHp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Top].maxHp;
-        Stat.maxMp += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Belt].maxMp;
-        Stat.defense += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Bottom].defense;
-        Stat.speed += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Shoes].speed;
-        Stat.critical += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Gloves].critical;
-        Stat.attack += DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Weapon].attack;
+        Stat.luck = DataManager.Instance.gameData.playerData.playerStat.luck + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Head].luck;
+        Stat.maxHp = DataManager.Instance.gameData.playerData.playerStat.maxHp + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Top].maxHp;
+        Stat.maxMp = DataManager.Instance.gameData.playerData.playerStat.maxMp + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Belt].maxMp;
+        Stat.defense = DataManager.Instance.gameData.playerData.playerStat.defense + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Bottom].defense;
+        Stat.speed = DataManager.Instance.gameData.playerData.playerStat.speed + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Shoes].speed;
+        Stat.critical = DataManager.Instance.gameData.playerData.playerStat.critical + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Gloves].critical;
+        Stat.attack = DataManager.Instance.gameData.playerData.playerStat.attack + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Weapon].attack;
     }
     private void Move()
     {

@@ -13,7 +13,9 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
     public Transform attackPos;
     protected float AttackRange;
     public int EnemyLayerMask { get; protected set; }
-    public StatData Stat { get; protected set; }
+    //public StatData Stat { get; protected set; }
+    public StatData Stat;
+
     #region die, deAct
     public bool isDead { get; protected set; } = false;
     public bool isDeActive { get; protected set; } = false;
@@ -191,6 +193,7 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
 
         float damage = Mathf.Max(CriticalDamage(att) - (Stat.defense * 0.5f), 1f); // 최소 데미지 1
         SetHp(Stat.hp - damage);
+        Debug.Log("체력" + Stat.hp);
     }
 
     public abstract void ImplementTakeDamage();
@@ -313,7 +316,6 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
         while (true)
         {
             SetHp(Stat.hp + effect);
-            Debug.Log(Stat.hp);
             yield return new WaitForSeconds(seconds);
         }
     }

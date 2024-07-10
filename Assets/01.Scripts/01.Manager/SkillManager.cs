@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static AllEnum;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class SkillManager : Singleton<SkillManager>
 {
@@ -77,10 +76,7 @@ public class SkillManager : Singleton<SkillManager>
                 return null;
         }
     }
-    //private SkillData GetSkillData(ObjectType objectType, SkillName skillName)
-    //{
-    //    return GetSkillDataDictionary(objectType)[skillName];
-    //}
+    
     public Skill GetSkill(HumanCharacter caster, SkillName skillName)
     {
         ObjectType objectType = GetCasterType(caster);
@@ -130,19 +126,28 @@ public class SkillManager : Singleton<SkillManager>
         }
         if (caster is Player player)
         {
-            foreach (var skillSlot in UIManager.Instance.uIPlayer.uiSkillSlots)
+            if (skillName == SkillName.Gravity)
             {
-                if (skillSlot.skillName == skillName)
+                player.SetUltimate(0);
+                UIManager.Instance.uIPlayer.SetUltimateUI();
+            }
+            else
+            {
+                foreach (var skillSlot in UIManager.Instance.uIPlayer.uiSkillSlots)
                 {
-                    skillSlot.SetUseSkillTime();
-                    break;
+                    if (skillSlot.skillName == skillName)
+                    {
+                        skillSlot.SetUseSkillTime();
+                        caster.SetMp(caster.Stat.mp - skill.skilldata.mana);
+                        break;
+                    }
                 }
             }
+            
         }
 
         skill.Activate();
         StartCoroutine(ResetSkillAvailability(skill));
-        caster.SetMp(caster.Stat.mp - skill.skilldata.mana);
     }
 
     IEnumerator ResetSkillAvailability(ActiveSkill skill)
@@ -162,7 +167,7 @@ public class SkillManager : Singleton<SkillManager>
             skill.Deactivate();
 
         }
-        caster.SetPassiveCorNull();
+        caster.StopPassiveCorNull();
     }
 
     private SkillName GetRandomPassiveSkillName()

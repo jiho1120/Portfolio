@@ -40,13 +40,13 @@ public class ItemManager : Singleton<ItemManager>
         return item;
     }
 
-    public DroppedItem DropRandomItem(Monster mon)
+    public void DropRandomItem(Monster mon)
     {
         if (Random.value < 0.5f)
         {
             // 돈 주기
             mon.AddPlayerMoney();
-            return null;
+            return;
         }
 
         // 랜덤으로 아이템 타입 선택
@@ -55,7 +55,6 @@ public class ItemManager : Singleton<ItemManager>
 
         DroppedItem item = GetItem(itemType);
         item.transform.position = mon.transform.position + itemPos;
-        return item;
     }
 
     public DroppedItem GetItem(ItemList itemType)

@@ -53,7 +53,7 @@ public class UIPosionSlot : MonoBehaviour
                 GameManager.Instance.player.SetMp(GameManager.Instance.player.Stat.hp + item.mp);
                 break;
             case AllEnum.ItemList.UltimatePotion:
-                GameManager.Instance.player.AddUltimate(item.ultimateGauge);
+                GameManager.Instance.player.SetUltimate(item.ultimateGauge);
                 break;
 
             default:

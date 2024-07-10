@@ -6,7 +6,7 @@ public class UIPlayer : MonoBehaviour
 {
     public Slider hp;
     public Slider mp;
-    public Image ultimate;
+    public UltimateSkillSlot ultimate;
     public Image exp;
     public UIPosionSlot[] uiPosionSlots;
     public SkillSlot[] uiSkillSlots;
@@ -39,9 +39,7 @@ public class UIPlayer : MonoBehaviour
     }
     public void SetUltimateUI()
     {
-        float nowUlti = GameManager.Instance.player.Stat.ultimateGauge;
-        ultimate.fillAmount = nowUlti / GameManager.Instance.player.Stat.maxUltimateGauge;
-
+        ultimate.SetUltimateUI();
     }
     public void SetPosionSlotUI()
     {

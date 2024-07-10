@@ -86,7 +86,6 @@ public class Panel : MonoBehaviour
     }
     void ApplyItemPower()
     {
-        
         if (Enum.TryParse(objName, true, out ItemList value))
         {
             if (DataManager.Instance.gameData.invenDatas.EquipItemDatas[value].index == -1)

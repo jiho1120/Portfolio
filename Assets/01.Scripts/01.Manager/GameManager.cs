@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 /* 
- * 보스체력바
+ 
 */
 public class GameManager : Singleton<GameManager>
 {
@@ -177,13 +177,9 @@ public class GameManager : Singleton<GameManager>
     {
         while (true)
         {
-            Debug.Log(isCountTime);
-            Debug.Log(countTime);
-
             if (isCountTime)
             {
                 yield return new WaitForSeconds(1f);
-                Debug.Log("카운트 코루틴 돈다.");
 
                 countTime -= 1;
                 UIManager.Instance.SetWatingTimeUI();
@@ -191,13 +187,11 @@ public class GameManager : Singleton<GameManager>
                 {
                     stageStart = true;
                     InitGame();
-                    Debug.Log("코루틴 나옴.");
 
                 }
             }
             else
             {
-                Debug.Log("코루틴 예외로 나옴.");
                 yield return null;
             }
 
@@ -233,8 +227,7 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.SetInitGameUI();
         LockedCursor(false);
 
-        /////////////////////////////////////////////
-        if (DataManager.Instance.gameData.gameStage % 5 != 0)
+        if (DataManager.Instance.gameData.gameStage % 2 != 0)
         {
             MonsterManager.Instance.Init();
         }
