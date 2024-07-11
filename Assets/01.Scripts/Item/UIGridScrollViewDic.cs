@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static AllEnum;
 
 
 public class UIGridScrollViewDic : MonoBehaviour
@@ -73,28 +74,35 @@ public class UIGridScrollViewDic : MonoBehaviour
         }
         else if (item.index <= 100)
         {
-            ItemData equippedItem = DataManager.Instance.gameData.invenDatas.EquipItemDatas[item.itemList];
+            ItemData equippedSlotData = DataManager.Instance.gameData.invenDatas.EquipItemDatas[item.itemList];
 
             ItemData cloneItem = new ItemData(item);
             cloneItem.count = 1;
 
-            //장착 아이템 인덱스가 -1
-            if (equippedItem.index == -1)
+            //장착 slot 아이템 인덱스가 -1
+            if (equippedSlotData.index == -1)
             {
-                DataManager.Instance.gameData.invenDatas.EquipItemDatas[item.itemList] = cloneItem;
+                InvenManager.Instance.AddEquipItemToEquipDatas(item.itemList, cloneItem);
+                GameManager.Instance.player.AddEquipmentStat(item.itemList, cloneItem);
                 --item.count;
+
             }
-            // 인덱스 -1 아닐때
-            else if (equippedItem.index != -1)
+            // slot 인덱스 -1 아닐때
+            else if (equippedSlotData.index != -1)
             {
-                if (equippedItem.index == item.index && equippedItem.level == item.level)
+                if (equippedSlotData.index == item.index && equippedSlotData.level == item.level)
                 {
                     return;
                 }
-                else if (equippedItem.index != item.index && equippedItem.level != item.level)
+                else if (equippedSlotData.index != item.index && equippedSlotData.level != item.level)
                 {
-                    InvenManager.Instance.AdditemToInven(equippedItem);
-                    DataManager.Instance.gameData.invenDatas.EquipItemDatas[item.itemList] = cloneItem;
+                    // 장착된거 인벤으로뺴고
+                    InvenManager.Instance.AdditemToInven(equippedSlotData);
+                    // 장착할 아이템 인벤에 넣기
+                    InvenManager.Instance.AddEquipItemToEquipDatas(item.itemList, cloneItem);
+                    // 장착한 아이템 데이터 플레이어 스탯에 추가
+                    GameManager.Instance.player.AddEquipmentStat(item.itemList, cloneItem);
+
                     --item.count;
                 }
             }
@@ -105,6 +113,7 @@ public class UIGridScrollViewDic : MonoBehaviour
                 popupDetail.Close();
 
             }
+
             // 장착한 아이템의 카운트가 0이 아닌 경우에만 인벤을 갱신합니다.
             if (item.count > 0)
             {
@@ -128,7 +137,6 @@ public class UIGridScrollViewDic : MonoBehaviour
         // ScrollView 및 EquipmentView 갱신
         scrollView.Refresh();
         equipmentView.Init();
-        GameManager.Instance.player.ApplyEquipmentStat();
         UIManager.Instance.SetPlayerUI();
     }
 

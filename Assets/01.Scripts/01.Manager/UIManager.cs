@@ -27,6 +27,8 @@ public class UIManager : Singleton<UIManager>
     public Text RunTime;
     public Text monsterCountText;
     public Text monsterGoalText;
+    public Text PlayerGoldText;
+
 
     [Header("InvenUI")]
     public GameObject Inventory;
@@ -79,6 +81,7 @@ public class UIManager : Singleton<UIManager>
         UpdateMonsterGoalCount(
 DataManager.Instance.gameData.killGoal);
         UpdateMonsterCount(GameManager.Instance.killMon);
+        UpdatePlayerGold(GameManager.Instance.player.Stat.money);
     }
 
     #region BasicUI
@@ -150,7 +153,11 @@ DataManager.Instance.gameData.killGoal);
         // 몬스터 카운트를 UI에 반영
         monsterGoalText.text = count.ToString();
     }
-
+    public void UpdatePlayerGold(int count)
+    {
+        // 몬스터 카운트를 UI에 반영
+        PlayerGoldText.text = count.ToString();
+    }
     #endregion
 
     #region Inventory
@@ -202,6 +209,7 @@ DataManager.Instance.gameData.killGoal);
     {
         powerUpUI.Active();
     }
+
     public void ActiveBossEndPanel()
     {
         bossEndPanel.Active();

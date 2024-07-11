@@ -13,37 +13,48 @@ public class SkillManager : Singleton<SkillManager>
         skillDict[ObjectType.Player] = new Dictionary<SkillName, Skill>();
         skillDict[ObjectType.Boss] = new Dictionary<SkillName, Skill>();
     }
-
-    public void InstanceSkill()
+    public void InitSkillDicts()
     {
         for (int i = 0; i < (int)SkillName.End; i++)
         {
             SkillName skillName = (SkillName)i;
             Skill skillPrefab = ResourceManager.Instance.GetPrefab(DictName.SkillDict, skillName.ToString()).GetComponent<Skill>();
 
-            CreateAndInitializeSkillInstance(ObjectType.Player, skillName, skillPrefab, GameManager.Instance.player.skillPos, "PlayerSkill", GameManager.Instance.player.EnemyLayerMask);
+
+            Skill skill = GetInstantiatedSkill(skillPrefab, GameManager.Instance.player.skillPos);
+
+            SetUpInstantiatedSkill(skill, "PlayerSkill", GameManager.Instance.player.EnemyLayerMask);
+            AddInstantiatedSkillToDict(skill, ObjectType.Player, skillName);
+
+            skill = GetInstantiatedSkill(skillPrefab, GameManager.Instance.boss.skillPos);
 
             if (skillName != SkillName.Gravity)
             {
-                CreateAndInitializeSkillInstance(ObjectType.Boss, skillName, skillPrefab, GameManager.Instance.boss.skillPos, "BossSkill", GameManager.Instance.boss.EnemyLayerMask);
+                SetUpInstantiatedSkill(skill, "BossSkill", GameManager.Instance.boss.EnemyLayerMask);
+                AddInstantiatedSkillToDict(skill, ObjectType.Boss, skillName);
             }
-
         }
     }
 
-    private void CreateAndInitializeSkillInstance(ObjectType objectType, SkillName skillName, Skill skillPrefab, Transform skillPosition, string layerName, int layer)
-    {
-        CreateSkillInstance(objectType, skillName, skillPrefab, skillPosition, layerName);
-        skillDict[objectType][skillName].SetEnemyLayer(layer);
-    }
 
-    private void CreateSkillInstance(ObjectType objectType, SkillName skillName, Skill skillPrefab, Transform skillPosition, string layerName)
+    public Skill GetInstantiatedSkill(Skill skillPrefab, Transform skillPosition)
     {
         Skill skillInstance = Instantiate(skillPrefab, skillPosition);
-        skillInstance.gameObject.layer = LayerMask.NameToLayer(layerName);
-        skillInstance.gameObject.SetActive(false);
-        skillDict[objectType][skillName] = skillInstance;
+        return skillInstance;
     }
+
+    private void SetUpInstantiatedSkill(Skill skill, string layerName, int layer)
+    {
+        skill.gameObject.layer = LayerMask.NameToLayer(layerName);
+        skill.SetEnemyLayer(layer);
+        skill.gameObject.SetActive(false);
+    }
+
+    public void AddInstantiatedSkillToDict(Skill skill, ObjectType objType, SkillName skillName)
+    {
+        skillDict[objType][skillName] = skill;
+    }
+    
 
     /// <summary>
     /// 스킬 데이터 바뀔 때마다 실행
@@ -76,7 +87,7 @@ public class SkillManager : Singleton<SkillManager>
                 return null;
         }
     }
-    
+
     public Skill GetSkill(HumanCharacter caster, SkillName skillName)
     {
         ObjectType objectType = GetCasterType(caster);
@@ -87,6 +98,11 @@ public class SkillManager : Singleton<SkillManager>
 
         Debug.LogError($"Skill {skillName} not found for {objectType}");
         return null;
+    }
+
+    public Skill GetPlayerSkill(SkillName skillName)
+    {
+       return skillDict[ObjectType.Player][skillName];
     }
 
     public int ChangeNameToIndex(SkillName name)
@@ -143,9 +159,11 @@ public class SkillManager : Singleton<SkillManager>
                     }
                 }
             }
-            
         }
-
+        else
+        {
+            caster.SetMp(caster.Stat.mp - skill.skilldata.mana);
+        }
         skill.Activate();
         StartCoroutine(ResetSkillAvailability(skill));
     }

@@ -74,6 +74,20 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
     public virtual void Activate()
     {
         this.gameObject.SetActive(true);
+        isDead = false;
+        isDeActive = false;
+        isKnockback = false;
+        IsPull = false;
+        startTime = 0;
+        journeyLength = 0;
+        deActiveCor = null;
+        knockbackCor = null;
+        pullCor = null;
+        deCreaseAttCor = null;
+        hpCor = null;
+        hitCor = null;
+        GravityHitCor = null;
+
     }
 
     public virtual void Deactivate()
@@ -113,11 +127,7 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
         Stat.maxMp = value;
     }
 
-    public virtual void SetMp(float value)
-    {
-        Stat.mp = Mathf.Clamp(value, 0, Stat.maxMp);
-        UIManager.Instance.SetPlayerMPUI();
-    }
+    
 
     public void SetDef(float value)
     {
@@ -133,7 +143,7 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
     {
         Stat.critical = value;
     }
-    public void AddMoney(int value)
+    public virtual void AddMoney(int value)
     {
         Stat.money += value;
     }
@@ -145,7 +155,7 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
         StatUp();
     }
     public abstract void StatUp();
-    
+
     #endregion
 
     #region ½Ã¾ß
@@ -257,9 +267,6 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
         }
     }
 
-
-
-
     public void StartDecreaseAttCor(float effect, float seconds)
     {
 
@@ -355,7 +362,4 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
     public abstract void Die();
 
     #endregion
-
-
-
 }

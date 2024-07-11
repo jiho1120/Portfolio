@@ -1,8 +1,5 @@
 using System.Collections;
 using UnityEngine;
-/* 
- 
-*/
 public class GameManager : Singleton<GameManager>
 {
     public GameObject playerPrefab;
@@ -46,7 +43,8 @@ public class GameManager : Singleton<GameManager>
         }
         player.gameObject.SetActive(false);
         boss.gameObject.SetActive(false);
-        SkillManager.Instance.InstanceSkill();
+        //SkillManager.Instance.InstanceSkill();
+        SkillManager.Instance.InitSkillDicts(); 
         Init();
     }
 
@@ -136,6 +134,7 @@ public class GameManager : Singleton<GameManager>
         gameTimeCor = null;
         UIManager.Instance.InitUI(); // 무조건 플레이어 생성후 
         VisibleCursor(false);
+        ItemManager.Instance.RecallAllItems();
         GridScrollViewMain.Instance.Init();
 
     }
@@ -227,7 +226,7 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.SetInitGameUI();
         LockedCursor(false);
 
-        if (DataManager.Instance.gameData.gameStage % 2 != 0)
+        if (DataManager.Instance.gameData.gameStage % 5 != 0)
         {
             MonsterManager.Instance.Init();
         }

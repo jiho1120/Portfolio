@@ -71,6 +71,7 @@ public class PanelUI : MonoBehaviour
                 break;
         }
     }
+
     public void BuyButton()
     {
         int playerMoney = GameManager.Instance.player.Stat.money;

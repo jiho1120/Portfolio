@@ -45,7 +45,7 @@ public class ItemManager : Singleton<ItemManager>
         if (Random.value < 0.5f)
         {
             // 돈 주기
-            mon.AddPlayerMoney();
+            GameManager.Instance.player.AddMoney(mon.Stat.money);
             return;
         }
 
@@ -76,72 +76,18 @@ public class ItemManager : Singleton<ItemManager>
     {
         Destroy(item.gameObject);
     }
-    //public ItemFactory factory;
+    public void RecallAllItems()
+    {
+        // 현재 활성화된 모든 DroppedItem 오브젝트를 찾습니다.
+        DroppedItem[] activeItems = FindObjectsOfType<DroppedItem>();
 
-    //[SerializeField] private IObjectPool<DroppedItem> objectPool;
-
-    //// 이미 풀에 있는 기존 항목을 반환하려고 하면 예외를 던집니다.
-    //[SerializeField] private bool collectionCheck = true;
-    //// 풀 용량 및 최대 크기를 제어하는 추가 옵션
-    //[SerializeField] private int defaultCapacity = 20;
-    //[SerializeField] private int maxSize = 100;
-
-    //Vector3 itemPos = new Vector3 (0, 0.5f, 0);
-
-
-    //private void Start()
-    //{
-    //    objectPool = new ObjectPool<DroppedItem>
-    //        (CreateItem,
-    //           OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
-    //           collectionCheck, defaultCapacity, maxSize);
-    //}
-    //private DroppedItem CreateItem()
-    //{
-    //    DroppedItem item;
-    //    int num = Random.Range(0, (int)ItemList.End);
-    //    ItemList itemList = (ItemList)num;
-
-    //    item = (DroppedItem)factory.GetProduct(itemList.ToString());
-    //    item.ObjectPool = objectPool;
-    //    return item;
-    //}
-    //public DroppedItem DropRandomItem(Monster mon)
-    //{
-    //    if (Random.value < 0.5f)
-    //    {
-    //        //돈 주기 
-    //        mon.AddPlayerMoney();
-    //        return null;
-    //    }
-
-    //    DroppedItem item = GetItem();
-
-    //    item.transform.position = mon.transform.position + itemPos;
-    //    return item;
-
-    //}
-    //public DroppedItem GetItem()
-    //{
-    //    DroppedItem item = objectPool.Get();
-
-    //    return item;
-    //}
-
-    //private void OnGetFromPool(DroppedItem item)
-    //{
-    //    item.gameObject.SetActive(true);
-    //}
-
-    //private void OnReleaseToPool(DroppedItem item)
-    //{
-    //    item.gameObject.SetActive(false);
-    //}
-
-    //private void OnDestroyPooledObject(DroppedItem item)
-    //{
-    //    Destroy(item.gameObject);
-    //}
-
-
+        foreach (var item in activeItems)
+        {
+            // 각 아이템을 해당 오브젝트 풀로 반환합니다.
+            if (itemPools.TryGetValue(item.itemData.itemList, out var pool))
+            {
+                pool.Release(item);
+            }
+        }
+    }
 }

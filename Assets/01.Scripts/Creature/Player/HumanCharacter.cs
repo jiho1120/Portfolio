@@ -2,7 +2,7 @@
 using static AllEnum;
 public class HumanCharacter : Creature
 {
-    protected Coroutine passiveCor = null;
+    protected Coroutine passiveCor;
     protected SkillName nowPassiveSKillName;
     public Transform skillPos;
 
@@ -15,7 +15,7 @@ public class HumanCharacter : Creature
 
     protected PlayerAnimator animator;
 
-   
+
     public override void Init()
     {
         base.Init();
@@ -26,11 +26,18 @@ public class HumanCharacter : Creature
             animator.SetAttackSpeed(attackSpeed);
         }
         AttackRange = 1f;
+        passiveCor = null;
+        SkillManager.Instance.UpdateSkillData(this);
+
     }
 
     public override void Activate()
     {
         base.Activate();
+        attackSpeed = 1;
+        lastClickTime = 0f;
+        attackCooldown = 1.5f;
+        isLeft = false;
         if (passiveCor == null)
         {
             passiveCor = StartCoroutine(SkillManager.Instance.StartPassiveCor(this));
@@ -43,10 +50,14 @@ public class HumanCharacter : Creature
         StopPassiveCorNull();
         base.Deactivate();
     }
-   
+
     public void SetEnemyLayer(int layer)
     {
         EnemyLayerMask = layer;
+    }
+    public virtual void SetMp(float value)
+    {
+        Stat.mp = Mathf.Clamp(value, 0, Stat.maxMp);
     }
     #region 레벨 관련
 

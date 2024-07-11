@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Playables;
 using static AllEnum;
 
 public class DataManager : Singleton<DataManager>
@@ -31,7 +32,6 @@ public class DataManager : Singleton<DataManager>
         select = GetComponent<Select>();
         select.Init();
     }
-
 
     public void Save()
     {

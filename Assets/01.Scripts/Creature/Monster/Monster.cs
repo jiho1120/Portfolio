@@ -115,10 +115,7 @@ public class Monster : Creature, IProduct
         objectPool.Release(this); // 원래 베이스로 오브젝트가 꺼지는걸 받아야하는데 얘는 오브젝트풀에이미 꺼지는게 있음
     }
 
-    public void AddPlayerMoney()
-    {
-        GameManager.Instance.player.AddMoney(Stat.money);
-    }
+    
     public override void Die()
     {
         if (((ActiveSkill)SkillManager.Instance.GetSkill(GameManager.Instance.player, AllEnum.SkillName.Gravity)).IsAvailable) // 궁극기 상태에서 죽으면 안줌 -> 주게되면 거의 무한으로씀

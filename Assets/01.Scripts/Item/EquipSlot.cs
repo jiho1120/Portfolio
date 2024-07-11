@@ -18,9 +18,9 @@ public class EquipSlot : MonoBehaviour
     public void SetEquipSlotData()
     {
         DataManager.Instance.LoadInvenInfo();
-        ItemData item = DataManager.Instance.gameData.invenDatas.EquipItemDatas[itemlist];
+        int itemLevel = DataManager.Instance.gameData.invenDatas.EquipItemDatas[itemlist].level;
 
-        if (item.level == 0) // 아이콘은 어차피 널임 레벨이 있으면 null이 아니란뜻
+        if (itemLevel == 0) // 아이콘은 어차피 널임 레벨이 있으면 null이 아니란뜻
         {
             icon.sprite = ResourceManager.Instance.nullEquipSprite;
         }
@@ -29,31 +29,7 @@ public class EquipSlot : MonoBehaviour
             icon.sprite = ResourceManager.Instance.GetSprite(DictName.ItemSpriteDict,itemlist.ToString());
         }
 
-        lv.text = $"LV : {item.level}";
+        lv.text = $"LV : {itemLevel}";
     }
 
-    public void ApplyItemStat()
-    {
-        DataManager.Instance.LoadInvenInfo();
-        ItemData item = DataManager.Instance.gameData.invenDatas.EquipItemDatas[itemlist];
-        switch (itemlist)
-        {
-            case AllEnum.ItemList.Head:
-                break;
-            case AllEnum.ItemList.Top:
-                break;
-            case AllEnum.ItemList.Gloves:
-                break;
-            case AllEnum.ItemList.Weapon:
-                break;
-            case AllEnum.ItemList.Belt:
-                break;
-            case AllEnum.ItemList.Bottom:
-                break;
-            case AllEnum.ItemList.Shoes:
-                break;
-            case AllEnum.ItemList.End:
-                break;
-        }
-    }
 }

@@ -1,4 +1,6 @@
 using UnityEngine;
+using static AllEnum;
+using static UnityEditor.Progress;
 
 public class InvenManager : Singleton<InvenManager>
 {
@@ -78,4 +80,16 @@ public class InvenManager : Singleton<InvenManager>
         }
         DataManager.Instance.SaveInvenInfo();
     }
+
+
+    public void AddEquipItemToEquipDatas(ItemList itemList, ItemData itemData)
+    {
+        DataManager.Instance.gameData.invenDatas.EquipItemDatas[itemList] = itemData;
+    }
+
+    public void SetPlayerStatWithEquipItem()
+    {
+
+    }
+
 }

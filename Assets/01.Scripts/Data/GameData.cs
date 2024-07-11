@@ -24,7 +24,7 @@ public class GameData
         playerData.SetPlayerData();
         monsterData.monsterStat.SetStat(DataManager.Instance.SOMonsterStat);
         bossData.SetAllData();
-        invenDatas.SetInvenData();
+        invenDatas.AddInvenData();
 
     }
 }
@@ -133,6 +133,44 @@ public class StatData
         this.ultimateGauge += ultimateGauge;
         this.maxUltimateGauge += maxUltimateGauge;
     }
+
+    public void AddStatData(StatList statList, float effect)
+    {
+        switch (statList)
+        {
+            case StatList.maxHealth:
+                maxHp += effect;
+                break;
+            case StatList.attack:
+                attack += effect;
+                break;
+            case StatList.defense:
+                defense += effect;
+                break;
+            case StatList.criticalChance:
+                critical += effect;
+                break;
+            case StatList.movementSpeed:
+                speed += effect;
+                break;
+            case StatList.experience:
+                experience += effect;
+                break;
+            case StatList.maxMana:
+                maxMp += effect;
+                break;
+            case StatList.luck:
+                luck += effect;
+                break;
+            case StatList.maxUltimateGauge:
+                maxUltimateGauge += effect;
+                break;
+            default:
+                break;
+        }
+    }
+
+
     public void PrintStatData()
     {
         System.Reflection.FieldInfo[] fields = typeof(StatData).GetFields();
@@ -309,6 +347,7 @@ public class ItemData
         item.SetItemData(DataManager.Instance.soItem[randamId]);
         return item;
     }
+
 }
 
 
@@ -351,7 +390,7 @@ public class InvenData
     public Dictionary<ItemList, ItemData> EquipItemDatas = new Dictionary<ItemList, ItemData>();
     public Dictionary<ItemList, ItemData> PosionItemDatas = new Dictionary<ItemList, ItemData>();
     
-    public void SetInvenData()
+    public void AddInvenData()
     {
         for (int i = 0; i < (int)ItemList.End; i++)
         {
@@ -367,7 +406,35 @@ public class InvenData
 
         }
     }
-
+    public void AddEquipmentStat(ItemList itemList, float value) // 아이템 강화시 사용
+    {
+        switch (itemList)
+        {
+            case ItemList.Head:
+                EquipItemDatas[itemList].luck += value;
+                break;
+            case ItemList.Top:
+                EquipItemDatas[itemList].maxHp += value;
+                break;
+            case ItemList.Gloves:
+                EquipItemDatas[itemList].critical += value;
+                break;
+            case ItemList.Weapon:
+                EquipItemDatas[itemList].attack += value;
+                break;
+            case ItemList.Belt:
+                EquipItemDatas[itemList].maxMp += value;
+                break;
+            case ItemList.Bottom:
+                EquipItemDatas[itemList].defense += value;
+                break;
+            case ItemList.Shoes:
+                EquipItemDatas[itemList].speed += value;
+                break;
+            default:
+                break;
+        }
+    }
     public ItemData GetItemDataForIndex(int index)
     {
         foreach (ItemData item in invenItemDatas)

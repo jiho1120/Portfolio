@@ -28,15 +28,16 @@ public class Boss : HumanCharacter
         }
         Stat = new StatData(DataManager.Instance.gameData.bossData.bossStat);
         
-        SkillManager.Instance.UpdateSkillData(this);
         GetComponent<BehaviorTree>().SetInit();
     }
     public override void Activate()
     {
         base.Activate();
         MonsterManager.Instance.SetEnemyPos(this);
+        availableCor = null;
+        isAvailableSkill = true;
+        LevelUp();
         Stat.SetStat(DataManager.Instance.gameData.bossData.bossStat);
-        LevelUp(); // 일부러 다음에 적용시킬려고 뒤에둠 다음에 다시 액티브될때 적용됨
         UIManager.Instance.uIBoss.SetBossUI();
 
         UIManager.Instance.uIBoss.SetHPUI();
@@ -55,12 +56,18 @@ public class Boss : HumanCharacter
     }
     private void OnEnable()
     {
-        UIManager.Instance.uIBoss.gameObject.SetActive(true);
+        if (UIManager.Instance != null && UIManager.Instance.uIBoss != null)
+        {
+            UIManager.Instance.uIBoss.gameObject.SetActive(true);
+        }
     }
 
     private void OnDisable()
     {
-        UIManager.Instance.uIBoss.gameObject.SetActive(false);
+        if (UIManager.Instance != null && UIManager.Instance.uIBoss != null)
+        {
+            UIManager.Instance.uIBoss.gameObject.SetActive(false);
+        }
     }
 
     public override void SetHp(float hp)

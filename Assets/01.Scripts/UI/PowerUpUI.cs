@@ -13,7 +13,7 @@ public class PowerUpUI : MonoBehaviour
     public PanelUI PanelPrefab;
     public Button closeButton;
     int panelCount = 3;
-    public string[] panelName = new string[3] { "플레이어 능력치", "아이템", "스킬" };
+    public string[] panelName = new string[3] { "플레이어 능력치", "아이템 슬롯", "스킬" };
 
      void Awake() 
     {
@@ -134,6 +134,4 @@ public class PowerUpUI : MonoBehaviour
         }
 
     }
-    
-
 }

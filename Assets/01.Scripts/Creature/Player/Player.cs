@@ -70,16 +70,14 @@ public class Player : HumanCharacter
     public override void Init()
     {
         base.Init();
+        transform.position = Vector3.zero;
         Stat = new StatData(DataManager.Instance.gameData.playerData.playerStat);
-        SkillManager.Instance.UpdateSkillData(this);
 
     }
 
     public override void Activate()
     {
         base.Activate();
-        Stat.SetStat(DataManager.Instance.gameData.playerData.playerStat);
-        ApplyEquipmentStat();
         SetHp(Stat.maxHp);
         SetMp(Stat.maxMp);
     }
@@ -97,7 +95,7 @@ public class Player : HumanCharacter
     }
     public override void StatUp()
     {
-        DataManager.Instance.gameData.playerData.playerStat.StatUp(1, 200, 200, 5, 3, 0.5f, 0.2f, 0, 0, 50, 50, 0.5f, 100, 0, 10);
+        DataManager.Instance.gameData.playerData.playerStat.StatUp(1, 200, 200, 5, 3, 0.5f, 0.2f, 0, 0, 50, 50, 0.5f, 500, 0, 10);
     }
 
     public override void SetHp(float hp)
@@ -144,18 +142,107 @@ public class Player : HumanCharacter
         
         Stat.attack = DataManager.Instance.gameData.playerData.playerStat.attack;
     }
-
+    public override void AddMoney(int val)
+    {
+        base.AddMoney(val);
+        UIManager.Instance.UpdatePlayerGold(Stat.money);
+    }
     #endregion
 
-    public void ApplyEquipmentStat() //플레이어 능력은 기본 + 장비  -> HP랑 MP가 변하면 안되서 없음 // 장착할때 부르면 됨 // 해제를 해도 어차피 0일테니 사용가능
+    public void AddStatData(StatList statList, float effect)
     {
-        Stat.luck = DataManager.Instance.gameData.playerData.playerStat.luck + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Head].luck;
-        Stat.maxHp = DataManager.Instance.gameData.playerData.playerStat.maxHp + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Top].maxHp;
-        Stat.maxMp = DataManager.Instance.gameData.playerData.playerStat.maxMp + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Belt].maxMp;
-        Stat.defense = DataManager.Instance.gameData.playerData.playerStat.defense + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Bottom].defense;
-        Stat.speed = DataManager.Instance.gameData.playerData.playerStat.speed + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Shoes].speed;
-        Stat.critical = DataManager.Instance.gameData.playerData.playerStat.critical + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Gloves].critical;
-        Stat.attack = DataManager.Instance.gameData.playerData.playerStat.attack + DataManager.Instance.gameData.invenDatas.EquipItemDatas[ItemList.Weapon].attack;
+        switch (statList)
+        {
+            case StatList.maxHealth:
+                Stat.maxHp += effect;
+                break;
+            case StatList.attack:
+                Stat.attack += effect;
+                break;
+            case StatList.defense:
+                Stat.defense += effect;
+                break;
+            case StatList.criticalChance:
+                Stat.critical += effect;
+                break;
+            case StatList.movementSpeed:
+                Stat.speed += effect;
+                break;
+            case StatList.experience:
+                Stat.experience += effect;
+                break;
+            case StatList.maxMana:
+                Stat.maxMp += effect;
+                break;
+            case StatList.luck:
+                Stat.luck += effect;
+                break;
+            case StatList.maxUltimateGauge:
+                Stat.maxUltimateGauge += effect;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public void AddEquipmentStat(ItemList itemList, float value) // 아이템 강화시 사용
+    {
+        switch (itemList)
+        {
+            case ItemList.Head:
+                Stat.luck += value;
+                break;
+            case ItemList.Top:
+                Stat.maxHp += value;
+                break;
+            case ItemList.Gloves:
+                Stat.critical += value;
+                break;
+            case ItemList.Weapon:
+                Stat.attack += value;
+                break;
+            case ItemList.Belt:
+                Stat.maxMp += value;
+                break;
+            case ItemList.Bottom:
+                Stat.defense += value;
+                break;
+            case ItemList.Shoes:
+                Stat.speed += value;
+                break;
+            default:
+                break;
+        }
+    }
+    public void AddEquipmentStat(ItemList itemList,ItemData data) // 아이템 강화시 사용
+    {
+        switch (itemList)
+        {
+            case ItemList.Head:
+                Stat.luck += data.luck;
+                break;
+            case ItemList.Top:
+                Stat.maxHp += data.maxHp;
+                break;
+            case ItemList.Gloves:
+                Stat.critical += data.critical;
+                break;
+            case ItemList.Weapon:
+                Stat.attack += data.attack;
+                break;
+            case ItemList.Belt:
+                Stat.maxMp += data.maxMp;
+                break;
+            case ItemList.Bottom:
+                Stat.defense += data.defense;
+                break;
+            case ItemList.Shoes:
+                Stat.speed += data.speed;
+                break;
+            default:
+                break;
+        }
     }
     private void Move()
     {
