@@ -18,44 +18,47 @@ public class Player : HumanCharacter
         {
             isRun = false;
         }
-        if (Input.GetMouseButtonDown(0))
+        if (GameManager.Instance.stageStart)
         {
-            BasicAttack();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            // 스킬 매니저에 스킬 사용 요청
-            SkillManager.Instance.UseSkill(this, SkillName.AirSlash); // 1번 스킬 사용
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            // 스킬 매니저에 스킬 사용 요청
-            SkillManager.Instance.UseSkill(this, SkillName.AirCircle); // 2번 스킬 사용
+            if (Input.GetMouseButtonDown(0))
+            {
+                BasicAttack();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                // 스킬 매니저에 스킬 사용 요청
+                SkillManager.Instance.UseSkill(this, SkillName.AirSlash); // 1번 스킬 사용
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                // 스킬 매니저에 스킬 사용 요청
+                SkillManager.Instance.UseSkill(this, SkillName.AirCircle); // 2번 스킬 사용
 
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            // 스킬 매니저에 스킬 사용 요청
-            SkillManager.Instance.UseSkill(this, SkillName.Ground); // 3번 스킬 사용
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                // 스킬 매니저에 스킬 사용 요청
+                SkillManager.Instance.UseSkill(this, SkillName.Ground); // 3번 스킬 사용
 
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            // 스킬 매니저에 스킬 사용 요청
-            SkillManager.Instance.UseSkill(this, SkillName.Gravity); // 4번 스킬 사용
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                // 스킬 매니저에 스킬 사용 요청
+                SkillManager.Instance.UseSkill(this, SkillName.Gravity); // 4번 스킬 사용
 
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            UIManager.Instance.uIPlayer.uiPosionSlots[0].UsePosion();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            UIManager.Instance.uIPlayer.uiPosionSlots[1].UsePosion();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            UIManager.Instance.uIPlayer.uiPosionSlots[2].UsePosion();
+            }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                UIManager.Instance.uIPlayer.uiPosionSlots[0].UsePosion();
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                UIManager.Instance.uIPlayer.uiPosionSlots[1].UsePosion();
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                UIManager.Instance.uIPlayer.uiPosionSlots[2].UsePosion();
+            }
         }
     }
 
@@ -94,7 +97,8 @@ public class Player : HumanCharacter
     }
     public override void StatUp()
     {
-        DataManager.Instance.gameData.playerData.playerStat.StatUp(1, 200, 200, 5, 3, 0.5f, 0.2f, 0, 0, 50, 50, 0.5f, 500, 0, 10);
+        DataManager.Instance.gameData.playerData.playerStat.StatUp(1, 200, 200, 5, 3, 0.5f, 0.2f, 0, 0, 50, 50, 0.5f, 500, 0, 10); // 데이터에 저장
+        Stat.StatUp(1, 200, 200, 3, 1, 0.5f, 0.1f, 0, 0, 50, 50, 0.5f, 100, 0, 10); // 스탯에 저장
     }
 
     public override void SetHp(float hp)

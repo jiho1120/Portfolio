@@ -20,7 +20,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 8a2d0ae279bcc4f10869d0079194662c, type: 3}
   hp: 0
   mp: 0
-  ultimateGauge: 10
+  ultimateGauge: 30
   defense: 0
   maxHp: 0
   luck: 0

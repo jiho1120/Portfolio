@@ -134,7 +134,7 @@ public class MonsterManager : Singleton<MonsterManager>
     }
     public void StatUp()
     {
-        DataManager.Instance.gameData.monsterData.monsterStat.StatUp(1, 20, 20, 2, 1, 0.5f, 0.1f, 5, 100, 0, 0, 0, 0, 3, 0);
+        DataManager.Instance.gameData.monsterData.monsterStat.StatUp(1, 100, 100, 4, 2, 0.5f, 0.1f, 10, 100, 0, 0, 0, 0, 3, 0);
 
     }
     public void RecallAllMonsters()

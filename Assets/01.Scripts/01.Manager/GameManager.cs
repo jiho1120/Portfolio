@@ -59,23 +59,22 @@ public class GameManager : Singleton<GameManager>
         {
             Application.Quit();
         }
-        if (Input.GetKeyDown(KeyCode.M))
+        if (stageStart)
         {
-            UIManager.instance.OnOffMenu();
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                UIManager.instance.OnOffMenu();
+            }
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                UIManager.Instance.OnOffInventory();
+            }
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                UIManager.Instance.UserInfo.onoff();
+            }
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UIManager.Instance.equipmentView.Init();
-            DataManager.Instance.gameData.invenDatas.ShowDIc();
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            UIManager.Instance.OnOffInventory();
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            UIManager.Instance.UserInfo.onoff();
-        }
+        
 
     }
 
@@ -227,7 +226,7 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.SetInitGameUI();
         LockedCursor(false);
 
-        if (DataManager.Instance.gameData.gameStage % 2 != 0)
+        if (DataManager.Instance.gameData.gameStage % 5 != 0)
         {
             MonsterManager.Instance.Init();
         }
