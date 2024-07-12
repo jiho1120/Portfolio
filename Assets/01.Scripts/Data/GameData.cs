@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 using static AllEnum;
@@ -348,10 +347,67 @@ public class ItemData
         return item;
     }
 
+    public string GetItemEffectName(ItemList itemList)
+    {
+        switch (itemList)
+        {
+            case ItemList.HpPotion:
+                return "hp";
+            case ItemList.MpPotion:
+                return "mp";
+            case ItemList.UltimatePotion:
+                return "ultimate";
+            case ItemList.Head:
+                return "luck";
+            case ItemList.Top:
+                return "maxHp";
+            case ItemList.Gloves:
+                return "critical";
+            case ItemList.Weapon:
+                return "attack";
+            case ItemList.Belt:
+                return "maxMp";
+            case ItemList.Bottom:
+                return "defense";
+            case ItemList.Shoes:
+                return "speed";
+            default:
+                return null;
+        }
+    }
+    public float GetItemEffect(ItemList itemList)
+    {
+        switch (itemList)
+        {
+            case ItemList.HpPotion:
+                return hp;
+            case ItemList.MpPotion:
+                return mp;
+            case ItemList.UltimatePotion:
+                return ultimateGauge;
+            case ItemList.Head:
+                return luck;
+            case ItemList.Top:
+                return maxHp;
+            case ItemList.Gloves:
+                return critical;
+            case ItemList.Weapon:
+                return attack;
+            case ItemList.Belt:
+                return maxMp;
+            case ItemList.Bottom:
+                return defense;
+            case ItemList.Shoes:
+                return speed;
+            default:
+                return 0;
+        }
+    }
 }
 
 
-[System.Serializable]
+
+    [System.Serializable]
 public class SkillData
 {
     public int index; // 고유번호

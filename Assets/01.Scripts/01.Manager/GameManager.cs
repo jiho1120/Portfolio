@@ -29,6 +29,11 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         ResourceManager.Instance.Init();
         DataManager.Instance.Init();
         if (player == null)
@@ -43,13 +48,7 @@ public class GameManager : Singleton<GameManager>
         }
         player.gameObject.SetActive(false);
         boss.gameObject.SetActive(false);
-        //SkillManager.Instance.InstanceSkill();
-        SkillManager.Instance.InitSkillDicts(); 
-        Init();
-    }
-
-    public void Init()
-    {
+        SkillManager.Instance.InitSkillDicts();
         InitHome();
     }
 
@@ -134,6 +133,7 @@ public class GameManager : Singleton<GameManager>
         gameTimeCor = null;
         UIManager.Instance.InitUI(); // 무조건 플레이어 생성후 
         VisibleCursor(false);
+        MonsterManager.Instance.RecallAllMonsters();
         ItemManager.Instance.RecallAllItems();
         GridScrollViewMain.Instance.Init();
 
@@ -156,6 +156,7 @@ public class GameManager : Singleton<GameManager>
         VisibleCursor(false);
         UIManager.Instance.InitWaitingUI();
         Time.timeScale = 1f;
+        player.StopMpCor();
         if (runTimeCor == null)
         {
             runTimeCor = StartCoroutine(RunCountTime());
@@ -226,7 +227,7 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.SetInitGameUI();
         LockedCursor(false);
 
-        if (DataManager.Instance.gameData.gameStage % 5 != 0)
+        if (DataManager.Instance.gameData.gameStage % 2 != 0)
         {
             MonsterManager.Instance.Init();
         }

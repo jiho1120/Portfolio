@@ -1,8 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using static AllEnum;
 public class HumanCharacter : Creature
 {
     protected Coroutine passiveCor;
+    protected Coroutine MpCor;
+    float restoreMp = 30;
+    float restoreTime = 5;
+
+
     protected SkillName nowPassiveSKillName;
     public Transform skillPos;
 
@@ -42,15 +48,34 @@ public class HumanCharacter : Creature
         {
             passiveCor = StartCoroutine(SkillManager.Instance.StartPassiveCor(this));
         }
+        if (MpCor == null)
+        {
+            MpCor = StartCoroutine(RestoreMp());
+        }
+    }
+    IEnumerator RestoreMp()
+    {
+        while (true)
+        {
+            SetMp(Stat.mp + restoreMp);
+            yield return new WaitForSeconds(restoreTime);
+        }
     }
 
     public override void Deactivate()
     {
         SkillManager.Instance.DeactivateAllSkills(this);
-        StopPassiveCorNull();
         base.Deactivate();
     }
-
+    private void OnDisable()
+    {
+        StopPassiveCor();
+        if (MpCor != null)
+        {
+            StopCoroutine(MpCor);
+            MpCor = null;
+        }
+    }
     public void SetEnemyLayer(int layer)
     {
         EnemyLayerMask = layer;
@@ -126,13 +151,21 @@ public class HumanCharacter : Creature
         throw new System.NotImplementedException();
     }
 
-    public void StopPassiveCorNull()
+    public void StopPassiveCor()
     {
         if (passiveCor != null)
         {
             StopCoroutine(passiveCor);
         }
         passiveCor = null;
+    }
+    public void StopMpCor()
+    {
+        if (MpCor != null)
+        {
+            StopCoroutine(MpCor);
+            MpCor = null;
+        }
     }
 
 

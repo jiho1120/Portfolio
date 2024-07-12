@@ -1,6 +1,3 @@
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
-
 public class SceneLoadController : Singleton<SceneLoadController>
 {
     public void GoHomeScene()

@@ -16,7 +16,6 @@ public class UIGridScrollViewDic : MonoBehaviour
     {
         popupDetail.onSell = (id) =>
         {
-            Debug.Log("sellItem : " + id);
             SellItem(id);
         };
         popupDetail.onEquip = (item) =>
@@ -26,7 +25,6 @@ public class UIGridScrollViewDic : MonoBehaviour
         };
         scrollView.onFocus = (index) =>
         {
-            //popupDetail.Init(index).Open();
             popupDetail.Init(index);
 
         };

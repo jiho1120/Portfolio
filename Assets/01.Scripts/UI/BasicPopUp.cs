@@ -12,16 +12,7 @@ public class BasicPopUp : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    private void OnEnable()
-    {
-        GameManager.Instance.VisibleCursor();
-        active = true;
-    }
-    private void OnDisable()
-    {
-        GameManager.Instance.LockedCursor();
-        active = false;
-    }
+    
     public void onoff()
     {
         active = !active;

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using static AllEnum;
 
@@ -8,7 +9,6 @@ public class ActiveSkill : Skill
     [SerializeField] protected bool isAvailable = true; //true일시 스킬나감
     public bool IsAvailable { get { return isAvailable; } set { isAvailable = value; } }
     protected Coroutine actSkillCor = null;
-    protected Coroutine actSkillCoolCor = null;
 
 
     public override void Activate()
@@ -25,6 +25,12 @@ public class ActiveSkill : Skill
         base.Deactivate();
 
     }
+    private void OnDisable()
+    {
+        // 간혹 스킬이 안돌아갈때가 있음
+        actSkillCor = null;
+    }
+
     IEnumerator SetSkillOffTime()
     {
         isAvailable = false; // 사용했으니 false

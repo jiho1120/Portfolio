@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -203,7 +202,6 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
 
         float damage = Mathf.Max(CriticalDamage(att) - (Stat.defense * 0.5f), 1f); // 최소 데미지 1
         SetHp(Stat.hp - damage);
-        Debug.Log("체력" + Stat.hp);
     }
 
     public abstract void ImplementTakeDamage();

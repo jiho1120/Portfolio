@@ -1,6 +1,5 @@
 using UnityEngine;
 using static AllEnum;
-using static UnityEditor.Progress;
 
 public class InvenManager : Singleton<InvenManager>
 {
@@ -87,9 +86,5 @@ public class InvenManager : Singleton<InvenManager>
         DataManager.Instance.gameData.invenDatas.EquipItemDatas[itemList] = itemData;
     }
 
-    public void SetPlayerStatWithEquipItem()
-    {
-
-    }
 
 }

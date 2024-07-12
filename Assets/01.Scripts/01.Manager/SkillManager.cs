@@ -10,11 +10,13 @@ public class SkillManager : Singleton<SkillManager>
 
     private void Start()
     {
-        skillDict[ObjectType.Player] = new Dictionary<SkillName, Skill>();
-        skillDict[ObjectType.Boss] = new Dictionary<SkillName, Skill>();
+        
     }
+
     public void InitSkillDicts()
     {
+        skillDict[ObjectType.Player] = new Dictionary<SkillName, Skill>();
+        skillDict[ObjectType.Boss] = new Dictionary<SkillName, Skill>();
         for (int i = 0; i < (int)SkillName.End; i++)
         {
             SkillName skillName = (SkillName)i;
@@ -185,7 +187,7 @@ public class SkillManager : Singleton<SkillManager>
             skill.Deactivate();
 
         }
-        caster.StopPassiveCorNull();
+        caster.StopPassiveCor();
     }
 
     private SkillName GetRandomPassiveSkillName()

@@ -12,7 +12,7 @@ public class Select : MonoBehaviour
             {
                 DataManager.Instance.savefile[i] = true;            // 해당 슬롯 번호의 bool배열 true로 변환
                 DataManager.Instance.nowSlot = i;    // 선택한 슬롯 번호 저장
-                //DataManager.Instance.LoadData();    // 해당 슬롯 데이터 불러옴
+                   // 해당 슬롯 데이터 불러옴
                 DataManager.Instance.Load();
 
                 UIManager.Instance.slotText[i].text = DataManager.Instance.gameData.playerData.name;    // 버튼에 닉네임 표시

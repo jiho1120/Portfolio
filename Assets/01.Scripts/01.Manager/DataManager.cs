@@ -2,8 +2,6 @@
 using System;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Playables;
-using static AllEnum;
 
 public class DataManager : Singleton<DataManager>
 {
@@ -20,14 +18,13 @@ public class DataManager : Singleton<DataManager>
     public string nowPath; // 경로
     public int nowSlot; // 현재 슬롯번호
 
-    private void Start()
-    {
-        savefile = new bool[3];
-        path = Application.persistentDataPath + "/save";
-        Debug.Log(path);
-    }
     public void Init()
     {
+        if (savefile == null)
+        {
+            savefile = new bool[3];
+            path = Application.persistentDataPath + "/save";
+        }
         gameData = new GameData();
         select = GetComponent<Select>();
         select.Init();

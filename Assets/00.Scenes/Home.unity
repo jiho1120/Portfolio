@@ -123,6 +123,28 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &28021805 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5761949743710358671, guid: 4555c9c981bf77345a897af317726416, type: 3}
+  m_PrefabInstance: {fileID: 5650710165289332413}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &474135155 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9197226338138739301, guid: 4555c9c981bf77345a897af317726416, type: 3}
+  m_PrefabInstance: {fileID: 5650710165289332413}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &843241888
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +623,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8464306563503177640}
+    - target: {fileID: 1172959694791005848, guid: 4555c9c981bf77345a897af317726416, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193266838683839853, guid: 4555c9c981bf77345a897af317726416, type: 3}
+      propertyPath: m_Name
+      value: EffectName
+      objectReference: {fileID: 0}
     - target: {fileID: 2844922589814480776, guid: 4555c9c981bf77345a897af317726416, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -621,6 +651,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -72.6
       objectReference: {fileID: 0}
+    - target: {fileID: 3069879658968750423, guid: 4555c9c981bf77345a897af317726416, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3633170555510505154, guid: 4555c9c981bf77345a897af317726416, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -635,15 +669,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3752111306430976219, guid: 4555c9c981bf77345a897af317726416, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 365.58676
+      value: 1136.7603
       objectReference: {fileID: 0}
     - target: {fileID: 3752111306430976219, guid: 4555c9c981bf77345a897af317726416, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 953.9669
+      value: 568.3801
       objectReference: {fileID: 0}
     - target: {fileID: 3752111306430976219, guid: 4555c9c981bf77345a897af317726416, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -72.6
+      value: -72.5
       objectReference: {fileID: 0}
     - target: {fileID: 3912933296173615999, guid: 4555c9c981bf77345a897af317726416, type: 3}
       propertyPath: m_AnchorMax.y
@@ -665,6 +699,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -41.465363
       objectReference: {fileID: 0}
+    - target: {fileID: 4061317157377118203, guid: 4555c9c981bf77345a897af317726416, type: 3}
+      propertyPath: m_Name
+      value: Effect
+      objectReference: {fileID: 0}
+    - target: {fileID: 5087771757808473219, guid: 4555c9c981bf77345a897af317726416, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5255008768943166132, guid: 4555c9c981bf77345a897af317726416, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -679,12 +721,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6278444855037951773, guid: 4555c9c981bf77345a897af317726416, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 145.2
+      value: 145
       objectReference: {fileID: 0}
     - target: {fileID: 6488251267889226229, guid: 4555c9c981bf77345a897af317726416, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 718226643905111811}
+    - target: {fileID: 6733986176305017725, guid: 4555c9c981bf77345a897af317726416, type: 3}
+      propertyPath: Effect
+      value: 
+      objectReference: {fileID: 474135155}
+    - target: {fileID: 6733986176305017725, guid: 4555c9c981bf77345a897af317726416, type: 3}
+      propertyPath: EffectName
+      value: 
+      objectReference: {fileID: 28021805}
     - target: {fileID: 7252955016281605013, guid: 4555c9c981bf77345a897af317726416, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

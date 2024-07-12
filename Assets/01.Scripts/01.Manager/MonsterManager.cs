@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 using static AllEnum;
@@ -137,5 +136,15 @@ public class MonsterManager : Singleton<MonsterManager>
     {
         DataManager.Instance.gameData.monsterData.monsterStat.StatUp(1, 20, 20, 2, 1, 0.5f, 0.1f, 5, 100, 0, 0, 0, 0, 3, 0);
 
+    }
+    public void RecallAllMonsters()
+    {
+        // 현재 활성화된 모든 Creature 오브젝트를 찾습니다.
+        Monster[] activeMonsters = FindObjectsOfType<Monster>();
+
+        foreach (var Monster in activeMonsters)
+        {
+            objectPool.Release(Monster);
+        }
     }
 }

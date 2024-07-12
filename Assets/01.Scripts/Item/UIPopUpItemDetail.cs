@@ -19,6 +19,8 @@ public class UIPopUpItemDetail : BasicPopUp
 
     [Header("Group_Menu")]
     public Button btnSell;
+    public TMP_Text EffectName;
+    public TMP_Text Effect;
     public TMP_Text txtSellPrice;
     public Button btnFuse;
     public Button btnEquip;
@@ -45,21 +47,13 @@ public class UIPopUpItemDetail : BasicPopUp
 
         //txtSellPrice.text = string.Format(data.price); //나중에 추가
         txtItemCount.text = data.count.ToString();
-
-        btnSell.onClick.AddListener(OnSellActionHandler);
+       
+        EffectName.text = data.GetItemEffectName(data.itemList);
+        Effect.text = data.GetItemEffect(data.itemList).ToString();
+    btnSell.onClick.AddListener(OnSellActionHandler);
         btnSell.gameObject.SetActive(true);
         btnEquip.onClick.AddListener(OnEquipActionHandler);
         btnEquip.gameObject.SetActive(true);
-
-        if (data.index < 100) // 장비
-        {
-            groupStats.SetActive(true);
-
-        }
-        else //물약
-        {
-            groupStats.SetActive(false);
-        }
 
         Open();
         return this;

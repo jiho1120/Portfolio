@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using static AllEnum;
 
@@ -276,5 +275,5 @@ public class Player : HumanCharacter
     }
     #endregion
 
-
+   
 }
