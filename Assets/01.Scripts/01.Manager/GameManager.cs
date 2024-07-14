@@ -60,12 +60,12 @@ public class GameManager : Singleton<GameManager>
         {
             Application.Quit();
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            UIManager.instance.OnOffMenu();
+        }
         if (stageStart)
         {
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                UIManager.instance.OnOffMenu();
-            }
             if (Input.GetKeyDown(KeyCode.I))
             {
                 UIManager.Instance.OnOffInventory();
@@ -98,7 +98,11 @@ public class GameManager : Singleton<GameManager>
             }
             if (Input.GetKeyDown(KeyCode.C))
             {
-                player.SetAtt(1000);
+                boss.SetHp(1);
+            }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                player.SetHp(1);
             }
 
         }

@@ -42,7 +42,6 @@ public class UIGridScrollView : MonoBehaviour
             var btn = go.GetComponent<Button>();
             btn.onClick.AddListener(() =>
             {
-                Debug.Log(cellview.index);
                 if (this.currentFocusCellView != null)
                 {
                     this.currentFocusCellView.Focus(false);

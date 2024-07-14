@@ -68,7 +68,6 @@ public class Gravity : ActiveSkill, IPull
             {
                 return;
             }
-            Debug.Log("컨디션함수 실행");
             SetPullCondition(cre);
         }
     }
@@ -97,7 +96,6 @@ public class Gravity : ActiveSkill, IPull
     }
     private void DetectEnemies()
     {
-        Debug.Log("감지");
         colliders = Physics.OverlapSphere(transform.position, radius, enemyLayer);
     }
 
