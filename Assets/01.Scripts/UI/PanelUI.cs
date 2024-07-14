@@ -82,8 +82,7 @@ public class PanelUI : MonoBehaviour
         }
         else
         {
-            //UIManager.Instance.OpenWarning("돈이 부족함");
-            Debug.Log("돈이 부족함");
+            UIManager.Instance.StartPopCor("돈이 부족해서 기회 날림", 1.0f);
         }
         UIManager.Instance.powerUpUI.DeActive();
 

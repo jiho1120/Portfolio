@@ -109,7 +109,6 @@ public class DataManager : Singleton<DataManager>
 
         // 파일에 쓰기
         File.WriteAllText(nowPath, jsondata);
-        Debug.Log("저장되었습니다.");
 
     }
     public void LoadInvenInfo()

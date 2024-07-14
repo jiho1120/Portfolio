@@ -23,15 +23,19 @@ public class DroppedItem : MonoBehaviour, IProduct
             objectPool.Release(this);
         }
     }
+
+    public void TriggerOnPlayer()
+    {
+        InvenManager.Instance.AdditemToInven(itemData.ChangeSOItemToItemData());
+        DataManager.Instance.SaveInvenInfo();
+
+        objectPool.Release(this);
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            InvenManager.Instance.AdditemToInven(itemData.ChangeSOItemToItemData());
-            DataManager.Instance.SaveInvenInfo();
-
-            objectPool.Release(this);
-
+            TriggerOnPlayer();
         }
     }
 }

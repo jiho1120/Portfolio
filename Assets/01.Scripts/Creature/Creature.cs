@@ -103,7 +103,7 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
             Stat.attack = 1f;
         }
     }
-    
+
     public virtual void SetHp(float hp)
     {
         Stat.hp = Mathf.Clamp(hp, 0, Stat.maxHp);
@@ -112,7 +112,7 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
             isDead = true;
         }
     }
-  
+
     public virtual void AddMoney(int value)
     {
         Stat.money += value;
@@ -329,6 +329,10 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
 
     #region Á×À½
     public abstract void Die();
+    public bool SetDead(bool active)
+    {
+        return isDead = active;
+    }
 
     #endregion
 }

@@ -74,6 +74,8 @@ public class GameManager : Singleton<GameManager>
             {
                 UIManager.Instance.UserInfo.onoff();
             }
+
+            // 밑에는 치트키
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 // 현재 활성화된 모든 Creature 오브젝트를 찾습니다.
@@ -81,7 +83,17 @@ public class GameManager : Singleton<GameManager>
 
                 foreach (var Monster in activeMonsters)
                 {
-                    Monster.Die();
+                    Monster.SetDead(true);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                // 현재 활성화된 모든 Creature 오브젝트를 찾습니다.
+                DroppedItem[] activeItemss = FindObjectsOfType<DroppedItem>();
+
+                foreach (var item in activeItemss)
+                {
+                    item.TriggerOnPlayer(); 
                 }
             }
 
@@ -118,7 +130,6 @@ public class GameManager : Singleton<GameManager>
         if (isCount)
         {
             cursorCount++;
-            Debug.Log("멈춤들어옴");
 
             Time.timeScale = 0f;
         }

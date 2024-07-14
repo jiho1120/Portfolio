@@ -26,7 +26,6 @@ public class AirSlash : ActiveSkill
         {
             hitMonsters.Add(cre.id);
             cre.TakeDamage(skilldata.effect);
-            Debug.Log("슬래쉬맞음");
         }
     }
 }
