@@ -92,7 +92,7 @@ public class Boss : HumanCharacter
     }
     public override void StatUp()
     {
-        DataManager.Instance.gameData.bossData.bossStat.StatUp(1, 500, 500, 30, 10, 0.5f, 0.2f, 200, 300, 200, 200, 0, 0, 0, 0);
+        DataManager.Instance.gameData.bossData.bossStat.StatUp(1, 300, 300, 10, 5, 0.5f, 0.2f, 200, 300, 200, 200, 0, 0, 0, 0);
     }
     #endregion
     public void LookPlayer()

@@ -96,6 +96,10 @@ public class GameManager : Singleton<GameManager>
                     item.TriggerOnPlayer(); 
                 }
             }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                player.SetAtt(1000);
+            }
 
         }
         
@@ -247,7 +251,7 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.SetInitGameUI();
         LockedCursor(false);
 
-        if (DataManager.Instance.gameData.gameStage % 5 != 0)
+        if (DataManager.Instance.gameData.gameStage % 3 != 0)
         {
             MonsterManager.Instance.Init();
         }

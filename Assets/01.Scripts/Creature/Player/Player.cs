@@ -97,8 +97,8 @@ public class Player : HumanCharacter
     }
     public override void StatUp()
     {
-        DataManager.Instance.gameData.playerData.playerStat.StatUp(1, 200, 200, 5, 3, 0.5f, 0.2f, 0, 0, 50, 50, 0.5f, 500, 0, 10); // 데이터에 저장
-        Stat.StatUp(1, 200, 200, 3, 1, 0.5f, 0.1f, 0, 0, 50, 50, 0.5f, 100, 0, 10); // 스탯에 저장
+        DataManager.Instance.gameData.playerData.playerStat.StatUp(1, 100, 100, 5, 1, 0.5f, 0.2f, 0, 0, 50, 50, 0.5f, 500, 0, 10); // 데이터에 저장
+        Stat.StatUp(1, 100, 100, 2, 1, 0.5f, 0.2f, 0, 0, 50, 50, 0.5f, 500, 0, 10); // 스탯에 저장
     }
 
     public override void SetHp(float hp)
