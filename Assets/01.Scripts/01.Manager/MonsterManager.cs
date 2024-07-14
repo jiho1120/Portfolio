@@ -134,10 +134,10 @@ public class MonsterManager : Singleton<MonsterManager>
     }
     public void StatUp()
     {
-        DataManager.Instance.gameData.monsterData.monsterStat.StatUp(1, 100, 100, 4, 2, 0.5f, 0.1f, 10, 100, 0, 0, 0, 0, 3, 0);
+        DataManager.Instance.gameData.monsterData.monsterStat.StatUp(1, 100, 100, 4, 1, 0.5f, 0.1f, 10, 100, 0, 0, 0, 0, 3, 0);
 
     }
-    public void RecallAllMonsters()
+    public void RecallMonsters()
     {
         // 현재 활성화된 모든 Creature 오브젝트를 찾습니다.
         Monster[] activeMonsters = FindObjectsOfType<Monster>();

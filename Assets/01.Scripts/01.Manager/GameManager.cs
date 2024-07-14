@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Pool;
 public class GameManager : Singleton<GameManager>
 {
     public GameObject playerPrefab;
@@ -73,6 +74,17 @@ public class GameManager : Singleton<GameManager>
             {
                 UIManager.Instance.UserInfo.onoff();
             }
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                // 현재 활성화된 모든 Creature 오브젝트를 찾습니다.
+                Monster[] activeMonsters = FindObjectsOfType<Monster>();
+
+                foreach (var Monster in activeMonsters)
+                {
+                    Monster.Die();
+                }
+            }
+
         }
         
 
@@ -130,7 +142,7 @@ public class GameManager : Singleton<GameManager>
         gameTimeCor = null;
         UIManager.Instance.InitUI(); // 무조건 플레이어 생성후 
         VisibleCursor(false);
-        MonsterManager.Instance.RecallAllMonsters();
+        MonsterManager.Instance.RecallMonsters();
         ItemManager.Instance.RecallAllItems();
         GridScrollViewMain.Instance.Init();
 
@@ -224,7 +236,7 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.SetInitGameUI();
         LockedCursor(false);
 
-        if (DataManager.Instance.gameData.gameStage % 2 != 0)
+        if (DataManager.Instance.gameData.gameStage % 5 != 0)
         {
             MonsterManager.Instance.Init();
         }
