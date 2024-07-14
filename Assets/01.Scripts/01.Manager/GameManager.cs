@@ -94,7 +94,6 @@ public class GameManager : Singleton<GameManager>
             Cursor.visible = false;
             Time.timeScale = 1f;
         }
-        Debug.Log(cursorCount);
 
 
     }
@@ -113,7 +112,6 @@ public class GameManager : Singleton<GameManager>
         }
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        Debug.Log(cursorCount);
     }
 
     #region Home화면
@@ -226,7 +224,7 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.SetInitGameUI();
         LockedCursor(false);
 
-        if (DataManager.Instance.gameData.gameStage % 5 != 0)
+        if (DataManager.Instance.gameData.gameStage % 2 != 0)
         {
             MonsterManager.Instance.Init();
         }
@@ -284,7 +282,6 @@ public class GameManager : Singleton<GameManager>
         MonsterManager.Instance.SetTimeDelay(0f);
 
         yield return new WaitForSeconds(3f);
-        //ItemManager.Instance.AllItemDeActive();
         InitWating();
         stageClearCor = null;
         DataManager.Instance.Save();///// 클리어시 저장

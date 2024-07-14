@@ -50,7 +50,6 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
     protected Coroutine deCreaseAttCor = null;
     protected Coroutine hpCor = null;
     protected Coroutine hitCor = null;
-    protected Coroutine GravityHitCor = null;
 
     #endregion
 
@@ -85,7 +84,6 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
         deCreaseAttCor = null;
         hpCor = null;
         hitCor = null;
-        GravityHitCor = null;
 
     }
 
@@ -105,10 +103,7 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
             Stat.attack = 1f;
         }
     }
-    public void SetLuck(float value)
-    {
-        Stat.luck = value;
-    }
+    
     public virtual void SetHp(float hp)
     {
         Stat.hp = Mathf.Clamp(hp, 0, Stat.maxHp);
@@ -117,31 +112,7 @@ public abstract class Creature : MonoBehaviour, Initialize, IAttack, IStatusEffe
             isDead = true;
         }
     }
-    public void SetMaxHp(float value)
-    {
-        Stat.maxHp = value;
-    }
-    public void SetMaxMp(float value)
-    {
-        Stat.maxMp = value;
-    }
-
-    
-
-    public void SetDef(float value)
-    {
-        Stat.defense = value;
-    }
-
-    public void SetSpeed(float value)
-    {
-        Stat.speed = value;
-    }
-
-    public void SetCri(float value)
-    {
-        Stat.critical = value;
-    }
+  
     public virtual void AddMoney(int value)
     {
         Stat.money += value;

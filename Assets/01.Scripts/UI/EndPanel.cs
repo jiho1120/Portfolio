@@ -13,7 +13,7 @@ public class EndPanel : MonoBehaviour
     {
         gameObject.SetActive(false);
         GameManager.Instance.boss.gameObject.SetActive(false);
-        Time.timeScale = 1f;
+        GameManager.Instance.LockedCursor();
 
     }
     public void Restart()

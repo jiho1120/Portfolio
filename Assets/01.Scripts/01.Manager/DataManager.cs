@@ -46,7 +46,6 @@ public class DataManager : Singleton<DataManager>
         // 파일에 쓰기
         File.WriteAllText(nowPath, jsondata);
 
-        Debug.Log("저장되었습니다.");
     }
 
 
@@ -62,7 +61,6 @@ public class DataManager : Singleton<DataManager>
 
                 // JSON 데이터를 게임 데이터 객체로 deserialize
                 gameData = JsonConvert.DeserializeObject<GameData>(jsonData);
-                Debug.Log("파일을 불러왔습니다.");
 
                 // 로드된 데이터의 유효성 확인
                 if (gameData == null)

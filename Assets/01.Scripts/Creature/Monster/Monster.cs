@@ -18,10 +18,7 @@ public class Monster : Creature, IProduct
     #region 오브젝트 풀
     private IObjectPool<Monster> objectPool;
     public IObjectPool<Monster> ObjectPool { set => objectPool = value; }
-
     #endregion
-
-
 
     #region FSM
     public AllEnum.States NowState = AllEnum.States.End;//현재상태   
