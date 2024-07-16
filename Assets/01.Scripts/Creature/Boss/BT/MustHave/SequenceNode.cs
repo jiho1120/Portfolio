@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 //AND 조건. 하나라도 false면 다 false
 public class SequenceNode : Node
@@ -13,7 +11,7 @@ public class SequenceNode : Node
     {
     }
 
-    public override AllEnum.NodeState Evaluate() //내 자식들의 조건들중 하나라도 부합하거나 하나라도 이미 진행중이었다면 무조건 실행...
+    public override AllEnum.NodeState Evaluate() 
     {
         bool isRunning = false;
         //자식들을 돌면서 조건체크함.

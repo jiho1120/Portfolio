@@ -10,12 +10,9 @@ public interface Initialize
 
 public interface IProduct
 {
-    // add common properties and methods here
     public string ProductName { get; set; }
-
-    // customize this for each concrete product
-    public void Init();// 처음 설정할것
     
+    public void Init();// 처음 설정할것
 }
 
 public interface IEquipable

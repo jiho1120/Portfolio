@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 //OR 와 같습니다. 하나라도 true면 다 true==> 하나라도 성공이면 다 성공.다 해당됨.
 public class SelectorNode : Node
